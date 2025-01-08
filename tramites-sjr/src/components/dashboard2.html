@@ -8,6 +8,7 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
@@ -16,23 +17,22 @@
 
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            min-height: 100vh;
-            background-color: #00b2e2;
-            /* Light Blue Background */
+            margin: 0;
+            padding: 0;
         }
 
         .sidebar {
             width: 250px;
             background-color: #0b3b60;
-            /* Dark Blue Sidebar */
-            color: #fff;
-            overflow: auto;
-            transition: width 0.5s ease;
             position: fixed;
             top: 0;
             bottom: 0;
             left: 0;
+            color: white;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
         }
 
         .sidebar.collapsed {
@@ -127,36 +127,28 @@
         }
 
         .content {
-            flex-grow: 1;
+            margin-left: 250px;
             padding: 20px;
             background-color: #f8f9fa;
-            /* Neutral Background */
-            margin-left: 250px;
-            /* Adjust for sidebar width */
-            margin-top: 70px;
-            /* Adjust for top-bar height */
-            transition: margin-left 0.5s ease;
+            transition: margin-top 0.3s ease;
         }
 
         .content.adjusted {
             margin-left: 70px;
-            /* Adjust for collapsed sidebar */
         }
 
         .top-bar {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #0076aa;
-            /* Medium Blue Top Bar */
-            color: #fff;
             position: fixed;
             top: 0;
             left: 250px;
             width: calc(100% - 250px);
             height: 70px;
-            transition: left 0.5s ease, width 0.5s ease;
+            background-color: #0076aa;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
             z-index: 1000;
         }
 
@@ -273,21 +265,33 @@
             background: #f1f1f1;
         }
 
-        .filters {
-            display: grid;
-            /* Diseño en cuadrícula */
-            grid-template-columns: repeat(3, 1fr);
-            /* 3 columnas */
-            gap: 20px;
-            /* Espaciado entre filtros */
+        .filters-container {
+            position: fixed;
+            top: 70px;
+            /* Debajo del top-bar */
+            left: 250px;
+            width: calc(100% - 250px);
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 900;
+
         }
 
+        .filters-container.adjusted {
+            left: 70px;
+            width: calc(100% - 70px);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
         .filters>div {
-            flex: 1 1 200px;
-            /* Tamaño mínimo de 200px */
-            max-width: 300px;
-            /* Tamaño máximo de 300px */
+            flex: 1 1 calc(33.33% - 20px);
+            min-width: 200px;
         }
 
         .filters input,
@@ -296,41 +300,6 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .filters label {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
-        }
-
-        .filters-container {
-            width: calc(100% - 250px);
-            /* Igual al top-bar */
-            margin-left: 250px;
-            /* Igual al top-bar */
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-
-        @media (max-width: 1024px) {
-            .filters {
-                grid-template-columns: repeat(2, 1fr);
-                /* 2 columnas */
-            }
-        }
-
-        @media (max-width: 769px) {
-            .filters {
-                grid-template-columns: repeat(1, 1fr);
-                /* 1 columna */
-            }
         }
 
 
@@ -415,6 +384,7 @@
         <!-- Sección Usuarios Registrados -->
         <div id="registered-users" class="section hidden">
             <h2>Usuarios Registrados</h2>
+            <br>
             <div class="filters-container">
                 <div class="filters">
                     <div>
@@ -456,6 +426,7 @@
         <!-- Sección Trabajadores Registrados -->
         <div id="registered-workers" class="section hidden">
             <h2>Trabajadores Registrados</h2>
+            <br>
             <div class="filters-container">
                 <div class="filters">
                     <div>
@@ -540,10 +511,12 @@
             }
         });
 
+        // Ajustar margen cuando se cambia de sección
         function toggleVisibility(sectionId, element) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
+
             document.querySelectorAll('.nav li').forEach(li => {
                 li.classList.remove('active');
             });
@@ -551,6 +524,7 @@
             const section = document.getElementById(sectionId);
             if (section) {
                 section.classList.remove('hidden');
+                adjustContentMargin(); // Ajustar el margen cuando cambia la visibilidad
             }
 
             element.classList.add('active');
@@ -559,13 +533,42 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const topBar = document.getElementById('top-bar');
+            const filtersContainers = document.querySelectorAll('.filters-container');
             const content = document.getElementById('content');
 
+            // Alternar clases para el sidebar, top-bar y contenido
             sidebar.classList.toggle('collapsed');
             topBar.classList.toggle('adjusted');
             content.classList.toggle('adjusted');
+
+            // Ajustar todos los contenedores de filtros visibles
+            filtersContainers.forEach(container => {
+                container.classList.toggle('adjusted');
+            });
+
+            // Ajustar el margen del contenido
+            adjustContentMargin();
         }
     </script>
+    <script>
+        function adjustContentMargin() {
+            const activeSection = document.querySelector('.section:not(.hidden)');
+            if (!activeSection) return;
+
+            const filtersContainer = activeSection.querySelector('.filters-container');
+            const content = document.getElementById('content');
+            const topBarHeight = 70; // Altura fija del top-bar
+            const filtersHeight = filtersContainer ? filtersContainer.offsetHeight : 0;
+
+            // Ajustar el margen superior del contenido
+            content.style.marginTop = `${topBarHeight + filtersHeight}px`;
+        }
+
+        // Ajustar el margen al cargar la página y al redimensionar
+        document.addEventListener('DOMContentLoaded', adjustContentMargin);
+        window.addEventListener('resize', adjustContentMargin);
+    </script>
+
 </body>
 
 </html>
