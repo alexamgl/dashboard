@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="css/dashboard.css">
+	<script src="script.js"></script>
+	<style>
+		.button-group {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<!--colocar imagen del municipio-->
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#" id="inicio-link" data-section="inicio-section">
+					<i class='bx bxs-user-account'></i>
+					<span class="text">Inicio</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" data-section="mis-datos-section">
+					<i class='bx bxs-user'></i>
+					<span class="text">Mis datos</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" data-section="usuarios-registrados-section">
+					<i class='bx bxs-user'></i>
+					<span class="text">Usuarios registrados</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="javascript:void(0)" class="logout" onclick="logout()">
+					<i class='bx bxs-log-out-circle'></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+
+	<script>
+		function logout() {
+			localStorage.removeItem('token');
+
+			window.location.href = '../../public/login.html';
+		}
+	</script>
+
+	<!-- SIDEBAR -->
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu'></i>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main id="main-content">
+			<div class="admin-only " style="display: block;">
+				<div id="inicio-section">
+					<div class="head-title">
+						<div class="left">
+							<h1>Mis trámites</h1>
+						</div>
+					</div>
+					<ul class="box-info">
+						<a href="#" data-section="mi-tramite">
+							<li>
+								<div class="img-container">
+									<img src="/tramites-sjr/public/img/DESTA_Mesa de trabajo 1 copia 2.png" alt="">
+								</div>
+								<span class="text">Realiza inscripción o reinscripcion de acuáticas</span>
+							</li>
+						</a>
+						<a href="#" data-section="dictamen_uso_suelo">
+							<li>
+								<div class="img-container">
+								</div>
+								<span class="text">Trámite para dictamen de uso de suelo</span>
+							</li>
+						</a>
+					</ul>
+
+				</div>
+			</div>
+
+
+			<div id="mi-tramite" style="display: none;">
+				<div class="head-title">
+					<div class="left">
+						<h1>Trámite acuática</h1>
+						<div class="card">
+
+							<form>
+								<label>
+									<input type="radio" name="option" value="menor-e"
+										onclick="toggleComponent('menore')">Menor de edad
+								</label>
+								<label>
+									<input type="radio" name="option" value="adulto-m"
+										onclick="toggleComponent('adultom')">Adulto mayor
+								</label>
+								<label>
+									<input type="radio" name="option" value="tyrabajador"
+										onclick="toggleComponent('trabajador')">Trabajador
+								</label>
+								<label>
+									<input type="radio" name="option" value="estudainte"
+										onclick="toggleComponent('estudiante')">Estudiante
+								</label>
+							</form>
+
+							<div class="component" id="prueba" style="display:none;">
+								<div class="accordion-container">
+									<button class="accordion">CARTA DESLINDE DE RESPONS </button>
+									<div class="panel">
+										<p>Contenido del panel</p>
+									</div>
+								</div>
+							</div>
+							<!--Accordion-->
+							<div class="component" id="menore" style="display:none">
+								<div class="accordion-container">
+									<button class="accordion">CARTA DESLINDE DE RESPONSABILIDAD, USUARIO MENOR DE
+										EDAD.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>1. Deslindo de cualquier responsabilidad a la Presidencia Municipal de
+												San Juan
+												del Río de cualquier</li>
+											<li>riesgo físico o siniestro que pudiera sufrir mi hijo durante la
+												permanencia en
+												este espacio deportivo.</li>
+											<li>2. Con la presentación del certificado médico deslindo a la Presidencia
+												Municipal de San Juan del Río de</li>
+											<li>cualquier responsabilidad, de cualquier naturaleza para con mi menor
+												hijo (a).
+											</li>
+											<li>3.Conozco, leí y acepto el reglamento de usuario, por lo que me
+												comprometo a
+												inducir a mi hijo a respetar</li>
+											<li>dichos lineamientos, sabedor de las posibles sanciones a las que pudiera
+												ser
+												acreedor (a) para el caso</li>
+											<li>de no cumplirlo.</li>
+											<li>4. Hago constar que el cuidado de las pertenencias que ingrese a las
+												instalaciones del multideportivo son</li>
+											<li>responsabilidad de mi hijo menor, asumiendo que la presidencia municipal
+												no se
+												hace responsable por</li>
+											<li>perdidas de bienes de ningún tipo.</li>
+											<li>5. Me obligo a permanecer durante el horario de clase de natación de mi
+												menor
+												hijo, conducirlo a la entrada
+											<li>
+											<li>de la alberca y salida del de este espacio deportivo. </li>
+										</ol>
+										</br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre" placeholder="Nombre del menor"
+											required>
+										<br>
+										<input type="file" name="file" id="file" required>
+									</div>
+								</div>
+								<div class="accordion-container">
+									<button class="accordion">PROTOCOLO Y DESLINDE DE RESPONSABILIDAD ANTE
+										COVID-19.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>Debido a la nueva normalidad a la que nos enfrentamos, la administración
+												de este espacio deportivo</li>
+											<li>ha optado por implementar las siguientes medidas para evitar la
+												propagación del virus SARS-COV-2</li>
+											<li>(Coronavirus/ COVID19):</li>
+											<li>cualquier responsabilidad, de cualquier naturaleza para con mi menor
+												hijo (a).
+											</li>
+											<li>• Filtro Sanitario:</li>
+											<li>1. Ingresar a las instalaciones con el uso obligatorio y correcto del
+												cubrebocas.</li>
+											<li>2. Pasar por el tapete sanitizante.</li>
+											<li>3. Aplicación de gel antibacterial en manos y toma de temperatura, no
+												mayor a 37°C.</li>
+											<br>
+											<li>• Uso de instalaciones: </li>
+											<li>2. Es importante mantener una sana distancia y el uso correcto del
+												cubrebocas en todo momento</li>
+											<li>dentro de las instalaciones, solo se hace la excepción al momento de
+												ingresar a la alberca.</li>
+											<li>3. Seguir las indicaciones de los responsables en cada área específica.
+											</li>
+											<br>
+											<li>• En caso de presentar síntomas:
+											<li>
+											<li>1. Permanecer en sus domicilios.</li>
+											<li>2. Consultar a su médico correspondiste.</li>
+											<li>3. En caso de que permanezcan los síntomas, realizarse la prueba de
+												laboratorio correspondiente.</li>
+											<li>4. En caso de salir positivo informar a la administración, para reservar
+												su lugar.</li>
+											<li>Hago constar que conozco las medidas y acepto que el incumplimiento, la
+												omisión y/o falsedad</li>
+											<li>respecto a mi estado de salud es única y totalmente obligación mía y
+												deslindo de toda</li>
+											<li>responsabilidad penal o civil a la administración de este espacio
+												deportivo y al Municipio de San</li>
+											<li>Juan del Río, ante cualquier situación de contagio, que pueda sufrir mi
+												persona con motivo de</li>
+											<li>negligencia, descuido, imprudencia y omisión en el que incurra durante
+												mi estadía en este espacio</li>
+											<li>deportivo.</li>
+										</ol>
+										</br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre" placeholder="Nombre del menor"
+											required>
+									</div>
+								</div>
+								<br>
+							</div>
+							<div class="component" id="adultom" style="display:none">
+								<div class="accordion-container">
+									<button class="accordion">CARTA DESLINDE DE RESPONSABILIDAD, USUARIO
+										ADULTO.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>1. Deslindo de cualquier responsabilidad a la Presidencia Municipal de
+												San Juan
+												del Río de cualquier</li>
+											<li>riesgo físico o siniestro que pudiera sufrir durante la permanencia en
+												este
+												espacio deportivo.</li>
+											<li>2. Con la presentación del certificado médico deslindo a la Presidencia
+												Municipal de San Juan del Río de cualquier</li>
+											<li>responsabilidad, de cualquier naturaleza.</li>
+											<li>3. Acepto que el cuidado de las pertenencias que ingrese a las
+												instalaciones de
+												este espacio deportivo son</li>
+											<li>mi responsabilidad, asumiendo que la presidencia municipal no se hace
+												responsable por perdidas de bienes de ningún tipo.</li>
+											<li>4. Conozco, leí y acepto el reglamento de usuario, por lo que me
+												comprometo a
+												respetar dichos</li>
+											<li>lineamientos, sabedor de las posibles sanciones a las que pudiera ser
+												acreedor(a) para el caso de no</li>
+											<li>cumplirlo.</li>
+										</ol>
+										<br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre"
+											placeholder="Nombre del adulto mayor" required>
+										<input type="file" name="file" id="file" required>
+										<br>
+									</div>
+								</div>
+								<div class="accordion-container">
+									<button class="accordion">PROTOCOLO Y DESLINDE DE RESPONSABILIDAD ANTE
+										COVID-19.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>Debido a la nueva normalidad a la que nos enfrentamos, la administración
+												de este espacio deportivo</li>
+											<li>ha optado por implementar las siguientes medidas para evitar la
+												propagación del virus SARS-COV-2</li>
+											<li>(Coronavirus/ COVID19):</li>
+											<li>cualquier responsabilidad, de cualquier naturaleza para con mi menor
+												hijo (a).
+											</li>
+											<li>• Filtro Sanitario:</li>
+											<li>1. Ingresar a las instalaciones con el uso obligatorio y correcto del
+												cubrebocas.</li>
+											<li>2. Pasar por el tapete sanitizante.</li>
+											<li>3. Aplicación de gel antibacterial en manos y toma de temperatura, no
+												mayor a 37°C.</li>
+											<br>
+											<li>• Uso de instalaciones: </li>
+											<li>2. Es importante mantener una sana distancia y el uso correcto del
+												cubrebocas en todo momento</li>
+											<li>dentro de las instalaciones, solo se hace la excepción al momento de
+												ingresar a la alberca.</li>
+											<li>3. Seguir las indicaciones de los responsables en cada área específica.
+											</li>
+											<br>
+											<li>• En caso de presentar síntomas:
+											<li>
+											<li>1. Permanecer en sus domicilios.</li>
+											<li>2. Consultar a su médico correspondiste.</li>
+											<li>3. En caso de que permanezcan los síntomas, realizarse la prueba de
+												laboratorio correspondiente.</li>
+											<li>4. En caso de salir positivo informar a la administración, para reservar
+												su lugar.</li>
+											<li>Hago constar que conozco las medidas y acepto que el incumplimiento, la
+												omisión y/o falsedad</li>
+											<li>respecto a mi estado de salud es única y totalmente obligación mía y
+												deslindo de toda</li>
+											<li>responsabilidad penal o civil a la administración de este espacio
+												deportivo y al Municipio de San</li>
+											<li>Juan del Río, ante cualquier situación de contagio, que pueda sufrir mi
+												persona con motivo de</li>
+											<li>negligencia, descuido, imprudencia y omisión en el que incurra durante
+												mi estadía en este espacio</li>
+											<li>deportivo.</li>
+										</ol>
+										</br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre" placeholder="Nombre del menor"
+											required>
+									</div>
+								</div>
+								<br>
+								<!--<button class="btn btn-primary" onclick="enviarInformacion()">Enviar</button>-->
+							</div>
+							<div class="component" id="trabajador" style="display:none">
+								<div class="accordion-container">
+									<button class="accordion">CARTA DESLINDE DE RESPONSABILIDAD, USUARIO
+										ADULTO.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>1. Deslindo de cualquier responsabilidad a la Presidencia Municipal de
+												San Juan
+												del Río de cualquier</li>
+											<li>riesgo físico o siniestro que pudiera sufrir durante la permanencia en
+												este
+												espacio deportivo.</li>
+											<li>2. Con la presentación del certificado médico deslindo a la Presidencia
+												Municipal de San Juan del Río de cualquier</li>
+											<li>responsabilidad, de cualquier naturaleza.</li>
+											<li>3. Acepto que el cuidado de las pertenencias que ingrese a las
+												instalaciones de
+												este espacio deportivo son</li>
+											<li>mi responsabilidad, asumiendo que la presidencia municipal no se hace
+												responsable por perdidas de bienes de ningún tipo.</li>
+											<li>4. Conozco, leí y acepto el reglamento de usuario, por lo que me
+												comprometo a
+												respetar dichos</li>
+											<li>lineamientos, sabedor de las posibles sanciones a las que pudiera ser
+												acreedor(a) para el caso de no</li>
+											<li>cumplirlo.</li>
+										</ol>
+										<br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre"
+											placeholder="Nombre del adulto mayor" required>
+										<input type="file" name="file" id="file" required>
+										<br>
+									</div>
+								</div>
+								<div class="accordion-container">
+									<button class="accordion">PROTOCOLO Y DESLINDE DE RESPONSABILIDAD ANTE
+										COVID-19.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>Debido a la nueva normalidad a la que nos enfrentamos, la administración
+												de este espacio deportivo</li>
+											<li>ha optado por implementar las siguientes medidas para evitar la
+												propagación del virus SARS-COV-2</li>
+											<li>(Coronavirus/ COVID19):</li>
+											<li>cualquier responsabilidad, de cualquier naturaleza para con mi menor
+												hijo (a).
+											</li>
+											<li>• Filtro Sanitario:</li>
+											<li>1. Ingresar a las instalaciones con el uso obligatorio y correcto del
+												cubrebocas.</li>
+											<li>2. Pasar por el tapete sanitizante.</li>
+											<li>3. Aplicación de gel antibacterial en manos y toma de temperatura, no
+												mayor a 37°C.</li>
+											<br>
+											<li>• Uso de instalaciones: </li>
+											<li>2. Es importante mantener una sana distancia y el uso correcto del
+												cubrebocas en todo momento</li>
+											<li>dentro de las instalaciones, solo se hace la excepción al momento de
+												ingresar a la alberca.</li>
+											<li>3. Seguir las indicaciones de los responsables en cada área específica.
+											</li>
+											<br>
+											<li>• En caso de presentar síntomas:
+											<li>
+											<li>1. Permanecer en sus domicilios.</li>
+											<li>2. Consultar a su médico correspondiste.</li>
+											<li>3. En caso de que permanezcan los síntomas, realizarse la prueba de
+												laboratorio correspondiente.</li>
+											<li>4. En caso de salir positivo informar a la administración, para reservar
+												su lugar.</li>
+											<li>Hago constar que conozco las medidas y acepto que el incumplimiento, la
+												omisión y/o falsedad</li>
+											<li>respecto a mi estado de salud es única y totalmente obligación mía y
+												deslindo de toda</li>
+											<li>responsabilidad penal o civil a la administración de este espacio
+												deportivo y al Municipio de San</li>
+											<li>Juan del Río, ante cualquier situación de contagio, que pueda sufrir mi
+												persona con motivo de</li>
+											<li>negligencia, descuido, imprudencia y omisión en el que incurra durante
+												mi estadía en este espacio</li>
+											<li>deportivo.</li>
+										</ol>
+										</br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre" placeholder="Nombre del menor"
+											required>
+									</div>
+								</div>
+								<br>
+								<!--<button class="btn btn-primary" onclick="enviarInformacion()">Enviar</button>-->
+							</div>
+							<div class="component" id="estudiante" style="display:none">
+								<div class="accordion-container">
+									<button class="accordion">CARTA DESLINDE DE RESPONSABILIDAD, USUARIO
+										ADULTO.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>1. Deslindo de cualquier responsabilidad a la Presidencia Municipal de
+												San Juan
+												del Río de cualquier</li>
+											<li>riesgo físico o siniestro que pudiera sufrir durante la permanencia en
+												este
+												espacio deportivo.</li>
+											<li>2. Con la presentación del certificado médico deslindo a la Presidencia
+												Municipal de San Juan del Río de cualquier</li>
+											<li>responsabilidad, de cualquier naturaleza.</li>
+											<li>3. Acepto que el cuidado de las pertenencias que ingrese a las
+												instalaciones de
+												este espacio deportivo son</li>
+											<li>mi responsabilidad, asumiendo que la presidencia municipal no se hace
+												responsable por perdidas de bienes de ningún tipo.</li>
+											<li>4. Conozco, leí y acepto el reglamento de usuario, por lo que me
+												comprometo a
+												respetar dichos</li>
+											<li>lineamientos, sabedor de las posibles sanciones a las que pudiera ser
+												acreedor(a) para el caso de no</li>
+											<li>cumplirlo.</li>
+										</ol>
+										<br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre"
+											placeholder="Nombre del adulto mayor" required>
+										<input type="file" name="file" id="file" required>
+										<br>
+									</div>
+								</div>
+								<div class="accordion-container">
+									<button class="accordion">PROTOCOLO Y DESLINDE DE RESPONSABILIDAD ANTE
+										COVID-19.</button>
+									<div class="panel">
+										<p>Manifiesto que:</p>
+										<ol>
+											<li>Debido a la nueva normalidad a la que nos enfrentamos, la administración
+												de este espacio deportivo</li>
+											<li>ha optado por implementar las siguientes medidas para evitar la
+												propagación del virus SARS-COV-2</li>
+											<li>(Coronavirus/ COVID19):</li>
+											<li>cualquier responsabilidad, de cualquier naturaleza para con mi menor
+												hijo (a).
+											</li>
+											<li>• Filtro Sanitario:</li>
+											<li>1. Ingresar a las instalaciones con el uso obligatorio y correcto del
+												cubrebocas.</li>
+											<li>2. Pasar por el tapete sanitizante.</li>
+											<li>3. Aplicación de gel antibacterial en manos y toma de temperatura, no
+												mayor a 37°C.</li>
+											<br>
+											<li>• Uso de instalaciones: </li>
+											<li>2. Es importante mantener una sana distancia y el uso correcto del
+												cubrebocas en todo momento</li>
+											<li>dentro de las instalaciones, solo se hace la excepción al momento de
+												ingresar a la alberca.</li>
+											<li>3. Seguir las indicaciones de los responsables en cada área específica.
+											</li>
+											<br>
+											<li>• En caso de presentar síntomas:
+											<li>
+											<li>1. Permanecer en sus domicilios.</li>
+											<li>2. Consultar a su médico correspondiste.</li>
+											<li>3. En caso de que permanezcan los síntomas, realizarse la prueba de
+												laboratorio correspondiente.</li>
+											<li>4. En caso de salir positivo informar a la administración, para reservar
+												su lugar.</li>
+											<li>Hago constar que conozco las medidas y acepto que el incumplimiento, la
+												omisión y/o falsedad</li>
+											<li>respecto a mi estado de salud es única y totalmente obligación mía y
+												deslindo de toda</li>
+											<li>responsabilidad penal o civil a la administración de este espacio
+												deportivo y al Municipio de San</li>
+											<li>Juan del Río, ante cualquier situación de contagio, que pueda sufrir mi
+												persona con motivo de</li>
+											<li>negligencia, descuido, imprudencia y omisión en el que incurra durante
+												mi estadía en este espacio</li>
+											<li>deportivo.</li>
+										</ol>
+										</br>
+										<label>
+											<input type="checkbox" name="acepto" id="acepto"> He leído y acepto los
+											términos y
+											condiciones
+										</label>
+										<br>
+										<input type="text" name="nombre" id="nombre" placeholder="Nombre del menor"
+											required>
+									</div>
+								</div>
+								<br>
+								<!--<button class="btn btn-primary" onclick="enviarInformacion()">Enviar</button>-->
+							</div>
+
+
+
+						</div>
+						<div class="content">
+							<div class="card-grid">
+								<div class="card" data-cost="100" onclick="showPaymentOptions('CLUB', 683.00, this)">
+									<div class="card-title">
+										<h3>Paquete:CLUB</h3>
+									</div>
+									<div>
+										<p class="orde_id">TR-001-001-002-01</p>
+									</div>
+									<p class="costo">Costo:$683.00</p>
+									<p class="descripcion">Descripcion:2 HORAS DE GIMNASIO + 1 HORA DE ALBERCA +TERAPIA
+										O NADO LIBRE +
+										CLASES GRUPALES</p>
+
+								</div>
+								<div class="card" data-cost="200"
+									onclick="showPaymentOptions('EMPRESARIAL', 570.00, this)">
+									<div class="card-title">
+										<h3>Paquete:EMPRESARIAL</h3>
+										<div>
+											<div id="order_id" value="TR-001-001-001">
+												<p>TR-001-001-002-02</p>
+											</div>
+											<p>Costo:$570.00</p>
+											<p>Descripcion:2 HORAS DE GIMNASIO + 1 HORA DE ALBERCA + TERAPIA O NADO
+												LIBRE + CLASES GRUPALES</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" data-cost="300"
+									onclick="showPaymentOptions('FAMILIAR', 570.00, this)">
+									<div class="card-title">
+										<h3>Paquete:FAMILIAR</h3>
+										<div>
+											<div id="order_id" value="TR-001-001-001">
+												<p>TR-001-001-002-03</p>
+											</div>
+											<p>Costo:$570.00</p>
+											<p>2 HORAS DE GIMNASIO + 1 HORA DE ALBERCA + TERAPIA O NADO LIBRE + CLASES
+												GRUPALES</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" data-cost="500"
+									onclick="showPaymentOptions('DISCAPACIDAD', 455.00, this)">
+									<div class="card-title">
+										<h3>Paquete:DISCAPACIDAD</h3>
+										<div>
+											<div id="order_id" value="TR-001-001-002-04">
+												<p>TR-001-001-002-04</p>
+											</div>
+											<p>Costo:$455.00</p>
+											<p>Descripcion:2 HORAS DE GIMNASIO + 1 HORA DE ALBERCA + TERAPIA O NADO
+												LIBRE + CLASES GRUPALES</p>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div id="paymentOptions" style="display: none; margin-top: 20px;">
+								<h3>¿Dónde tomarás la clase con el paquete <span id="packageName"></span></h3>
+								<select id="paymentMethod">
+									<option value="cash">Manuel Gómes Morín</option>
+									<option value="credit">Pedregoso</option>
+								</select>
+								<button onclick="pay()">Pagar</button>
+							</div>
+						</div>
+					</div>
+					<div id="mis-datos-section" style="display: none;">
+						<div class="head-title">
+							<div class="left">
+								<h1>Mis datos</h1>
+							</div>
+							<a href="#" class="btn-download">
+								<i class='bx bxs-cloud-download'></i>
+								<span class="text">Descargar </span>
+							</a>
+						</div>
+						<p>Esta es la seccion de mis datos</p>
+					</div>
+					<div id="logout-section" style="display: none;">
+						<h1>Logout</h1>
+						<p>Esta es la seccion de logout</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="dictamen_uso_suelo" style="display: none;">
+				<div class="header-title">
+					<div class="left">
+						<h1>Dictamen de Uso de Suelo</h1>
+					</div>
+				</div>
+
+				<form id="usoSueloForm">
+					<div id="tramiteSeleccion">
+						<fieldset class="section">
+							<legend>Seleccione el Trámite Requerido</legend>
+							<label>
+								<input type="radio" name="tramite" value="dictamen_uso_suelo"
+									onclick="toggleComponent('dictamen_uso_suelo'); mostrarGenerales('generales')" />
+								Dictamen de Uso de Suelo
+							</label>
+							<label>
+								<input type="radio" name="tramite" value="factibilidad_giro"
+									onclick="toggleComponent('factibilidad_giro'); mostrarGenerales('generales')" />
+								Factibilidad de Giro
+							</label>
+						</fieldset>
+					</div>
+					<div id="generales" class="component" style="display: none;">
+						<fieldset class="section">
+							<legend>Datos del Propietario</legend>
+							<div class="form-group">
+								<label for="clave_catastral">Clave Catastral:</label>
+								<div class="clave-catastral-wrapper">
+									<input type="text" id="clave_catastral" name="clave_catastral" maxlength="15"
+										minlength="15" required
+										placeholder="Ingresa la clave catastral (15 caracteres)" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="razon_social">Razón social:</label>
+								<div class="razon-social-wrapper">
+									<input type="text" id="razon_social" name="razon_social" required
+										placeholder="Ingresa la razón social" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="superficie_terreno">Superficie del terreno:</label>
+								<div class="superficie_terreno-wrapper">
+									<input type="text" id="superficie_terreno" name="superficie_terreno" required
+										placeholder="Ingresa la rsuperficie del terreno m2" />
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="section">
+							<legend>Ubicación del Predio en Estudio</legend>
+							<!-- Dirección -->
+							<div class="form-group">
+								<label for="calle">Calle:</label>
+								<input type="text" id="calle" name="calle" required
+									placeholder="Ingresa el nombre de la calle" />
+							</div>
+							<div class="form-group">
+								<label for="numero_exterior">Número Exterior:</label>
+								<input type="text" id="numero_exterior" name="numero_exterior" required
+									placeholder="Ingresa el número exterior" />
+							</div>
+							<div class="form-group">
+								<label for="numero_interior">Número Interior (Opcional):</label>
+								<input type="text" id="numero_interior" name="numero_interior"
+									placeholder="Ingresa el número interior" />
+							</div>
+							<div class="form-group">
+								<label for="colonia">Colonia:</label>
+								<input type="text" id="colonia" name="colonia" required
+									placeholder="Ingresa la colonia" />
+							</div>
+							<div class="form-group">
+								<label for="codigo_postal">Código Postal:</label>
+								<input type="text" id="codigo_postal" name="codigo_postal" required
+									placeholder="Ingresa el código postal" />
+							</div>
+							<button type="button" class="search-btn" onclick="buscarUbicacion()">
+								<i class="fas fa-search-location"></i> Buscar ubicación
+							</button>
+							<!-- Mapa -->
+							<div id="map" class="map-container"></div>
+							<div class="form-group">
+								<label for="latitud">Latitud:</label>
+								<input id="latitud" placeholder="Latitud" readonly />
+							</div>
+							<div class="form-group">
+								<label for="longitud">Longitud:</label>
+								<input id="longitud" placeholder="Longitud" readonly />
+							</div>
+						</fieldset>
+						<!-- Cargar el script de la API de Google Maps -->
+					</div>
+					<div id="dictamen_uso_suelo" class="component" style="display: none;">
+						<fieldset class="section">
+							<legend>Dictamen de Uso de Suelo</legend>
+							<!-- Sección 2: Ubicación del Predio -->
+							<!-- Sección 3: Descripción de la Actividad -->
+
+							<fieldset class="section">
+								<legend>Actividad</legend>
+								<div class="form-group">
+									<label for="descripcion_actividad">Descripción:</label>
+									<textarea id="descripcion_actividad" name="descripcion_actividad" rows="5" cols="60"
+										required placeholder="Ingresa la descripción de la actividad"></textarea>
+								</div>
+								<legend>Tipo de Solicitud</legend>
+								<div class="form-group">
+									<div>
+										<label>
+											<input type="radio" name="tipo_solicitud" value="Tramite Inicial"
+												required />
+											Trámite Inicial
+										</label>
+									</div>
+									<div>
+										<label>
+											<input type="radio" name="tipo_solicitud" value="Ratificacion" />
+											Ratificación
+										</label>
+									</div>
+									<div>
+										<label>
+											<input type="radio" name="tipo_solicitud" value="Regularizacion" />
+											Regularización
+										</label>
+									</div>
+									<div>
+										<label>
+											<input type="radio" name="tipo_solicitud" value="Modificacion" />
+											Modificación
+										</label>
+									</div>
+								</div>
+								<div id="usosSolicitadosSection">
+									<legend>Uso solicitado</legend>
+									<!-- Habitacional -->
+									<div class="uso-row">
+										<label for="habitacional_cantidad" class="uso-label">Habitacional:</label>
+										<input type="number" id="habitacional_cantidad" name="habitacional_cantidad"
+											placeholder="Cantidad" min="0" class="uso-input" />
+										<input type="text" id="habitacional_descripcion" name="habitacional_descripcion"
+											placeholder="Descripción del uso" class="uso-textarea" />
+									</div>
+
+									<!-- Comercial -->
+									<div class="uso-row">
+										<label for="comercial_cantidad" class="uso-label">Comercial:</label>
+										<input type="number" id="comercial_cantidad" name="comercial_cantidad"
+											placeholder="Cantidad" min="0" class="uso-input" />
+										<input type="text" id="comercial_descripcion" name="comercial_descripcion"
+											placeholder="Descripción del uso" class="uso-textarea" />
+									</div>
+
+									<!-- Servicios -->
+									<div class="uso-row">
+										<label for="servicios_cantidad" class="uso-label">Servicios:</label>
+										<input type="number" id="servicios_cantidad" name="servicios_cantidad"
+											placeholder="Cantidad" min="0" class="uso-input" />
+										<input type="text" id="servicios_descripcion" name="servicios_descripcion"
+											placeholder="Descripción del uso" class="uso-textarea" />
+									</div>
+
+									<!-- Industrial -->
+									<div class="uso-row">
+										<label for="industrial_cantidad" class="uso-label">Industrial:</label>
+										<input type="number" id="industrial_cantidad" name="industrial_cantidad"
+											placeholder="Cantidad" min="0" class="uso-input" />
+										<input type="text" id="industrial_descripcion" name="industrial_descripcion"
+											placeholder="Descripción del uso" class="uso-textarea" />
+									</div>
+
+								</div>
+							</fieldset>
+						</fieldset>
+					</div>
+					<div id="factibilidad_giro" class="component" style="display: none;">
+						<fieldset class="section">
+							<legend>Factibilidad de Giro</legend>
+
+							<!-- Nombre o razón social -->
+							<label for="razonSocial">Nombre o Razón Social del Interesado (Arrendatario)</label>
+							<input type="text" id="razonSocial" placeholder="Ingrese el nombre o razón social" required>
+
+							<!-- Superficie del local -->
+							<label for="superficieLocal">Superficie del Local (m²)</label>
+							<input type="number" id="superficieLocal" placeholder="Ingrese la superficie en m²" min="1"
+								required>
+
+							<!-- Descripción de la actividad -->
+							<label for="descripcionActividad">Descripción de la Actividad</label>
+							<textarea id="descripcionActividad" placeholder="Describa la actividad a realizar" rows="4"
+								required></textarea>
+
+							<!-- Tipo de solicitud -->
+							<fieldset>
+								<legend>Tipo de Solicitud</legend>
+								<label>
+									<input type="radio" name="tipoSolicitud" value="nuevo" required />
+									Nuevo
+								</label>
+								<label>
+									<input type="radio" name="tipoSolicitud" value="modificacion" required />
+									Modificación
+								</label>
+								<label>
+									<input type="radio" name="tipoSolicitud" value="ratificacion" required />
+									Ratificación
+								</label>
+							</fieldset>
+
+							<!-- Tipo de factibilidad -->
+							<fieldset>
+								<legend>Tipo de Factibilidad</legend>
+								<label>
+									<input type="radio" name="tipoFactibilidad" value="comercial" required />
+									Comercial
+								</label>
+								<label>
+									<input type="radio" name="tipoFactibilidad" value="industrial" required />
+									Industrial
+								</label>
+								<label>
+									<input type="radio" name="tipoFactibilidad" value="servicios" required />
+									Servicios
+								</label>
+							</fieldset>
+						</fieldset>
+					</div>
+					<!-- Sección 1: Datos del Propietario -->
+					<!-- Botón de envío -->
+					<div class="form-group">
+						<button type="submit" class="btn-submit">Enviar</button>
+					</div>
+				</form>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<script>
+		// Esperar que el DOM esté cargado antes de llamar a loadGoogleMapsApi
+		window.onload = function () {
+
+			loadGoogleMapsApi()
+				.then(() => {
+					initMap();  // Inicializa el mapa una vez que la API esté cargada
+				})
+				.catch(error => {
+					alert("Error al cargar Google Maps");
+				});
+		}
+	</script>
+
+
+</body>
+
+</html>

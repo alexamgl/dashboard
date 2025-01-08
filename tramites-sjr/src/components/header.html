@@ -1,0 +1,98 @@
+<!-- navbar.html -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="https://www.sanjuandelrio.gob.mx/">
+            <img src="/tramites-sjr/public/img/logo_municipio_2024.png" alt="Logotipo" width="215" height="auto" class="img-fluid">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.sanjuandelrio.gob.mx/" target="blank"><h5 style="font-weight: bold;">Ir a Portal</h5></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* CSS para mostrar el menú desplegable al pasar el mouse */
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* CSS para aumentar el espacio entre las opciones del menú superior */
+    .navbar-nav .nav-item {
+        margin-left: 30px; /* Ajusta el valor según sea necesario */
+    }
+
+    /* Añadir margen superior a la lista de navegación */
+    .navbar-nav {
+        margin-top: 55px; /* Ajusta este valor según sea necesario */
+    }
+    /* Efecto de línea azul al pasar el mouse sobre las opciones del navbar */
+    .navbar-nav .nav-link {
+    position: relative; /* Asegúrate de que el elemento sea relativo para posicionar el pseudo-elemento */
+}
+
+.navbar-nav .nav-link::before {
+    content: ''; /* Necesario para el pseudo-elemento */
+    position: absolute; /* Posicionamiento absoluto */
+    width: 100%; /* Ancho completo */
+    height: 3px; /* Altura de la línea */
+    background-color: blue; /* Color de la línea */
+    bottom: 100%; /* Posicionar la línea encima del enlace */
+    left: 0; /* Alinear a la izquierda */
+    transform: scaleX(0); /* Inicialmente no visible */
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+.navbar-nav .nav-link:hover::before {
+    transform: scaleX(1); /* Muestra la línea al pasar el mouse */
+}
+
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+    min-width: 200px; /* Ancho mínimo del menú desplegable */
+    max-width: calc(100vw - 20px); /* Asegúrate de que no se desborde de la pantalla */
+    padding: 10px 0; /* Espacio vertical dentro del menú */
+    z-index: 1000; /* Asegurarse de que el menú se muestre por encima de otros elementos */
+    position: absolute; /* Cambiado a absolute para mejor posicionamiento */
+    right: 0; /* Alineado a la derecha */
+    transform: translateY(2px); /* Ajusta la posición vertical si es necesario */
+    overflow: hidden; /* Evitar scroll */
+    display: none; /* Ocultar inicialmente */
+}
+
+/* Cambiar a display: block para el menú de "GOBIERNO" */
+.dropdown-columns {
+    display: block; /* Cambiado a block para mostrar en una sola columna para GOBIERNO */
+    padding: 0; /* Sin padding adicional */
+    margin: 0; /* Sin margen adicional */
+    width: 100%; /* Asegúrate de que ocupe el 100% del ancho del menú */
+}
+
+/* Estilos para el menú desplegable de "DEPENDENCIAS" */
+.dropdown-columns {
+    display: grid; /* Usar grid para las columnas en DEPENDENCIAS */
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+}
+
+.dropdown-item {
+    padding: 10px 20px; /* Espacio interno para cada opción */
+    color: #333; /* Color del texto */
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa; /* Color de fondo al pasar el mouse */
+    color: #000; /* Color del texto al pasar el mouse */
+}
+
+/* Separador en el menú desplegable */
+.dropdown-divider {
+    margin: 5px 0; /* Espacio alrededor del separador */
+}
+</style>

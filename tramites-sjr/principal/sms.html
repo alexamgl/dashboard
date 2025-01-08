@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Teléfono con Firebase</title>
+    <!-- Carga los scripts de Firebase compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Verificación de Teléfono</h1>
+
+    <!-- Sección para ingresar el número de teléfono -->
+    <div id="phone-section">
+        <input type="tel" id="phoneNumber" placeholder="Número de teléfono" required>
+        <div id="recaptcha-container"></div>
+        <button onclick="sendVerificationCode()">Enviar Código</button>
+    </div>
+
+    <!-- Sección para ingresar el código de verificación -->
+    <div id="code-section" class="hidden">
+        <input type="text" id="verificationCode" placeholder="Código de verificación" required>
+        <button onclick="verifyCode()">Verificar Código</button>
+    </div>
+
+    <!-- Mensaje de resultado -->
+    <div id="result"></div>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUD_2GS_ENSw_YRUQLY2lgrQMqF_wz49w",
+            authDomain: "sms-proyect-beb37.firebaseapp.com",
+            projectId: "sms-proyect-beb37",
+            storageBucket: "sms-proyect-beb37.firebasestorage.app",
+            messagingSenderId: "955644995935",
+            appId: "1:955644995935:web:f7f8eafd8e0bba4aca6eea"
+        };
+
+        // Inicializar Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        let confirmationResult; // Almacenará la referencia para verificar el código
+
+        // Inicializar el reCAPTCHA
+        const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            size: 'invisible', // Invisible
+            callback: (response) => {
+                console.log("reCAPTCHA verificado.");
+            },
+            'expired-callback': () => {
+                console.log("reCAPTCHA expirado, por favor intenta nuevamente.");
+            }
+        });
+
+        // Verifica la reCAPTCHA antes de enviar el código
+        recaptchaVerifier.render().then(function (widgetId) {
+            window.recaptchaWidgetId = widgetId; // Guardamos el ID del widget de reCAPTCHA
+            console.log("reCAPTCHA renderizado.");
+        });
+
+        // Enviar el código de verificación al número de teléfono
+        function sendVerificationCode() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            if (!phoneNumber) {
+                alert('Por favor ingresa un número de teléfono válido.');
+                return;
+            }
+
+            // Asegúrate de que la reCAPTCHA esté lista
+            recaptchaVerifier.verify().then(function (response) {
+                if (response) {
+                    auth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
+                        .then((result) => {
+                            confirmationResult = result; // Guardamos el resultado de la verificación
+                            document.getElementById('phone-section').classList.add('hidden');
+                            document.getElementById('code-section').classList.remove('hidden');
+                            alert('Código enviado al número proporcionado.');
+                        })
+                        .catch((error) => {
+                            console.error('Error al enviar el código:', error);
+                            alert('Error al enviar el código. Revisa el número e intenta nuevamente.');
+                        });
+                } else {
+                    console.error('El reCAPTCHA no fue completado correctamente.');
+                    alert('Por favor verifica que no eres un robot.');
+                }
+            }).catch((error) => {
+                console.error('Error al verificar el reCAPTCHA:', error);
+                alert('Error al verificar el reCAPTCHA. Por favor intenta nuevamente.');
+            });
+        }
+
+        // Verificar el código ingresado por el usuario
+        function verifyCode() {
+            const code = document.getElementById('verificationCode').value;
+            if (!code) {
+                alert('Por favor ingresa el código recibido.');
+                return;
+            }
+
+            confirmationResult.confirm(code)
+                .then((result) => {
+                    const user = result.user;
+                    document.getElementById('result').innerText = `¡Verificación exitosa! Usuario: ${user.phoneNumber}`;
+                })
+                .catch((error) => {
+                    console.error('Error al verificar el código:', error);
+                    alert('El código ingresado no es válido. Intenta nuevamente.');
+                });
+        }
+    </script>
+</body>
+
+</html>

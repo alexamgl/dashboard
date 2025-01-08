@@ -1,0 +1,33 @@
+<a href="#" class="nav-link">Categories</a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+
+
+
+            <a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">8</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="/public/img/logo_municipio_2024.png">
+			</a>
+
+
+
+            <div class="card-header">
+									<h3>Información del trámite</h3>
+								</div>
+								<div class="card-body">
+									<p>Para realizar la inscripción o reinscripción de acuáticas es necesario que
+										aceptes los siguientes términos y condiciones.</p>
+									<p>Al aceptar los términos y condiciones, se te solicitará que subas un archivo
+										con el certificado médico del menor de edad o adulto mayor que se inscribirá
+										en el trámite.</p>
+									<p>Una vez que hayas aceptado los términos y condiciones y subido el archivo
+										con el certificado médico, se te enviará un correo electrónico con la
+										confirmación de tu trámite.</p>
+								</div>

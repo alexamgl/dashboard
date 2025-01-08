@@ -1,0 +1,28 @@
+<div>
+    <div id="areas-list"></div>
+</div>
+<script>
+    async function getAllAreas(){
+        const response = await fetch('http://localhost/Api/public/areas_responsables',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(!response.ok) throw new Error('Error al obtener las areas responsables');
+                return response.json();
+            }).then(data => {
+                const areasList = document.getElementById('areas-list');
+                areasList.innerHTML = '';
+                
+                console.log(data);
+                return data;
+            }).catch(error => {
+                console.error(error);
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', getAllAreas);
+</script>

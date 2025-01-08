@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente Único Sanjuanense</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+</head>
+
+<body>
+
+    <div id="header">Trámites Digitales</div>
+
+    <div class="container py-5">
+        <div class="row gx-5">
+            <!-- Información de ayuda -->
+            <div class="col-md-4">
+                <div class="info-container bg-light p-4 rounded shadow-sm">
+                    <img src="img/02.png" style="display: block;margin-left: auto;margin-right: auto;" alt="Logotipo"
+                        width="215" height="auto" class="img-fluid">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-info-circle text-primary me-2"></i>Genera tu expediente digital en tan solo
+                            5 sencillos pasos.
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-info-circle text-primary me-2"></i>Este proceso solo se realiza por única
+                            ocasión, y te servirá para realizar trámites futuros.
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-info-circle text-primary me-2"></i>Toda tu información está guardada de
+                            manera segura. Aquí puedes consultar nuestro <a href="pdf/Aviso de Privacidad Integral.pdf"
+                                target="_blank"> Aviso de Privacidad</a>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-info-circle text-primary me-2"></i>Toda tu información está guardada de
+                            manera segura.
+                        </li>
+                    </ul>
+                    <p class="mt-4">Si necesitas ayuda, contáctanos: <a href="mailto:sistemas@sanjuandelrio.gob.mx"
+                            class="text-primary">sistemas@sanjuandelrio.gob.mx</a></p>
+                </div>
+            </div>
+
+
+            <div id="form-container">
+
+                <form id="stepperForm">
+                    <div id="progress-container" class="d-flex align-items-center mb-4">
+                        <div id="circle-progress">
+                            <span id="progress-text">1 de 5</span>
+                        </div>
+                        <div id="progress-info" class="ms-3">
+                            <h4 id="step-title" style="font-weight: 900; color: #0b3b60;">Paso 1: Tipo persona</h4>
+                            <p id="step-subtitle">Siguiente: Datos Personales</p>
+                        </div>
+                    </div>
+                    <div class="step active">
+                        <h2 style="font-weight: 900; color: #0b3b60;">¿Qué tipo de persona deseas registrar ?</h2>
+                        <div class="container-person">
+                            <div class="radio-tile-group">
+                                <!-- Persona Física -->
+                                <div class="input-container">
+                                    <input id="persona_fisica" class="radio-button" type="radio" name="tipo_persona"
+                                        value="fisica">
+                                    <div class="radio-tile">
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                class="bi bi-person-fill" viewBox="0 0 16 16" width="32" height="32">
+                                                <path
+                                                    d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm9-7a3 3 0 1 0-6 0 3 3 0 0 0 6 0z" />
+                                            </svg>
+                                        </div>
+                                        <label for="persona_fisica" class="radio-tile-label">Persona Física</label>
+                                    </div>
+                                </div>
+
+                                <!-- Persona Moral -->
+                                <div class="input-container">
+                                    <input id="persona_moral" class="radio-button" type="radio" name="tipo_persona"
+                                        value="moral">
+                                    <div class="radio-tile">
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                class="bi bi-building" viewBox="0 0 16 16" width="32" height="32">
+                                                <path
+                                                    d="M8 2.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5z" />
+                                                <path
+                                                    d="M3.5 1h9a1 1 0 0 1 1 1v13h-1v-1h-8v1H2.5a.5.5 0 0 1-.5-.5v-13a1 1 0 0 1 1-1zm1 1v1h1V2h-1zm0 2v1h1V4h-1zm1 2v1h1V6h-1zm-2-4v1h1V2h-1zm0 2v1h1V4h-1zm1 2v1h1V6h-1zm-2-4v1h1V2h-1zm0 2v1h1V4h-1zm1 2v1h1V6h-1zM7 2v1h1V2H7zm0 2v1h1V4H7zm1 2v1H7V6h1zm0 2v1H7V8h1zm-2 0v1H5V8h1zM5 2v1H4V2h1zm0 2v1H4V4h1zm0 2v1H4V6h1zm0 2v1H4V8h1z" />
+                                            </svg>
+                                        </div>
+                                        <label for="persona_moral" class="radio-tile-label">Persona Moral</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="error-valid-tipo-persona" style="display: none; color: red; margin-top: 10px;"></div>
+                        <div class="button-group mt-4">
+                            <button class="next-btn" type="button" onclick="validateTipoPersona()">Siguiente</button>
+                        </div>
+                    </div>
+
+
+                    <div class="step">
+                        <div id="inputs-fisica">
+                            <div class="form-grid" style="position: relative;">
+                                <h2>Datos personales</h2>
+                                <div></div>
+                                <!-- CURP input -->
+                                <label>
+                                    CURP (<span style="color: red;">*</span>):
+                                    <input id="curp_usuario" type="text" name="curp" placeholder="CURP"
+                                        oninput="convertirMayusculas(this); validarInputCurp(this);"
+                                        class="sin-tildes solo-letras-numeros">
+                                    ¿No conoces tu CURP?<a href="https://www.gob.mx/curp/" target="_blank"
+                                        class="curp-link"> Da
+                                        clic aquí</a>
+                                </label>
+
+                                <!-- Verificar CURP input -->
+                                <label>
+                                    Verificar CURP (<span style="color: red;">*</span>):
+                                    <input id="verifica_curp" type="text" name="verifica_curp"
+                                        placeholder="Verifica tu CURP"
+                                        oninput="convertirMayusculas(this); validarCurpCoinciden();" class="sin-tildes">
+                                </label>
+
+                                <!-- Nombre -->
+                                <label>
+                                    Nombre (<span style="color: red;">*</span>):
+                                    <input id="nombre" type="text" name="nombre" placeholder="Nombre"
+                                        oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Primer Apellido -->
+                                <label>
+                                    Primer apellido (<span style="color: red;">*</span>):
+                                    <input id="primer_apellido" type="text" name="primer_apellido"
+                                        placeholder="Apellido" oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Segundo Apellido -->
+                                <label>
+                                    Segundo apellido (<span style="color: red;">*</span>):
+                                    <input id="segundo_apellido" type="text" name="segundo_apellido"
+                                        placeholder="Segundo apellido"
+                                        oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Fecha de Nacimiento -->
+                                <label>
+                                    Fecha de nacimiento:
+                                    <input id="fecha_nacimiento" type="date" name="fecha_nacimiento"
+                                        placeholder="Fecha de nacimiento" oninput="PreviewData()" readonly>
+                                </label>
+
+                                <!-- Sexo -->
+                                <label>
+                                    Género:
+                                    <input id="sexo" type="text" name="sexo" placeholder="Género" readonly>
+                                </label>
+
+                                <!-- Estado de nacimiento -->
+                                <label>
+                                    Estado de nacimiento:
+                                    <input id="estado" type="text" name="estado" placeholder="Estado de nacimiento"
+                                        readonly>
+                                </label>
+
+                                <label>
+                                    <!--<div class="password-container">-->
+                                    <label for="password" class="password-label">
+                                        Contraseña (<span style="color: red;">*</span>):
+                                        <span class="info-icon-container" onmouseover="showTooltip()"
+                                            onmouseout="hideTooltip()">
+                                            <i class="fas fa-info-circle info-icon"></i>
+                                            <div id="tooltip">
+                                                <ul>
+                                                    <li>Al menos 8 caracteres.</li>
+                                                    <li>Una letra mayúscula.</li>
+                                                    <li>Una letra minúscula.</li>
+                                                    <li>Un número.</li>
+                                                    <li>Un carácter especial (@$!%*?&).</li>
+                                                </ul>
+                                            </div>
+                                        </span>
+                                    </label>
+                                    <div class="password-wrapper">
+                                        <input id="password" type="password" placeholder="Ingresa tu contraseña"
+                                            oninput="evaluatePasswordStrength()">
+                                        <span id="toggle-icon" class="fas fa-eye toggle-password"
+                                            onclick="togglePasswordVisibility()"></span>
+                                    </div>
+                                    <div id="strength-indicator">
+                                        <div id="strength-bar"></div>
+                                        <span id="password-strength-text"></span>
+                                    </div>
+                                    <!--</div>-->
+
+                                </label>
+                                <!-- Confirmar Contraseña -->
+                                <label>
+                                    Confirma contraseña (<span style="color: red;">*</span>):
+                                    <input id="verifica_password" type="password" name="verifica_password"
+                                        placeholder="Verifica tu contraseña" oninput="validarPasswordCoinciden();">
+                                </label>
+                            </div>
+                        </div>
+                        <div id="inputs-moral">
+                            <div class="form-grid" style="position: relative;">
+                                <h2>Datos de la empresa</h2>
+                                <div></div>
+                                <label>
+                                    RFC (<span style="color: red;">*</span>):
+                                    <input id="RFC_organizacion" type="text" minlength="12" maxlength="13" name="RFC_organizacion" placeholder="RFC" oninput="convertirMayusculas(this); validarInputRFC(this)" class="sin-tildes solo-letras-numeros">
+                                </label>
+
+                                <label>
+                                    Ingresar la Razón Social de la empresa (<span style="color: red;">*</span>):
+                                    <input id="razon_social" type="text" name="razon_social" placeholder="Razón Social"
+                                        oninput="convertirMayusculas(this)" class="sin-tildes" disabled>
+                                </label>
+                                <h2>Datos del representante legal</h2>
+                                <!-- Nombre -->
+                                <div></div>
+                                <!-- CURP input -->
+                                <label>
+                                    CURP (<span style="color: red;">*</span>):
+                                    <input id="curp_representante" type="text" name="curp_representante" placeholder="CURP"
+                                        oninput="convertirMayusculas(this); validarInputCurpRepresentante(this);"
+                                        class="sin-tildes solo-letras-numeros" minlength="18" maxlength="18">
+                                    ¿No conoces tu CURP?<a href="https://www.gob.mx/curp/" target="_blank"
+                                        class="curp-link"> Da
+                                        clic aquí</a>
+                                </label>
+                                <!-- Verificar CURP input -->
+                                <label>
+                                    Verificar CURP (<span style="color: red;">*</span>):
+                                    <input id="verifica_curp_representante" type="text" name="verifica_curp_representante"
+                                        placeholder="Verifica tu CURP"
+                                        oninput="convertirMayusculas(this); validarCurpCoincidenOrganizacion();" class="sin-tildes">
+                                </label>
+                                <label>
+                                    Nombre (<span style="color: red;">*</span>):
+                                    <input id="nombre_representante" type="text" name="nombre_representante"
+                                        placeholder="Nombre" oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Primer Apellido -->
+                                <label>
+                                    Primer apellido (<span style="color: red;">*</span>):
+                                    <input id="primer_apellido_representante" type="text"
+                                        name="primer_apellido_representante" placeholder="Apellido"
+                                        oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Segundo Apellido -->
+                                <label>
+                                    Segundo apellido (<span style="color: red;">*</span>):
+                                    <input id="segundo_apellido_representante" type="text"
+                                        name="segundo_apellido_representante" placeholder="Segundo apellido"
+                                        oninput="PreviewData(); convertirMayusculas(this)"
+                                        class="sin-tildes solo-letras">
+                                </label>
+
+                                <!-- Fecha de Nacimiento -->
+                                <label>
+                                    Fecha de nacimiento:
+                                    <input id="fecha_nacimiento_representante" type="date"
+                                        name="fecha_nacimiento_representante" placeholder="Fecha de nacimiento"
+                                        oninput="PreviewData()" readonly>
+                                </label>
+
+                                <!-- Sexo -->
+                                <label>
+                                    Género:
+                                    <input id="sexo_representante" type="text" name="sexo_representante"
+                                        placeholder="Género" readonly>
+                                </label>
+
+                                <div></div>
+
+                                <label>
+                                    <!--<div class="password-container">-->
+                                    <label for="password-representante" class="password-label">
+                                        Contraseña (<span style="color: red;">*</span>):
+                                        <span class="info-icon-container" onmouseover="showTooltipOrganizacion()"
+                                            onmouseout="hideTooltipOrganizacion()">
+                                            <i class="fas fa-info-circle info-icon"></i>
+                                            <div id="tooltip-organizacion">
+                                                <ul>
+                                                    <li>Al menos 8 caracteres.</li>
+                                                    <li>Una letra mayúscula.</li>
+                                                    <li>Una letra minúscula.</li>
+                                                    <li>Un número.</li>
+                                                    <li>Un carácter especial (@$!%*?&).</li>
+                                                </ul>
+                                            </div>
+                                        </span>
+                                    </label>
+                                    <div class="password-wrapper">
+                                        <input id="password-organizacion" type="password"
+                                            placeholder="Ingresa tu contraseña" oninput="evaluatePasswordStrengthOrganizacion()">
+                                        <span id="toggle-icon-organizacion" class="fas fa-eye toggle-password-organizacion"
+                                            onclick="togglePasswordVisibilityOrganizacion()"></span>
+                                    </div>
+                                    <div id="strength-indicator-organizacion">
+                                        <div id="strength-bar-organizacion"></div>
+                                        <span id="password-strength-text-organizacion"></span>
+                                    </div>
+                                    <!--</div>-->
+                                </label>
+                                <!-- Confirmar Contraseña -->
+                                <label>
+                                    Confirma contraseña (<span style="color: red;">*</span>):
+                                    <input id="verifica_password_representante" type="password"
+                                        name="verifica_password_representante" placeholder="Verifica tu contraseña"
+                                        oninput="validarPasswordCoincidenOrganizacion();">
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Mensaje de Error -->
+                        <div id="error-password" class="error-message"></div>
+
+                        <!-- Botones -->
+                        <div class="button-group">
+                            <button type="button" class="prev-btn" onclick="prevStep()" id="prev-btn">Anterior</button>
+                            <button type="button" class="next-btn" onclick="nextStep()" id="next-btn">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div id="direccion-fisica" style="display: none;">
+                            <h2>Dirección</h2>
+                        </div>
+                        <div id="direccion-moral" style="display: none;">
+                            <h2>Dirección Empresa</h2>
+                        </div>
+                        <label>
+                            Código postal (<span style="color: red;">*</span>):
+                            <input id="codigo_postal" type="text" name="codigo_postal" placeholder="Código postal"
+                                onblur="buscarColonias()" oninput="PreviewData()" class="sin-tildes solo-numeros">
+                        </label>
+                        <label style="position: relative;">
+                            Nombre de la colonia/comunidad (<span style="color: red;">*</span>):
+                            <input id="colonia" type="text" name="colonia"
+                                placeholder="Escribe o selecciona una colonia/comunidad"
+                                oninput="filtrarColonias(); PreviewData(); convertirMayusculas(this)"
+                                class="sin-tildes solo-letras-numeros">
+                            <div id="autocomplete-list" class="autocomplete-items"></div>
+                        </label>
+                        <br>
+                        <br>
+                        <label>
+                            Calle (<span style="color: red;">*</span>):
+                            <input id="calle" type="text" name="calle" placeholder="Calle"
+                                oninput="PreviewData(); convertirMayusculas(this)"
+                                class="sin-tildes solo-letras-numeros">
+                        </label>
+                        <label>
+                            Número exterior (<span style="color: red;">*</span>):
+                            <input id="numero_exterior" type="text" name="numero_exterior" placeholder="Número exterior"
+                                oninput="validarNumero(); PreviewData()" class="sin-tildes solo-letras-numeros">
+                        </label>
+                        <label>
+                            Número interior:
+                            <input id="numero_interior" type="text" name="numero_interior" placeholder="Número interior"
+                                oninput="validarNumero(); PreviewData()" class="sin-tildes solo-letras-numeros">
+                        </label>
+                        <button type="button" class="search-btn" onclick="buscarUbicacion()">
+                            <i class="fas fa-search-location"></i> Buscar ubicación
+                        </button>
+
+                        <div id="map"></div>
+                        <label>Latitud (<span style="color: red;">*</span>):</label>
+                        <input id="latitud" type="text" name="latitud" placeholder="Latitud" readonly>
+                        <label>Longitud(<span style="color: red;">*</span>):</label>
+                        <input id="longitud" type="text" name="longitud" placeholder="Longitud" readonly>
+
+                        <div class="button-group">
+                            <button type="button" class="prev-btn" onclick="prevStep()">Anterior</button>
+                            <button type="button" class="next-btn" onclick="nextStep()">Siguiente</button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div id="contacto-fisica" style="display: none;">
+                            <h2>Contacto</h2>
+                        </div>
+                        <div id="contacto-moral" style="display: none;">
+                            <h2>Contacto Empresa</h2>
+                        </div>
+                        <label>Correo electrónico (<span style="color: red;">*</span>):</label>
+                        <input id="email" type="email" name="email" placeholder="Correo electrónico"
+                            oninput="PreviewData()" class="sin-tildes">
+                        <label>Verificar correo electrónico (<span style="color: red;">*</span>):</label>
+                        <input id="verifica_email" type="email" name="verifica_email"
+                            placeholder="Verifica tu correo electrónico" oninput="validarEmailCoinciden();">
+                        <!--<label>Tipo de teléfono</label>
+                <select name="tipo_telefono" id="tipo_telefono">
+                    <option value=false>Casa</option>
+                    <option value=true>Celular</option>
+                </select>-->
+                        <label>Número de teléfono (<span style="color: red;">*</span>):</label>
+                        <input id="telefono" type="tel" name="telefono" placeholder="Teléfono" oninput="PreviewData()">
+                        <label>Verificar número de teléfono (<span style="color: red;">*</span>):</label>
+                        <input id="verifica_telefono" type="tel" name="verifica_telefono"
+                            placeholder="Verifica tu teléfono" oninput="validarTelefonoCoinciden();"
+                            class="sin-tildes solo-numeros">
+                        <div id="recaptcha-container"></div>
+                        <!-- Botón para enviar código -->
+                        <button id="send-code-button" onclick="sendVerificationCode()" type="button"
+                            class="sin-tildes solo-numeros next-btn">Enviar Código</button>
+                        <!-- Mensaje de resultado -->
+                        <div id="result"></div>
+                        <!-- Sección para ingresar el código de verificación -->
+                        <div id="code-section" class="hidden">
+                            <label for="">Ingresa el código recibido (<span style="color: red;">*</span>):</label>
+                            <input type="text" id="verificationCode" placeholder="Código de verificación"
+                                oninput="verificarTelefono()">
+                            <button id="verify-code-button" onclick="verifyCode()" type="button"
+                                oninput="verificarTelefono()" class="sin-tildes solo-numeros next-btn">Verificar
+                                Código</button>
+                        </div>
+                        <div class="button-group">
+                            <button type="button" class="prev-btn" onclick="prevStep()">Anterior</button>
+                            <button id="previo-btn" type="button" class="success-btn; hidden next-btn"
+                                onclick="nextStep()">Siguiente</button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h2 style="font-weight: 900; color: #0b3b60;">Términos y condiciones</h2>
+
+                        <label for="terminos">Acepto los
+                            <a href="pdf/Aviso de Privacidad Integral.pdf" target="_blank">términos y condiciones</a>
+                            (<span style="color: red;">*</span>)
+                        </label>
+                        <input type="checkbox" name="terminos" id="terminos">
+                        <div id="error-valid" style="display: none; color: red;"></div>
+                        <div class="button-group">
+                            <button type="button" class="prev-btn" onclick="prevStep()">Anterior</button>
+                            <button class="next-btn" type="button" onclick="validateTerminosCondiciones()">Previo de
+                                perfil</button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h2>Previo de información</h2>
+                        <p class="text-muted">Verifica que tu información sea correcta antes de continuar.</p>
+                        <div id="preview-container" class="p-3 rounded bg-light border">
+                            <!-- Datos para Persona Física -->
+                            <div id="preview-fisica" style="display: none;">
+                                <h4>Datos personales</h4>
+                                <p><strong>CURP:</strong> <span id="preview-curp-fisica"></span></p>
+                                <p><strong>Nombre:</strong> <span id="preview-nombre-fisica"></span></p>
+                                <p><strong>Primer Apellido:</strong> <span id="preview-primer-apellido-fisica"></span></p>
+                                <p><strong>Segundo Apellido:</strong> <span id="preview-segundo-apellido-fisica"></span></p>
+                                <p><strong>Fecha de Nacimiento:</strong> <span id="preview-fecha-nacimiento-fisica"></span></p>
+                                <p><strong>Género:</strong> <span id="preview-genero-fisica"></span></p>
+                                <p><strong>Estado de nacimiento:</strong> <span id="preview-estado-nacimiento-fisica"></span></p>
+                            </div>
+                        
+                            <!-- Datos para Persona Moral -->
+                            <div id="preview-moral" style="display: none;">
+                                <h4>Datos de la Empresa</h4>
+                                <p><strong>Razón Social:</strong> <span id="preview-razon-social"></span></p>
+                                <p><strong>RFC:</strong> <span id="preview-rfc"></span></p>
+                                <h4>Datos representante legal</h4>
+                                <p><strong>CURP:</strong> <span id="preview-curp-moral"></span></p>
+                                <p><strong>Nombre:</strong> <span id="preview-nombre-moral"></span></p>
+                                <p><strong>Primer Apellido:</strong> <span id="preview-primer-apellido-moral"></span></p>
+                                <p><strong>Segundo Apellido:</strong> <span id="preview-segundo-apellido-moral"></span></p>
+                                <p><strong>Fecha de Nacimiento:</strong> <span id="preview-fecha-nacimiento-moral"></span></p>
+                                <p><strong>Género:</strong> <span id="preview-genero-moral"></span></p>
+                            </div>
+                        
+                            <!-- Dirección y Contacto (Comunes) -->
+                            <h4>Dirección</h4>
+                            <p><strong>Código Postal: </strong> <span id="preview-codigo-postal"></span></p>
+                            <p><strong>Colonia/Comunidad: </strong> <span id="preview-colonia"></span></p>
+                            <p><strong>Calle: </strong> <span id="preview-calle"></span></p>
+                            <p><strong>Número Exterior: </strong> <span id="preview-numero-exterior"></span></p>
+                            <p><strong>Número Interior: </strong> <span id="preview-numero-interior"></span></p>
+                        
+                            <h4>Contacto</h4>
+                            <p><strong>Email: </strong> <span id="preview-email"></span></p>
+                            <p><strong>Teléfono: </strong> <span id="preview-telefono"></span></p>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="prev-btn" onclick="prevStep()">Anterior</button>
+                            <button type="button" class="success-btn" onclick="RegistroUsuarioAPI()">Aceptar y
+                                guardar</button>
+                        </div>
+                        <!-- Modal -->
+                        <div id="custom-modal" class="modal">
+                            <div id="modal-content">
+                                <!-- Contenedor del mensaje (fondo cambiará aquí) -->
+                                <div id="modal-message-container">
+                                    <div id="modal-icon">
+                                        <!-- Aquí va el icono (exito o error) -->
+                                        <i class="fas fa-check-circle"></i> <!-- Este ícono se cambia dinámicamente -->
+                                    </div>
+                                    <div id="modal-message">Mensaje aquí</div>
+                                </div>
+                                <!-- Botón de aceptar -->
+                                <button id="modal-accept-btn">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div id="toast" class="toast" style="position: fixed; top: 20px; right: 20px; z-index: 1050; display: none;">
+        <div class="toast-header">
+            <strong class="me-auto">Advertencia</strong>
+            <button type="button" class="btn-close" onclick="hideToast()"></button>
+        </div>
+        <div class="toast-body">
+            Completa todos los campos requeridos.
+        </div>
+    </div>
+    <div id="footer">© 2024 Trámites Digitales</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.jFs"></script>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('prev_foto');
+            preview.innerHTML = '';
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = fileUrl;
+                        preview.appendChild(img);
+                    } else if (file.type.startsWith('application/pdf')) {
+                        const embed = document.createElement('embed');
+                        preview.appendChild(embed);
+                    } else {
+                        preview.textContent = "vista no disponible";
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+    <script src="../principal/js/main.js"></script>
+    <script>
+        // Esperar que el DOM esté cargado antes de llamar a loadGoogleMapsApi
+        window.onload = function () {
+            loadGoogleMapsApi()
+                .then(() => {
+                    initMap();  // Inicializa el mapa una vez que la API esté cargada
+                })
+                .catch(error => {
+                    alert("Error al cargar Google Maps");
+                });
+        }
+    </script>
+    <script>
+        // Función para mover al siguiente campo al presionar Enter
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('input, select, textarea'); // Selecciona todos los elementos del formulario
+
+            inputs.forEach((input, index) => {
+                input.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // Evita el comportamiento predeterminado de enviar el formulario
+
+                        const nextInput = inputs[index + 1]; // Busca el siguiente campo
+                        if (nextInput) {
+                            nextInput.focus(); // Mueve el foco al siguiente campo
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

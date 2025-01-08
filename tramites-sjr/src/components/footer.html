@@ -1,0 +1,138 @@
+    <!-- footer.html -->
+    <footer class="footer">
+        <div class="container-fluid d-flex justify-content-between align-items-start">
+            <div class="footer-logo">
+                <a href="#">
+                    <img src="/tramites-sjr/public/img/HERÁLDICA 2024-2027-02_white.png" alt="Logotipo" width="151" height="auto">
+                </a>
+            </div>
+            <div class="footer-columns d-flex">
+                <div class="footer-column me-4">
+                    <h5 style="font-weight: bold;">Sitios de Interés</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.dif.sanjuandelrio.gob.mx/" target="_blank">DIF Municipal</a></li>
+                        <li><a href="https://imm.sanjuandelrio.gob.mx/" target="_blank">IMM</a></li>
+                        <li><a href="https://www.japam.gob.mx/" target="_blank">JAPAM</a></li>
+                        <li><a href="https://www.queretaro.gob.mx/">Gobierno del Estado</a></li>
+                        <li style="font-weight: normal;"><a href="https://www.gob.mx" target="_blank">Gobierno Federal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column me-4">
+                    <h5 style="font-weight: bold;">Contáctanos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.google.com/maps/place/Centro+C%C3%ADvico+Municipal+San+Juan+Del+R%C3%ADo/@20.3927044,-100.0078877,17z/data=!3m1!4b1!4m6!3m5!1s0x85d30c91206043d9:0xf641977613738769!8m2!3d20.3927044!4d-100.0053128!16s%2Fg%2F11g9vtd9z6?entry=ttu&g_ep=EgoyMDI0MTAyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Blvd. Paso de los Guzmán No. 24, Barrio de la Concepción.
+                            C.P. 76803, San Juan del Río Querétaro.
+                            Teléfono: (427) 689 0012</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5 style="font-weight: bold;">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="font-weight: normal;">Aviso de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>Municipio de San Juan del Río. Todos los derechos reservados. © 2024</p>
+        </div>
+    </footer>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+    
+        .footer {
+            padding: 40px 20px; /* Aumentar el espaciado vertical */
+            background-color: #0b3b59; /* Color de fondo azul marino */
+            color: white;
+            width: 100%;
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: 0;
+            display: flex; /* Usar flex para alinear el contenido */
+            flex-direction: column; /* Cambiar a columna para que footer-bottom esté al final */
+            align-items: center; /* Centrar horizontalmente */
+        }
+    
+        .footer-columns {
+            display: flex;
+            flex-wrap: wrap; /* Permitir que las columnas se envuelvan si es necesario */
+            justify-content: center; /* Centrar las columnas */
+            margin-left: 20px; /* Ajustar este valor para mover el texto a la izquierda */
+            margin-bottom: 20px; /* Espacio inferior para separar del footer-bottom */
+        }
+    
+        .footer-bottom {
+            margin-top: auto; /* Empujar el footer-bottom hacia abajo */
+            padding: 10px 0; /* Espacio interno */
+            color: white; /* Color del texto */
+            font-size: 14px; /* Tamaño de fuente */
+            text-align: center; /* Centrar el texto */
+        }
+    
+        .footer-logo {
+            flex: 0 0 auto;
+            margin: 0 200px; /* Ajustar margen para centrar más */
+        }
+    
+        .footer-column {
+            flex: 1;
+            margin: 0 15px; /* Espaciado entre columnas */
+        }
+    
+        .footer-logo img {
+            max-width: 100%;
+            height: auto;
+        }
+    
+        .footer-column a {
+            text-decoration: none;
+            color: white;
+            display: block;
+            margin: 5px 0; /* Espaciado entre enlaces */
+            transition: color 0.3s; /* Transición suave para el color */
+        }
+    
+        .footer-column a:hover {
+            color: #a1c3f0; /* Cambia el color del texto al pasar el mouse */
+            text-decoration: underline; /* Subrayado al pasar el mouse */
+        }
+    
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .footer {
+                padding: 20px 10px; /* Ajustar el espaciado vertical en pantallas pequeñas */
+            }
+    
+            .footer-columns {
+                flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+                align-items: center; /* Centrar elementos en pantallas pequeñas */
+                margin-left: 0; /* Eliminar margen en pantallas pequeñas */
+                width: 100%; /* Asegurar que las columnas ocupen todo el ancho */
+            }
+    
+            .footer-column {
+                margin: 10px 0; /* Espaciado vertical entre columnas */
+                text-align: center; /* Centrar texto en columnas pequeñas */
+                width: 100%; /* Hacer que cada columna ocupe el 100% del ancho */
+            }
+    
+            .footer-logo {
+                margin: 0; /* Eliminar margen para centrar el logotipo */
+                margin-bottom: 20px; /* Espacio debajo del logotipo */
+            }
+        }
+    
+        /* Estilo para el pie de página */
+        .footer-bottom {
+            margin-top: 20px; /* Espacio superior para separar del contenido anterior */
+            padding: 10px 0; /* Espacio interno */
+            color: white; /* Color del texto */
+            font-size: 14px; /* Tamaño de fuente */
+        }
+    </style>

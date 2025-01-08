@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Permitir el acceso a archivos y directorios existentes (sin redirigirlos a index.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir las solicitudes que no sean archivos ni directorios hacia index.php
+RewriteRule ^ index.php [QSA,L]
+
+# Agregar reglas específicas para la API si es necesario
+RewriteCond %{REQUEST_URI} ^/Api/
+RewriteRule ^Api/(.*)$ /ruta/a/tu/carpeta/Api/$1 [L]
