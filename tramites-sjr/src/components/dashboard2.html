@@ -274,9 +274,12 @@
         }
 
         .filters {
-            display: grid; /* Diseño en cuadrícula */
-            grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-            gap: 20px; /* Espaciado entre filtros */
+            display: grid;
+            /* Diseño en cuadrícula */
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 columnas */
+            gap: 20px;
+            /* Espaciado entre filtros */
         }
 
 
@@ -305,8 +308,10 @@
         }
 
         .filters-container {
-            width: calc(100% - 250px); /* Igual al top-bar */
-            margin-left: 250px;       /* Igual al top-bar */
+            width: calc(100% - 250px);
+            /* Igual al top-bar */
+            margin-left: 250px;
+            /* Igual al top-bar */
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -363,6 +368,8 @@
         <ul class="nav" id="nav-list">
             <li class="active" onclick="toggleVisibility('overview', this)"><span class="indicator"></span><i
                     class="fas fa-home"></i><span>Overview</span></li>
+            <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
+                    class="fas fa-file-signature"></i><span>Trámites</span></li>
             <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
                     class="fas fa-file-alt"></i><span>Reports</span></li>
             <li onclick="toggleVisibility('analytics', this)"><span class="indicator"></span><i
@@ -397,6 +404,12 @@
                 <div class="card">Card 3</div>
                 <div class="card">Card 4</div>
             </div>
+        </div>
+
+        <div id="tramites-user" class="section hidden">
+            <h2>Trámites</h2>
+            <div class="chart">Chart 1</div>
+            <div class="chart">Chart 2</div>
         </div>
 
         <!-- Sección Usuarios Registrados -->
