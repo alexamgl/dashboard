@@ -7,8 +7,10 @@
     <title>Dashboard</title>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
@@ -17,23 +19,22 @@
 
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            min-height: 100vh;
-            background-color: #00b2e2;
-            /* Light Blue Background */
+            margin: 0;
+            padding: 0;
         }
 
         .sidebar {
             width: 250px;
             background-color: #0b3b60;
-            /* Dark Blue Sidebar */
-            color: #fff;
-            overflow: auto;
-            transition: width 0.5s ease;
             position: fixed;
             top: 0;
             bottom: 0;
             left: 0;
+            color: white;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
         }
 
         .sidebar.collapsed {
@@ -128,36 +129,28 @@
         }
 
         .content {
-            flex-grow: 1;
+            margin-left: 250px;
             padding: 20px;
             background-color: #f8f9fa;
-            /* Neutral Background */
-            margin-left: 250px;
-            /* Adjust for sidebar width */
-            margin-top: 70px;
-            /* Adjust for top-bar height */
-            transition: margin-left 0.5s ease;
+            transition: margin-top 0.3s ease;
         }
 
         .content.adjusted {
             margin-left: 70px;
-            /* Adjust for collapsed sidebar */
         }
 
         .top-bar {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #0076aa;
-            /* Medium Blue Top Bar */
-            color: #fff;
             position: fixed;
             top: 0;
             left: 250px;
             width: calc(100% - 250px);
             height: 70px;
-            transition: left 0.5s ease, width 0.5s ease;
+            background-color: #0076aa;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
             z-index: 1000;
         }
 
@@ -274,21 +267,33 @@
             background: #f1f1f1;
         }
 
-        .filters {
-            display: grid;
-            /* Diseño en cuadrícula */
-            grid-template-columns: repeat(3, 1fr);
-            /* 3 columnas */
-            gap: 20px;
-            /* Espaciado entre filtros */
+        .filters-container {
+            position: fixed;
+            top: 70px;
+            /* Debajo del top-bar */
+            left: 250px;
+            width: calc(100% - 250px);
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 900;
+
         }
 
+        .filters-container.adjusted {
+            left: 70px;
+            width: calc(100% - 70px);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
         .filters>div {
-            flex: 1 1 200px;
-            /* Tamaño mínimo de 200px */
-            max-width: 300px;
-            /* Tamaño máximo de 300px */
+            flex: 1 1 calc(33.33% - 20px);
+            min-width: 200px;
         }
 
         .filters input,
@@ -297,46 +302,6 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .filters label {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
-        }
-
-        .filters-container {
-            width: calc(100% - 250px);
-            /* Igual al top-bar */
-            margin-left: 250px;
-            /* Igual al top-bar */
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-
-        @media (max-width: 1024px) {
-            .filters {
-                grid-template-columns: repeat(2, 1fr);
-                /* 2 columnas */
-            }
-        }
-
-        @media (max-width: 769px) {
-            .filters {
-                grid-template-columns: repeat(1, 1fr);
-                /* 1 columna */
-            }
-        }
-
-
-        .results-count {
-            margin-bottom: 10px;
             font-size: 14px;
             color: #666;
             text-align: left;
@@ -357,6 +322,383 @@
 
         .btn-refresh:hover {
             background-color: #005f8c;
+        }
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Tarjetas */
+        .user-card,
+        .edit-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            /* Una sola columna */
+            box-sizing: border-box;
+        }
+
+        .user-card h3,
+        .edit-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+            border-bottom: 2px solid #0076aa;
+            padding-bottom: 5px;
+        }
+
+        .user-card:hover,
+        .edit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Información del usuario */
+        .user-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .user-info p strong {
+            color: #0076aa;
+        }
+
+        .user-info-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        #user-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #user-role {
+            font-size: 14px;
+            color: #ffd700;
+            /* Amarillo dorado */
+        }
+
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Botón Editar */
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffa500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-edit:hover {
+            background-color: #cc8400;
+        }
+
+        /* Botones del formulario */
+        .btn-save {
+            padding: 10px 20px;
+            background-color: #0076aa;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #005f8c;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+
+            .user-card,
+            .edit-card {
+                width: 100%;
+                /* Mantiene una sola columna en pantallas pequeñas */
+            }
+        }
+
+        /* Contenedor de documentos */
+        .document-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .document-item {
+            flex: 1 1 calc(50% - 20px);
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .document-item label {
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        .file-input-wrapper {
+            width: 100%;
+        }
+
+        .btn-select-file {
+            display: inline-block;
+            background-color: #0076aa;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn-select-file:hover {
+            background-color: #005f8c;
+        }
+
+        .file-info {
+            font-size: 14px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-bar .progress {
+            height: 100%;
+            background-color: #0076aa;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .btn-upload {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            /* Estado deshabilitado */
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-upload:enabled {
+            cursor: pointer;
+            background-color: #218838;
+        }
+
+        .btn-upload:enabled:hover {
+            background-color: #1e7e34;
+        }
+
+        .btn-cancel {
+            margin-top: 20px;
+            /* Mayor separación */
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .document-item {
+                flex: 1 1 100%;
+                /* Una columna */
+            }
+        }
+
+
+        /* Botón de Cerrar Sesión */
+        .logout {
+            position: absolute;
+            bottom: 20px;
+            /* Más espacio en la parte inferior */
+            width: calc(100% - 32px);
+            /* Ajusta al ancho del sidebar */
+            margin: 0 16px;
+            /* Margen interno */
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            /* Igual que otros botones */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .logout:hover {
+            background-color: #ff4d4d;
+            /* Rojo claro al pasar el cursor */
+            color: white;
+        }
+
+        .logout .indicator {
+            background-color: #ff0000;
+            /* Indicador rojo */
+            height: 40px;
+            /* Altura igual a otros indicadores */
+            border-radius: 0 5px 5px 0;
+        }
+
+        .sidebar.collapsed .logout {
+            justify-content: center;
+            text-align: center;
+            padding: 12px 5px;
+        }
+
+        .sidebar.collapsed .logout span {
+            display: none;
+        }
+
+        .logout i {
+            color: white;
+            /* Ícono blanco por defecto */
+        }
+
+        .logout:hover i {
+            color: white;
+            /* Ícono blanco al pasar el cursor */
+        }
+
+        .chart-item {
+            flex: 1 1 calc(50% - 20px);
+            /* Ocupa el 50% del ancho en pantallas grandes */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            /* Máximo ancho de cada gráfica */
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .chart-item canvas {
+            width: 100% !important;
+            /* Asegura que el canvas nunca exceda el contenedor */
+            max-height: 300px;
+            /* Limita la altura máxima */
+            height: auto;
+            /* Ajusta la altura automáticamente */
+        }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 100%;
+            /* Limita la altura del canvas al contenedor */
+            max-width: 100%;
+            /* Limita el ancho del canvas al contenedor */
+        }
+
+
+        @media (max-width: 768px) {
+            .chart-item {
+                flex: 1 1 100%;
+                /* Ocupa el 100% del ancho en pantallas pequeñas */
+                max-width: none;
+                /* Permite ocupar todo el ancho */
+            }
+
+            .charts-container {
+                flex-direction: column;
+                /* Cambia a columna en pantallas pequeñas */
+            }
         }
 
         /*CARD 1*/
@@ -655,21 +997,23 @@
             <img src="palomanaranja.png" alt="Logo"> <!-- Replace with your expanded image path -->
         </div>
         <ul class="nav" id="nav-list">
-            <li class="active" onclick="toggleVisibility('overview', this)"><span class="indicator"></span><i
-                    class="fas fa-home"></i><span>Overview</span></li>
+            <li class="active" onclick="toggleVisibility('mis-datos', this)"><span class="indicator"></span><i
+                    class="fas fa-id-card"></i><span>Mis datos</span></li>
+            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-users', this)"><span
+                    class="indicator"></span><i class="fas fa-users"></i><span>Usuarios registrados</span></li>
+            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-workers', this)"><span
+                    class="indicator"></span><i class="fas fa-briefcase"></i><span>Trabajadores registrados</span></li>
+            <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
+                    class="fas fa-file-alt"></i><span>Reportes</span></li>
+            <li id="admin-section" class="display: none;" onclick="toggleVisibility('analytics', this)"><span
+                    class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
             <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
                     class="fas fa-file-signature"></i><span>Trámites</span></li>
-            <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
-                    class="fas fa-file-alt"></i><span>Reports</span></li>
-            <li onclick="toggleVisibility('analytics', this)"><span class="indicator"></span><i
-                    class="fas fa-chart-line"></i><span>Analytics</span></li>
             <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
-                    class="fas fa-cog"></i><span>Settings</span></li>
-            <li onclick="toggleVisibility('registered-users', this)"><span class="indicator"></span><i
-                    class="fas fa-users"></i><span>Usuarios registrados</span></li>
-            <li onclick="toggleVisibility('registered-workers', this)"><span class="indicator"></span><i
-                    class="fas fa-briefcase"></i><span>Trabajadores registrados</span></li>
+                    class="fas fa-cog"></i><span>Ajustes</span></li>
         </ul>
+        <li id="logout-button" class="logout" onclick="logout()"><span class="indicator"></span><i
+                class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></li>
     </div>
     <div class="content" id="content">
         <div class="top-bar" id="top-bar">
@@ -681,7 +1025,10 @@
             <h1>Admin Panel</h1>
             <div class="user-avatar">
                 <div class="avatar"></div>
-                Welcome, User
+                <div class="user-info-top">
+                    <span id="user-name">Welcome, User</span>
+                    <span id="user-role" style="font-size: 14px; color: #ffd700;">Rol: Invitado</span>
+                </div>
             </div>
         </div>
 
@@ -694,6 +1041,170 @@
                 <div class="card">Card 4</div>
             </div>
         </div>
+
+        <div id="mis-datos" class="section">
+            <h2 class="section-title">Perfil del Usuario</h2>
+            <div class="profile-container">
+                <!-- Tarjeta de Información del Usuario -->
+                <div class="card user-card">
+                    <h3>Información del Usuario</h3>
+                    <div id="user-info" class="user-info">
+                        <!-- Aquí se cargará la información del usuario -->
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <button id="editUserButton" class="btn-edit">Editar Datos</button>
+                        <button id="manageDocumentsButton" class="btn-edit">Mis Documentos</button>
+                    </div>
+                </div>
+
+                <!-- Tarjeta del Formulario de Edición (oculta inicialmente) -->
+                <div class="card edit-card hidden">
+                    <h3>Editar Información</h3>
+                    <form id="editUserForm">
+                        <div class="form-group">
+                            <label for="editNombre">Nombre</label>
+                            <input type="text" id="editNombre" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrimApellido">Primer Apellido</label>
+                            <input type="text" id="editPrimApellido" placeholder="Primer Apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSegApellido">Segundo Apellido</label>
+                            <input type="text" id="editSegApellido" placeholder="Segundo Apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Correo Electrónico</label>
+                            <input type="email" id="editEmail" placeholder="Correo Electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTelefono">Teléfono</label>
+                            <input type="tel" id="editTelefono" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCalle">Calle</label>
+                            <input type="text" id="editCalle" placeholder="Calle">
+                        </div>
+                        <div class="form-group">
+                            <label for="editAsentamiento">Asentamiento</label>
+                            <input type="text" id="editAsentamiento" placeholder="Asentamiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNumExterior">Número Exterior</label>
+                            <input type="text" id="editNumExterior" placeholder="Número Exterior">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNumInterior">Número Interior</label>
+                            <input type="text" id="editNumInterior" placeholder="Número Interior">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCP">Código Postal</label>
+                            <input type="text" id="editCP" placeholder="Código Postal">
+                        </div>
+
+                        <!-- Campos adicionales para trabajadores -->
+                        <div id="trabajadorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editNoNomina">Número de Nómina</label>
+                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPuesto">Puesto</label>
+                                <input type="text" id="editPuesto" placeholder="Puesto">
+                            </div>
+                            <div class="form-group">
+                                <label for="editDepartamento">Departamento</label>
+                                <select id="editDepartamento">
+                                    <option value="">Seleccionar Departamento</option>
+                                    <!-- Agrega opciones dinámicas aquí -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" id="saveButton" class="btn-save">Guardar Cambios</button>
+                        <button type="button" id="cancelEditButton" class="btn-cancel">Cancelar</button>
+                    </form>
+                </div>
+
+                <!-- Tarjeta para Gestionar Documentos -->
+                <div class="card document-card hidden">
+                    <h3>Subir Documentos</h3>
+                    <div class="document-container">
+                        <!-- INE -->
+                        <div class="document-item">
+                            <label>INE</label>
+                            <div class="file-input-wrapper">
+                                <button class="btn-select-file"
+                                    onclick="document.getElementById('ine').click()">Seleccionar archivo</button>
+                                <input type="file" id="ine" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'ine')" hidden>
+                            </div>
+                            <div class="file-info" id="ine-info"></div>
+                            <div class="progress-bar" id="ine-progress">
+                                <div class="progress"></div>
+                            </div>
+                            <button type="button" class="btn-upload" id="ine-upload" disabled
+                                onclick="uploadDocument('ine')">Subir INE</button>
+                        </div>
+
+                        <!-- Comprobante de Domicilio -->
+                        <div class="document-item">
+                            <label>Comprobante de Domicilio</label>
+                            <div class="file-input-wrapper">
+                                <button class="btn-select-file"
+                                    onclick="document.getElementById('comprobanteDomicilio').click()">Seleccionar
+                                    archivo</button>
+                                <input type="file" id="comprobanteDomicilio" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'comprobanteDomicilio')" hidden>
+                            </div>
+                            <div class="file-info" id="comprobanteDomicilio-info"></div>
+                            <div class="progress-bar" id="comprobanteDomicilio-progress">
+                                <div class="progress"></div>
+                            </div>
+                            <button type="button" class="btn-upload" id="comprobanteDomicilio-upload" disabled
+                                onclick="uploadDocument('comprobanteDomicilio')">Subir Comprobante</button>
+                        </div>
+
+                        <!-- CURP -->
+                        <div class="document-item">
+                            <label>CURP</label>
+                            <div class="file-input-wrapper">
+                                <button class="btn-select-file"
+                                    onclick="document.getElementById('curp').click()">Seleccionar archivo</button>
+                                <input type="file" id="curp" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'curp')" hidden>
+                            </div>
+                            <div class="file-info" id="curp-info"></div>
+                            <div class="progress-bar" id="curp-progress">
+                                <div class="progress"></div>
+                            </div>
+                            <button type="button" class="btn-upload" id="curp-upload" disabled
+                                onclick="uploadDocument('curp')">Subir CURP</button>
+                        </div>
+
+                        <!-- Acta de Matrimonio -->
+                        <div class="document-item">
+                            <label>Acta de Matrimonio</label>
+                            <div class="file-input-wrapper">
+                                <button class="btn-select-file"
+                                    onclick="document.getElementById('actaMatrimonio').click()">Seleccionar
+                                    archivo</button>
+                                <input type="file" id="actaMatrimonio" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'actaMatrimonio')" hidden>
+                            </div>
+                            <div class="file-info" id="actaMatrimonio-info"></div>
+                            <div class="progress-bar" id="actaMatrimonio-progress">
+                                <div class="progress"></div>
+                            </div>
+                            <button type="button" class="btn-upload" id="actaMatrimonio-upload" disabled
+                                onclick="uploadDocument('actaMatrimonio')">Subir Acta</button>
+                        </div>
+                    </div>
+                    <button type="button" id="cancelDocumentsButton" class="btn-cancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
 
         <div id="tramites-user" class="section hidden">
             <h2>Trámite</h2>
@@ -832,6 +1343,7 @@
         <!-- Sección Usuarios Registrados -->
         <div id="registered-users" class="section hidden">
             <h2>Usuarios Registrados</h2>
+            <br>
             <div class="filters-container">
                 <div class="filters">
                     <div>
@@ -873,6 +1385,7 @@
         <!-- Sección Trabajadores Registrados -->
         <div id="registered-workers" class="section hidden">
             <h2>Trabajadores Registrados</h2>
+            <br>
             <div class="filters-container">
                 <div class="filters">
                     <div>
@@ -938,8 +1451,17 @@
         </div>
 
         <div id="analytics" class="section hidden">
-            <h2>Analytics</h2>
-            <div class="chart">Analytics Content</div>
+            <div class="charts-container">
+                <div class="chart-item">
+                    <h3>Distribución de Trabajadores por Dependencia</h3>
+                    <canvas id="graficaDependencias"></canvas>
+                </div>
+                <div class="chart-item">
+                    <h3>Distribución de Trabajadores por Código Postal</h3>
+                    <canvas id="graficaCodigosPostales"></canvas>
+                </div>
+            </div>
+
         </div>
 
         <div id="settings" class="section hidden">
@@ -949,6 +1471,7 @@
     </div>
 
     <script>
+
         document.addEventListener("DOMContentLoaded", () => {
             const firstNavItem = document.querySelector('.nav li');
             if (firstNavItem) {
@@ -956,10 +1479,12 @@
             }
         });
 
+        // Ajustar margen cuando se cambia de sección
         function toggleVisibility(sectionId, element) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
+
             document.querySelectorAll('.nav li').forEach(li => {
                 li.classList.remove('active');
             });
@@ -967,6 +1492,7 @@
             const section = document.getElementById(sectionId);
             if (section) {
                 section.classList.remove('hidden');
+                adjustContentMargin(); // Ajustar el margen cuando cambia la visibilidad
             }
 
             element.classList.add('active');
@@ -975,13 +1501,54 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const topBar = document.getElementById('top-bar');
+            const filtersContainers = document.querySelectorAll('.filters-container');
             const content = document.getElementById('content');
 
+            // Alternar clases para el sidebar, top-bar y contenido
             sidebar.classList.toggle('collapsed');
             topBar.classList.toggle('adjusted');
             content.classList.toggle('adjusted');
+
+            // Ajustar todos los contenedores de filtros visibles
+            filtersContainers.forEach(container => {
+                container.classList.toggle('adjusted');
+            });
+
+            // Ajustar el margen del contenido
+            adjustContentMargin();
         }
+
+        document.getElementById('editUserButton').addEventListener('click', () => {
+            fillEditForm();
+            document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
+            document.querySelector('.edit-card').classList.remove('hidden'); // Muestra la tarjeta de edición
+        });
+
+        document.getElementById('cancelEditButton').addEventListener('click', () => {
+            document.querySelector('.edit-card').classList.add('hidden'); // Oculta la tarjeta de edición
+            document.querySelector('.user-card').classList.remove('hidden'); // Muestra la tarjeta de información
+        });
+
     </script>
+    <script>
+        function adjustContentMargin() {
+            const activeSection = document.querySelector('.section:not(.hidden)');
+            if (!activeSection) return;
+
+            const filtersContainer = activeSection.querySelector('.filters-container');
+            const content = document.getElementById('content');
+            const topBarHeight = 70; // Altura fija del top-bar
+            const filtersHeight = filtersContainer ? filtersContainer.offsetHeight : 0;
+
+            // Ajustar el margen superior del contenido
+            content.style.marginTop = `${topBarHeight + filtersHeight}px`;
+        }
+
+        // Ajustar el margen al cargar la página y al redimensionar
+        document.addEventListener('DOMContentLoaded', adjustContentMargin);
+        window.addEventListener('resize', adjustContentMargin);
+    </script>
+
     <script>
         // Función toggle para abrir/cerrar el modal
         function toggleModal() {

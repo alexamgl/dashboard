@@ -4,90 +4,101 @@ console.log("Archivo JavaScript cargado");
 let userData = {}; // Objeto global para almacenar los datos del usuario
 
 document.addEventListener('DOMContentLoaded', () => {
+   loadUserData();
+});
 
+document.addEventListener('DOMContentLoaded', () => {
+    const decodedToken = validateToken(); // Validar el token y obtener datos decodificados
+
+    if (decodedToken) {
+        configureDashboard(decodedToken); // Configurar el Dashboard según el rol
+        resetActivityTimer(); // Iniciar el seguimiento de actividad
+    }
+});
+
+window.addEventListener('pageshow', () => {
+    validateToken(); // Revalidar el token si el usuario regresa con el botón Atrás
 });
 
 document.addEventListener('DOMContentLoaded', loadCiudadanos);
 document.addEventListener('DOMContentLoaded', loadTrabajadores);
 
-function getRoleFromToken() {
+function validateToken() {
     const token = localStorage.getItem('token');
     if (!token) {
-        return null;
-    }
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.role || 'user';
-}
-
-function displaySectionsBasedOnRole() {
-    const role = getRoleFromToken();
-    if (role === 'admin') {
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
-    } else if (role === 'trabajador' || role === 'ciudadano') {
-        document.getElementById('mis-datos-section').style.display = 'block';
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-    } else {
-        console.error("Rol desconocido o no permitido");
-    }
-}
-
-document.addEventListener('DOMContentLoaded', displaySectionsBasedOnRole);
-
-function logout() {
-    localStorage.removeItem('token');
-    window.location.href = '../../public/login.html';
-}
-
-function VerificaToken() {
-    const Token = localStorage.getItem("token");
-    if (Token) {
-        const TokenSplit = Token.split(".");
-        if (TokenSplit.length === 3) {
-            //window.location.href = "login.html"
-            const payload = JSON.parse(atob(TokenSplit[1]));
-            console.log("Payload", payload);
-        } else {
-            console.error("Token invalido");
-        }
-    } else {
-        console.error("Token no encontrado");
-        window.location.href = "https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html"
-    }
-}
-
-
-function checkAuth() {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-        window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';;
+        alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
         return;
     }
 
     try {
-        const payload = parseJwt(token);
-        const currentTime = Math.floor(Date.now() / 1000);
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
 
-        if (payload.exp && payload.exp < currentTime) {
+        if (decoded.exp < currentTime) {
             alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
             localStorage.removeItem('token');
             window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+            return;
         }
-    } catch (e) {
-        alert('Token inválido. Por favor, inicia sesión nuevamente.');
+
+        return decoded; // Retorna el token decodificado para usar el ID y rol
+    } catch (error) {
+        console.error('Error al validar el token:', error);
+        alert('Hubo un problema con tu sesión. Por favor, inicia sesión nuevamente.');
         localStorage.removeItem('token');
         window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
     }
 }
 
-function parseJwt(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+let lastActivityTime = Date.now();
 
-    return JSON.parse(jsonPayload);
+function resetActivityTimer() {
+    lastActivityTime = Date.now();
+}
+
+document.addEventListener('mousemove', resetActivityTimer);
+document.addEventListener('keydown', resetActivityTimer);
+document.addEventListener('click', resetActivityTimer);
+
+function checkInactivity() {
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - lastActivityTime;
+
+    if (timeElapsed > 3600000) { // 1 hora de inactividad (en milisegundos)
+        alert('Tu sesión ha expirado por inactividad. Por favor, inicia sesión nuevamente.');
+        localStorage.removeItem('token');
+        window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+    }
+}
+
+// Comprobar inactividad cada 1 minuto
+setInterval(checkInactivity, 60000);
+
+function configureDashboard(decodedToken) {
+    const userRole = decodedToken.role;
+
+    // Ejemplo de control de visibilidad
+    if (userRole === 'admin') {
+        document.querySelector('#admin-section').style.display = 'block';
+    } else {
+        document.querySelector('#admin-section').style.display = 'none';
+    }
+
+    if (userRole === 'user') {
+        document.querySelector('#user-section').style.display = 'block';
+    } else {
+        document.querySelector('#user-section').style.display = 'none';
+    }
+
+    // Muestra el nombre y el rol en el top-bar
+    document.getElementById('user-name').textContent = decodedToken.sub || 'Usuario';
+    document.getElementById('user-role').textContent = `Rol: ${userRole}`;
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = '../../public/login.html';
 }
 
 
@@ -104,7 +115,7 @@ function loadUserData() {
     const rol = decoded.role;
 
     // URL para obtener los datos del usuario
-    const url = `/tramites-sjr/Api/principal/usuario_datos/${id_usuario}`;
+    const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/usuario_datos/${id_usuario}`;
 
     // Realizar la solicitud para obtener los datos del usuario
     fetch(url, {
@@ -115,9 +126,13 @@ function loadUserData() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                userData = data.data; // Guardar los datos del usuario en el objeto global
+                userData = data.data;
                 userData.id_usuario = id_usuario; // Agregar ID del usuario desde el token
                 userData.rol = rol; // Agregar rol del usuario desde el token
+
+                // Actualizar nombre y rol en el top-bar
+                document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
+                document.getElementById('user-role').textContent = `Rol: ${rol || 'Invitado'}`;
 
                 // Mostrar los datos del usuario en la interfaz
                 document.getElementById('user-info').innerHTML = `
@@ -128,42 +143,13 @@ function loadUserData() {
                     <p><strong>Asentamiento:</strong> ${userData.asentamiento || "No disponible"}</p>
                     <p><strong>Código Postal:</strong> ${userData.codigo_postal || "No disponible"}</p>
                 `;
-
-                // Llenar el formulario con los mismos datos
-                document.getElementById('editNombre').value = userData.nombre || '';
-                document.getElementById('editPrimApellido').value = userData.primer_apellido || '';
-                document.getElementById('editSegApellido').value = userData.segundo_apellido || '';
-                document.getElementById('editEmail').value = userData.email || '';
-                document.getElementById('editTelefono').value = userData.telefono || '';
-                document.getElementById('editCalle').value = userData.calle || '';
-                document.getElementById('editAsentamiento').value = userData.asentamiento || '';
-                document.getElementById('editNumExterior').value = userData.numero_exterior || '';
-                document.getElementById('editNumInterior').value = userData.numero_interior || 'N/A';
-                document.getElementById('editCP').value = userData.codigo_postal || '';
-
-                // Mostrar campos adicionales si el usuario es un trabajador
-                if (rol === 'trabajador') {
-                    document.getElementById('trabajadorFields').style.display = 'block';
-                    document.getElementById('editNoNomina').value = userData.no_nomina || '';
-                    document.getElementById('editPuesto').value = userData.puesto || '';
-
-                    // Establecer la opción seleccionada en el select
-                    const departamentoSelect = document.getElementById('editDepartamento');
-                    Array.from(departamentoSelect.options).forEach(option => {
-                        if (option.value === userData.departamento) {
-                            option.selected = true;
-                        }
-                    });
-                    document.getElementById('editButton').style.display = 'block';
-                } else {
-                    document.getElementById('editButton').style.display = 'none';
-                }
             } else {
                 alert("Error al cargar los datos del usuario");
             }
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 
 // Función para cargar ciudadanos y habilitar filtros
@@ -281,6 +267,41 @@ function loadTrabajadores() {
         .catch(error => console.error('Error al cargar los trabajadores:', error));
 }
 
+function fillEditForm() {
+    // Asegúrate de que userData está inicializado
+    if (!userData || Object.keys(userData).length === 0) {
+        alert("No se pueden cargar los datos del usuario. Por favor, intenta nuevamente.");
+        return;
+    }
+
+    // Llenar los campos del formulario con los datos del usuario
+    document.getElementById('editNombre').value = userData.nombre || '';
+    document.getElementById('editPrimApellido').value = userData.primer_apellido || '';
+    document.getElementById('editSegApellido').value = userData.segundo_apellido || '';
+    document.getElementById('editEmail').value = userData.email || '';
+    document.getElementById('editTelefono').value = userData.telefono || '';
+    document.getElementById('editCalle').value = userData.calle || '';
+    document.getElementById('editAsentamiento').value = userData.asentamiento || '';
+    document.getElementById('editNumExterior').value = userData.numero_exterior || '';
+    document.getElementById('editNumInterior').value = userData.numero_interior || '';
+    document.getElementById('editCP').value = userData.codigo_postal || '';
+
+    if (userData.rol === 'trabajador') {
+        document.getElementById('trabajadorFields').style.display = 'block';
+        document.getElementById('editNoNomina').value = userData.no_nomina || '';
+        document.getElementById('editPuesto').value = userData.puesto || '';
+
+        const departamentoSelect = document.getElementById('editDepartamento');
+        Array.from(departamentoSelect.options).forEach(option => {
+            if (option.value === userData.departamento) {
+                option.selected = true;
+            }
+        });
+    } else {
+        document.getElementById('trabajadorFields').style.display = 'none';
+    }
+}
+
 function saveChanges() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -349,95 +370,230 @@ function saveChanges() {
         .catch(error => console.error('Error:', error));
 }
 
-/*FORMULARIO*/
-const steps = document.querySelectorAll('.step');
-const formSteps = document.querySelectorAll('.form-step');
-const nextButtons = document.querySelectorAll('.next');
-const prevButtons = document.querySelectorAll('.prev');
-const form = document.getElementById('stepForm');
+document.getElementById('manageDocumentsButton').addEventListener('click', () => {
+    document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
+    document.querySelector('.document-card').classList.remove('hidden'); // Muestra la tarjeta de documentos
+});
 
-let currentStep = 1;
+document.getElementById('cancelDocumentsButton').addEventListener('click', () => {
+    document.querySelector('.document-card').classList.add('hidden'); // Oculta la tarjeta de documentos
+    document.querySelector('.user-card').classList.remove('hidden'); // Muestra la tarjeta de información
+});
 
-// Update the stepper UI
-function updateStepUI() {
-    steps.forEach((step, index) => {
-        if (index + 1 === currentStep) {
-            step.classList.add('active');
-        } else {
-            step.classList.remove('active');
+// Maneja el cambio de archivo
+function handleFileChange(event, fieldId) {
+    const file = event.target.files[0];
+    const fileInfo = document.getElementById(`${fieldId}-info`);
+    const progressBar = document.getElementById(`${fieldId}-progress`);
+
+    if (file) {
+        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+        if (sizeInMB > 3) {
+            fileInfo.textContent = `El archivo es demasiado grande (${sizeInMB} MB). Máximo permitido: 3 MB.`;
+            fileInfo.style.color = 'red';
+            progressBar.querySelector('.progress').style.width = '0%';
+            return;
         }
-    });
 
-    formSteps.forEach((formStep, index) => {
-        if (index + 1 === currentStep) {
-            formStep.classList.add('active');
+        fileInfo.textContent = `Archivo seleccionado: ${file.name} (${sizeInMB} MB)`;
+        fileInfo.style.color = 'green';
+    } else {
+        fileInfo.textContent = '';
+        progressBar.querySelector('.progress').style.width = '0%';
+    }
+}
+
+function handleFileChange(event, fieldId) {
+    const file = event.target.files[0];
+    const fileInfo = document.getElementById(`${fieldId}-info`);
+    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
+    const uploadButton = document.getElementById(`${fieldId}-upload`);
+
+    if (file) {
+        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+        if (sizeInMB > 3) {
+            fileInfo.textContent = `(${sizeInMB} MB) - Tamaño máximo permitido: 3 MB`;
+            fileInfo.style.color = 'red';
+            progressBar.style.width = '0%';
+            uploadButton.disabled = true;
+            return;
+        }
+
+        fileInfo.textContent = `${file.name} (${sizeInMB} MB)`;
+        fileInfo.style.color = 'green';
+        uploadButton.disabled = false;
+    } else {
+        fileInfo.textContent = '';
+        progressBar.style.width = '0%';
+        uploadButton.disabled = true;
+    }
+}
+
+function uploadDocument(fieldId) {
+    const fileInput = document.getElementById(fieldId);
+    const file = fileInput.files[0];
+    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
+
+    if (!file) {
+        alert('Por favor, selecciona un archivo válido.');
+        return;
+    }
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = `${progress}%`;
+
+        if (progress >= 100) {
+            clearInterval(interval);
+
+            // Simulación de subida
+            alert(`${fieldId.toUpperCase()} subido correctamente.`);
+        }
+    }, 200);
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    cargarGraficaSecretarias();
+});
+
+function cargarGraficaSecretarias() {
+    const token = localStorage.getItem('token'); // Asumiendo que necesitas autenticar
+    const url = 'http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_dependencias'; // Cambia por tu endpoint
+
+    fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const labels = data.data.map(item => item.secretaria);
+            const values = data.data.map(item => item.total);
+
+            renderGraficaDependencias(labels, values);
         } else {
-            formStep.classList.remove('active');
+            console.error('Error al obtener los datos de la gráfica:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error al cargar la gráfica:', error);
+    });
+}
+
+let grafica;
+function renderGraficaDependencias(labels, values) {
+    const ctx = document.getElementById('graficaDependencias').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Evita desbordamientos
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
         }
     });
 }
 
-// Validate the current step
-function validateStep() {
-    const currentFormStep = document.querySelector(`.form-step[data-step="${currentStep}"]`);
-    const inputs = currentFormStep.querySelectorAll('input');
-    let valid = true;
 
-    inputs.forEach(input => {
-        const errorMessage = input.nextElementSibling;
-        if (!input.checkValidity()) {
-            valid = false;
-            errorMessage.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-        }
-    });
 
-    return valid;
-}
-
-// Next button event
-nextButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        if (validateStep()) {
-            currentStep++;
-            updateStepUI();
-        }
-    });
-});
-
-// Previous button event
-prevButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        currentStep--;
-        updateStepUI();
-    });
-});
-
-// Form submission
-// Obtener referencias al modal y botón de cierre
-const confirmationModal = document.getElementById('confirmationModal');
-const closeConfirmationModalButton = document.getElementById('closeModal2');
-
-// Mostrar el modal de confirmación
-function showConfirmationModal() {
-    confirmationModal.style.display = 'flex';
-}
-
-// Cerrar el modal de confirmación
-closeConfirmationModalButton.addEventListener('click', () => {
-    confirmationModal.style.display = 'none';
-});
-
-// Ocultar el modal al hacer clic fuera de él
-window.addEventListener('click', (event) => {
-    if (event.target === confirmationModal) {
-        confirmationModal.style.display = 'none';
+// Escuchar cambios en el tamaño de la ventana
+window.addEventListener('resize', () => {
+    if (grafica) {
+        grafica.resize(); // Redimensionar la gráfica
     }
 });
 
-// Actualizar el evento de envío del formulario
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    showConfirmationModal();
-});
+function cargarGraficaCodigosPostales() {
+    const apiUrl = "http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_cp_trabajadores"; // Cambia al endpoint real
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const labels = data.data.map(item => item.codigo_postal);
+                const values = data.data.map(item => item.total);
+
+                renderGraficaCodigosPostales(labels, values);
+            } else {
+                console.error("No se encontraron datos para la gráfica.");
+            }
+        })
+        .catch(error => console.error("Error al cargar la gráfica:", error));
+}
+
+function renderGraficaCodigosPostales(labels, values) {
+    const ctx = document.getElementById('graficaCodigosPostales').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Trabajadores por Código Postal',
+                data: values,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Evita desbordamientos
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+}
+
+
+// Llamar a la función para cargar la gráfica
+document.addEventListener('DOMContentLoaded', cargarGraficaCodigosPostales);
+
+
+function logout() {
+    localStorage.removeItem('token'); // Elimina el token
+    window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Redirige al login
+}
+
+
+
