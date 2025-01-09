@@ -782,13 +782,18 @@
 
         .modal-content {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            height: auto;
-            text-align: center;
-            position: relative;
-            animation: fadeIn 0.3s ease;
+    padding: 20px;
+    padding-top: 50px;
+    border-radius: 10px;
+    width: 80%;
+    max-height: 80vh; /* Limita la altura del modal al 80% del viewport */
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+
         }
 
         .modal-content h2 {
@@ -824,16 +829,20 @@
                 transform: scale(1);
             }
         }
-
-        /*FORMULARIO*/
-        .container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
-            padding: 30px;
-            width: auto;
-            max-width: auto;
-        }
+/*FORMULARIO*/
+.container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+    padding: 30px;
+    width: auto;
+    max-width: auto;
+    max-height: 70vh; /* Altura máxima del formulario */
+    overflow-y: auto; /* Scroll vertical interno */
+    padding-right: 10px; /* Espaciado para evitar superposición con el scroll */
+    scrollbar-width: thin; /* Estilo del scroll (para navegadores compatibles) */
+    scrollbar-color: #faa21b #e0e0e0; /* Colores personalizados del scroll */
+}
 
         /* Stepper */
         .stepper {
@@ -985,8 +994,21 @@
             cursor: pointer;
         }
 
-        .modal2-content .btn:hover {
-            background-color: #0056b3;
+.modal2-content .btn:hover {
+  background-color: #0056b3;
+}
+/*BECAS*/
+.cardBeca {
+            margin-left: 230px;
+            margin-top: -250px;
+        }
+        .beca-img {
+            position: absolute;
+            width: 140px;
+            height: 125px;
+            top: 2px;
+            left: 20px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -1208,136 +1230,355 @@
 
         <div id="tramites-user" class="section hidden">
             <h2>Trámite</h2>
-            <!-- Card -->
-            <div class="card" onclick="toggleModal()">
-                <div class="card-image">
-                    <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
+<!-- Card: Visto Bueno -->
+<div class="cardVisto" onclick="openModal('vistoBueno')">
+<div class="card">
+    <div class="card-image">
+        <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
+    </div>
+    <div class="category">Categoría 1</div>
+    <div class="heading">
+        Visto Bueno - Protección Civil
+        <div class="author">Descripción breve</div>
+    </div>
+</div>
+</div>
+<!-- Modal: Visto Bueno -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('vistoBueno')">X</button>        
+        <!--FORMULARIO-->
+        <div class="container">
+            <div class="stepper">
+                <div class="step active" data-step="1">
+                    <div class="circle">1</div>
+                    <span>Account</span>
                 </div>
-                <div class="category">Categoría 1</div>
-                <div class="heading">
-                    Visto Bueno - Protección Civil
-                    <div class="author">Descripción breve</div>
+                <div class="line"></div>
+                <div class="step" data-step="2">
+                    <div class="circle">2</div>
+                    <span>Profile</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="3">
+                    <div class="circle">3</div>
+                    <span>Address</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="4">
+                    <div class="circle">4</div>
+                    <span>Confirmation</span>
                 </div>
             </div>
+            
+        
+            <form id="stepForm">
+              <!-- Paso 1 -->
+              <div class="form-step active" data-step="1">
+                <h2>Visto Bueno - Protección Civil</h2>
+                <p>Este es un detalle más completo sobre el contenido del card.</p>
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" required>
+                  <span class="error-message">Username is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required>
+                  <span class="error-message">Valid email is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+        
+              <!-- Paso 2 -->
+              <div class="form-step" data-step="2">
+                <h2>Profile Information</h2>
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" name="firstName" required>
+                  <span class="error-message">First name is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" required>
+                  <span class="error-message">Last name is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+        
+              <!-- Paso 3 -->
+              <div class="form-step" data-step="3">
+                <h2>Address</h2>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" id="address" name="address" required>
+                  <span class="error-message">Address is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" required>
+                  <span class="error-message">City is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+        
+              <!-- Paso 4 -->
+              <div class="form-step" data-step="4">
+                <h2>Confirmation</h2>
+                <p>Your form has been submitted successfully!</p>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="submit" class="btn submit">Submit</button>
+                </div>
+              </div>
 
-            <!-- Modal -->
-            <div class="modal" id="modal">
-                <div class="modal-content">
-                    <button class="close-modal" onclick="toggleModal()">X</button>
+              <!--MODAL CLOSE-->
+              <div class="modal2" id="confirmationModal">
+                <div class="modal2-content">
+                  <h2>Trámite Finalizado</h2>
+                  <p>Tus datos han sido enviados exitosamente!</p>
+                  <button id="closeModal2" class="btn">Close</button>
+                </div>
+              </div>
+              
+            </form>
+            <!-- Modal de confirmación -->
+<div class="modal2" id="confirmationModal">
+    <div class="modal2-content">
+        <h2>Trámite Finalizado</h2>
+        <p>Tus datos han sido enviados exitosamente.</p>
+        <button id="closeModal2" class="btn">Cerrar</button>
+    </div>
+</div>
+          </div>
+    </div>
+</div>
+<!-- Modal de Confirmación VistoBueno -->
+<div class="modal2" id="confirmationModalVistoBueno">
+    <div class="modal2-content">
+        <h2>Trámite Finalizado: Visto Bueno</h2>
+        <p>Tus datos para el trámite de Visto Bueno han sido enviados exitosamente.</p>
+        <button id="closeConfirmationVistoBueno" class="btn">Cerrar</button>
+    </div>
+</div>
 
-                    <!--FORMULARIO-->
-                    <div class="container">
-                        <div class="stepper">
-                            <div class="step active" data-step="1">
-                                <div class="circle">1</div>
-                                <span>Account</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="2">
-                                <div class="circle">2</div>
-                                <span>Profile</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="3">
-                                <div class="circle">3</div>
-                                <span>Address</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="4">
-                                <div class="circle">4</div>
-                                <span>Confirmation</span>
-                            </div>
-                        </div>
+<!--*************************************** BECAS *************************************************-->
 
-                        <form id="stepForm">
-                            <!-- Paso 1 -->
-                            <div class="form-step active" data-step="1">
-                                <h2>Visto Bueno - Protección Civil</h2>
-                                <p>Este es un detalle más completo sobre el contenido del card.</p>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" name="username" required>
-                                    <span class="error-message">Username is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" required>
-                                    <span class="error-message">Valid email is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 2 -->
-                            <div class="form-step" data-step="2">
-                                <h2>Profile Information</h2>
-                                <div class="form-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" required>
-                                    <span class="error-message">First name is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" name="lastName" required>
-                                    <span class="error-message">Last name is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 3 -->
-                            <div class="form-step" data-step="3">
-                                <h2>Address</h2>
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" name="address" required>
-                                    <span class="error-message">Address is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="city">City</label>
-                                    <input type="text" id="city" name="city" required>
-                                    <span class="error-message">City is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 4 -->
-                            <div class="form-step" data-step="4">
-                                <h2>Confirmation</h2>
-                                <p>Your form has been submitted successfully!</p>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="submit" class="btn submit">Submit</button>
-                                </div>
-                            </div>
-
-                            <!--MODAL CLOSE-->
-                            <div class="modal2" id="confirmationModal">
-                                <div class="modal2-content">
-                                    <h2>Trámite Finalizado</h2>
-                                    <p>Tus datos han sido enviados exitosamente!</p>
-                                    <button id="closeModal2" class="btn">Close</button>
-                                </div>
-                            </div>
-
-                        </form>
-                        <!-- Modal de confirmación -->
-                        <div class="modal2" id="confirmationModal">
-                            <div class="modal2-content">
-                                <h2>Trámite Finalizado</h2>
-                                <p>Tus datos han sido enviados exitosamente.</p>
-                                <button id="closeModal2" class="btn">Cerrar</button>
-                            </div>
-                        </div>
+<!-- Card: Becas -->
+<div class="cardBeca" onclick="openModal('becas')">
+    <div class="card">
+        <div class="card-image">
+            <img src="images/becas.png" alt="Imagen de Becas" class="beca-img" />
+        </div>
+        <div class="category">Secretaria de Educación Pública</div>
+        <div class="heading">
+            Becas educativas del Municipio de San Juan del Río
+            <div class="author">Apoyo económico al alumnado del sector educativo</div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Becas -->
+<div class="contentBecas">
+<div class="modal" id="modalBecas">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('becas')">X</button>
+        
+        <!--FORMULARIO-->
+        <div class="container">
+            <div class="stepper">
+              <div class="step active" data-step="1">
+                <div class="circle">1</div>
+                <span>Datos de Identificación</span>
+              </div>
+              <div class="line"></div>
+              <div class="step" data-step="2">
+                <div class="circle">2</div>
+                <span>Datos laborales</span>
+              </div>
+              <div class="line"></div>
+              <div class="step" data-step="3">
+                <div class="circle">3</div>
+                <span>Datos académicos</span>
+              </div>
+              <div class="line"></div>
+              <div class="step" data-step="4">
+                <div class="circle">4</div>
+                <span>Otros datos</span>
+              </div>
+              <div class="line"></div>
+              <div class="step" data-step="5">
+                <div class="circle">5</div>
+                <span>Documentos</span>
+              </div>
+              <div class="line"></div>
+              <div class="step" data-step="6">
+                <div class="circle">6</div>
+                <span>Confirmación</span>
+              </div>
+            </div>
+        
+            <form id="stepFormBecas">
+              <!-- Paso 1 -->
+              <div class="form-step active" data-step="1">
+                <h2>Trámite de Becas educativas del Municipio de San Juan del Río</h2>
+                <p>Apoyo económico al alumnado del sector educativo</p>
+                <div class="form-group">
+                </br>
+                </br>
+                  <label for="username">Nombre del estudiante (Apellido paterno, Apellido materno, Nombre)</label>
+                  <input type="text" id="username" name="username" placeholder="Nombre del estudiante (Apellido paterno, Apellido materno, Nombre)" required>
+                  <span class="error-message">El nombre del estudiante es obligatorio</span>
+                </div>
+                <div class="form-group">
+                  <label for="place">Lugar y fecha de nacimiento</label>
+                  <input type="email" id="email" name="email" placeholder="Lugar y fecha de nacimiento" required>
+                  <span class="error-message">Lugar y fecha obligatorios</span>
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad</label>
+                    <input type="email" id="email" name="email" placeholder="Edad" required>
+                    <span class="error-message">Edad obligatoria</span>
+                  </div>
+                <h4>Domicilio del estudiante</h4>
+                <div class="form-group">
+                    <label for="place">Calle</label>
+                    <input type="email" id="email" name="email" placeholder="Calle" required>
+                    <span class="error-message">Lugar y fecha obligatorios</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="place">Lugar y fecha de nacimiento</label>
+                    <input type="email" id="email" name="email" placeholder="Lugar y fecha de nacimiento" required>
+                    <span class="error-message">Lugar y fecha obligatorios</span>
+                  </div>
+                  <div class="form-group">
+                      <label for="edad">Edad</label>
+                      <input type="email" id="email" name="email" placeholder="Edad" required>
+                      <span class="error-message">Edad obligatoria</span>
                     </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn next">Next</button>
                 </div>
-            </div>
+              </div>
+        
+              <!-- Paso 2 -->
+              <div class="form-step" data-step="2">
+                <h2>Profile Information</h2>
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" name="firstName" required>
+                  <span class="error-message">First name is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" required>
+                  <span class="error-message">Last name is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+        
+              <!-- Paso 3 -->
+              <div class="form-step" data-step="3">
+                <h2>Address</h2>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" id="address" name="address" required>
+                  <span class="error-message">Address is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" required>
+                  <span class="error-message">City is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+
+              <!-- Paso 4 -->
+              <div class="form-step" data-step="4">
+                <h2>nPrueba</h2>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" id="address" name="address" required>
+                  <span class="error-message">Address is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" required>
+                  <span class="error-message">City is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+
+              <!-- Paso 5 -->
+              <div class="form-step" data-step="5">
+                <h2>Address</h2>
+                <div class="form-group">
+                  <label for="address">Prueba</label>
+                  <input type="text" id="address" name="address" required>
+                  <span class="error-message">Address is required</span>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" required>
+                  <span class="error-message">City is required</span>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="button" class="btn next">Next</button>
+                </div>
+              </div>
+        
+              <!-- Paso 6 -->
+              <div class="form-step" data-step="6">
+                <h2>Confirmation</h2>
+                <p>Your form has been submitted successfully!</p>
+                <div class="form-navigation">
+                  <button type="button" class="btn prev">Back</button>
+                  <button type="submit" class="btn submit">Submit</button>
+                </div>
+              </div>
+
+              <!--MODAL CLOSE-->
+              <div class="modal2" id="confirmationModal">
+                <div class="modal2-content">
+                  <h2>Trámite Finalizado</h2>
+                  <p>Tus datos han sido enviados exitosamente!</p>
+                  <button id="closeModal2" class="btn">Close</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+    </div>
+</div>
+</div>
+<!-- Modal de Confirmación Becas -->
+<div class="modal2" id="confirmationModalBecas">
+    <div class="modal2-content">
+        <h2>Trámite Finalizado: Becas</h2>
+        <p>Tus datos para el trámite de Becas han sido enviados exitosamente.</p>
+        <button id="closeConfirmationBecas" class="btn">Cerrar</button>
+    </div>
+</div>
+
+            <div class="chart">Chart edfwef1</div>
+            <div class="chart">Chart 2</div>
         </div>
 
         <!-- Sección Usuarios Registrados -->

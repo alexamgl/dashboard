@@ -370,230 +370,131 @@ function saveChanges() {
         .catch(error => console.error('Error:', error));
 }
 
-document.getElementById('manageDocumentsButton').addEventListener('click', () => {
-    document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
-    document.querySelector('.document-card').classList.remove('hidden'); // Muestra la tarjeta de documentos
-});
-
-document.getElementById('cancelDocumentsButton').addEventListener('click', () => {
-    document.querySelector('.document-card').classList.add('hidden'); // Oculta la tarjeta de documentos
-    document.querySelector('.user-card').classList.remove('hidden'); // Muestra la tarjeta de información
-});
-
-// Maneja el cambio de archivo
-function handleFileChange(event, fieldId) {
-    const file = event.target.files[0];
-    const fileInfo = document.getElementById(`${fieldId}-info`);
-    const progressBar = document.getElementById(`${fieldId}-progress`);
-
-    if (file) {
-        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-        if (sizeInMB > 3) {
-            fileInfo.textContent = `El archivo es demasiado grande (${sizeInMB} MB). Máximo permitido: 3 MB.`;
-            fileInfo.style.color = 'red';
-            progressBar.querySelector('.progress').style.width = '0%';
-            return;
-        }
-
-        fileInfo.textContent = `Archivo seleccionado: ${file.name} (${sizeInMB} MB)`;
-        fileInfo.style.color = 'green';
-    } else {
-        fileInfo.textContent = '';
-        progressBar.querySelector('.progress').style.width = '0%';
+//FORMULARIOS
+// Manejo de apertura y cierre de modales
+function openModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'flex';
     }
 }
 
-function handleFileChange(event, fieldId) {
-    const file = event.target.files[0];
-    const fileInfo = document.getElementById(`${fieldId}-info`);
-    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
-    const uploadButton = document.getElementById(`${fieldId}-upload`);
-
-    if (file) {
-        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-        if (sizeInMB > 3) {
-            fileInfo.textContent = `(${sizeInMB} MB) - Tamaño máximo permitido: 3 MB`;
-            fileInfo.style.color = 'red';
-            progressBar.style.width = '0%';
-            uploadButton.disabled = true;
-            return;
-        }
-
-        fileInfo.textContent = `${file.name} (${sizeInMB} MB)`;
-        fileInfo.style.color = 'green';
-        uploadButton.disabled = false;
-    } else {
-        fileInfo.textContent = '';
-        progressBar.style.width = '0%';
-        uploadButton.disabled = true;
+function closeModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'none';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'none';
     }
 }
 
-function uploadDocument(fieldId) {
-    const fileInput = document.getElementById(fieldId);
-    const file = fileInput.files[0];
-    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
-
-    if (!file) {
-        alert('Por favor, selecciona un archivo válido.');
-        return;
+// Función para mostrar el modal de confirmación
+function showConfirmationModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('confirmationModalVistoBueno').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('confirmationModalBecas').style.display = 'flex';
     }
-
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = `${progress}%`;
-
-        if (progress >= 100) {
-            clearInterval(interval);
-
-            // Simulación de subida
-            alert(`${fieldId.toUpperCase()} subido correctamente.`);
-        }
-    }, 200);
 }
 
+// Configuración de botones Next y Prev
+function setupStepNavigation(formId) {
+    const formContainer = document.getElementById(formId);
+    let currentStep = 1;
 
+    const nextButtons = formContainer.querySelectorAll('.next');
+    const prevButtons = formContainer.querySelectorAll('.prev');
 
-document.addEventListener('DOMContentLoaded', () => {
-    cargarGraficaSecretarias();
-});
+    nextButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const currentFormStep = formContainer.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const inputs = currentFormStep.querySelectorAll('input');
 
-function cargarGraficaSecretarias() {
-    const token = localStorage.getItem('token'); // Asumiendo que necesitas autenticar
-    const url = 'http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_dependencias'; // Cambia por tu endpoint
+            let valid = true;
+            inputs.forEach((input) => {
+                const errorMessage = input.nextElementSibling;
+                if (!input.checkValidity()) {
+                    valid = false;
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
 
-    fetch(url, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            const labels = data.data.map(item => item.secretaria);
-            const values = data.data.map(item => item.total);
+            if (valid) {
+                currentStep++;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
 
-            renderGraficaDependencias(labels, values);
+    prevButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
+}
+
+// Actualiza la UI de los pasos
+function updateStepUI(formContainer, currentStep) {
+    const steps = formContainer.querySelectorAll('.step'); // Pasos del stepper
+    const formSteps = formContainer.querySelectorAll('.form-step'); // Contenido de los pasos
+
+    steps.forEach((step, index) => {
+        const circle = step.querySelector('.circle');
+        if (index + 1 < currentStep) {
+            // Pasos anteriores
+            step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b'; // Colorear círculo
+        } else if (index + 1 === currentStep) {
+            // Paso actual
+            step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b';
         } else {
-            console.error('Error al obtener los datos de la gráfica:', data.message);
+            // Pasos futuros
+            step.classList.remove('active');
+            circle.style.backgroundColor = '#e0e0e0';
         }
-    })
-    .catch(error => {
-        console.error('Error al cargar la gráfica:', error);
     });
-}
 
-let grafica;
-function renderGraficaDependencias(labels, values) {
-    const ctx = document.getElementById('graficaDependencias').getContext('2d');
-
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: values,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(153, 102, 255, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Evita desbordamientos
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            }
+    formSteps.forEach((formStep, index) => {
+        if (index + 1 === currentStep) {
+            formStep.classList.add('active'); // Muestra el paso actual
+        } else {
+            formStep.classList.remove('active'); // Oculta los pasos no actuales
         }
     });
 }
 
+// Configuración de formularios
+setupStepNavigation('stepForm'); // Configuración para "Visto Bueno"
+setupStepNavigation('stepFormBecas'); // Configuración para "Becas"
 
+// Manejo de envío de formularios
+const formVistoBueno = document.getElementById('stepForm');
+const formBecas = document.getElementById('stepFormBecas');
 
-// Escuchar cambios en el tamaño de la ventana
-window.addEventListener('resize', () => {
-    if (grafica) {
-        grafica.resize(); // Redimensionar la gráfica
-    }
+formVistoBueno.addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeModal('vistoBueno'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('vistoBueno'), 300); // Mostrar el modal de confirmación
 });
 
-function cargarGraficaCodigosPostales() {
-    const apiUrl = "http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_cp_trabajadores"; // Cambia al endpoint real
+formBecas.addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeModal('becas'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('becas'), 300); // Mostrar el modal de confirmación
+});
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const labels = data.data.map(item => item.codigo_postal);
-                const values = data.data.map(item => item.total);
+// Cerrar los modales de confirmación
+document.getElementById('closeConfirmationVistoBueno').addEventListener('click', () => {
+    document.getElementById('confirmationModalVistoBueno').style.display = 'none';
+});
 
-                renderGraficaCodigosPostales(labels, values);
-            } else {
-                console.error("No se encontraron datos para la gráfica.");
-            }
-        })
-        .catch(error => console.error("Error al cargar la gráfica:", error));
-}
-
-function renderGraficaCodigosPostales(labels, values) {
-    const ctx = document.getElementById('graficaCodigosPostales').getContext('2d');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Trabajadores por Código Postal',
-                data: values,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Evita desbordamientos
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            }
-        }
-    });
-}
-
-
-// Llamar a la función para cargar la gráfica
-document.addEventListener('DOMContentLoaded', cargarGraficaCodigosPostales);
-
-
-function logout() {
-    localStorage.removeItem('token'); // Elimina el token
-    window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Redirige al login
-}
-
-
+document.getElementById('closeConfirmationBecas').addEventListener('click', () => {
+    document.getElementById('confirmationModalBecas').style.display = 'none';
+});
 
