@@ -4,7 +4,7 @@ console.log("Archivo JavaScript cargado");
 let userData = {}; // Objeto global para almacenar los datos del usuario
 
 document.addEventListener('DOMContentLoaded', () => {
-   
+
 });
 
 document.addEventListener('DOMContentLoaded', loadCiudadanos);
@@ -349,5 +349,95 @@ function saveChanges() {
         .catch(error => console.error('Error:', error));
 }
 
+/*FORMULARIO*/
+const steps = document.querySelectorAll('.step');
+const formSteps = document.querySelectorAll('.form-step');
+const nextButtons = document.querySelectorAll('.next');
+const prevButtons = document.querySelectorAll('.prev');
+const form = document.getElementById('stepForm');
 
+let currentStep = 1;
 
+// Update the stepper UI
+function updateStepUI() {
+    steps.forEach((step, index) => {
+        if (index + 1 === currentStep) {
+            step.classList.add('active');
+        } else {
+            step.classList.remove('active');
+        }
+    });
+
+    formSteps.forEach((formStep, index) => {
+        if (index + 1 === currentStep) {
+            formStep.classList.add('active');
+        } else {
+            formStep.classList.remove('active');
+        }
+    });
+}
+
+// Validate the current step
+function validateStep() {
+    const currentFormStep = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+    const inputs = currentFormStep.querySelectorAll('input');
+    let valid = true;
+
+    inputs.forEach(input => {
+        const errorMessage = input.nextElementSibling;
+        if (!input.checkValidity()) {
+            valid = false;
+            errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    });
+
+    return valid;
+}
+
+// Next button event
+nextButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (validateStep()) {
+            currentStep++;
+            updateStepUI();
+        }
+    });
+});
+
+// Previous button event
+prevButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        currentStep--;
+        updateStepUI();
+    });
+});
+
+// Form submission
+// Obtener referencias al modal y botón de cierre
+const confirmationModal = document.getElementById('confirmationModal');
+const closeConfirmationModalButton = document.getElementById('closeModal2');
+
+// Mostrar el modal de confirmación
+function showConfirmationModal() {
+    confirmationModal.style.display = 'flex';
+}
+
+// Cerrar el modal de confirmación
+closeConfirmationModalButton.addEventListener('click', () => {
+    confirmationModal.style.display = 'none';
+});
+
+// Ocultar el modal al hacer clic fuera de él
+window.addEventListener('click', (event) => {
+    if (event.target === confirmationModal) {
+        confirmationModal.style.display = 'none';
+    }
+});
+
+// Actualizar el evento de envío del formulario
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    showConfirmationModal();
+});
