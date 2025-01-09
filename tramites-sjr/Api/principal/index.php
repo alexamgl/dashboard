@@ -135,7 +135,7 @@ if ($entity === 'usuarios') {
 }elseif($entity === 'ciudadanos'){
     $controller = new CiudadanoController();
 }elseif($entity === 'grafica_dependencias'){
-    $controller = new GraficaTrabajadoresDependencia();
+    $controller = new GraficaDependenciasController();
 }elseif($entity === 'usuario_exp'){
     $controller = new UsuarioExpController();
 }elseif($entity === 'pagos_tramites'){
