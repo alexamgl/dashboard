@@ -360,309 +360,334 @@
         }
         /*CARD 1*/
 /* Estilo del Card */
-.card {
-            width: 190px;
-            background: white;
-            padding: 0.4em;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
+.section {
+        margin: 20px;
+        padding: 20px;
+    }
 
-        .card:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+    #tramites-user {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .card-image {
-            background-color: rgb(236, 236, 236);
-            width: 100%;
-            height: 130px;
-            border-radius: 6px 6px 0 0;
-            position: relative;
-            overflow: hidden;
-        }
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px; /* Espacio reducido entre los cards */
+        width: 100%;
+        max-width: 1200px;
+    }
 
-        .card-image:hover {
-            transform: scale(0.98);
-            transition: transform 0.3s ease;
-        }
+    /* Card Styles */
+    .card {
+        width: 180px;
+        height: auto; 
+        background: white;
+        padding: 0.4em;
+        border-radius: 6px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
 
-        .vbueno {
-            position: absolute;
-            width: 177px;
-            height: 129px;
-            border-radius: 5px;
-        }
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-        .category {
-            text-transform: uppercase;
-            font-size: 0.7em;
-            font-weight: 600;
-            color: rgb(63, 121, 230);
-            padding: 10px 7px 0;
-        }
+    .card-image {
+        background-color: rgb(236, 236, 236);
+        width: 100%;
+        height: 160px; /* Altura ajustada proporcionalmente */
+        border-radius: 6px 6px 0 0;
+        position: relative;
+        overflow: hidden;
+    }
 
-        .category:hover {
-            cursor: pointer;
-        }
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        .heading {
-            font-weight: 600;
-            color: rgb(88, 87, 87);
-            padding: 7px;
-        }
+    .vbueno, .beca-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        .heading:hover {
-            cursor: pointer;
-        }
+    .category {
+        text-transform: uppercase;
+        font-size: 0.7em;
+        font-weight: 600;
+        color: rgb(63, 121, 230);
+        padding: 10px 7px 0;
+    }
 
-        .author {
-            color: gray;
-            font-weight: 400;
-            font-size: 11px;
-            padding-top: 20px;
-        }
+    .heading {
+        font-weight: 600;
+        color: rgb(88, 87, 87);
+        padding: 7px;
+    }
 
-        /* Estilo del Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            justify-content: center;
+    .author {
+        color: gray;
+        font-weight: 400;
+        font-size: 11px;
+        padding-top: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .cards-container {
+            flex-direction: column;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
         }
 
-        .modal-content {
-            background: white;
-    padding: 20px;
-    padding-top: 50px;
-    border-radius: 10px;
-    width: 80%;
-    max-height: 80vh; /* Limita la altura del modal al 80% del viewport */
-    text-align: center;
-    position: relative;
-    animation: fadeIn 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-
-
+        .card {
+            max-width: 90%;
         }
+    }
 
-        .modal-content h2 {
-            margin-top: 0;
+    /* Estilo del Modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px;
+        padding-top: 50px;
+        border-radius: 10px;
+        width: 80%;
+        max-height: 80vh; /* Limita la altura del modal al 80% del viewport */
+        text-align: center;
+        position: relative;
+        animation: fadeIn 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+    }
+
+    .modal-content p {
+        color: gray;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    /* Animación del Modal */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
         }
-
-        .modal-content p {
-            color: gray;
+        to {
+            opacity: 1;
+            transform: scale(1);
         }
+    }
 
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    /*FORMULARIO*/
+    .container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+        padding: 30px;
+        width: auto;
+        max-width: auto;
+        max-height: 70vh; /* Altura máxima del formulario */
+        overflow-y: auto; /* Scroll vertical interno */
+        padding-right: 10px; /* Espaciado para evitar superposición con el scroll */
+        scrollbar-width: thin; /* Estilo del scroll (para navegadores compatibles) */
+        scrollbar-color: #faa21b #e0e0e0; /* Colores personalizados del scroll */
+    }
 
-        /* Animación del Modal */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-/*FORMULARIO*/
-.container {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
-    padding: 30px;
-    width: auto;
-    max-width: auto;
-    max-height: 70vh; /* Altura máxima del formulario */
-    overflow-y: auto; /* Scroll vertical interno */
-    padding-right: 10px; /* Espaciado para evitar superposición con el scroll */
-    scrollbar-width: thin; /* Estilo del scroll (para navegadores compatibles) */
-    scrollbar-color: #faa21b #e0e0e0; /* Colores personalizados del scroll */
-}
+    /* Stepper */
+    .stepper {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
 
-/* Stepper */
-.stepper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
+    .step .circle {
+        background-color: #e0e0e0;
+        color: #fff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
 
-.step .circle {
-  background-color: #e0e0e0;
-  color: #fff;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
+    .step.active .circle {
+        background-color: #faa21b;
+    }
 
-.step.active .circle {
-  background-color: #faa21b;
-}
+    .step span {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #888;
+    }
 
-.step span {
-  margin-top: 5px;
-  font-size: 12px;
-  color: #888;
-}
+    .line {
+        flex: 1;
+        height: 2px;
+        background-color: #e0e0e0;
+        align-self: center;
+        margin: 0 10px;
+    }
 
-.line {
-  flex: 1;
-  height: 2px;
-  background-color: #e0e0e0;
-  align-self: center;
-  margin: 0 10px;
-}
+    .step.active ~ .line {
+        background-color: #faa21b;
+    }
 
-.step.active ~ .line {
-  background-color: #faa21b;
-}
+    /* Form Steps */
+    .form-step {
+        display: none;
+    }
 
-/* Form Steps */
-.form-step {
-  display: none;
-}
+    .form-step.active {
+        display: block;
+    }
 
-.form-step.active {
-  display: block;
-}
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
 
-.form-group {
-  margin-bottom: 20px;
-  text-align: left;
-}
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        display: block;
+    }
 
-.form-group label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  display: block;
-}
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .error-message {
+        font-size: 12px;
+        color: red;
+        display: none;
+    }
 
-.error-message {
-  font-size: 12px;
-  color: red;
-  display: none;
-}
+    .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
 
-.form-navigation {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+    .btn.next, .btn.submit {
+        background-color: #faa21b;
+        color: #fff;
+    }
 
-.btn.next, .btn.submit {
-  background-color: #faa21b;
-  color: #fff;
-}
+    .btn.prev {
+        background-color: #e0e0e0;
+        color: #000;
+    }
 
-.btn.prev {
-  background-color: #e0e0e0;
-  color: #000;
-}
-/*MODAL CLOSE*/
-.modal2 {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    /*MODAL CLOSE*/
+    .modal2 {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
 
+    .modal2-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
 
-.modal2-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 400px;
-  width: 100%;  
-}
-    
-.modal2-content h2 {
-  margin-top: 0;
-}
+    .modal2-content h2 {
+        margin-top: 0;
+    }
 
-.modal2-content p {
-  margin: 10px 0 20px;
-}
+    .modal2-content p {
+        margin: 10px 0 20px;
+    }
 
-.modal2-content .btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
+    .modal2-content .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
 
-.modal2-content .btn:hover {
-  background-color: #0056b3;
-}
-/*BECAS*/
-.cardBeca {
-            margin-left: 230px;
-            margin-top: -250px;
-        }
-        .beca-img {
-            position: absolute;
-            width: 140px;
-            height: 125px;
-            top: 2px;
-            left: 20px;
-            border-radius: 5px;
-        }
+    .modal2-content .btn:hover {
+        background-color: #0056b3;
+    }
+
+    /*BECAS*/
+    .cardBeca {
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+    .beca-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
     </style>
 </head>
 
@@ -713,20 +738,21 @@
         </div>
 
         <div id="tramites-user" class="section hidden">
-            <h2>Trámite</h2>
-<!-- Card: Visto Bueno -->
-<div class="cardVisto" onclick="openModal('vistoBueno')">
-<div class="card">
-    <div class="card-image">
-        <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
-    </div>
-    <div class="category">Categoría 1</div>
-    <div class="heading">
-        Visto Bueno - Protección Civil
-        <div class="author">Descripción breve</div>
-    </div>
-</div>
-</div>
+          <h2>Trámites</h2>
+          <div class="cards-container">
+              <!-- Card: Visto Bueno -->
+              <div class="cardVisto" onclick="openModal('vistoBueno')">
+                  <div class="card">
+                      <div class="card-image">
+                          <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
+                      </div>
+                      <div class="category">Categoría 1</div>
+                      <div class="heading">
+                          Visto Bueno - Protección Civil
+                          <div class="author">Descripción breve</div>
+                      </div>
+                  </div>
+              </div>
 <!-- Modal: Visto Bueno -->
 <div class="modal" id="modal">
     <div class="modal-content">
@@ -856,19 +882,21 @@
 
 <!--*************************************** BECAS *************************************************-->
 
-<!-- Card: Becas -->
 <div class="cardBeca" onclick="openModal('becas')">
-    <div class="card">
-        <div class="card-image">
-            <img src="images/becas.png" alt="Imagen de Becas" class="beca-img" />
-        </div>
-        <div class="category">Secretaria de Educación Pública</div>
-        <div class="heading">
-            Becas educativas del Municipio de San Juan del Río
-            <div class="author">Apoyo económico al alumnado del sector educativo</div>
-        </div>
-    </div>
+  <div class="card">
+      <div class="card-image">
+          <img src="images/becas.png" alt="Imagen de Becas" class="beca-img" />
+      </div>
+      <div class="category">Secretaría de Educación Pública</div>
+      <div class="heading">
+          Becas educativas del Municipio de San Juan del Río
+          <div class="author">Apoyo económico al alumnado del sector educativo</div>
+      </div>
+  </div>
 </div>
+</div>
+</div>
+
 <!-- Modal: Becas -->
 <div class="contentBecas">
 <div class="modal" id="modalBecas">
@@ -1060,9 +1088,6 @@
         <button id="closeConfirmationBecas" class="btn">Cerrar</button>
     </div>
 </div>
-
-            <div class="chart">Chart edfwef1</div>
-            <div class="chart">Chart 2</div>
         </div>
 
         <!-- Sección Usuarios Registrados -->
