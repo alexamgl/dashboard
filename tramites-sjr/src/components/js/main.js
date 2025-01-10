@@ -349,95 +349,131 @@ function saveChanges() {
         .catch(error => console.error('Error:', error));
 }
 
-/*FORMULARIO*/
-const steps = document.querySelectorAll('.step');
-const formSteps = document.querySelectorAll('.form-step');
-const nextButtons = document.querySelectorAll('.next');
-const prevButtons = document.querySelectorAll('.prev');
-const form = document.getElementById('stepForm');
+//FORMULARIOS
+// Manejo de apertura y cierre de modales
+function openModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'flex';
+    }
+}
 
-let currentStep = 1;
+function closeModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'none';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'none';
+    }
+}
 
-// Update the stepper UI
-function updateStepUI() {
+// Función para mostrar el modal de confirmación
+function showConfirmationModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('confirmationModalVistoBueno').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('confirmationModalBecas').style.display = 'flex';
+    }
+}
+
+// Configuración de botones Next y Prev
+function setupStepNavigation(formId) {
+    const formContainer = document.getElementById(formId);
+    let currentStep = 1;
+
+    const nextButtons = formContainer.querySelectorAll('.next');
+    const prevButtons = formContainer.querySelectorAll('.prev');
+
+    nextButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const currentFormStep = formContainer.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const inputs = currentFormStep.querySelectorAll('input');
+
+            let valid = true;
+            inputs.forEach((input) => {
+                const errorMessage = input.nextElementSibling;
+                if (!input.checkValidity()) {
+                    valid = false;
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
+
+            if (valid) {
+                currentStep++;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
+
+    prevButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
+}
+
+// Actualiza la UI de los pasos
+function updateStepUI(formContainer, currentStep) {
+    const steps = formContainer.querySelectorAll('.step'); // Pasos del stepper
+    const formSteps = formContainer.querySelectorAll('.form-step'); // Contenido de los pasos
+
     steps.forEach((step, index) => {
-        if (index + 1 === currentStep) {
+        const circle = step.querySelector('.circle');
+        if (index + 1 < currentStep) {
+            // Pasos anteriores
             step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b'; // Colorear círculo
+        } else if (index + 1 === currentStep) {
+            // Paso actual
+            step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b';
         } else {
+            // Pasos futuros
             step.classList.remove('active');
+            circle.style.backgroundColor = '#e0e0e0';
         }
     });
 
     formSteps.forEach((formStep, index) => {
         if (index + 1 === currentStep) {
-            formStep.classList.add('active');
+            formStep.classList.add('active'); // Muestra el paso actual
         } else {
-            formStep.classList.remove('active');
+            formStep.classList.remove('active'); // Oculta los pasos no actuales
         }
     });
 }
 
-// Validate the current step
-function validateStep() {
-    const currentFormStep = document.querySelector(`.form-step[data-step="${currentStep}"]`);
-    const inputs = currentFormStep.querySelectorAll('input');
-    let valid = true;
+// Configuración de formularios
+setupStepNavigation('stepForm'); // Configuración para "Visto Bueno"
+setupStepNavigation('stepFormBecas'); // Configuración para "Becas"
 
-    inputs.forEach(input => {
-        const errorMessage = input.nextElementSibling;
-        if (!input.checkValidity()) {
-            valid = false;
-            errorMessage.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-        }
-    });
+// Manejo de envío de formularios
+const formVistoBueno = document.getElementById('stepForm');
+const formBecas = document.getElementById('stepFormBecas');
 
-    return valid;
-}
-
-// Next button event
-nextButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        if (validateStep()) {
-            currentStep++;
-            updateStepUI();
-        }
-    });
-});
-
-// Previous button event
-prevButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        currentStep--;
-        updateStepUI();
-    });
-});
-
-// Form submission
-// Obtener referencias al modal y botón de cierre
-const confirmationModal = document.getElementById('confirmationModal');
-const closeConfirmationModalButton = document.getElementById('closeModal2');
-
-// Mostrar el modal de confirmación
-function showConfirmationModal() {
-    confirmationModal.style.display = 'flex';
-}
-
-// Cerrar el modal de confirmación
-closeConfirmationModalButton.addEventListener('click', () => {
-    confirmationModal.style.display = 'none';
-});
-
-// Ocultar el modal al hacer clic fuera de él
-window.addEventListener('click', (event) => {
-    if (event.target === confirmationModal) {
-        confirmationModal.style.display = 'none';
-    }
-});
-
-// Actualizar el evento de envío del formulario
-form.addEventListener('submit', (e) => {
+formVistoBueno.addEventListener('submit', (e) => {
     e.preventDefault();
-    showConfirmationModal();
+    closeModal('vistoBueno'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('vistoBueno'), 300); // Mostrar el modal de confirmación
 });
+
+formBecas.addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeModal('becas'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('becas'), 300); // Mostrar el modal de confirmación
+});
+
+// Cerrar los modales de confirmación
+document.getElementById('closeConfirmationVistoBueno').addEventListener('click', () => {
+    document.getElementById('confirmationModalVistoBueno').style.display = 'none';
+});
+
+document.getElementById('closeConfirmationBecas').addEventListener('click', () => {
+    document.getElementById('confirmationModalBecas').style.display = 'none';
+});
+
