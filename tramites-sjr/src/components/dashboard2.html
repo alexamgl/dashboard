@@ -2,40 +2,39 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <style>
-        /* Estilos generales */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background-color: #00b2e2;
+      /* Light Blue Background */
+    }
 
-        .sidebar {
-            width: 250px;
-            background-color: #0b3b60;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            color: white;
-        }
-
-        .sidebar.collapsed {
-            width: 70px;
-        }
+    .sidebar {
+      width: 250px;
+      background-color: #0b3b60;
+      /* Dark Blue Sidebar */
+      color: #fff;
+      overflow: auto;
+      transition: width 0.5s ease;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
 
     .sidebar.collapsed {
       width: 70px;
@@ -59,10 +58,10 @@
       max-width: 100%;
     }
 
-        .sidebar.collapsed .header img {
-            content: url('palomanaranja.png');
-            /* Replace with the collapsed image */
-        }
+    .sidebar.collapsed .header img {
+      content: url('logo_municipio_2024.png');
+      /* Replace with the collapsed image */
+    }
 
     .sidebar .nav {
       list-style: none;
@@ -128,31 +127,39 @@
       right: 0;
     }
 
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            transition: margin-top 0.3s ease;
-        }
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      background-color: #f8f9fa;
+      /* Neutral Background */
+      margin-left: 250px;
+      /* Adjust for sidebar width */
+      margin-top: 70px;
+      /* Adjust for top-bar height */
+      transition: margin-left 0.5s ease;
+    }
 
-        .content.adjusted {
-            margin-left: 70px;
-        }
+    .content.adjusted {
+      margin-left: 70px;
+      /* Adjust for collapsed sidebar */
+    }
 
-        .top-bar {
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 250px;
-            width: calc(100% - 250px);
-            height: 70px;
-            background-color: #0076aa;
-            color: white;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 1000;
-        }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #0076aa;
+      /* Medium Blue Top Bar */
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 250px;
+      width: calc(100% - 250px);
+      height: 70px;
+      transition: left 0.5s ease, width 0.5s ease;
+      z-index: 1000;
+    }
 
     .top-bar.adjusted {
       left: 70px;
@@ -263,454 +270,129 @@
       background: #e1f5fe;
     }
 
-        table tr:nth-child(even) td {
-            background: #f1f1f1;
-        }
+    table tr:nth-child(even) td {
+      background: #f1f1f1;
+    }
 
-        .filters-container {
-            position: fixed;
-            top: 70px;
-            /* Debajo del top-bar */
-            left: 250px;
-            width: calc(100% - 250px);
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            z-index: 900;
-
-        }
-
-        .filters-container.adjusted {
-            left: 70px;
-            width: calc(100% - 70px);
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .filters>div {
-            flex: 1 1 calc(33.33% - 20px);
-            min-width: 200px;
-        }
-
-        .filters input,
-        .filters select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #666;
-            text-align: left;
-        }
-
-        .btn-refresh {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #0076aa;
-            color: #fff;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .btn-refresh:hover {
-            background-color: #005f8c;
-        }
-
-        /* General */
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            color: #0076aa;
-            margin-bottom: 20px;
-        }
-
-        /* General */
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            color: #0076aa;
-            margin-bottom: 20px;
-        }
-
-        .profile-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Tarjetas */
-        .user-card,
-        .edit-card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 100%;
-            /* Una sola columna */
-            box-sizing: border-box;
-        }
-
-        .user-card h3,
-        .edit-card h3 {
-            margin-bottom: 15px;
-            font-size: 20px;
-            color: #333;
-            border-bottom: 2px solid #0076aa;
-            padding-bottom: 5px;
-        }
-
-        .user-card:hover,
-        .edit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Información del usuario */
-        .user-info p {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        .user-info p strong {
-            color: #0076aa;
-        }
-
-        .user-info-top {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-        }
-
-        #user-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        #user-role {
-            font-size: 14px;
-            color: #ffd700;
-            /* Amarillo dorado */
-        }
+    .filters {
+      display: grid;
+      /* Diseño en cuadrícula */
+      grid-template-columns: repeat(3, 1fr);
+      /* 3 columnas */
+      gap: 20px;
+      /* Espaciado entre filtros */
+    }
 
 
-        /* Formulario */
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .filters>div {
+      flex: 1 1 200px;
+      /* Tamaño mínimo de 200px */
+      max-width: 300px;
+      /* Tamaño máximo de 300px */
+    }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            color: #0076aa;
-            margin-bottom: 5px;
-        }
+    .filters input,
+    .filters select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    .filters label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
+    }
 
-        /* Botón Editar */
-        .btn-edit {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ffa500;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 15px;
-        }
-
-        .btn-edit:hover {
-            background-color: #cc8400;
-        }
-
-        /* Botones del formulario */
-        .btn-save {
-            padding: 10px 20px;
-            background-color: #0076aa;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-right: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-save:hover {
-            background-color: #005f8c;
-        }
-
-        /* Responsividad */
-        @media (max-width: 768px) {
-
-            .user-card,
-            .edit-card {
-                width: 100%;
-                /* Mantiene una sola columna en pantallas pequeñas */
-            }
-        }
-
-        /* Contenedor de documentos */
-        .document-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
-        }
-
-        .document-item {
-            flex: 1 1 calc(50% - 20px);
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .document-item label {
-            font-weight: bold;
-            color: #0076aa;
-            margin-bottom: 5px;
-        }
-
-        .file-input-wrapper {
-            width: 100%;
-        }
-
-        .btn-select-file {
-            display: inline-block;
-            background-color: #0076aa;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .btn-select-file:hover {
-            background-color: #005f8c;
-        }
-
-        .file-info {
-            font-size: 14px;
-            color: #333;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-bar .progress {
-            height: 100%;
-            background-color: #0076aa;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .btn-upload {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: not-allowed;
-            /* Estado deshabilitado */
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-upload:enabled {
-            cursor: pointer;
-            background-color: #218838;
-        }
-
-        .btn-upload:enabled:hover {
-            background-color: #1e7e34;
-        }
-
-        .btn-cancel {
-            margin-top: 20px;
-            /* Mayor separación */
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-cancel:hover {
-            background-color: #c82333;
-        }
-
-        /* Responsividad */
-        @media (max-width: 768px) {
-            .document-item {
-                flex: 1 1 100%;
-                /* Una columna */
-            }
-        }
+    .filters-container {
+      width: calc(100% - 250px);
+      /* Igual al top-bar */
+      margin-left: 250px;
+      /* Igual al top-bar */
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
 
-        /* Botón de Cerrar Sesión */
-        .logout {
-            position: absolute;
-            bottom: 20px;
-            /* Más espacio en la parte inferior */
-            width: calc(100% - 32px);
-            /* Ajusta al ancho del sidebar */
-            margin: 0 16px;
-            /* Margen interno */
-            padding: 12px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-radius: 8px;
-            /* Igual que otros botones */
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    @media (max-width: 1024px) {
+      .filters {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columnas */
+      }
+    }
 
-        .logout:hover {
-            background-color: #ff4d4d;
-            /* Rojo claro al pasar el cursor */
-            color: white;
-        }
-
-        .logout .indicator {
-            background-color: #ff0000;
-            /* Indicador rojo */
-            height: 40px;
-            /* Altura igual a otros indicadores */
-            border-radius: 0 5px 5px 0;
-        }
-
-        .sidebar.collapsed .logout {
-            justify-content: center;
-            text-align: center;
-            padding: 12px 5px;
-        }
-
-        .sidebar.collapsed .logout span {
-            display: none;
-        }
-
-        .logout i {
-            color: white;
-            /* Ícono blanco por defecto */
-        }
-
-        .logout:hover i {
-            color: white;
-            /* Ícono blanco al pasar el cursor */
-        }
-
-        .chart-item {
-            flex: 1 1 calc(50% - 20px);
-            /* Ocupa el 50% del ancho en pantallas grandes */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            /* Máximo ancho de cada gráfica */
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        .chart-item canvas {
-            width: 100% !important;
-            /* Asegura que el canvas nunca exceda el contenedor */
-            max-height: 300px;
-            /* Limita la altura máxima */
-            height: auto;
-            /* Ajusta la altura automáticamente */
-        }
-
-        .charts-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .chart-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #0076aa;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        canvas {
-            width: 100% !important;
-            height: auto !important;
-            max-height: 100%;
-            /* Limita la altura del canvas al contenedor */
-            max-width: 100%;
-            /* Limita el ancho del canvas al contenedor */
-        }
+    @media (max-width: 769px) {
+      .filters {
+        grid-template-columns: repeat(1, 1fr);
+        /* 1 columna */
+      }
+    }
 
 
-        @media (max-width: 768px) {
-            .chart-item {
-                flex: 1 1 100%;
-                /* Ocupa el 100% del ancho en pantallas pequeñas */
-                max-width: none;
-                /* Permite ocupar todo el ancho */
-            }
+    .results-count {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #666;
+      text-align: left;
+    }
 
-            .charts-container {
-                flex-direction: column;
-                /* Cambia a columna en pantallas pequeñas */
-            }
-        }
+    .btn-refresh {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #0076aa;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
 
-        /*CARD 1*/
-        /* Estilo del Card */
-        .card {
-            width: 190px;
-            background: white;
-            padding: 0.4em;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
+    .btn-refresh:hover {
+      background-color: #005f8c;
+    }
+
+    /*CARD 1*/
+    /* Estilo del Card */
+    .section {
+      margin: 20px;
+      padding: 20px;
+    }
+
+    #tramites-user {
+
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      /* Espacio reducido entre los cards */
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    /* Card Styles */
+    .card {
+      width: 180px;
+      height: auto;
+      background: white;
+      padding: 0.4em;
+      border-radius: 6px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
 
     .card:hover {
       transform: scale(1.05);
@@ -820,532 +502,571 @@
       font-size: 14px;
     }
 
-        /* Animación del Modal */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
+    /* Animación del Modal */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-        /*FORMULARIO*/
-        .container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
-            padding: 30px;
-            width: auto;
-            max-width: auto;
-        }
+    /*FORMULARIO*/
+    .container {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+      padding: 30px;
+      width: auto;
+      max-width: auto;
+      max-height: 70vh;
+      /* Altura máxima del formulario */
+      overflow-y: auto;
+      /* Scroll vertical interno */
+      padding-right: 10px;
+      /* Espaciado para evitar superposición con el scroll */
+      scrollbar-width: thin;
+      /* Estilo del scroll (para navegadores compatibles) */
+      scrollbar-color: #faa21b #e0e0e0;
+      /* Colores personalizados del scroll */
+    }
 
-        /* Stepper */
-        .stepper {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
+    /* Stepper */
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
 
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
 
-        .step .circle {
-            background-color: #e0e0e0;
-            color: #fff;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
+    .step .circle {
+      background-color: #e0e0e0;
+      color: #fff;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .line {
+      flex: 1;
+      height: 2px;
+      background-color: #e0e0e0;
+      align-self: center;
+      margin: 0 10px;
+    }
 
-        .step.active .circle {
-            background-color: #faa21b;
-        }
+    .step.active~.line {
+      background-color: #faa21b;
+    }
 
-        .step span {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #888;
-        }
+   /* Estilos para pasos activos */
+   .form-step {
+    display: none; /* Ocultar pasos por defecto */
+}
 
-        .line {
-            flex: 1;
-            height: 2px;
-            background-color: #e0e0e0;
-            align-self: center;
-            margin: 0 10px;
-        }
+.form-step.active {
+    display: block; /* Mostrar solo el paso activo */
+}
 
-        .step.active~.line {
-            background-color: #faa21b;
-        }
+.step.active .circle {
+    background-color: #faa21b; /* Color del paso activo */
+    color: #fff;
+}
 
-        /* Form Steps */
-        .form-step {
-            display: none;
-        }
+.step.active span {
+    font-weight: bold;
+}
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
 
-        .form-step.active {
-            display: block;
-        }
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-        .form-group label {
-            font-size: 14px;
-            margin-bottom: 5px;
-            display: block;
-        }
+    .error-message {
+      font-size: 12px;
+      color: red;
+      display: none;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
 
-        .error-message {
-            font-size: 12px;
-            color: red;
-            display: none;
-        }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-        .form-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+    .btn.next,
+    .btn.submit {
+      background-color: #1c7f21;
+      color: #fff;
+    }
 
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    .btn.prev {
+      background-color: #e0e0e0;
+      color: #000;
+    }
 
-        .btn.next,
-        .btn.submit {
-            background-color: #faa21b;
-            color: #fff;
-        }
+    /*MODAL CLOSE VBUENO*/
+    .modal2, .modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-        .btn.prev {
-            background-color: #e0e0e0;
-            color: #000;
-        }
+.modal2.show, .modal.show {
+    display: flex; /* Mostrar el modal */
+}
+    .modal2-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
 
-        /*MODAL CLOSE*/
-        .modal2 {
-            display: none;
-            /* Oculto por defecto */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+   
+    .modal2-content h2 {
+      margin-top: 0;
+    }
 
+    .modal2-content p {
+      margin: 10px 0 20px;
+    }
 
-        .modal2-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
+    .modal2-content .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
 
-        .modal2-content h2 {
-            margin-top: 0;
-        }
+    .modal2-content .btn:hover {
+      background-color: #0056b3;
+    }
 
-        .modal2-content p {
-            margin: 10px 0 20px;
-        }
+    /*BECAS*/
+    .cardBeca {
+      margin-left: 0;
+      margin-top: 0;
+    }
 
-        .modal2-content .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-
-        .modal2-content .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .beca-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="sidebar" id="sidebar">
-        <div class="header">
-            <img src="palomanaranja.png" alt="Logo"> <!-- Replace with your expanded image path -->
-        </div>
-        <ul class="nav" id="nav-list">
-            <li class="active" onclick="toggleVisibility('mis-datos', this)"><span class="indicator"></span><i
-                    class="fas fa-id-card"></i><span>Mis datos</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-users', this)"><span
-                    class="indicator"></span><i class="fas fa-users"></i><span>Usuarios registrados</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-workers', this)"><span
-                    class="indicator"></span><i class="fas fa-briefcase"></i><span>Trabajadores registrados</span></li>
-            <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
-                    class="fas fa-file-alt"></i><span>Reportes</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('analytics', this)"><span
-                    class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
-            <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
-                    class="fas fa-file-signature"></i><span>Trámites</span></li>
-            <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
-                    class="fas fa-cog"></i><span>Ajustes</span></li>
-        </ul>
-        <li id="logout-button" class="logout" onclick="logout()"><span class="indicator"></span><i
-                class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></li>
+  <div class="sidebar" id="sidebar">
+    <div class="header">
+      <img src="logo_municipio_2024.png" alt="Logo"> <!-- Replace with your expanded image path -->
     </div>
-    <div class="content" id="content">
-        <div class="top-bar" id="top-bar">
-            <div class="hamburger" onclick="toggleSidebar()">
-                <div></div>
-                <div></div>
-                <div></div>
+    <ul class="nav" id="nav-list">
+      <li class="active" onclick="toggleVisibility('overview', this)"><span class="indicator"></span><i
+          class="fas fa-home"></i><span>Overview</span></li>
+      <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
+          class="fas fa-file-signature"></i><span>Trámites</span></li>
+      <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
+          class="fas fa-file-alt"></i><span>Reports</span></li>
+      <li onclick="toggleVisibility('analytics', this)"><span class="indicator"></span><i
+          class="fas fa-chart-line"></i><span>Analytics</span></li>
+      <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
+          class="fas fa-cog"></i><span>Settings</span></li>
+      <li onclick="toggleVisibility('registered-users', this)"><span class="indicator"></span><i
+          class="fas fa-users"></i><span>Usuarios registrados</span></li>
+      <li onclick="toggleVisibility('registered-workers', this)"><span class="indicator"></span><i
+          class="fas fa-briefcase"></i><span>Trabajadores registrados</span></li>
+    </ul>
+  </div>
+  <div class="content" id="content">
+    <div class="top-bar" id="top-bar">
+      <div class="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <h1>Admin Panel</h1>
+      <div class="user-avatar">
+        <div class="avatar"></div>
+        Welcome, User
+      </div>
+    </div>
+
+    <div id="overview" class="section">
+      <h2>Overview</h2>
+      <div class="cards">
+        <div class="card">Card 1</div>
+        <div class="card">Card 2</div>
+        <div class="card">Card 3</div>
+        <div class="card">Card 4</div>
+      </div>
+    </div>
+
+    <div id="tramites-user" class="section hidden">
+      <h2>Trámites</h2>
+      <div class="cards-container">
+<!--*************************************** VISTO BUENO *************************************************-->
+<!-- Card: Visto Bueno -->
+<div class="cardVisto" onclick="openVBuenoInfoModal()">
+          <div class="card">
+            <div class="card-image">
+              <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
             </div>
-            <h1>Admin Panel</h1>
-            <div class="user-avatar">
-                <div class="avatar"></div>
-                <div class="user-info-top">
-                    <span id="user-name">Welcome, User</span>
-                    <span id="user-role" style="font-size: 14px; color: #ffd700;">Rol: Invitado</span>
+            <div class="category">Categoría 1</div>
+            <div class="heading">
+              Visto Bueno - Protección Civil
+              <div class="author">Descripción breve</div>
+            </div>
+          </div>
+</div>
+<!--Modal: Información VistoBueno-->
+<div class="modal" id="buenoInfoModal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeVBuenoInfoModal()">X</button>
+    <h2>Información sobre el Trámite de Visto Bueno</h2>
+    <p>El trámite de Visto Bueno está diseñado para ... Por favor, lee atentamente las instrucciones antes de iniciar el trámite.</p>
+    <button class="btn" onclick="openModal('vistoBueno')">Iniciar Trámite</button>
+  </div>
+</div>
+<!-- Modal: Formulario Visto Bueno -->
+<div class="modal" id="modal">
+          <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('vistoBueno')">X</button>
+            <!--FORMULARIO-->
+            <div class="container">
+              <div class="stepper">
+                <div class="step active" data-step="1">
+                  <div class="circle">1</div>
+                  <span>Account</span>
                 </div>
+                <div class="line"></div>
+                <div class="step" data-step="2">
+                  <div class="circle">2</div>
+                  <span>Profile</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="3">
+                  <div class="circle">3</div>
+                  <span>Address</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="4">
+                  <div class="circle">4</div>
+                  <span>Confirmation</span>
+                </div>
+              </div>
+              <!-- Formulario Visto Bueno -->
+              <form id="stepForm">
+                <!-- Paso 1 -->
+                <div class="form-step active" data-step="1">
+                  <h2>Visto Bueno - Protección Civil</h2>
+                  <p>Este es un detalle más completo sobre el contenido del card.</p>
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                    <span class="error-message">Username is required</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message">Valid email is required</span>
+                  </div>
+                  <div class="form-navigation">
+                    <button type="button" class="btn next">Next</button>
+                  </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="form-step" data-step="2">
+                  <h2>Profile Information</h2>
+                  <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                    <span class="error-message">First name is required</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                    <span class="error-message">Last name is required</span>
+                  </div>
+                  <div class="form-navigation">
+                    <button type="button" class="btn prev">Back</button>
+                    <button type="button" class="btn next">Next</button>
+                  </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="form-step" data-step="3">
+                  <h2>Address</h2>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required>
+                    <span class="error-message">Address is required</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                    <span class="error-message">City is required</span>
+                  </div>
+                  <div class="form-navigation">
+                    <button type="button" class="btn prev">Back</button>
+                    <button type="button" class="btn next">Next</button>
+                  </div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="form-step" data-step="4">
+                  <h2>¡Confirmación!</h2>
+                  <p>Confirma que has registrado los datos correctos</p>
+                  <div class="form-navigation">
+                    <button type="button" class="btn prev">Back</button>
+                    <button type="submit" class="btn submit">Confirmar</button>
+                  </div>
+                </div>
+
+                <!-- Modal de Confirmación VistoBueno -->
+                <div class="modal2" id="confirmationModalVistoBueno">
+                  <div class="modal2-content">
+                    <h2>Trámite Finalizado: Visto Bueno</h2>
+                    <p>Tus datos para el trámite de Visto Bueno han sido enviados exitosamente.</p>
+                    <button id="closeConfirmationVistoBueno" class="btn">Cerrar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+</div>
+
+
+<!--*************************************** BECAS *************************************************-->
+
+<!-- Card: Becas -->
+<div class="cardBeca" onclick="openBecaInfoModal()">
+  <div class="card">
+    <div class="card-image">
+      <img src="images/becas.png" alt="Imagen de Becas" class="beca-img" />
+    </div>
+    <div class="category">Secretaría de Educación Pública</div>
+    <div class="heading">
+      Becas educativas del Municipio de San Juan del Río
+      <div class="author">Apoyo económico al alumnado del sector educativo</div>
+    </div>
+  </div>
+</div>
+<!-- Modal: Información Becas -->
+<div class="modal" id="becaInfoModal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeBecaInfoModal()">X</button>
+    <h2>Información sobre el Trámite de Becas</h2>
+    <p>El trámite de becas está diseñado para apoyar económicamente al alumnado del sector educativo. Por favor, lee atentamente las instrucciones antes de iniciar el trámite.</p>
+    <button class="btn" onclick="openModal('becas')">Iniciar Trámite</button>
+  </div>
+</div>
+<!-- Modal: Formulario de Becas -->
+<div class="modal" id="modalBecas">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('becas')">X</button>
+    <div class="container">
+      <div class="DatosTramite" style="text-align: left;">
+      <h2 style="text-align: center;">Trámite de Becas educativas del Municipio de San Juan del Río</h2>
+      <p style="text-align: center;">Apoyo económico al alumnado del sector educativo</p>
+      <h3>Programa Becas Municipales</h3>
+      <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
+      <h5>Fecha de actualización: 2024-12-26 03:05:03</h5>
+      <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
+      <p>Módulo</p> 
+      <select id="mounth">
+        <option value="hide">-- Seleccione --</option>
+        <option value="SDS">SECRETARÍA DE DESARROLLO SOCIAL</option>
+      </select>
+    </br>
+    </br>
+    </div>
+      <div class="stepper">
+        <!-- Pasos del stepper -->
+        <div class="step active" data-step="1"><div class="circle">1</div><span>Datos de Identificación</span></div>
+        <div class="line"></div>
+        <div class="step" data-step="2"><div class="circle">2</div><span>Datos Laborales</span></div>
+        <div class="line"></div>
+        <div class="step" data-step="3"><div class="circle">3</div><span>Datos Académicos</span></div>
+        <div class="line"></div>
+        <div class="step" data-step="4"><div class="circle">4</div><span>Otros Datos</span></div>
+        <div class="line"></div>
+        <div class="step" data-step="5"><div class="circle">5</div><span>Documentos</span></div>
+        <div class="line"></div>
+        <div class="step" data-step="6"><div class="circle">6</div><span>Confirmación</span></div>
+      </div>
+      <!-- Formulario Becas -->
+      <form id="stepFormBecas">
+        <!-- Paso 1 -->
+        <div class="form-step active" data-step="1">
+          <div class="form-group">
+            <!--Table1-->
+            <table style="border: 1; width: 100%; border-collapse: collapse; text-align: left;">
+              <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Datos del estudiante</caption>
+              <thead>
+                <tr>
+                  <th style="background-color: #c3c3c2;">Apellido paterno</th>
+                  <th style="background-color: #c3c3c2;">Apellido materno</th>
+                  <th style="background-color: #c3c3c2;">Nombre(s)</th>
+                  <th style="background-color: #c3c3c2;">Lugar y fecha de nacimiento</th>
+                  <th style="background-color: #c3c3c2;">Edad</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" name="apellidoPaterno" placeholder="Apellido paterno" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="apellidoMaterno" placeholder="Apellido materno" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="nombres" placeholder="Nombre(s)" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="lugarFechaNacimiento" placeholder="Lugar y fecha de nacimiento" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="number" name="edad" placeholder="Edad" style="width: 95%;" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!--Table2-->
+            <table style="border: 1; width: 100%; border-collapse: collapse; text-align: left;">
+              <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio del estudiante</caption>
+              <thead>
+                <tr>
+                  <th style="background-color: #c3c3c2;">Calle</th>
+                  <th style="background-color: #c3c3c2;">Número</th>
+                  <th style="background-color: #c3c3c2;">Colonia</th>
+                  <th style="background-color: #c3c3c2;">Municipio</th>
+                  <th style="background-color: #c3c3c2;">Teléfono</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" name="calle" placeholder="Calle" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="numero" placeholder="Número" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="colonia" placeholder="Colonia" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="text" name="municipio" placeholder="Municipio" style="width: 95%;" />
+                  </td>
+                  <td>
+                    <input type="tel" name="telefono" placeholder="Teléfono" style="width: 95%;" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-bottom: 15px;">
+              <label for="curpSolicitante" style="display: block; font-weight: bold; margin-bottom: 5px;">CURP del solicitante</label>
+              <input type="text" id="curpSolicitante" name="curpSolicitante" placeholder="CURP del solicitante" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            </div>
+            <!--Botones-->
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button type="button" style="background-color: #001f3f; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                Guardar información
+              </button>
+              <button type="button" style="background-color: #faa21b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                Validar
+              </button>
+            </div>
+            <div class="form-navigation">
+              <button type="button" class="btn next">Next</button>
             </div>
         </div>
-
-        <div id="overview" class="section">
-            <h2>Overview</h2>
-            <div class="cards">
-                <div class="card">Card 1</div>
-                <div class="card">Card 2</div>
-                <div class="card">Card 3</div>
-                <div class="card">Card 4</div>
-            </div>
-        </div>
-
-        <div id="mis-datos" class="section">
-            <h2 class="section-title">Perfil del Usuario</h2>
-            <div class="profile-container">
-                <!-- Tarjeta de Información del Usuario -->
-                <div class="card user-card">
-                    <h3>Información del Usuario</h3>
-                    <div id="user-info" class="user-info">
-                        <!-- Aquí se cargará la información del usuario -->
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <button id="editUserButton" class="btn-edit">Editar Datos</button>
-                        <button id="manageDocumentsButton" class="btn-edit">Mis Documentos</button>
-                    </div>
-                </div>
-
-                <!-- Tarjeta del Formulario de Edición (oculta inicialmente) -->
-                <div class="card edit-card hidden">
-                    <h3>Editar Información</h3>
-                    <form id="editUserForm">
-                        <div class="form-group">
-                            <label for="editNombre">Nombre</label>
-                            <input type="text" id="editNombre" placeholder="Nombre">
-                        </div>
-                        <div class="form-group">
-                            <label for="editPrimApellido">Primer Apellido</label>
-                            <input type="text" id="editPrimApellido" placeholder="Primer Apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="editSegApellido">Segundo Apellido</label>
-                            <input type="text" id="editSegApellido" placeholder="Segundo Apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="editEmail">Correo Electrónico</label>
-                            <input type="email" id="editEmail" placeholder="Correo Electrónico">
-                        </div>
-                        <div class="form-group">
-                            <label for="editTelefono">Teléfono</label>
-                            <input type="tel" id="editTelefono" placeholder="Teléfono">
-                        </div>
-                        <div class="form-group">
-                            <label for="editCalle">Calle</label>
-                            <input type="text" id="editCalle" placeholder="Calle">
-                        </div>
-                        <div class="form-group">
-                            <label for="editAsentamiento">Asentamiento</label>
-                            <input type="text" id="editAsentamiento" placeholder="Asentamiento">
-                        </div>
-                        <div class="form-group">
-                            <label for="editNumExterior">Número Exterior</label>
-                            <input type="text" id="editNumExterior" placeholder="Número Exterior">
-                        </div>
-                        <div class="form-group">
-                            <label for="editNumInterior">Número Interior</label>
-                            <input type="text" id="editNumInterior" placeholder="Número Interior">
-                        </div>
-                        <div class="form-group">
-                            <label for="editCP">Código Postal</label>
-                            <input type="text" id="editCP" placeholder="Código Postal">
-                        </div>
-
-                        <!-- Campos adicionales para trabajadores -->
-                        <div id="trabajadorFields" style="display: none;">
-                            <div class="form-group">
-                                <label for="editNoNomina">Número de Nómina</label>
-                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
-                            </div>
-                            <div class="form-group">
-                                <label for="editPuesto">Puesto</label>
-                                <input type="text" id="editPuesto" placeholder="Puesto">
-                            </div>
-                            <div class="form-group">
-                                <label for="editDepartamento">Departamento</label>
-                                <select id="editDepartamento">
-                                    <option value="">Seleccionar Departamento</option>
-                                    <!-- Agrega opciones dinámicas aquí -->
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="button" id="saveButton" class="btn-save">Guardar Cambios</button>
-                        <button type="button" id="cancelEditButton" class="btn-cancel">Cancelar</button>
-                    </form>
-                </div>
-
-                <!-- Tarjeta para Gestionar Documentos -->
-                <div class="card document-card hidden">
-                    <h3>Subir Documentos</h3>
-                    <div class="document-container">
-                        <!-- INE -->
-                        <div class="document-item">
-                            <label>INE</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('ine').click()">Seleccionar archivo</button>
-                                <input type="file" id="ine" accept="application/pdf"
-                                    onchange="handleFileChange(event, 'ine')" hidden>
-                            </div>
-                            <div class="file-info" id="ine-info"></div>
-                            <div class="progress-bar" id="ine-progress">
-                                <div class="progress"></div>
-                            </div>
-                            <button type="button" class="btn-upload" id="ine-upload" disabled
-                                onclick="uploadDocument('ine')">Subir INE</button>
-                        </div>
-
-                        <!-- Comprobante de Domicilio -->
-                        <div class="document-item">
-                            <label>Comprobante de Domicilio</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('comprobanteDomicilio').click()">Seleccionar
-                                    archivo</button>
-                                <input type="file" id="comprobanteDomicilio" accept="application/pdf"
-                                    onchange="handleFileChange(event, 'comprobanteDomicilio')" hidden>
-                            </div>
-                            <div class="file-info" id="comprobanteDomicilio-info"></div>
-                            <div class="progress-bar" id="comprobanteDomicilio-progress">
-                                <div class="progress"></div>
-                            </div>
-                            <button type="button" class="btn-upload" id="comprobanteDomicilio-upload" disabled
-                                onclick="uploadDocument('comprobanteDomicilio')">Subir Comprobante</button>
-                        </div>
-
-                        <!-- CURP -->
-                        <div class="document-item">
-                            <label>CURP</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('curp').click()">Seleccionar archivo</button>
-                                <input type="file" id="curp" accept="application/pdf"
-                                    onchange="handleFileChange(event, 'curp')" hidden>
-                            </div>
-                            <div class="file-info" id="curp-info"></div>
-                            <div class="progress-bar" id="curp-progress">
-                                <div class="progress"></div>
-                            </div>
-                            <button type="button" class="btn-upload" id="curp-upload" disabled
-                                onclick="uploadDocument('curp')">Subir CURP</button>
-                        </div>
-
-                        <!-- Acta de Matrimonio -->
-                        <div class="document-item">
-                            <label>Acta de Matrimonio</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('actaMatrimonio').click()">Seleccionar
-                                    archivo</button>
-                                <input type="file" id="actaMatrimonio" accept="application/pdf"
-                                    onchange="handleFileChange(event, 'actaMatrimonio')" hidden>
-                            </div>
-                            <div class="file-info" id="actaMatrimonio-info"></div>
-                            <div class="progress-bar" id="actaMatrimonio-progress">
-                                <div class="progress"></div>
-                            </div>
-                            <button type="button" class="btn-upload" id="actaMatrimonio-upload" disabled
-                                onclick="uploadDocument('actaMatrimonio')">Subir Acta</button>
-                        </div>
-                    </div>
-                    <button type="button" id="cancelDocumentsButton" class="btn-cancel">Cancelar</button>
-                </div>
-            </div>
+      </div>
+        <!-- Paso 2 -->
+        <div class="form-step" data-step="2">
+          <h2>Profile Information</h2>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <span class="error-message">First name is required</span>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <span class="error-message">Last name is required</span>
+          </div>
+          <div class="form-navigation">
+            <button type="button" class="btn prev">Back</button>
+            <button type="button" class="btn next">Next</button>
+          </div>
         </div>
 
 
-        <div id="tramites-user" class="section hidden">
-            <h2>Trámite</h2>
-            <!-- Card -->
-            <div class="card" onclick="toggleModal()">
-                <div class="card-image">
-                    <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
-                </div>
-                <div class="category">Categoría 1</div>
-                <div class="heading">
-                    Visto Bueno - Protección Civil
-                    <div class="author">Descripción breve</div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal" id="modal">
-                <div class="modal-content">
-                    <button class="close-modal" onclick="toggleModal()">X</button>
-
-                    <!--FORMULARIO-->
-                    <div class="container">
-                        <div class="stepper">
-                            <div class="step active" data-step="1">
-                                <div class="circle">1</div>
-                                <span>Account</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="2">
-                                <div class="circle">2</div>
-                                <span>Profile</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="3">
-                                <div class="circle">3</div>
-                                <span>Address</span>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-step="4">
-                                <div class="circle">4</div>
-                                <span>Confirmation</span>
-                            </div>
-                        </div>
-
-                        <form id="stepForm">
-                            <!-- Paso 1 -->
-                            <div class="form-step active" data-step="1">
-                                <h2>Visto Bueno - Protección Civil</h2>
-                                <p>Este es un detalle más completo sobre el contenido del card.</p>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" name="username" required>
-                                    <span class="error-message">Username is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" required>
-                                    <span class="error-message">Valid email is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 2 -->
-                            <div class="form-step" data-step="2">
-                                <h2>Profile Information</h2>
-                                <div class="form-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" required>
-                                    <span class="error-message">First name is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" name="lastName" required>
-                                    <span class="error-message">Last name is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 3 -->
-                            <div class="form-step" data-step="3">
-                                <h2>Address</h2>
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" name="address" required>
-                                    <span class="error-message">Address is required</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="city">City</label>
-                                    <input type="text" id="city" name="city" required>
-                                    <span class="error-message">City is required</span>
-                                </div>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="button" class="btn next">Next</button>
-                                </div>
-                            </div>
-
-                            <!-- Paso 4 -->
-                            <div class="form-step" data-step="4">
-                                <h2>Confirmation</h2>
-                                <p>Your form has been submitted successfully!</p>
-                                <div class="form-navigation">
-                                    <button type="button" class="btn prev">Back</button>
-                                    <button type="submit" class="btn submit">Submit</button>
-                                </div>
-                            </div>
-
-                            <!--MODAL CLOSE-->
-                            <div class="modal2" id="confirmationModal">
-                                <div class="modal2-content">
-                                    <h2>Trámite Finalizado</h2>
-                                    <p>Tus datos han sido enviados exitosamente!</p>
-                                    <button id="closeModal2" class="btn">Close</button>
-                                </div>
-                            </div>
-
-                        </form>
-                        <!-- Modal de confirmación -->
-                        <div class="modal2" id="confirmationModal">
-                            <div class="modal2-content">
-                                <h2>Trámite Finalizado</h2>
-                                <p>Tus datos han sido enviados exitosamente.</p>
-                                <button id="closeModal2" class="btn">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Paso 3 -->
+        <div class="form-step" data-step="3">
+          <h2>Address</h2>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+            <span class="error-message">Address is required</span>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
+            <span class="error-message">City is required</span>
+          </div>
+          <div class="form-navigation">
+            <button type="button" class="btn prev">Back</button>
+            <button type="button" class="btn next">Next</button>
+          </div>
         </div>
 
         <!-- Paso 4 -->
@@ -1413,109 +1134,107 @@
 </div>
 
 
-        <!-- Sección Usuarios Registrados -->
-        <div id="registered-users" class="section hidden">
-            <h2>Usuarios Registrados</h2>
-            <br>
-            <div class="filters-container">
-                <div class="filters">
-                    <div>
-                        <label for="filter-nombre-ciudadanos">Nombre</label>
-                        <input id="filter-nombre-ciudadanos" type="text" placeholder="Filtrar por nombre">
-                    </div>
-                    <div>
-                        <label for="filter-colonia-ciudadanos">Colonia</label>
-                        <input id="filter-colonia-ciudadanos" type="text" placeholder="Filtrar por colonia">
-                    </div>
-                    <div>
-                        <label for="filter-cp-ciudadanos">Código postal</label>
-                        <input id="filter-cp-ciudadanos" type="text" placeholder="Filtrar por código postal">
-                    </div>
-                </div>
-            </div>
-            <a class="btn-refresh" onclick="loadCiudadanos()">Actualizar Datos</a>
-            <div class="results-count" id="results-ciudadanos">Registros encontrados: 0</div>
-            <div class="table-container">
-                <table id="ciudadanos-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre Completo</th>
-                            <th>CURP</th>
-                            <th>Fecha Nacimiento</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Calle</th>
-                            <th>Colonia</th>
-                            <th>No. Exterior</th>
-                            <th>Código Postal</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+    <!-- Sección Usuarios Registrados -->
+    <div id="registered-users" class="section hidden">
+      <h2>Usuarios Registrados</h2>
+      <div class="filters-container">
+        <div class="filters">
+          <div>
+            <label for="filter-nombre-ciudadanos">Nombre</label>
+            <input id="filter-nombre-ciudadanos" type="text" placeholder="Filtrar por nombre">
+          </div>
+          <div>
+            <label for="filter-colonia-ciudadanos">Colonia</label>
+            <input id="filter-colonia-ciudadanos" type="text" placeholder="Filtrar por colonia">
+          </div>
+          <div>
+            <label for="filter-cp-ciudadanos">Código postal</label>
+            <input id="filter-cp-ciudadanos" type="text" placeholder="Filtrar por código postal">
+          </div>
         </div>
+      </div>
+      <a class="btn-refresh" onclick="loadCiudadanos()">Actualizar Datos</a>
+      <div class="results-count" id="results-ciudadanos">Registros encontrados: 0</div>
+      <div class="table-container">
+        <table id="ciudadanos-table">
+          <thead>
+            <tr>
+              <th>Nombre Completo</th>
+              <th>CURP</th>
+              <th>Fecha Nacimiento</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Calle</th>
+              <th>Colonia</th>
+              <th>No. Exterior</th>
+              <th>Código Postal</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
 
-        <!-- Sección Trabajadores Registrados -->
-        <div id="registered-workers" class="section hidden">
-            <h2>Trabajadores Registrados</h2>
-            <br>
-            <div class="filters-container">
-                <div class="filters">
-                    <div>
-                        <label for="filter-nombre-trabajadores">Nombre</label>
-                        <input id="filter-nombre-trabajadores" type="text" placeholder="Filtrar por nombre">
-                    </div>
-                    <div>
-                        <label for="filter-colonia-trabajadores">Colonia</label>
-                        <input id="filter-colonia-trabajadores" type="text" placeholder="Filtrar por colonia">
-                    </div>
-                    <div>
-                        <label for="filter-cp-trabajadores">Código Postal</label>
-                        <input id="filter-cp-trabajadores" type="text" placeholder="Filtrar por código postal">
-                    </div>
-                    <div>
-                        <label for="filter-genero-trabajadores">Género</label>
-                        <select id="filter-genero-trabajadores">
-                            <option value="">Todos los géneros</option>
-                            <option value="hombre">Hombre</option>
-                            <option value="mujer">Mujer</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="filter-departamento-trabajadores">Departamento</label>
-                        <input id="filter-departamento-trabajadores" type="text" placeholder="Filtrar por departamento">
-                    </div>
-                    <div>
-                        <label for="filter-puesto-trabajadores">Puesto</label>
-                        <input id="filter-puesto-trabajadores" type="text" placeholder="Filtrar por puesto">
-                    </div>
-                </div>
-            </div>
-            <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
-            <div class="results-count" id="results-trabajadores">Registros encontrados: 0</div>
-            <div class="table-container">
-                <table id="trabajadores-table">
-                    <thead>
-                        <tr>
-                            <th>No. Nómina</th>
-                            <th>Nombre Completo</th>
-                            <th>CURP</th>
-                            <th>Departamento</th>
-                            <th>Puesto</th>
-                            <th>Fecha Nacimiento</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Calle</th>
-                            <th>Colonia</th>
-                            <th>No. Exterior</th>
-                            <th>Código Postal</th>
-                            <th>Género</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+    <!-- Sección Trabajadores Registrados -->
+    <div id="registered-workers" class="section hidden">
+      <h2>Trabajadores Registrados</h2>
+      <div class="filters-container">
+        <div class="filters">
+          <div>
+            <label for="filter-nombre-trabajadores">Nombre</label>
+            <input id="filter-nombre-trabajadores" type="text" placeholder="Filtrar por nombre">
+          </div>
+          <div>
+            <label for="filter-colonia-trabajadores">Colonia</label>
+            <input id="filter-colonia-trabajadores" type="text" placeholder="Filtrar por colonia">
+          </div>
+          <div>
+            <label for="filter-cp-trabajadores">Código Postal</label>
+            <input id="filter-cp-trabajadores" type="text" placeholder="Filtrar por código postal">
+          </div>
+          <div>
+            <label for="filter-genero-trabajadores">Género</label>
+            <select id="filter-genero-trabajadores">
+              <option value="">Todos los géneros</option>
+              <option value="hombre">Hombre</option>
+              <option value="mujer">Mujer</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-departamento-trabajadores">Departamento</label>
+            <input id="filter-departamento-trabajadores" type="text" placeholder="Filtrar por departamento">
+          </div>
+          <div>
+            <label for="filter-puesto-trabajadores">Puesto</label>
+            <input id="filter-puesto-trabajadores" type="text" placeholder="Filtrar por puesto">
+          </div>
         </div>
+      </div>
+      <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
+      <div class="results-count" id="results-trabajadores">Registros encontrados: 0</div>
+      <div class="table-container">
+        <table id="trabajadores-table">
+          <thead>
+            <tr>
+              <th>No. Nómina</th>
+              <th>Nombre Completo</th>
+              <th>CURP</th>
+              <th>Departamento</th>
+              <th>Puesto</th>
+              <th>Fecha Nacimiento</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Calle</th>
+              <th>Colonia</th>
+              <th>No. Exterior</th>
+              <th>Código Postal</th>
+              <th>Género</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
 
     <div id="reports" class="section hidden">
       <h2>Reports</h2>
@@ -1523,19 +1242,10 @@
       <div class="chart">Chart 2</div>
     </div>
 
-        <div id="analytics" class="section hidden">
-            <div class="charts-container">
-                <div class="chart-item">
-                    <h3>Distribución de Trabajadores por Dependencia</h3>
-                    <canvas id="graficaDependencias"></canvas>
-                </div>
-                <div class="chart-item">
-                    <h3>Distribución de Trabajadores por Código Postal</h3>
-                    <canvas id="graficaCodigosPostales"></canvas>
-                </div>
-            </div>
-
-        </div>
+    <div id="analytics" class="section hidden">
+      <h2>Analytics</h2>
+      <div class="chart">Analytics Content</div>
+    </div>
 
     <div id="settings" class="section hidden">
       <h2>Settings</h2>
@@ -1543,94 +1253,49 @@
     </div>
   </div>
 
-    <script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const firstNavItem = document.querySelector('.nav li');
+      if (firstNavItem) {
+        firstNavItem.click();
+      }
+    });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const firstNavItem = document.querySelector('.nav li');
-            if (firstNavItem) {
-                firstNavItem.click();
-            }
-        });
+    function toggleVisibility(sectionId, element) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      document.querySelectorAll('.nav li').forEach(li => {
+        li.classList.remove('active');
+      });
 
-        // Ajustar margen cuando se cambia de sección
-        function toggleVisibility(sectionId, element) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.add('hidden');
-            });
-
-            document.querySelectorAll('.nav li').forEach(li => {
-                li.classList.remove('active');
-            });
-
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.classList.remove('hidden');
-                adjustContentMargin(); // Ajustar el margen cuando cambia la visibilidad
-            }
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.classList.remove('hidden');
+      }
 
       element.classList.add('active');
     }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const topBar = document.getElementById('top-bar');
-            const filtersContainers = document.querySelectorAll('.filters-container');
-            const content = document.getElementById('content');
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const topBar = document.getElementById('top-bar');
+      const content = document.getElementById('content');
 
-            // Alternar clases para el sidebar, top-bar y contenido
-            sidebar.classList.toggle('collapsed');
-            topBar.classList.toggle('adjusted');
-            content.classList.toggle('adjusted');
-
-            // Ajustar todos los contenedores de filtros visibles
-            filtersContainers.forEach(container => {
-                container.classList.toggle('adjusted');
-            });
-
-            // Ajustar el margen del contenido
-            adjustContentMargin();
-        }
-
-        document.getElementById('editUserButton').addEventListener('click', () => {
-            fillEditForm();
-            document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
-            document.querySelector('.edit-card').classList.remove('hidden'); // Muestra la tarjeta de edición
-        });
-
-        document.getElementById('cancelEditButton').addEventListener('click', () => {
-            document.querySelector('.edit-card').classList.add('hidden'); // Oculta la tarjeta de edición
-            document.querySelector('.user-card').classList.remove('hidden'); // Muestra la tarjeta de información
-        });
-
-    </script>
-    <script>
-        function adjustContentMargin() {
-            const activeSection = document.querySelector('.section:not(.hidden)');
-            if (!activeSection) return;
-
-            const filtersContainer = activeSection.querySelector('.filters-container');
-            const content = document.getElementById('content');
-            const topBarHeight = 70; // Altura fija del top-bar
-            const filtersHeight = filtersContainer ? filtersContainer.offsetHeight : 0;
-
-            // Ajustar el margen superior del contenido
-            content.style.marginTop = `${topBarHeight + filtersHeight}px`;
-        }
-
-        // Ajustar el margen al cargar la página y al redimensionar
-        document.addEventListener('DOMContentLoaded', adjustContentMargin);
-        window.addEventListener('resize', adjustContentMargin);
-    </script>
-
-    <script>
-        // Función toggle para abrir/cerrar el modal
-        function toggleModal() {
-            const modal = document.getElementById('modal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-        }
-    </script>
-    <!--FORMULARIO-->
-    <script src="js/main.js"></script>
+      sidebar.classList.toggle('collapsed');
+      topBar.classList.toggle('adjusted');
+      content.classList.toggle('adjusted');
+    }
+  </script>
+  <script>
+    // Función toggle para abrir/cerrar el modal
+    function toggleModal() {
+      const modal = document.getElementById('modal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+  <!--FORMULARIO-->
+  <script src="js/main.js"></script>
 
 
 </body>
