@@ -349,16 +349,36 @@ function saveChanges() {
         .catch(error => console.error('Error:', error));
 }
 
-//FORMULARIOS
-// Manejo de apertura y cierre de modales
+
+// **************************************** cards y formularios ************************************************************
+// Manejo de apertura y cierre de modales VBUENO
+function openVBuenoInfoModal() {
+    document.getElementById('buenoInfoModal').style.display = 'flex';
+}
+
+function closeVBuenoInfoModal() {
+    document.getElementById('buenoInfoModal').style.display = 'none';
+}
+
+// Manejo de apertura y cierre de modales BECAS
+function openBecaInfoModal() {
+    document.getElementById('becaInfoModal').style.display = 'flex';
+}
+
+function closeBecaInfoModal() {
+    document.getElementById('becaInfoModal').style.display = 'none';
+}
+
+// Manejo de apertura y cierre de modales GENERICO
 function openModal(type) {
     if (type === 'vistoBueno') {
         document.getElementById('modal').style.display = 'flex';
+        closeVBuenoInfoModal(); // Cierra el modal de información
     } else if (type === 'becas') {
         document.getElementById('modalBecas').style.display = 'flex';
+        closeVBuenoInfoModal(); // Cierra el modal de información
     }
 }
-
 function closeModal(type) {
     if (type === 'vistoBueno') {
         document.getElementById('modal').style.display = 'none';
@@ -367,113 +387,132 @@ function closeModal(type) {
     }
 }
 
-// Función para mostrar el modal de confirmación
-function showConfirmationModal(type) {
-    if (type === 'vistoBueno') {
-        document.getElementById('confirmationModalVistoBueno').style.display = 'flex';
-    } else if (type === 'becas') {
-        document.getElementById('confirmationModalBecas').style.display = 'flex';
-    }
-}
+// Configuración para formularios
+document.addEventListener("DOMContentLoaded", () => {
+    /**
+     * Función para inicializar la navegación de un formulario por pasos
+     * @param {string} modalId - ID del modal contenedor
+     * @param {string} formId - ID del formulario
+     * @param {string} stepClass - Clase de los pasos del formulario
+     * @param {string} stepperClass - Clase del stepper
+     */
+    function initFormNavigation(modalId, formId, stepClass, stepperClass) {
+        const modal = document.getElementById(modalId);
+        const formSteps = modal.querySelectorAll(`.${stepClass}`);
+        const steps = modal.querySelectorAll(`.${stepperClass} .step`);
+        const nextButtons = modal.querySelectorAll(".btn.next");
+        const backButtons = modal.querySelectorAll(".btn.prev");
+        const form = document.getElementById(formId);
+        const confirmationModal = modal.querySelector(".modal2");
+        let currentStep = 0;
 
-// Configuración de botones Next y Prev
-function setupStepNavigation(formId) {
-    const formContainer = document.getElementById(formId);
-    let currentStep = 1;
-
-    const nextButtons = formContainer.querySelectorAll('.next');
-    const prevButtons = formContainer.querySelectorAll('.prev');
-
-    nextButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const currentFormStep = formContainer.querySelector(`.form-step[data-step="${currentStep}"]`);
-            const inputs = currentFormStep.querySelectorAll('input');
-
-            let valid = true;
-            inputs.forEach((input) => {
-                const errorMessage = input.nextElementSibling;
-                if (!input.checkValidity()) {
-                    valid = false;
-                    errorMessage.style.display = 'block';
-                } else {
-                    errorMessage.style.display = 'none';
-                }
+        // Función para actualizar visibilidad de pasos y stepper
+        function updateFormSteps() {
+            formSteps.forEach((step, index) => {
+                step.style.display = index === currentStep ? "block" : "none";
+                step.classList.toggle("active", index === currentStep);
             });
 
-            if (valid) {
-                currentStep++;
-                updateStepUI(formContainer, currentStep);
-            }
+            steps.forEach((step, index) => {
+                step.classList.toggle("active", index <= currentStep);
+            });
+        }
+
+        // Manejadores para botones "Next"
+        nextButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (currentStep < formSteps.length - 1) {
+                    currentStep++;
+                    updateFormSteps();
+                }
+            });
         });
+
+        // Manejadores para botones "Back"
+        backButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateFormSteps();
+                }
+            });
+        });
+
+        // Manejo del envío del formulario
+        if (form) {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (confirmationModal) {
+                    confirmationModal.classList.add("show");
+                }
+            });
+        }
+
+        // Cerrar modal de confirmación
+        if (confirmationModal) {
+            const closeModalButton = confirmationModal.querySelector(".btn");
+            if (closeModalButton) {
+                closeModalButton.addEventListener("click", () => {
+                    confirmationModal.classList.remove("show");
+                });
+            }
+        }
+
+        // Inicialización: mostrar el primer paso
+        updateFormSteps();
+    }
+
+    // Inicializar ambos formularios
+    initFormNavigation("modal", "stepForm", "form-step", "stepper"); // Visto Bueno
+    initFormNavigation("modalBecas", "stepFormBecas", "form-step", "stepper"); // Becas
+});
+
+// Modales de confirmación
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Visto Bueno
+    const confirmationButton = document.querySelector(".form-step[data-step='4'] .btn.submit");
+    const confirmationModal = document.getElementById("confirmationModalVistoBueno");
+    const closeModalButton = document.getElementById("closeConfirmationVistoBueno");
+    const formContainer = document.getElementById("modal"); // Contenedor del formulario
+    const form = document.getElementById("stepForm"); // El formulario principal
+    // Mostrar el modal al hacer clic en "Confirmar"
+    confirmationButton.addEventListener("click", (e) => {
+        e.preventDefault(); // Evita el envío del formulario
+        confirmationModal.classList.add("show");
+    });
+    // Cerrar el modal y el trámite al hacer clic en "Cerrar"
+    closeModalButton.addEventListener("click", () => {
+        confirmationModal.classList.remove("show"); // Ocultar el modal
+        form.reset(); // Reiniciar el formulario
+        formContainer.style.display = "none"; // Ocultar el contenedor del formulario
     });
 
-    prevButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep--;
-                updateStepUI(formContainer, currentStep);
-            }
-        });
+    // Becas
+    const confirmButtonBecas = document.querySelector("#stepFormBecas .form-step[data-step='6'] .btn.next");
+    const confirmationModalBecas = document.getElementById("confirmationModalBecas");
+    const closeModalButtonBecas = document.getElementById("closeConfirmationBecas");
+    const formContainerBecas = document.getElementById("modalBecas"); // Contenedor del formulario
+    const formBecas = document.getElementById("stepFormBecas"); // Formulario de becas
+    const becaInfoModal = document.getElementById("becaInfoModal"); // Modal de información de becas
+
+    // Mostrar el modal al hacer clic en "Confirmar"
+    confirmButtonBecas.addEventListener("click", (e) => {
+        e.preventDefault(); // Evitar envío del formulario
+        confirmationModalBecas.classList.add("show"); // Mostrar el modal de confirmación
     });
-}
 
-// Actualiza la UI de los pasos
-function updateStepUI(formContainer, currentStep) {
-    const steps = formContainer.querySelectorAll('.step'); // Pasos del stepper
-    const formSteps = formContainer.querySelectorAll('.form-step'); // Contenido de los pasos
+    // Cerrar el modal y finalizar el trámite al hacer clic en "Cerrar"
+    closeModalButtonBecas.addEventListener("click", () => {
+        confirmationModalBecas.classList.remove("show"); // Ocultar el modal de confirmación
+        formBecas.reset(); // Reiniciar el formulario
+        formContainerBecas.style.display = "none"; // Ocultar el contenedor del formulario
 
-    steps.forEach((step, index) => {
-        const circle = step.querySelector('.circle');
-        if (index + 1 < currentStep) {
-            // Pasos anteriores
-            step.classList.add('active');
-            circle.style.backgroundColor = '#faa21b'; // Colorear círculo
-        } else if (index + 1 === currentStep) {
-            // Paso actual
-            step.classList.add('active');
-            circle.style.backgroundColor = '#faa21b';
-        } else {
-            // Pasos futuros
-            step.classList.remove('active');
-            circle.style.backgroundColor = '#e0e0e0';
+        // Asegurarse de que el modal de información también esté cerrado
+        if (becaInfoModal) {
+            becaInfoModal.style.display = "none"; // Ocultar el modal de información
         }
     });
 
-    formSteps.forEach((formStep, index) => {
-        if (index + 1 === currentStep) {
-            formStep.classList.add('active'); // Muestra el paso actual
-        } else {
-            formStep.classList.remove('active'); // Oculta los pasos no actuales
-        }
-    });
-}
-
-// Configuración de formularios
-setupStepNavigation('stepForm'); // Configuración para "Visto Bueno"
-setupStepNavigation('stepFormBecas'); // Configuración para "Becas"
-
-// Manejo de envío de formularios
-const formVistoBueno = document.getElementById('stepForm');
-const formBecas = document.getElementById('stepFormBecas');
-
-formVistoBueno.addEventListener('submit', (e) => {
-    e.preventDefault();
-    closeModal('vistoBueno'); // Cerrar el modal del formulario
-    setTimeout(() => showConfirmationModal('vistoBueno'), 300); // Mostrar el modal de confirmación
-});
-
-formBecas.addEventListener('submit', (e) => {
-    e.preventDefault();
-    closeModal('becas'); // Cerrar el modal del formulario
-    setTimeout(() => showConfirmationModal('becas'), 300); // Mostrar el modal de confirmación
-});
-
-// Cerrar los modales de confirmación
-document.getElementById('closeConfirmationVistoBueno').addEventListener('click', () => {
-    document.getElementById('confirmationModalVistoBueno').style.display = 'none';
-});
-
-document.getElementById('closeConfirmationBecas').addEventListener('click', () => {
-    document.getElementById('confirmationModalBecas').style.display = 'none';
 });
 
