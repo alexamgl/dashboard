@@ -110,6 +110,26 @@ function soloLetras(texto) {
   return texto.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, ""); // Eliminar todo excepto letras y espacios
 }
 
+// Función para letras, incluyendo ñ, tildes, espacios y puntos
+function soloLetrasYPuntos(texto) {
+  return texto.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s.]/g, ""); // Eliminar todo excepto letras, espacios y puntos
+}
+
+// Función para aplicar solo letras y puntos a inputs
+function aplicarSoloLetrasYPuntosAInputs(selector) {
+  const inputs = document.querySelectorAll(selector);
+  inputs.forEach(input => {
+    input.addEventListener("input", function (event) {
+      const valorFiltrado = soloLetrasYPuntos(event.target.value);
+      if (event.target.value !== valorFiltrado) {
+        event.target.value = valorFiltrado;
+      }
+    });
+  });
+}
+
+
+
 // Función para aplicar solo letras a inputs
 function aplicarSoloLetrasAInputs(selector) {
   const inputs = document.querySelectorAll(selector);
@@ -158,6 +178,9 @@ function aplicarSoloNumerosAInputs(selector) {
     });
   });
 }
+
+// Aplicar la función a los inputs con la clase "solo-letras-puntos"
+aplicarSoloLetrasYPuntosAInputs(".solo-letras-puntos");
 
 // Aplicar la función a los inputs con la clase "solo-numeros"
 aplicarSoloNumerosAInputs(".solo-numeros");
