@@ -5,6 +5,7 @@ let userData = {}; // Objeto global para almacenar los datos del usuario
 
 document.addEventListener('DOMContentLoaded', () => {
    loadUserData();
+   checkUserDocuments();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,23 +79,32 @@ setInterval(checkInactivity, 60000);
 function configureDashboard(decodedToken) {
     const userRole = decodedToken.role;
 
-    // Ejemplo de control de visibilidad
-    if (userRole === 'admin') {
-        document.querySelector('#admin-section').style.display = 'block';
-    } else {
-        document.querySelector('#admin-section').style.display = 'none';
-    }
+    // Mostrar secciones para admin
+    document.querySelectorAll('.admin-section').forEach((element) => {
+        element.style.display = userRole === 'admin' ? 'block' : 'none';
+    });
 
-    if (userRole === 'user') {
-        document.querySelector('#user-section').style.display = 'block';
-    } else {
-        document.querySelector('#user-section').style.display = 'none';
-    }
+    // Mostrar secciones para ciudadano
+    document.querySelectorAll('.ciudadano-section').forEach((element) => {
+        element.style.display = userRole === 'ciudadano' ? 'block' : 'none';
+    });
+
+    // Mostrar secciones para trabajador
+    document.querySelectorAll('.trabajador-section').forEach((element) => {
+        element.style.display = userRole === 'trabajador' ? 'block' : 'none';
+    });
+
+    // Mostrar secciones para ciudadano y trabajador
+    document.querySelectorAll('.ciudadano-trabajador-section').forEach((element) => {
+        element.style.display = (userRole === 'ciudadano' || userRole === 'trabajador') ? 'block' : 'none';
+    });
 
     // Muestra el nombre y el rol en el top-bar
     document.getElementById('user-name').textContent = decodedToken.sub || 'Usuario';
     document.getElementById('user-role').textContent = `Rol: ${userRole}`;
 }
+
+
 
 function logout() {
     localStorage.removeItem('token');
@@ -384,30 +394,10 @@ document.getElementById('cancelDocumentsButton').addEventListener('click', () =>
 function handleFileChange(event, fieldId) {
     const file = event.target.files[0];
     const fileInfo = document.getElementById(`${fieldId}-info`);
-    const progressBar = document.getElementById(`${fieldId}-progress`);
-
-    if (file) {
-        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-        if (sizeInMB > 3) {
-            fileInfo.textContent = `El archivo es demasiado grande (${sizeInMB} MB). Máximo permitido: 3 MB.`;
-            fileInfo.style.color = 'red';
-            progressBar.querySelector('.progress').style.width = '0%';
-            return;
-        }
-
-        fileInfo.textContent = `Archivo seleccionado: ${file.name} (${sizeInMB} MB)`;
-        fileInfo.style.color = 'green';
-    } else {
-        fileInfo.textContent = '';
-        progressBar.querySelector('.progress').style.width = '0%';
-    }
-}
-
-function handleFileChange(event, fieldId) {
-    const file = event.target.files[0];
-    const fileInfo = document.getElementById(`${fieldId}-info`);
     const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
     const uploadButton = document.getElementById(`${fieldId}-upload`);
+    const previewContainer = document.getElementById(`${fieldId}-preview-container`);
+    const previewFrame = document.getElementById(`${fieldId}-preview`);
 
     if (file) {
         const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
@@ -416,44 +406,233 @@ function handleFileChange(event, fieldId) {
             fileInfo.style.color = 'red';
             progressBar.style.width = '0%';
             uploadButton.disabled = true;
+            previewContainer.hidden = true;
             return;
         }
 
         fileInfo.textContent = `${file.name} (${sizeInMB} MB)`;
         fileInfo.style.color = 'green';
         uploadButton.disabled = false;
+
+        // Generar la URL del archivo local y vincularla a la miniatura
+        const fileURL = URL.createObjectURL(file);
+        previewFrame.src = fileURL;
+        previewContainer.hidden = false;
+
+        // Configurar el evento de clic para abrir el archivo en una nueva pestaña
+        previewContainer.onclick = () => {
+            window.open(fileURL, '_blank');
+        };
     } else {
         fileInfo.textContent = '';
         progressBar.style.width = '0%';
         uploadButton.disabled = true;
+        previewContainer.hidden = true;
     }
 }
 
-function uploadDocument(fieldId) {
+function previewDocument(fieldId) {
     const fileInput = document.getElementById(fieldId);
     const file = fileInput.files[0];
-    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
 
     if (!file) {
         alert('Por favor, selecciona un archivo válido.');
         return;
     }
 
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = `${progress}%`;
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, '_blank');
+}
 
-        if (progress >= 100) {
-            clearInterval(interval);
+async function uploadDocument(fieldId) {
+    const user = validateToken();
+    if (!user) return; // Si el token no es válido, detener la subida
 
-            // Simulación de subida
-            alert(`${fieldId.toUpperCase()} subido correctamente.`);
-        }
-    }, 200);
+    const fileInput = document.getElementById(fieldId);
+    const file = fileInput.files[0];
+    const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
+    const successIcon = document.getElementById(`${fieldId}-success`);
+    const selectButton = document.querySelector(`[onclick="document.getElementById('${fieldId}').click()"]`);
+    const uploadButton = document.getElementById(`${fieldId}-upload`);
+
+    if (!file) {
+        alert('Por favor, selecciona un archivo válido.');
+        return;
+    }
+
+    // Mapeo de roles
+    const roleMapping = {
+        admin: 1,
+        trabajador: 2,
+        ciudadano: 3
+    };
+
+    // Convertir el rol del usuario a su valor numérico
+    const numericRole = roleMapping[user.role];
+    if (!numericRole) {
+        alert('Rol desconocido. No se puede proceder.');
+        return;
+    }
+
+    // Reinicia la barra de progreso y oculta el icono de éxito
+    progressBar.style.width = '0%';
+    successIcon.classList.remove('visible');
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id_usuario', user.sub); // ID del usuario
+    formData.append('rol', numericRole); // Rol numérico
+    formData.append('nuevo_nombre', `${fieldId}.pdf`); // Nombre del archivo
+
+    try {
+        // Crear una solicitud XMLHttpRequest para monitorear el progreso
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/upload_document', true);
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+        // Monitorea el progreso de la subida
+        xhr.upload.addEventListener('progress', (event) => {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBar.style.width = `${percentComplete}%`;
+            }
+        });
+
+        // Maneja la respuesta del servidor
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                const result = JSON.parse(xhr.responseText);
+
+                // Mostrar el icono de éxito
+                successIcon.classList.add('visible');
+
+                // Deshabilitar los botones
+                selectButton.disabled = true;
+                uploadButton.disabled = true;
+            } else {
+                throw new Error('Error al subir el documento.');
+            }
+        };
+
+        xhr.onerror = () => {
+            alert('Hubo un error en la subida.');
+            progressBar.style.width = '0%'; // Reinicia la barra de progreso en caso de error
+        };
+
+        // Enviar el formulario
+        xhr.send(formData);
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+        progressBar.style.width = '0%'; // Reinicia la barra de progreso en caso de error
+    }
 }
 
 
+async function checkUserDocuments() {
+    const user = validateToken();
+    if (!user) return; // Redirigir si el token no es válido
+
+    // Mapeo de roles (si no está ya incluido en otro lugar)
+    const roleMapping = {
+        admin: 1,
+        trabajador: 2,
+        ciudadano: 3
+    };
+
+    const numericRole = roleMapping[user.role];
+    if (!numericRole) {
+        alert('Rol desconocido. No se puede proceder.');
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/get_documentos?id_usuario=${user.sub}&rol=${numericRole}`, 
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            updateFormWithDocuments(result.data); // Actualiza el formulario con los documentos obtenidos
+        } else {
+            throw new Error(result.message || 'Error al verificar los documentos.');
+        }
+    } catch (error) {
+        console.error('Error al verificar los documentos:', error.message);
+    }
+}
+
+
+function updateFormWithDocuments(documents) {
+    // Crear un mapa para encontrar fácilmente los documentos por nombre
+    const documentMap = documents.reduce((acc, doc) => {
+        acc[doc.nombre_documento] = doc.url_documento;
+        return acc;
+    }, {});
+
+    // Lista de IDs de los documentos esperados
+    const documentFields = [
+        'ine',
+        'actaNacimiento',
+        'curp',
+        'comprobanteDomicilio',
+        'actaMatrimonio',
+        'actaConcubinato'
+    ];
+
+    // Iterar por cada campo y actualizar el formulario
+    documentFields.forEach((fieldId) => {
+        const fileInfo = document.getElementById(`${fieldId}-info`);
+        const progressBar = document.getElementById(`${fieldId}-progress`).querySelector('.progress');
+        const previewContainer = document.getElementById(`${fieldId}-preview-container`);
+        const previewFrame = document.getElementById(`${fieldId}-preview`);
+        const selectButton = document.querySelector(`[onclick="document.getElementById('${fieldId}').click()"]`);
+        const uploadButton = document.getElementById(`${fieldId}-upload`);
+        const successIcon = document.getElementById(`${fieldId}-success`);
+
+        // Verificar si el documento ya existe
+        if (documentMap[`${fieldId}.pdf`]) {
+            const fileUrl = documentMap[`${fieldId}.pdf`];
+
+            // Mostrar el nombre del archivo
+            fileInfo.textContent = `Archivo subido: ${fieldId}.pdf`;
+            fileInfo.style.color = 'blue';
+
+            // Configurar la barra de progreso al 100%
+            progressBar.style.width = '100%';
+
+            // Mostrar el ícono de éxito
+            successIcon.classList.add('visible');
+
+            // Mostrar la miniatura del documento
+            previewFrame.src = fileUrl;
+            previewContainer.hidden = false;
+
+            // Deshabilitar los botones de selección y subida
+            selectButton.disabled = true;
+            uploadButton.disabled = true;
+
+            // Configurar el clic en la miniatura para abrir el documento
+            previewContainer.onclick = () => {
+                window.open(fileUrl, '_blank');
+            };
+        } else {
+            // Si no hay documento, restablecer los elementos
+            fileInfo.textContent = '';
+            progressBar.style.width = '0%';
+            successIcon.classList.remove('visible'); // Ocultar el ícono de éxito
+            previewContainer.hidden = true;
+            selectButton.disabled = false;
+            uploadButton.disabled = true;
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarGraficaSecretarias();
@@ -461,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function cargarGraficaSecretarias() {
     const token = localStorage.getItem('token'); // Asumiendo que necesitas autenticar
-    const url = 'http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_dependencias'; // Cambia por tu endpoint
+    const url = 'https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/grafica_dependencias'; // Cambia por tu endpoint
 
     fetch(url, {
         headers: {
@@ -471,8 +650,12 @@ function cargarGraficaSecretarias() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const labels = data.data.map(item => item.secretaria);
-            const values = data.data.map(item => item.total);
+            // Filtrar las dependencias con total mayor a 5
+            const filteredData = data.data.filter(item => item.total > 0);
+
+            // Extraer etiquetas y valores solo de las dependencias filtradas
+            const labels = filteredData.map(item => item.departamento);
+            const values = filteredData.map(item => item.total);
 
             renderGraficaDependencias(labels, values);
         } else {
@@ -485,6 +668,7 @@ function cargarGraficaSecretarias() {
 }
 
 let grafica;
+
 function renderGraficaDependencias(labels, values) {
     const ctx = document.getElementById('graficaDependencias').getContext('2d');
 
@@ -495,19 +679,13 @@ function renderGraficaDependencias(labels, values) {
             datasets: [{
                 data: values,
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
+                    '#e35293', // Color base
+                    '#f062a2', // Tonos más claros derivados
+                    '#f57ba9',
+                    '#fa93b9',
+                    '#ffc0d5'
                 ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(153, 102, 255, 1)'
-                ],
+                borderColor: '#ffffff', // Opcional: bordes blancos
                 borderWidth: 1
             }]
         },
@@ -516,12 +694,14 @@ function renderGraficaDependencias(labels, values) {
             maintainAspectRatio: false, // Evita desbordamientos
             plugins: {
                 legend: {
-                    position: 'top'
+                    display: false // Ocultar las etiquetas superiores
                 }
             }
         }
     });
 }
+
+
 
 
 
@@ -533,7 +713,7 @@ window.addEventListener('resize', () => {
 });
 
 function cargarGraficaCodigosPostales() {
-    const apiUrl = "http://localhost/RepoPresidencia/tramitesPresidenciaSJR/tramites-sjr/Api/principal/grafica_cp_trabajadores"; // Cambia al endpoint real
+    const apiUrl = "https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/grafica_cp_trabajadores"; // Cambia al endpoint real
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -560,8 +740,8 @@ function renderGraficaCodigosPostales(labels, values) {
             datasets: [{
                 label: 'Trabajadores por Código Postal',
                 data: values,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: '#00ae6f',
+                borderColor: '#408740',
                 borderWidth: 1
             }]
         },
@@ -585,6 +765,115 @@ function renderGraficaCodigosPostales(labels, values) {
     });
 }
 
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar el mapa
+        const map = L.map("map").setView([20.3864, -100.0110], 13); // Coordenadas aproximadas de San Juan del Río
+
+        // Añadir la capa base
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Datos ficticios de códigos postales de San Juan del Río
+        const jsonMarkers = {
+            "success": true,
+            "data": [
+                { "codigo_postal": "76806", "lat": 20.3871, "lon": -100.0084, "trabajadores": "JOSÉ ALFREDO ORDAZ MONTOYA" },
+                { "codigo_postal": "76800", "lat": 20.3915, "lon": -100.0098, "trabajadores": "LUIS ALBERTO GALVAN HERNANDEZ" },
+                { "codigo_postal": "76803", "lat": 20.3899, "lon": -100.0120, "trabajadores": "OLIVIA NOELIA CHAVEZ ESTRELLA" },
+                { "codigo_postal": "76804", "lat": 20.3934, "lon": -100.0143, "trabajadores": "LORENA ANGELES GARCIA" },
+                { "codigo_postal": "76805", "lat": 20.3886, "lon": -100.0167, "trabajadores": "ANGEL RIVERA FERNANDO" },
+                { "codigo_postal": "76807", "lat": 20.3949, "lon": -100.0180, "trabajadores": "MARISOL FIERRO VALLE" }
+            ]
+        };
+
+        const jsonCircles = {
+            "success": true,
+            "data": [
+                { "codigo_postal": "76830", "lat": 20.4012, "lon": -100.0215, "trabajadores": 20 },
+                { "codigo_postal": "76810", "lat": 20.3975, "lon": -100.0238, "trabajadores": 14 },
+                { "codigo_postal": "76820", "lat": 20.3950, "lon": -100.0261, "trabajadores": 30 },
+                { "codigo_postal": "768024", "lat": 20.3900, "lon": -100.0283, "trabajadores": 25 },
+                { "codigo_postal": "76814", "lat": 20.3965, "lon": -100.0305, "trabajadores": 22 },
+                { "codigo_postal": "76826", "lat": 20.3987, "lon": -100.0327, "trabajadores": 28 }
+            ]
+        };
+
+        let markerLayer = null;
+        let circleLayer = null;
+
+        // Función para mostrar marcadores agrupados
+        const mostrarMarcadores = (map, data) => {
+            if (circleLayer) map.removeLayer(circleLayer); // Quitar círculos si existen
+
+            if (markerLayer) map.removeLayer(markerLayer); // Reiniciar la capa si ya existe
+            markerLayer = L.markerClusterGroup();
+
+            data.forEach((item) => {
+                const marker = L.marker([item.lat, item.lon]).bindPopup(`
+                    <b>Código Postal:</b> ${item.codigo_postal}<br>
+                    <b>Trabajador:</b> ${item.trabajadores}
+                `);
+                markerLayer.addLayer(marker);
+            });
+
+            map.addLayer(markerLayer);
+        };
+
+        // Función para mostrar círculos con tamaño dinámico basado en el zoom
+        const mostrarCirculos = (map, data) => {
+            if (markerLayer) map.removeLayer(markerLayer); // Quitar marcadores si existen
+
+            if (circleLayer) map.removeLayer(circleLayer); // Reiniciar la capa si ya existe
+            circleLayer = L.layerGroup();
+
+            const baseRadius = 500; // Tamaño base del círculo
+
+            data.forEach((item) => {
+                const circle = L.circle([item.lat, item.lon], {
+                    radius: baseRadius, // Tamaño base
+                    color: '#faa21b', // Color base naranja
+                    fillColor: '#faa21b',
+                    fillOpacity: 0.5,
+                })
+                    .bindPopup(`
+                        <b>Código Postal:</b> ${item.codigo_postal}<br>
+                        <b>Trabajadores:</b> ${item.trabajadores}
+                    `);
+
+                circleLayer.addLayer(circle);
+            });
+
+            circleLayer.addTo(map);
+
+            // Ajustar tamaño dinámico de los círculos al cambiar el nivel de zoom
+            map.on("zoomend", () => {
+                const zoomFactor = map.getZoom() / 15; // Relación del zoom inicial (15)
+                circleLayer.eachLayer((layer) => {
+                    layer.setRadius(baseRadius * zoomFactor);
+                });
+            });
+        };
+
+        // Configurar los botones para alternar entre mapas
+        document.getElementById("load-markers").addEventListener("click", () => {
+            mostrarMarcadores(map, jsonMarkers.data);
+            document.getElementById("load-markers").classList.add("active");
+            document.getElementById("load-circles").classList.remove("active");
+        });
+
+        document.getElementById("load-circles").addEventListener("click", () => {
+            mostrarCirculos(map, jsonCircles.data);
+            document.getElementById("load-circles").classList.add("active");
+            document.getElementById("load-markers").classList.remove("active");
+        });
+
+        // Mostrar el mapa de marcadores por defecto
+        mostrarMarcadores(map, jsonMarkers.data);
+    });
+
+
 
 // Llamar a la función para cargar la gráfica
 document.addEventListener('DOMContentLoaded', cargarGraficaCodigosPostales);
@@ -594,6 +883,131 @@ function logout() {
     localStorage.removeItem('token'); // Elimina el token
     window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Redirige al login
 }
+
+
+//FORMULARIOS
+// Manejo de apertura y cierre de modales
+function openModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'flex';
+    }
+}
+
+function closeModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('modal').style.display = 'none';
+    } else if (type === 'becas') {
+        document.getElementById('modalBecas').style.display = 'none';
+    }
+}
+
+// Función para mostrar el modal de confirmación
+function showConfirmationModal(type) {
+    if (type === 'vistoBueno') {
+        document.getElementById('confirmationModalVistoBueno').style.display = 'flex';
+    } else if (type === 'becas') {
+        document.getElementById('confirmationModalBecas').style.display = 'flex';
+    }
+}
+
+// Configuración de botones Next y Prev
+function setupStepNavigation(formId) {
+    const formContainer = document.getElementById(formId);
+    let currentStep = 1;
+
+    const nextButtons = formContainer.querySelectorAll('.next');
+    const prevButtons = formContainer.querySelectorAll('.prev');
+
+    nextButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const currentFormStep = formContainer.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const inputs = currentFormStep.querySelectorAll('input');
+
+            let valid = true;
+            inputs.forEach((input) => {
+                const errorMessage = input.nextElementSibling;
+                if (!input.checkValidity()) {
+                    valid = false;
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
+
+            if (valid) {
+                currentStep++;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
+
+    prevButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI(formContainer, currentStep);
+            }
+        });
+    });
+}
+
+// Actualiza la UI de los pasos
+function updateStepUI(formContainer, currentStep) {
+    const steps = formContainer.querySelectorAll('.step'); // Pasos del stepper
+    const formSteps = formContainer.querySelectorAll('.form-step'); // Contenido de los pasos
+
+    steps.forEach((step, index) => {
+        const circle = step.querySelector('.circle');
+        if (index + 1 < currentStep) {
+            // Pasos anteriores
+            step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b'; // Colorear círculo
+        } else if (index + 1 === currentStep) {
+            // Paso actual
+            step.classList.add('active');
+            circle.style.backgroundColor = '#faa21b';
+        } else {
+            // Pasos futuros
+            step.classList.remove('active');
+            circle.style.backgroundColor = '#e0e0e0';
+        }
+    });
+
+    formSteps.forEach((formStep, index) => {
+        if (index + 1 === currentStep) {
+            formStep.classList.add('active'); // Muestra el paso actual
+        } else {
+            formStep.classList.remove('active'); // Oculta los pasos no actuales
+        }
+    });
+}
+
+// Configuración de formularios
+setupStepNavigation('stepForm'); // Configuración para "Visto Bueno"
+setupStepNavigation('stepFormBecas'); // Configuración para "Becas"
+
+// Manejo de envío de formularios
+const formVistoBueno = document.getElementById('stepForm');
+const formBecas = document.getElementById('stepFormBecas');
+
+formVistoBueno.addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeModal('vistoBueno'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('vistoBueno'), 300); // Mostrar el modal de confirmación
+});
+
+formBecas.addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeModal('becas'); // Cerrar el modal del formulario
+    setTimeout(() => showConfirmationModal('becas'), 300); // Mostrar el modal de confirmación
+});
+
+// Cerrar los modales de confirmación
+document.getElementById('closeConfirmationVistoBueno').addEventListener('click', () => {
+    document.getElementById('confirmationModalVistoBueno').style.display = 'none';
+});
 
 
 

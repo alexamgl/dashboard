@@ -8,6 +8,11 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
     <style>
         /* Estilos generales */
@@ -471,28 +476,93 @@
         }
 
         /* Contenedor de documentos */
-        .document-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
+
+        .document-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+
+        .document-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Dos columnas por fila */
+            gap: 20px;
+            /* Espaciado entre las cards */
+            padding: 20px;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .document-container {
+                grid-template-columns: 1fr;
+                /* Una columna en pantallas pequeñas */
+            }
+        }
+
+        /* Diseño de las cards */
         .document-item {
-            flex: 1 1 calc(50% - 20px);
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: column;
+            /* Usamos Flexbox para dividir el contenido en dos */
             align-items: flex-start;
+            /* Alinea los elementos al inicio */
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            gap: 20px;
+            /* Espaciado entre columnas dentro de la card */
+        }
+
+        .document-item:hover {
+            transform: translateY(-5px);
+            /* Efecto de elevación */
+        }
+
+        /* Columna izquierda */
+        .document-left {
+            flex: 1;
         }
 
         .document-item label {
             font-weight: bold;
             color: #0076aa;
             margin-bottom: 5px;
+        }
+
+        /* Miniatura del documento */
+        .document-preview {
+            width: 120px;
+            height: 160px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Deshabilita la interacción del iframe para permitir clics en el contenedor */
+        }
+
+
+        .document-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
         }
 
         .file-input-wrapper {
@@ -515,26 +585,79 @@
             background-color: #005f8c;
         }
 
-        .file-info {
-            font-size: 14px;
-            color: #333;
-            margin-top: 5px;
+        .btn-select-file:disabled {
+
+            cursor: not-allowed;
+            /* Muestra el cursor de círculo rojo */
         }
 
+        /* Botones */
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .file-actions-bottom {
+            display: flex;
+            justify-content: space-between;
+            /* Coloca los botones en extremos opuestos */
+            margin-top: 10px;
+        }
+
+
+        /* Información del archivo */
+        .file-info {
+            font-size: 0.9em;
+            color: #555;
+            text-align: left;
+            margin-top: 8px;
+        }
+
+        /* Contenedor de barra de progreso */
+        .progress-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Barra de progreso */
         .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
+            background-color: #eee;
+            border-radius: 4px;
             overflow: hidden;
-            margin: 10px 0;
+            height: 10px;
+            width: 100%;
+            margin-top: 10px;
         }
 
         .progress-bar .progress {
+            background-color: #4caf50;
             height: 100%;
-            background-color: #0076aa;
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+        }
+
+        /* Icono de éxito */
+        .progress-success {
+            font-size: 20px;
+            color: #4caf50;
+            visibility: hidden;
+            opacity: 0;
+            transform: rotate(0deg);
+            /* Inicialmente sin rotación */
+            transition: visibility 0.3s ease, opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        .progress-success.visible {
+            visibility: visible;
+            /* Hacer visible */
+            opacity: 1;
+            /* Incrementar opacidad */
+            transform: rotate(360deg);
+            /* Gira una vuelta completa */
         }
 
         .btn-upload {
@@ -547,6 +670,11 @@
             /* Estado deshabilitado */
             font-size: 14px;
             transition: background-color 0.3s ease;
+            flex: 1;
+            /* Ocupa todo el espacio disponible */
+            margin-right: 5px;
+            /* Espaciado entre botones */
+            margin-top: 15px;
         }
 
         .btn-upload:enabled {
@@ -703,7 +831,7 @@
 
         /*CARD 1*/
         /* Estilo del Card */
-        .card {
+        .card-tramite {
             width: 190px;
             background: white;
             padding: 0.4em;
@@ -712,11 +840,11 @@
             cursor: pointer;
         }
 
-        .card:hover {
+        .card-tramite:hover {
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .card-image {
+        .card-tramite-image {
             background-color: rgb(236, 236, 236);
             width: 100%;
             height: 130px;
@@ -725,7 +853,7 @@
             overflow: hidden;
         }
 
-        .card-image:hover {
+        .card-tramite-image:hover {
             transform: scale(0.98);
             transition: transform 0.3s ease;
         }
@@ -783,12 +911,18 @@
         .modal-content {
             background: white;
             padding: 20px;
+            padding-top: 50px;
             border-radius: 10px;
             width: 80%;
-            height: auto;
+            max-height: 80vh;
+            /* Limita la altura del modal al 80% del viewport */
             text-align: center;
             position: relative;
             animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+
         }
 
         .modal-content h2 {
@@ -833,6 +967,16 @@
             padding: 30px;
             width: auto;
             max-width: auto;
+            max-height: 70vh;
+            /* Altura máxima del formulario */
+            overflow-y: auto;
+            /* Scroll vertical interno */
+            padding-right: 10px;
+            /* Espaciado para evitar superposición con el scroll */
+            scrollbar-width: thin;
+            /* Estilo del scroll (para navegadores compatibles) */
+            scrollbar-color: #faa21b #e0e0e0;
+            /* Colores personalizados del scroll */
         }
 
         /* Stepper */
@@ -989,7 +1133,70 @@
             background-color: #0056b3;
         }
 
-        
+        /*BECAS*/
+        .cardBeca {
+            margin-left: 230px;
+            margin-top: -250px;
+        }
+
+        .beca-img {
+            position: absolute;
+            width: 140px;
+            height: 125px;
+            top: 2px;
+            left: 20px;
+            border-radius: 5px;
+        }
+
+
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        #controls {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #controls button {
+            padding: 10px 15px;
+            margin: 0 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076aa;
+            color: white;
+        }
+
+        #controls button.active {
+            background-color: #005f8c;
+        }
+
+        .btn-preview {
+            background-color: #0076aa;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            flex: 1;
+            /* Ocupa todo el espacio disponible */
+            margin-left: 5px;
+            /* Espaciado entre botones */
+        }
+
+        .btn-preview:enabled {
+            cursor: pointer;
+            background-color: #005f8c;
+        }
+
+        .btn-preview:enabled:hover {
+            background-color: #004d70;
+        }
     </style>
 </head>
 
@@ -1001,13 +1208,14 @@
         <ul class="nav" id="nav-list">
             <li class="active" onclick="toggleVisibility('mis-datos', this)"><span class="indicator"></span><i
                     class="fas fa-id-card"></i><span>Mis datos</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-users', this)"><span
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('registered-users', this)"><span
                     class="indicator"></span><i class="fas fa-users"></i><span>Usuarios registrados</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('registered-workers', this)"><span
-                    class="indicator"></span><i class="fas fa-briefcase"></i><span>Trabajadores registrados</span></li>
-            <li onclick="toggleVisibility('reports', this)"><span class="indicator"></span><i
-                    class="fas fa-file-alt"></i><span>Reportes</span></li>
-            <li id="admin-section" class="display: none;" onclick="toggleVisibility('analytics', this)"><span
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('registered-workers', this)">
+                <span class="indicator"></span><i class="fas fa-briefcase"></i><span>Trabajadores registrados</span>
+            </li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('reports', this)"><span
+                    class="indicator"></span><i class="fas fa-file-alt"></i><span>Reportes</span></li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('analytics', this)"><span
                     class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
             <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
                     class="fas fa-file-signature"></i><span>Trámites</span></li>
@@ -1054,7 +1262,8 @@
                         <!-- Aquí se cargará la información del usuario -->
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <button id="editUserButton" class="btn-edit">Editar Datos</button>
+                        <button id="editUserButton" class="btn-edit ciudadano-trabajador-section"
+                            style="display: none;">Editar Datos</button>
                         <button id="manageDocumentsButton" class="btn-edit">Mis Documentos</button>
                     </div>
                 </div>
@@ -1130,76 +1339,168 @@
 
                 <!-- Tarjeta para Gestionar Documentos -->
                 <div class="card document-card hidden">
+
                     <h3>Subir Documentos</h3>
                     <div class="document-container">
+
                         <!-- INE -->
                         <div class="document-item">
-                            <label>INE</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('ine').click()">Seleccionar archivo</button>
+                            <div class="document-left">
+                                <label for="ine">INE</label>
                                 <input type="file" id="ine" accept="application/pdf"
                                     onchange="handleFileChange(event, 'ine')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('ine').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="ine-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="ine-success" hidden></i>
+                                </div>
+                                <div class="file-info" id="ine-info"></div>
+                                <button type="button" class="btn-upload" id="ine-upload" disabled
+                                    onclick="uploadDocument('ine')">Subir</button>
                             </div>
-                            <div class="file-info" id="ine-info"></div>
-                            <div class="progress-bar" id="ine-progress">
-                                <div class="progress"></div>
+                            <div class="document-preview" id="ine-preview-container" hidden>
+                                <iframe id="ine-preview" src="" frameborder="0"></iframe>
                             </div>
-                            <button type="button" class="btn-upload" id="ine-upload" disabled
-                                onclick="uploadDocument('ine')">Subir INE</button>
                         </div>
 
-                        <!-- Comprobante de Domicilio -->
+                        <!-- Acta de Nacimiento -->
                         <div class="document-item">
-                            <label>Comprobante de Domicilio</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('comprobanteDomicilio').click()">Seleccionar
-                                    archivo</button>
-                                <input type="file" id="comprobanteDomicilio" accept="application/pdf"
-                                    onchange="handleFileChange(event, 'comprobanteDomicilio')" hidden>
+                            <div class="document-left">
+                                <label for="actaNacimiento">Acta de Nacimiento</label>
+                                <input type="file" id="actaNacimiento" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'actaNacimiento')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('actaNacimiento').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="actaNacimiento-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="actaNacimiento-success"
+                                        hidden></i>
+                                </div>
+                                <div class="file-info" id="actaNacimiento-info"></div>
+                                <button type="button" class="btn-upload" id="actaNacimiento-upload" disabled
+                                    onclick="uploadDocument('actaNacimiento')">Subir</button>
                             </div>
-                            <div class="file-info" id="comprobanteDomicilio-info"></div>
-                            <div class="progress-bar" id="comprobanteDomicilio-progress">
-                                <div class="progress"></div>
+                            <div class="document-preview" id="actaNacimiento-preview-container" hidden>
+                                <iframe id="actaNacimiento-preview" src="" frameborder="0"></iframe>
                             </div>
-                            <button type="button" class="btn-upload" id="comprobanteDomicilio-upload" disabled
-                                onclick="uploadDocument('comprobanteDomicilio')">Subir Comprobante</button>
                         </div>
 
                         <!-- CURP -->
                         <div class="document-item">
-                            <label>CURP</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('curp').click()">Seleccionar archivo</button>
+                            <div class="document-left">
+                                <label for="curp">CURP</label>
                                 <input type="file" id="curp" accept="application/pdf"
                                     onchange="handleFileChange(event, 'curp')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('curp').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="curp-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="curp-success" hidden></i>
+                                </div>
+                                <div class="file-info" id="curp-info"></div>
+                                <button type="button" class="btn-upload" id="curp-upload" disabled
+                                    onclick="uploadDocument('curp')">Subir</button>
                             </div>
-                            <div class="file-info" id="curp-info"></div>
-                            <div class="progress-bar" id="curp-progress">
-                                <div class="progress"></div>
+                            <div class="document-preview" id="curp-preview-container" hidden>
+                                <iframe id="curp-preview" src="" frameborder="0"></iframe>
                             </div>
-                            <button type="button" class="btn-upload" id="curp-upload" disabled
-                                onclick="uploadDocument('curp')">Subir CURP</button>
+                        </div>
+
+                        <!-- Comprobante de Domicilio -->
+                        <div class="document-item">
+                            <div class="document-left">
+                                <label for="comprobanteDomicilio">Comprobante de Domicilio</label>
+                                <input type="file" id="comprobanteDomicilio" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'comprobanteDomicilio')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('comprobanteDomicilio').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="comprobanteDomicilio-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="comprobanteDomicilio-success"
+                                        hidden></i>
+                                </div>
+                                <div class="file-info" id="comprobanteDomicilio-info"></div>
+                                <button type="button" class="btn-upload" id="comprobanteDomicilio-upload" disabled
+                                    onclick="uploadDocument('comprobanteDomicilio')">Subir</button>
+                            </div>
+                            <div class="document-preview" id="comprobanteDomicilio-preview-container" hidden>
+                                <iframe id="comprobanteDomicilio-preview" src="" frameborder="0"></iframe>
+                            </div>
                         </div>
 
                         <!-- Acta de Matrimonio -->
                         <div class="document-item">
-                            <label>Acta de Matrimonio</label>
-                            <div class="file-input-wrapper">
-                                <button class="btn-select-file"
-                                    onclick="document.getElementById('actaMatrimonio').click()">Seleccionar
-                                    archivo</button>
+                            <div class="document-left">
+                                <label for="actaMatrimonio">Acta de Matrimonio</label>
                                 <input type="file" id="actaMatrimonio" accept="application/pdf"
                                     onchange="handleFileChange(event, 'actaMatrimonio')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('actaMatrimonio').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="actaMatrimonio-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="actaMatrimonio-success"
+                                        hidden></i>
+                                </div>
+                                <div class="file-info" id="actaMatrimonio-info"></div>
+                                <button type="button" class="btn-upload" id="actaMatrimonio-upload" disabled
+                                    onclick="uploadDocument('actaMatrimonio')">Subir</button>
                             </div>
-                            <div class="file-info" id="actaMatrimonio-info"></div>
-                            <div class="progress-bar" id="actaMatrimonio-progress">
-                                <div class="progress"></div>
+                            <div class="document-preview" id="actaMatrimonio-preview-container" hidden>
+                                <iframe id="actaMatrimonio-preview" src="" frameborder="0"></iframe>
                             </div>
-                            <button type="button" class="btn-upload" id="actaMatrimonio-upload" disabled
-                                onclick="uploadDocument('actaMatrimonio')">Subir Acta</button>
+                        </div>
+
+                        <!-- Acta de Concubinato -->
+                        <div class="document-item">
+                            <div class="document-left">
+                                <label for="actaConcubinato">Acta de Concubinato</label>
+                                <input type="file" id="actaConcubinato" accept="application/pdf"
+                                    onchange="handleFileChange(event, 'actaConcubinato')" hidden>
+                                <div class="file-actions">
+                                    <button class="btn-select-file"
+                                        onclick="document.getElementById('actaConcubinato').click()">Seleccionar
+                                        archivo</button>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" id="actaConcubinato-progress">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle progress-success" id="actaConcubinato-success"
+                                        hidden></i>
+                                </div>
+                                <div class="file-info" id="actaConcubinato-info"></div>
+                                <button type="button" class="btn-upload" id="actaConcubinato-upload" disabled
+                                    onclick="uploadDocument('actaConcubinato')">Subir</button>
+                            </div>
+                            <div class="document-preview" id="actaConcubinato-preview-container" hidden>
+                                <iframe id="actaConcubinato-preview" src="" frameborder="0"></iframe>
+                            </div>
                         </div>
                     </div>
                     <button type="button" id="cancelDocumentsButton" class="btn-cancel">Cancelar</button>
@@ -1210,23 +1511,23 @@
 
         <div id="tramites-user" class="section hidden">
             <h2>Trámite</h2>
-            <!-- Card -->
-            <div class="card" onclick="toggleModal()">
-                <div class="card-image">
-                    <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
-                </div>
-                <div class="category">Categoría 1</div>
-                <div class="heading">
-                    Visto Bueno - Protección Civil
-                    <div class="author">Descripción breve</div>
+            <!-- Card: Visto Bueno -->
+            <div class="cardVisto" onclick="openModal('vistoBueno')">
+                <div class="card-tramite">
+                    <div class="card-tramite-image">
+                        <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="vbueno" />
+                    </div>
+                    <div class="category">Categoría 1</div>
+                    <div class="heading">
+                        Visto Bueno - Protección Civil
+                        <div class="author">Descripción breve</div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Modal -->
+            <!-- Modal: Visto Bueno -->
             <div class="modal" id="modal">
                 <div class="modal-content">
-                    <button class="close-modal" onclick="toggleModal()">X</button>
-
+                    <button class="close-modal" onclick="closeModal('vistoBueno')">X</button>
                     <!--FORMULARIO-->
                     <div class="container">
                         <div class="stepper">
@@ -1250,6 +1551,7 @@
                                 <span>Confirmation</span>
                             </div>
                         </div>
+
 
                         <form id="stepForm">
                             <!-- Paso 1 -->
@@ -1340,6 +1642,15 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal de Confirmación VistoBueno -->
+            <div class="modal2" id="confirmationModalVistoBueno">
+                <div class="modal2-content">
+                    <h2>Trámite Finalizado: Visto Bueno</h2>
+                    <p>Tus datos para el trámite de Visto Bueno han sido enviados exitosamente.</p>
+                    <button id="closeConfirmationVistoBueno" class="btn">Cerrar</button>
+                </div>
+            </div>
+
         </div>
 
         <!-- Sección Usuarios Registrados -->
@@ -1406,8 +1717,8 @@
                         <label for="filter-genero-trabajadores">Género</label>
                         <select id="filter-genero-trabajadores">
                             <option value="">Todos los géneros</option>
-                            <option value="hombre">Hombre</option>
-                            <option value="mujer">Mujer</option>
+                            <option value="h">Hombre</option>
+                            <option value="m">Mujer</option>
                         </select>
                     </div>
                     <div>
@@ -1462,6 +1773,16 @@
                     <h3>Distribución de Trabajadores por Código Postal</h3>
                     <canvas id="graficaCodigosPostales"></canvas>
                 </div>
+            </div>
+
+            <!-- Contenedor para el mapa -->
+            <div id="map-section" class="charts-container" style="margin-top: 20px;">
+                <h3>Mapa Interactivo de Trabajadores</h3>
+                <div id="controls" style="text-align: center; margin-bottom: 10px;">
+                    <button id="load-markers" class="active">Mapa Marcadores</button>
+                    <button id="load-circles">Mapa Círculos</button>
+                </div>
+                <div id="map" style="height: 600px; width: 100%;"></div>
             </div>
 
         </div>

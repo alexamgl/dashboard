@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        #controls {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #controls button {
+            padding: 10px 15px;
+            margin: 0 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076aa;
+            color: white;
+        }
+
+        #controls button.active {
+            background-color: #005f8c;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Mapa Interactivo</h1>
+    <div id="controls">
+        <button id="load-markers" class="active">Mapa Marcadores</button>
+        <button id="load-circles">Mapa Círculos</button>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Inicializar el mapa
+            const map = L.map("map").setView([20.3864, -100.0110], 13); // Coordenadas aproximadas de San Juan del Río
+
+            // Añadir la capa base
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }).addTo(map);
+
+            // Datos ficticios de códigos postales de San Juan del Río
+            const jsonMarkers = {
+                "success": true,
+                "data": [
+                    { "codigo_postal": "76806", "lat": 20.3871, "lon": -100.0084, "trabajadores": "JOSÉ ALFREDO ORDAZ MONTOYA" },
+                    { "codigo_postal": "76800", "lat": 20.3915, "lon": -100.0098, "trabajadores": "LUIS ALBERTO GALVAN HERNANDEZ" },
+                    { "codigo_postal": "76803", "lat": 20.3899, "lon": -100.0120, "trabajadores": "OLIVIA NOELIA CHAVEZ ESTRELLA	" },
+                    { "codigo_postal": "76804", "lat": 20.3934, "lon": -100.0143, "trabajadores": "LORENA ANGELES GARCIA" },
+                    { "codigo_postal": "76805", "lat": 20.3886, "lon": -100.0167, "trabajadores": "ANGEL RIVERA FERNANDO" },
+                    { "codigo_postal": "76807", "lat": 20.3949, "lon": -100.0180, "trabajadores": "MARISOL FIERRO VALLE" }
+                ]
+            };
+
+            const jsonCircles = {
+                "success": true,
+                "data": [
+                    { "codigo_postal": "76830", "lat": 20.4012, "lon": -100.0215, "trabajadores": 20 },
+                    { "codigo_postal": "76810", "lat": 20.3975, "lon": -100.0238, "trabajadores": 14 },
+                    { "codigo_postal": "76820", "lat": 20.3950, "lon": -100.0261, "trabajadores": 30 },
+                    { "codigo_postal": "768024", "lat": 20.3900, "lon": -100.0283, "trabajadores": 25 },
+                    { "codigo_postal": "76814", "lat": 20.3965, "lon": -100.0305, "trabajadores": 22 },
+                    { "codigo_postal": "76826", "lat": 20.3987, "lon": -100.0327, "trabajadores": 28 }
+                ]
+            };
+
+            let markerLayer = null;
+            let circleLayer = null;
+
+            // Función para mostrar marcadores agrupados
+            const mostrarMarcadores = (map, data) => {
+                if (circleLayer) map.removeLayer(circleLayer); // Quitar círculos si existen
+
+                if (markerLayer) map.removeLayer(markerLayer); // Reiniciar la capa si ya existe
+                markerLayer = L.markerClusterGroup();
+
+                data.forEach((item) => {
+                    const marker = L.marker([item.lat, item.lon]).bindPopup(`
+                        <b>Código Postal:</b> ${item.codigo_postal}<br>
+                        <b>Trabajador:</b> ${item.trabajadores}
+                    `);
+                    markerLayer.addLayer(marker);
+                });
+
+                map.addLayer(markerLayer);
+            };
+
+            // Función para mostrar círculos con tamaño dinámico basado en el zoom
+            const mostrarCirculos = (map, data) => {
+                if (markerLayer) map.removeLayer(markerLayer); // Quitar marcadores si existen
+
+                if (circleLayer) map.removeLayer(circleLayer); // Reiniciar la capa si ya existe
+                circleLayer = L.layerGroup();
+
+                const baseRadius = 500; // Tamaño base del círculo
+
+                data.forEach((item) => {
+                    const circle = L.circle([item.lat, item.lon], {
+                        radius: baseRadius, // Tamaño base
+                        color: '#faa21b', // Color base naranja
+                        fillColor: '#faa21b',
+                        fillOpacity: 0.5,
+                    })
+                        .bindPopup(`
+                            <b>Código Postal:</b> ${item.codigo_postal}<br>
+                            <b>Trabajadores:</b> ${item.trabajadores}
+                        `);
+
+                    circleLayer.addLayer(circle);
+                });
+
+                circleLayer.addTo(map);
+
+                // Ajustar tamaño dinámico de los círculos al cambiar el nivel de zoom
+                map.on("zoomend", () => {
+                    const zoomFactor = map.getZoom() / 15; // Relación del zoom inicial (15)
+                    circleLayer.eachLayer((layer) => {
+                        layer.setRadius(baseRadius * zoomFactor);
+                    });
+                });
+            };
+
+            // Configurar los botones para alternar entre mapas
+            document.getElementById("load-markers").addEventListener("click", () => {
+                mostrarMarcadores(map, jsonMarkers.data);
+                document.getElementById("load-markers").classList.add("active");
+                document.getElementById("load-circles").classList.remove("active");
+            });
+
+            document.getElementById("load-circles").addEventListener("click", () => {
+                mostrarCirculos(map, jsonCircles.data);
+                document.getElementById("load-circles").classList.add("active");
+                document.getElementById("load-markers").classList.remove("active");
+            });
+
+            // Mostrar el mapa de marcadores por defecto
+            mostrarMarcadores(map, jsonMarkers.data);
+        });
+    </script>
+</body>
+
+</html>

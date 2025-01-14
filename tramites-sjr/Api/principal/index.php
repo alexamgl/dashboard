@@ -15,6 +15,7 @@ require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/TrabajadorController.
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/CiudadanoController.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/updateFullTrabajador.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullOrganizacionController.php';
+require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GraficaCPTrabajadorController.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GraficaDependenciasController.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UploadDocumentController.php';
 
@@ -57,7 +58,7 @@ $headers = apache_request_headers();
 $authHeader = $headers['Authorization'] ?? '';
 
 // Definir las rutas públicas
-$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos'];
+$publicRoutes = ['usuario_exp','get_documents','delete_document','upload_document','grafica_dependencias','grafica_cp_trabajadores','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos'];
 
 $request = $_SERVER['REQUEST_URI'];
 $requestParts = explode('/', trim($request, '/'));
@@ -126,6 +127,32 @@ if ($entity === 'usuarios') {
     $controller = new TramiteController();
 }elseif($entity === 'tramites_usuarios'){
     $controller = new TramiteUsuarioController();
+}elseif($entity === 'upload_document') {
+    $controller = new UploadDocumentController();
+    $controller->upload($_POST); // Pasar datos del formulario
+    exit();
+}elseif($entity === 'delete_document') {
+    require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UploadDocumentController.php';
+    $controller = new UploadDocumentController();
+    $controller->delete($_POST); // Pasar los datos del cuerpo de la solicitud
+    exit();
+}elseif ($entity === 'get_documents') {
+    require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GetDocumentsController.php';
+    $controller = new GetDocumentsController();
+
+    // Obtener el ID del usuario de la consulta GET
+    $id_usuario = $_GET['id_usuario'] ?? null;
+
+    if ($id_usuario) {
+        $controller->getDocuments($id_usuario);
+    } else {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => "ID de usuario no proporcionado."
+        ]);
+    }
+    exit();
 }elseif($entity === 'tramite_paquetes'){
     $controller = new TramitePaquetesController();
 }elseif($entity === 'areas_responsables'){
@@ -136,6 +163,8 @@ if ($entity === 'usuarios') {
     $controller = new CiudadanoController();
 }elseif($entity === 'grafica_dependencias'){
     $controller = new GraficaDependenciasController();
+}elseif($entity === 'grafica_cp_trabajadores'){
+    $controller = new GraficaCodigoPostalController();
 }elseif($entity === 'usuario_exp'){
     $controller = new UsuarioExpController();
 }elseif($entity === 'pagos_tramites'){
@@ -174,11 +203,6 @@ if ($entity === 'send_otp' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UsuarioDatosController.php';
     $controller = new UsuarioDatosController();
     $controller->getUsuarioDatos();
-    exit();
-}elseif($entity === 'upload_document') {
-    require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UploadDocumentController.php';
-    $controller = new UploadDocumentController();
-    $controller->upload($_POST); // Pasar datos del formulario
     exit();
 }
 
