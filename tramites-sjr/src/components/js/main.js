@@ -517,3 +517,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+/* Becas */
+
+

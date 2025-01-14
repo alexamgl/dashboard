@@ -7,6 +7,10 @@
   <title>Dashboard</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link
+  rel="stylesheet"
+  href="leaflet/leaflet.css"
+/>
 
   <style>
     * {
@@ -563,7 +567,7 @@
       transition: background-color 0.3s;
     }
     .line {
-      flex: 1;
+      width: 45px;
       height: 2px;
       background-color: #e0e0e0;
       align-self: center;
@@ -700,6 +704,18 @@
       height: 100%;
       object-fit: cover;
     }
+  #map {
+          width: 350px;
+          height: 150px;
+          margin-top: 20px;
+          align-content: center;
+      }
+
+      select {
+          margin-top: 20px;
+          padding: 10px;
+          font-size: 16px;
+      }
   </style>
 </head>
 
@@ -921,11 +937,13 @@
       <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
       <h5>Fecha de actualización: 2024-12-26 03:05:03</h5>
       <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
-      <p>Módulo</p> 
-      <select id="mounth">
+      <!--MAPA-->
+      <p>Módulo</p>
+      <select id="locationSelect" onchange="updateMap()">
         <option value="hide">-- Seleccione --</option>
-        <option value="SDS">SECRETARÍA DE DESARROLLO SOCIAL</option>
+        <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
       </select>
+      <div id="map"></div>
     </br>
     </br>
     </div>
@@ -933,11 +951,11 @@
         <!-- Pasos del stepper -->
         <div class="step active" data-step="1"><div class="circle">1</div><span>Datos de Identificación</span></div>
         <div class="line"></div>
-        <div class="step" data-step="2"><div class="circle">2</div><span>Datos Laborales</span></div>
+        <div class="step" data-step="2"><div class="circle">2</div><span>Datos Académicos</span></div>
         <div class="line"></div>
-        <div class="step" data-step="3"><div class="circle">3</div><span>Datos Académicos</span></div>
+        <div class="step" data-step="3"><div class="circle">3</div><span>Datos Socieconómicos</span></div>
         <div class="line"></div>
-        <div class="step" data-step="4"><div class="circle">4</div><span>Otros Datos</span></div>
+        <div class="step" data-step="4"><div class="circle">4</div><span>Protesta de decir verdad</span></div>
         <div class="line"></div>
         <div class="step" data-step="5"><div class="circle">5</div><span>Documentos</span></div>
         <div class="line"></div>
@@ -1032,16 +1050,49 @@
       </div>
         <!-- Paso 2 -->
         <div class="form-step" data-step="2">
-          <h2>Profile Information</h2>
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" required>
-            <span class="error-message">First name is required</span>
+          <table style="border: 1; width: 100%; border-collapse: collapse; text-align: left;">
+            <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio de la institutción educativa</caption>
+            <thead>
+              <tr>
+                <th style="background-color: #c3c3c2;">Calle</th>
+                <th style="background-color: #c3c3c2;">Número</th>
+                <th style="background-color: #c3c3c2;">Colonia</th>
+                <th style="background-color: #c3c3c2;">Municipio</th>
+                <th style="background-color: #c3c3c2;">Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="text" name="calle" placeholder="Calle" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="numero" placeholder="Número" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="colonia" placeholder="Colonia" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="municipio" placeholder="Municipio" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="tel" name="telefono" placeholder="Teléfono" style="width: 95%;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-bottom: 15px;">
+            <label for="Promedio" style="text-align: left; display: block; font-weight: bold; margin-bottom: 5px;">Promedio de la persona estudiante</label>
+            <input type="text" id="Promedio" name="Promedio" placeholder="Promedio de la persona estudiante" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
           </div>
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" required>
-            <span class="error-message">Last name is required</span>
+          <!--Botones-->
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button type="button" style="background-color: #001f3f; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Guardar información
+            </button>
+            <button type="button" style="background-color: #faa21b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Validar
+            </button>
           </div>
           <div class="form-navigation">
             <button type="button" class="btn prev">Back</button>
@@ -1052,16 +1103,51 @@
 
         <!-- Paso 3 -->
         <div class="form-step" data-step="3">
-          <h2>Address</h2>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" id="address" name="address" required>
-            <span class="error-message">Address is required</span>
+          <table style="border: 1; width: 100%; border-collapse: collapse; text-align: left;">
+            <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Datos de la madre, padre o tutor</caption>
+            <thead>
+              <tr>
+                <th style="background-color: #c3c3c2;">Apellido paterno</th>
+                <th style="background-color: #c3c3c2;">Apellido materno</th>
+                <th style="background-color: #c3c3c2;">Nombre(s)</th>
+                <th style="background-color: #c3c3c2;">Ocupación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="text" name="calle" placeholder="Calle" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="numero" placeholder="Número" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="colonia" placeholder="Colonia" style="width: 95%;" />
+                </td>
+                <td>
+                  <input type="text" name="municipio" placeholder="Municipio" style="width: 95%;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-bottom: 15px;">
+            <label for="Promedio" style="text-align: left; display: block; font-weight: bold; margin-bottom: 5px;">Número de personas que habitan en el domicilio</label>
+            <input type="text" id="Promedio" name="Promedio" placeholder="Número de personas que habitan en el domicilio" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+
+            <label for="Promedio" style="text-align: left; display: block; font-weight: bold; margin-bottom: 5px;">Número de personas que habitan que aportan ingresos</label>
+            <input type="text" id="Promedio" name="Promedio" placeholder="Número de personas que habitan que aportan ingresos" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+
+            <label for="Promedio" style="text-align: left; display: block; font-weight: bold; margin-bottom: 5px;">Ingreso mensual familiar</label>
+            <input type="text" id="Promedio" name="Promedio" placeholder="Ingreso mensual familiar" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
           </div>
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" required>
-            <span class="error-message">City is required</span>
+          <!--Botones-->
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button type="button" style="background-color: #001f3f; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Guardar información
+            </button>
+            <button type="button" style="background-color: #faa21b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Validar
+            </button>
           </div>
           <div class="form-navigation">
             <button type="button" class="btn prev">Back</button>
@@ -1071,16 +1157,22 @@
 
         <!-- Paso 4 -->
         <div class="form-step" data-step="4">
-          <h2>nPrueba</h2>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" id="address" name="address" required>
-            <span class="error-message">Address is required</span>
+          <p>Bajo protesta de decir verdad manifiesto que los ingresos familiares son los declarados</p>
+          <div style="text-align: left;" class="radio-buttons">
+            <label class="radio-button">
+              <input type="radio" name="option" value="option1">
+              <div class="radio-circle"></div>
+              <span class="radio-label">Acepto</span>
+            </label>
           </div>
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" required>
-            <span class="error-message">City is required</span>
+          <!--Botones-->
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button type="button" style="background-color: #001f3f; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Guardar información
+            </button>
+            <button type="button" style="background-color: #faa21b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Validar
+            </button>
           </div>
           <div class="form-navigation">
             <button type="button" class="btn prev">Back</button>
@@ -1090,16 +1182,28 @@
 
         <!-- Paso 5 -->
         <div class="form-step" data-step="5">
-          <h2>Address</h2>
-          <div class="form-group">
-            <label for="address">Prueba</label>
-            <input type="text" id="address" name="address" required>
-            <span class="error-message">Address is required</span>
-          </div>
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" required>
-            <span class="error-message">City is required</span>
+          <table style="width: 100%; border-collapse: collapse; text-align: left;" id="documentsTable">
+            <thead>
+              <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ccc;">
+                <th>Existente</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Tamaño</th>
+                <th>Estatus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Las filas se agregarán dinámicamente aquí -->
+            </tbody>
+          </table>
+          <!--Botones-->
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button type="button" style="background-color: #001f3f; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Guardar información
+            </button>
+            <button type="button" style="background-color: #faa21b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+              Validar
+            </button>
           </div>
           <div class="form-navigation">
             <button type="button" class="btn prev">Back</button>
@@ -1116,7 +1220,6 @@
             <button type="button" class="btn next">Confirmar</button>
           </div>
         </div>
-
         <!-- Modal de Confirmación Becas -->
         <div class="modal" id="confirmationModalBecas">
           <div class="modal-content">
@@ -1210,6 +1313,7 @@
           </div>
         </div>
       </div>
+      
       <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
       <div class="results-count" id="results-trabajadores">Registros encontrados: 0</div>
       <div class="table-container">
@@ -1294,8 +1398,184 @@
       modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
     }
   </script>
-  <!--FORMULARIO-->
-  <script src="js/main.js"></script>
+
+<!-- Documentos dinámicos -->
+<script>
+// Lista de documentos
+const documents = [
+  {
+    name: "Acta de Nacimiento",
+    description: "Documento que compruebe la identidad del solicitante",
+  },
+  {
+    name: "Comprobante de Domicilio",
+    description: "Domicilio del solicitante no mayor a dos meses",
+  },
+  {
+    name: "Boleta de Calificaciones",
+    description: "Documento que compruebe la calificación aprobatoria en todas sus materias",
+  },
+  {
+    name: "Constancia de Inscripción",
+    description: "Documento que compruebe la inscripción vigente en la institución educativa",
+  },
+  {
+    name: "Comprobante de Ingresos",
+    description: "Documento que comprueben los ingresos del solicitante y/o tutor",
+  },
+  // Agrega más documentos aquí
+];
+
+// Generar filas dinámicamente
+function generateTableRows() {
+  const tableBody = document.querySelector("#documentsTable tbody");
+  documents.forEach((doc, index) => {
+    // Crear fila
+    const row = document.createElement("tr");
+
+    // Contenido de la fila
+    row.innerHTML = `
+      <td id="pdf-icon-${index}">
+        <img src="images/pdf.png" alt="PDF" style="width: 20px;">
+      </td>
+      <td>${doc.name} <span style="color: red;">*</span></td>
+      <td>${doc.description}</td>
+      <td id="size-${index}">Bytes</td>
+      <td>
+        <input type="file" id="file-${index}" style="display: none;" accept=".pdf">
+        <button style="background-color: #4CAF50; color: white; border: none; padding: 5px 10px; cursor: pointer;" onclick="uploadDocument(${index})">Subir documento</button>
+        <button style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;" onclick="deleteDocument(${index})">X</button>
+      </td>
+    `;
+
+    // Agregar fila a la tabla
+    tableBody.appendChild(row);
+  });
+}
+
+
+// Llamar a la función para generar las filas al cargar la página
+document.addEventListener("DOMContentLoaded", generateTableRows);
+
+// Función para subir documento
+function uploadDocument(rowIndex) {
+  const fileInput = document.getElementById(`file-${rowIndex}`);
+  fileInput.click(); // Abrir cuadro de diálogo
+
+  // Evento de cambio para procesar el archivo seleccionado
+  fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === "application/pdf") {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convertir tamaño a MB
+      document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB} MB`; // Actualizar tamaño en la tabla
+
+      // Crear URL para mostrar el PDF como miniatura
+      const fileURL = URL.createObjectURL(file);
+      const iconCell = document.querySelector(`#pdf-icon-${rowIndex}`);
+
+      // Reemplazar el ícono con una miniatura
+      iconCell.innerHTML = `
+        <object data="${fileURL}" type="application/pdf" width="110" height="110" style="border: 1px solid #ccc;">
+          <img src="images/pdf.png" alt="PDF" style="width: 50px;">
+        </object>
+      `;
+    } else {
+      alert("Por favor, selecciona un archivo PDF válido.");
+    }
+  });
+}
+
+
+// Función para eliminar documento
+function deleteDocument(rowIndex) {
+  // Restablecer input de archivo
+  const fileInput = document.getElementById(`file-${rowIndex}`);
+  fileInput.value = ""; // Limpia el input
+
+  // Restablecer tamaño a "Bytes"
+  document.getElementById(`size-${rowIndex}`).textContent = "Bytes";
+
+  // Restablecer el ícono PDF
+  const iconCell = document.querySelector(`#pdf-icon-${rowIndex}`);
+  iconCell.innerHTML = `<img src="images/pdf.png" alt="PDF" style="width: 20px;">`;
+}
+
+
+</script>
+
+
+<!--FORMULARIO-->
+<!--Mapa Interactivo-->
+<!-- JavaScript de Leaflet -->
+<script src="leaflet/leaflet.js"></script>
+<script>
+    // Variables globales para el mapa y el marcador
+    let map;
+    let marker;
+
+    // Inicializar el mapa con una ubicación predeterminada
+    function initializeMap(lat = 20.3927044, lng = -100.0053128, zoom = 10) {
+        // Crear el mapa
+        map = L.map("map").setView([lat, lng], zoom);
+
+        // Cargar capa de OpenStreetMap
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '',
+        }).addTo(map);
+
+        // Agregar marcador inicial
+        marker = L.marker([lat, lng]).addTo(map)
+            .bindPopup('Centro Cívico Municipal San Juan del Río')
+            .openPopup();
+    }
+
+    // Actualizar el mapa según la selección
+    function updateMap() {
+        const select = document.getElementById("locationSelect");
+        const value = select.value;
+
+        if (value === "hide") {
+            alert("Por favor, seleccione una ubicación.");
+            return;
+        }
+
+        const [lat, lng] = value.split(",").map(Number); // Obtener latitud y longitud
+
+        // Actualizar vista y marcador
+        map.setView([lat, lng], 17); // Mover el mapa al centro
+        marker.setLatLng([lat, lng]) // Mover el marcador
+            .bindPopup(`${select.options[select.selectedIndex].text}`) // Actualizar popup
+            .openPopup();
+    }
+
+    // Centrar mapa al abrir el modal
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "flex"; // Mostrar modal
+    setTimeout(() => {
+        map.invalidateSize(); // Ajustar el tamaño del mapa
+    }, 300); // Pequeño retraso para asegurar que el modal esté visible
+}
+
+// Cerrar modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "none"; // Ocultar modal
+}
+
+// Inicializar el mapa al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    initializeMap(); // Coordenadas predeterminadas
+});
+
+    // Inicializar el mapa al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+        initializeMap(); // Coordenadas predeterminadas
+    });
+</script>
+<link rel="stylesheet" href="css/leaflet.css">
+<script src="js/leaflet.js"></script>
+<script src="js/main.js"></script>
 
 
 </body>
