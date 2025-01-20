@@ -1,35 +1,40 @@
-console.log("Archivo cargado");
+console.log("archivo cargado");
 
-// Función para abrir un modal
+// función para abrir un modal
 window.openModal = function (modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.style.display = "flex"; // Mostrar el modal
-        console.log(`Modal con ID ${modalId} abierto.`);
-        modal.dispatchEvent(new Event("open")); // Disparar evento personalizado al abrir el modal
+        modal.style.display = "flex"; // mostrar el modal
+        console.log(`modal con id ${modalId} abierto.`);
+        modal.dispatchEvent(new Event("open")); // disparar evento personalizado al abrir el modal
     } else {
-        console.error(`No se encontró el modal con ID: ${modalId}`);
+        console.error(`no se encontró el modal con id: ${modalId}`);
     }
 };
 
-// Función para cerrar todos los modales y reiniciar los pasos
+// función para cerrar todos los modales y reiniciar los pasos
 window.closeAllModalsAndReset = function () {
     const allModals = document.querySelectorAll(".modalTramite, .modalInfoTramite, .modalConfirmationTramite");
     allModals.forEach((modal) => {
         modal.style.display = "none"; // Ocultar todos los modales
-        console.log(`Cerrado modal con ID: ${modal.id}`);
     });
 
-    // Reiniciar todos los formularios y pasos
+    // Reiniciar formularios y pasos
     const modalContainers = document.querySelectorAll(".modalTramite");
     modalContainers.forEach((modal) => {
-        resetFormAndSteps(modal.id); // Reiniciar cada formulario asociado
+        resetFormAndSteps(modal.id);
     });
+
+    // Llamar a resetFormFields
+    console.log("Llamando a resetFormFields desde closeAllModalsAndReset");
+    resetFormFields();
 };
 
-// Manejar eventos del DOM al cargar
+
+
+// manejar eventos del dom al cargar
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Documento cargado.");
+    console.log("Documento cargado. Configurando eventos...");
 
     const modalContainers = document.querySelectorAll(".modalTramite");
 
@@ -38,9 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const stepperItems = modal.querySelectorAll(".stepper .step");
         const confirmationModalId = modal.dataset.confirmationModal;
 
-        let currentStep = 0; // Paso actual del formulario
+        let currentStep = 0; // paso actual del formulario
 
-        // Función: Actualizar visibilidad de los pasos
+        // función: actualizar visibilidad de los pasos
         const updateStepVisibility = () => {
             steps.forEach((step, index) => {
                 step.classList.toggle("active", index === currentStep);
@@ -52,85 +57,85 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        // Función: Reiniciar el paso actual al cerrar/reiniciar
+        // función: reiniciar el paso actual al cerrar/reiniciar
         const resetCurrentStep = () => {
-            currentStep = 0; // Reiniciar la variable local
+            currentStep = 0; // reiniciar la variable local
             updateStepVisibility();
-            console.log(`Pasos reiniciados en modal: ${modal.id}`);
+            console.log(`pasos reiniciados en modal: ${modal.id}`);
         };
 
-        // Reiniciar pasos al abrir el modal
+        // reiniciar pasos al abrir el modal
         modal.addEventListener("open", resetCurrentStep);
 
-        // Manejo de botones dentro del modal
+        // manejo de botones dentro del modal
         modal.addEventListener("click", (event) => {
             const target = event.target;
 
-            // Botón "Next"
+            // botón "next"
             if (target.classList.contains("btnNextTramite")) {
                 if (currentStep < steps.length - 1) {
-                    currentStep++; // Avanzar paso
+                    currentStep++; // avanzar paso
                     updateStepVisibility();
                 }
             }
 
-            // Botón "Prev"
+            // botón "prev"
             if (target.classList.contains("btnPrevTramite")) {
                 if (currentStep > 0) {
-                    currentStep--; // Retroceder paso
+                    currentStep--; // retroceder paso
                     updateStepVisibility();
                 }
             }
 
-            // Botón "Confirmar"
+            // botón "confirmar"
             if (target.classList.contains("btnConfirmarTramite")) {
-                event.preventDefault(); // Evitar envío del formulario
+                event.preventDefault(); // evitar envío del formulario
                 if (confirmationModalId) {
-                    openModal(confirmationModalId); // Mostrar modal de confirmación
+                    openModal(confirmationModalId); // mostrar modal de confirmación
                 }
             }
         });
 
-        // Configurar botones para cerrar el modal principal
+        // configurar botones para cerrar el modal principal
         const closeModalButtons = modal.querySelectorAll(".close-modalTramite");
         closeModalButtons.forEach((button) => {
             button.addEventListener("click", () => {
-                closeAllModalsAndReset(); // Cerrar todos los modales
-                resetCurrentStep(); // Reiniciar pasos locales del formulario
+                closeAllModalsAndReset(); // cerrar todos los modales
+                resetCurrentStep(); // reiniciar pasos locales del formulario
             });
         });
 
-        // Evitar envío del formulario para todos los trámites
+        // evitar envío del formulario para todos los trámites
         const form = modal.querySelector("form");
         if (form) {
             form.addEventListener("submit", (event) => {
-                event.preventDefault(); // Evitar el envío del formulario
-                console.log(`Formulario del modal ${modal.id} bloqueado para envío.`);
+                event.preventDefault(); // evitar el envío del formulario
+                console.log(`formulario del modal ${modal.id} bloqueado para envío.`);
             });
         }
 
-        // Inicializar pasos visibles
+        // inicializar pasos visibles
         updateStepVisibility();
     });
 
-    // Configurar botones de cierre de confirmación
+    // configurar botones de cierre de confirmación
     const closeConfirmationButtons = document.querySelectorAll(".btnCerrarConfirmarTramite");
     closeConfirmationButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            closeAllModalsAndReset(); // Cerrar todos los modales y reiniciar pasos
+            closeAllModalsAndReset(); // cerrar todos los modales y reiniciar pasos
         });
     });
 });
 
-// Reiniciar formulario y pasos
+// reiniciar formulario y pasos
 window.resetFormAndSteps = function (modalId) {
-    console.log(`Reiniciando formulario y pasos del modal: ${modalId}`);
+    console.log(`reiniciando formulario y pasos del modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
         const form = modal.querySelector("form");
         if (form) {
-            form.reset(); // Reiniciar formulario
-            console.log(`Formulario en modal ${modalId} reiniciado.`);
+            form.reset(); // reiniciar formulario
+            console.log(`formulario en modal ${modalId} reiniciado.`);
         }
 
         const steps = modal.querySelectorAll(".form-step");
@@ -145,8 +150,11 @@ window.resetFormAndSteps = function (modalId) {
             stepper.classList.toggle("active", index === 0);
         });
 
-        console.log(`Pasos reiniciados para modal ${modalId}.`);
+        // llamar a la función que reinicia los campos de pdf
+        resetFormFields();
+
+        console.log(`pasos reiniciados para modal ${modalId}.`);
     } else {
-        console.error(`No se encontró el modal con ID: ${modalId}`);
+        console.error(`no se encontró el modal con id: ${modalId}`);
     }
 };

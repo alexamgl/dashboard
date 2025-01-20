@@ -1,0 +1,254 @@
+.detalleTramite-cardInfoTramite-container {
+    margin: 10px;
+}
+
+.detalleTramite-card {
+    width: 200px;
+    height: 120px;
+    transition: all 0.5s;
+    box-shadow: 15px 15px 30px rgba(25, 25, 25, 0.11),
+                -15px -15px 30px rgba(60, 60, 60, 0.082);
+    text-align: center;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.detalleTramite-card:hover {
+    height: 250px;
+    background: linear-gradient(360deg, #edededc5 60%, #0b3b60 70%);
+}
+
+.detalleTramite-card .detalleTramite-header {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0b3b60;
+    margin-bottom: 16px;
+    color: #fff;
+}
+
+.detalleTramite-card .detalleTramite-header .detalleTramite-title {
+    font-size: 0.8em;
+    letter-spacing: 0.1em;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 4px 0 14px 0;
+    transition: all 0.5s;
+}
+
+.detalleTramite-card:hover .detalleTramite-header {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%);
+}
+
+.detalleTramite-card:hover .detalleTramite-header .detalleTramite-title {
+    padding: 0;
+}
+
+.detalleTramite-card .detalleTramite-header .detalleTramite-icon {
+    font-size: 48px;
+    color: #faa21b;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.detalleTramite-card:hover .detalleTramite-header .detalleTramite-icon {
+    color: #edededea;
+    transform: scale(1.1);
+}
+
+.detalleTramite-card .detalleTramite-content {
+    display: block;
+    text-align: left;
+    color: #212121;
+    margin: 0 18px;
+}
+
+.detalleTramite-card .detalleTramite-content p {
+    transition: all 0.5s;
+    font-size: 0.8em;
+    margin-bottom: 8px;
+}
+
+.detalleTramite-card .detalleTramite-content a {
+    color: #0b3b60;
+    cursor: pointer;
+    transition: all 0.5s;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.detalleTramite-card .detalleTramite-content .detalleTramite-btn-link:hover {
+    border-bottom: 1px solid #0b3b60;
+}
+
+/* Modal styling */
+.detalleTramite-modalInfos {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.detalleTramite-modalInfos.show {
+    display: flex;
+}
+
+.detalleTramite-modalInfos-content {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 600px;
+    max-width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+.detalleTramite-modalInfos2-content {
+    text-align: left;
+}
+
+.detalleTramite-modalInfos-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #0b3b60;
+}
+
+.detalleTramite-modalInfos-content p {
+    font-size: 1em;
+    color: #333;
+    line-height: 1.5;
+}
+
+.detalleTramite-modalInfos-content .detalleTramite-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #faa21b;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.detalleTramite-modalInfos-content .detalleTramite-close-btn:hover {
+    background: #e69900;
+}
+
+/* Requisitos */
+.detalleTramite-checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+.detalleTramite-checkbox > input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    left: -10px;
+    top: -8px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: none;
+    outline: none;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.detalleTramite-checkbox > span {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.detalleTramite-checkbox > span::before {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 3px 11px 3px 1px;
+    border: solid 2px;
+    border-color: rgba(0, 0, 0, 0.6);
+    border-radius: 2px;
+    width: 18px;
+    height: 18px;
+    vertical-align: top;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.detalleTramite-checkbox > span::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    width: 10px;
+    height: 5px;
+    border: solid 2px transparent;
+    border-right: none;
+    border-top: none;
+    transform: translate(3px, 4px) rotate(-45deg);
+}
+
+.detalleTramite-checkbox > input:checked,
+.detalleTramite-checkbox > input:indeterminate {
+    background-color: #faa21b;
+}
+
+.detalleTramite-checkbox > input:checked + span::before,
+.detalleTramite-checkbox > input:indeterminate + span::before {
+    border-color: #faa21b;
+    background-color: #faa21b;
+}
+
+.detalleTramite-checkbox > input:checked + span::after,
+.detalleTramite-checkbox > input:indeterminate + span::after {
+    border-color: #fff;
+}
+
+.detalleTramite-checkbox > input:indeterminate + span::after {
+    border-left: none;
+    transform: translate(4px, 3px);
+}
+
+.detalleTramite-checkbox:hover > input {
+    opacity: 0.04;
+}
+
+.detalleTramite-checkbox > input:focus {
+    opacity: 0.12;
+}
+
+.detalleTramite-checkbox:hover > input:focus {
+    opacity: 0.16;
+}
+
+.detalleTramite-checkbox > input:active {
+    opacity: 1;
+    transform: scale(0);
+    transition: transform 0s, opacity 0s;
+}
+
+.detalleTramite-checkbox > input:disabled {
+    opacity: 0;
+}
