@@ -158,3 +158,62 @@ window.resetFormAndSteps = function (modalId) {
         console.error(`no se encontró el modal con id: ${modalId}`);
     }
 };
+
+
+// Botón de pago ACUÁTICA
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Documento cargado.");
+
+    // Escuchar clic en el botón de pago
+    const btnPagarAcuatica = document.getElementById("btnPagarAcuatica");
+    if (btnPagarAcuatica) {
+        btnPagarAcuatica.addEventListener("click", () => {
+            // Crear modal dinámico para el iframe de pago
+            const modalPago = document.createElement("div");
+            modalPago.style.position = "fixed";
+            modalPago.style.top = "0";
+            modalPago.style.left = "0";
+            modalPago.style.width = "100%";
+            modalPago.style.height = "100%";
+            modalPago.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            modalPago.style.zIndex = "1000";
+            modalPago.style.display = "flex";
+            modalPago.style.justifyContent = "center";
+            modalPago.style.alignItems = "center";
+
+            // Crear iframe para mostrar la URL del pago
+            const iframePago = document.createElement("iframe");
+            iframePago.src = "PagosMotor/cadenacifrada.php"; // Cambia esta URL
+            iframePago.style.width = "80%";
+            iframePago.style.height = "80%";
+            iframePago.style.border = "none";
+            iframePago.style.borderRadius = "10px";
+
+            // Crear botón para cerrar el modal
+            const btnCerrar = document.createElement("button");
+            btnCerrar.innerText = "Cerrar";
+            btnCerrar.style.position = "absolute";
+            btnCerrar.style.top = "20px";
+            btnCerrar.style.right = "20px";
+            btnCerrar.style.padding = "10px";
+            btnCerrar.style.backgroundColor = "#ff0000";
+            btnCerrar.style.color = "#fff";
+            btnCerrar.style.border = "none";
+            btnCerrar.style.borderRadius = "5px";
+            btnCerrar.style.cursor = "pointer";
+
+            // Cerrar el modal cuando se haga clic en el botón
+            btnCerrar.addEventListener("click", () => {
+                modalPago.remove();
+            });
+
+            // Agregar el iframe y el botón al modal
+            modalPago.appendChild(iframePago);
+            modalPago.appendChild(btnCerrar);
+
+            // Agregar el modal al body
+            document.body.appendChild(modalPago);
+        });
+    }
+});

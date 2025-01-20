@@ -367,6 +367,19 @@
   .btn-refresh:hover {
     background-color: #005f8c;
   }
+
+      .btnPagarAcuatica {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btnPagarAcuatica:hover {
+            background-color: #0056b3;
+        }
 </style>
 </head>
 
@@ -939,18 +952,18 @@
       </div>
 
 
-      <!-- **************************************** Acuatica **********************************************-->
-      <!-- Card: Acuatica -->
-      <div class="cardTramite" onclick="openModal('acuaticaInfoModal')">
-        <div class="cardTramite-image">
-          <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
-        </div>
-        <div class="category">Categoría X</div>
-        <div class="heading">
-          Centro Acuático Municipal
-          <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
-        </div>
-      </div>
+<!-- **************************************** Acuatica **********************************************-->
+ <!-- Card: Acuatica -->
+ <div class="cardTramite" onclick="openModal('acuaticaInfoModal')">
+  <div class="cardTramite-image">
+      <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
+  </div>
+  <div class="category">Categoría XA</div>
+  <div class="heading">
+    Centro Acuático Municipal
+    <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+  </div>
+</div>
 
       <!-- Modal: Información Acuatica -->
       <div class="modalInfoTramite" id="acuaticaInfoModal">
@@ -1067,11 +1080,15 @@
 
               <!-- Modal de Confirmación Acuática -->
               <div class="modalConfirmationTramite" id="confirmationModalAcuatica">
-                <div class="modalConfirmationTramite-content">
-                  <h2>Trámite Finalizado: Acuática</h2>
-                  <p>Tus datos para el trámite de Acuática Municipal han sido enviados exitosamente.</p>
-                  <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
-                </div>
+                  <div class="modalConfirmationTramite-content">
+                      <h2>Trámite Finalizado: Acuática</h2>
+                      <p>Tus datos para el trámite de Acuática Municipal han sido enviados exitosamente.</p>
+                      <!-- Botones -->
+                      <button id="btnPagarAcuatica" class="btnPagarAcuatica" onclick="window.location.href='PagosMotor/cadenacifrada.php';">
+                        Pagar ahora
+                      </button>
+                      <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
+                    </div>
               </div>
             </form>
           </div>
@@ -1201,6 +1218,71 @@
       <div>Settings Content</div>
     </div>
   </div>
+
+  <!--Script para botón pagar-->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const btnPagarAcuatica = document.getElementById("btnPagarAcuatica");
+        const iframePago = document.createElement("iframe");
+
+        if (btnPagarAcuatica) {
+            btnPagarAcuatica.addEventListener("click", () => {
+                // Obtener la URL de cadenacifrada.php
+                fetch("PagosMotor/cadenacifrada.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.url) {
+                            // Crear modal dinámico con iframe
+                            const modalPago = document.createElement("div");
+                            modalPago.style.position = "fixed";
+                            modalPago.style.top = "0";
+                            modalPago.style.left = "0";
+                            modalPago.style.width = "100%";
+                            modalPago.style.height = "100%";
+                            modalPago.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+                            modalPago.style.zIndex = "1000";
+                            modalPago.style.display = "flex";
+                            modalPago.style.justifyContent = "center";
+                            modalPago.style.alignItems = "center";
+
+                            iframePago.src = data.url;
+                            iframePago.style.width = "80%";
+                            iframePago.style.height = "80%";
+                            iframePago.style.border = "none";
+                            iframePago.style.borderRadius = "10px";
+
+                            const btnCerrar = document.createElement("button");
+                            btnCerrar.innerText = "Cerrar";
+                            btnCerrar.style.position = "absolute";
+                            btnCerrar.style.top = "20px";
+                            btnCerrar.style.right = "20px";
+                            btnCerrar.style.padding = "10px";
+                            btnCerrar.style.backgroundColor = "#ff0000";
+                            btnCerrar.style.color = "#fff";
+                            btnCerrar.style.border = "none";
+                            btnCerrar.style.borderRadius = "5px";
+                            btnCerrar.style.cursor = "pointer";
+
+                            btnCerrar.addEventListener("click", () => {
+                                modalPago.remove();
+                            });
+
+                            modalPago.appendChild(iframePago);
+                            modalPago.appendChild(btnCerrar);
+                            document.body.appendChild(modalPago);
+                        } else {
+                            alert("No se pudo obtener la URL de pago.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al obtener la URL de pago:", error);
+                        alert("Ocurrió un error al cargar la URL de pago.");
+                    });
+            });
+        }
+    });
+</script>
+
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT173740739746965928868d47591e23db3ad6f2fba5268</reference>
+      <amount>1.00</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
