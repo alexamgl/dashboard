@@ -174,56 +174,105 @@
       /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
                    /*COMIENZO DE MODAL DE INFORMACION*/
       /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-  
-       /* Estilo del Modal */
-       .modalInfoTramite {
+      .modalInfoTramite {
         display: none;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        display: none;
         justify-content: center;
         align-items: center;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1000;
       }
-  
+      
+      /* Contenedor del Modal */
       .modalInfoTramite-content {
-        background: white;
+        display: flex; /* Usar Flexbox para organizar los elementos */
+        flex-wrap: wrap; /* Permitir que los elementos dentro se acomoden en filas */
+        gap: 16px; /* Espaciado entre los elementos */
+        justify-content: center; /* Centrar horizontalmente los cards */
+        align-items: flex-start; /* Alinear los elementos verticalmente */
         padding: 20px;
-        padding-top: 50px;
-        border-radius: 10px;
-        width: 90%;
         max-height: 80vh;
-        text-align: center;
-        position: relative;
-        animation: fadeIn 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        overflow-y: auto; /* Habilitar scroll vertical si es necesario */
+        overflow-x: hidden;
+        background-color: white;
+        border-radius: 10px;
+        box-sizing: border-box;
+        position: relative; /* Asegurar que los elementos absolutos estén contenidos */
+        
       }
       
-      .modalInfoTramite-content h2 {
-        margin-bottom: 10px;
+      
+      /* Cards individuales */
+      .detalleTramite-card {
+        flex: 1 1 calc(33.333% - 16px); /* Configuración para 3 cards por fila */
+        max-width: calc(33.333% - 16px); /* Limitar ancho máximo de cada card */
+        min-width: 250px; /* Ancho mínimo para evitar cards demasiado pequeñas */
+        height: auto;
+        box-sizing: border-box;
+        text-align: center;
+        overflow: hidden;
+        background-color: #0b3b60; /* Fondo azul */
+        color: #fff;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-  
-      .modalInfoTramite-content p {
-        color: gray;
+      
+      .detalleTramite-card:hover {
+        transform: translateY(-5px); /* Pequeño efecto al pasar el cursor */
       }
-  
+      
+      /* Títulos dentro de los cards */
+      .detalleTramite-header {
+        padding: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      
+      /* Responsividad para pantallas medianas */
+      @media (max-width: 768px) {
+        .detalleTramite-card {
+          flex: 1 1 calc(50% - 16px); /* Configuración para 2 cards por fila */
+          max-width: calc(50% - 16px);
+        }
+      }
+      
+      /* Responsividad para pantallas pequeñas */
+      @media (max-width: 480px) {
+        .detalleTramite-card {
+          flex: 1 1 100%; /* Configuración para 1 card por fila */
+          max-width: 100%;
+        }
+      }
+      
       .close-modalInfoTramite {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #f44336;
-        color: white;
+        position: absolute; /* Posicionamiento dentro del modal */
+        top: 10px; /* Espaciado desde la parte superior */
+        right: 10px; /* Espaciado desde la parte derecha */
+        background: #f44336; /* Fondo rojo */
+        color: white; /* Color del texto */
         border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
+        border-radius: 50%; /* Forma redonda */
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
         cursor: pointer;
-        font-size: 14px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s ease;
       }
-  
+      
+      .close-modalInfoTramite:hover {
+        background: #d32f2f; /* Fondo más oscuro al pasar el cursor */
+      }
+    
         /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
                    /*COMIENZO DE MODAL DE CONFIRMACIÓN*/
       /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -375,6 +424,14 @@
         border-radius: 4px;
         border-color: #faa21b;
       }
+
+      .form-group-tramite select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        border-color: #faa21b;
+      }
   
       .error-message {
         font-size: 12px;
@@ -387,17 +444,28 @@
         justify-content: space-between;
         margin-top: 20px;
       }
+
+      .btn-containerTramite {
+        width: 100%; /* Asegura que ocupe todo el ancho */
+        text-align: center; /* Centra el botón horizontalmente */
+        margin-top: 20px; /* Espacio entre los cards y el botón */
+    }
   
       .btnTramite {
         background-color: #faa21b;
         color: white;
-        padding: 10px 20px;
         border: none;
-        border-radius: 4px;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
         cursor: pointer;
-        margin-top: 20px;
+        transition: background 0.3s ease;
       }
-  
+
+      .btnTramite:hover {
+        background-color: #e69900;
+      }
+
       .btnNextTramite{
         background-color: #faa21b;
         color: white;

@@ -10,7 +10,11 @@ window.openModal = function (modalId) {
     } else {
         console.error(`no se encontró el modal con id: ${modalId}`);
     }
+
+    
 };
+
+
 
 // función para cerrar todos los modales y reiniciar los pasos
 window.closeAllModalsAndReset = function () {
@@ -217,3 +221,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+ 
