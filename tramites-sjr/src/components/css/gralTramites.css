@@ -502,15 +502,16 @@
         cursor: pointer;
       }
   
-    #map {
-            width: 300px;
-            height: 300px;
-            margin-top: 20px;
-            align-content: center;
-        }
+    
   
         select {
             margin-top: 20px;
             padding: 10px;
             font-size: 16px;
         }
+
+        .invalid {
+          border: 2px solid red;
+          background-color: #ffe6e6;
+      }
+      

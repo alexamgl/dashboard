@@ -1,4 +1,6 @@
 console.log("archivo cargado");
+console.log("validarCamposPasoActual:", typeof validarCamposPasoActual);
+
 
 // función para abrir un modal
 window.openModal = function (modalId) {
@@ -14,7 +16,10 @@ window.openModal = function (modalId) {
     
 };
 
-
+window.closeModal = function(modalId){
+    const modal = document.getElementById(modalId);
+    modal.style.display='none';
+}
 
 // función para cerrar todos los modales y reiniciar los pasos
 window.closeAllModalsAndReset = function () {
@@ -75,13 +80,27 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.addEventListener("click", (event) => {
             const target = event.target;
 
-            // botón "next"
+
+                //btn Next
             if (target.classList.contains("btnNextTramite")) {
+                const currentFormStep = steps[currentStep]; // obtener el paso actual
+        
+                // agregar el console.log para verificar el paso actual
+                console.log("paso actual (currentFormStep):", currentFormStep);
+        
+                // validar los campos del paso actual
+                if (!validarCamposPasoActual(currentFormStep)) {
+                    alert("por favor, completa correctamente todos los campos antes de continuar.");
+                    return; // no avanzar al siguiente paso
+                }
+        
                 if (currentStep < steps.length - 1) {
-                    currentStep++; // avanzar paso
+                    currentStep++;
                     updateStepVisibility();
                 }
             }
+            
+            
 
             // botón "prev"
             if (target.classList.contains("btnPrevTramite")) {
