@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("paso actual (currentFormStep):", currentFormStep);
         
                 // validar los campos del paso actual
-                if (!validarCamposPasoActual(currentFormStep)) {
+               if (!validarCamposPasoActual(currentFormStep)) {
                     alert("por favor, completa correctamente todos los campos antes de continuar.");
                     return; // no avanzar al siguiente paso
                 }
