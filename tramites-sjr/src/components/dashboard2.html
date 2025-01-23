@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
@@ -385,6 +386,627 @@
     font-size: 16px;
     cursor: pointer;
   }
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #0b3b60;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            color: white;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar .header {
+            padding: 0;
+            text-align: center;
+            background-color: #0b3b60;
+            /* Match Sidebar Background */
+            border-bottom: 2px solid #faa21b;
+            /* Pink Divider */
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .header img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .sidebar.collapsed .header img {
+            content: url('palomanaranja.png');
+            /* Replace with the collapsed image */
+        }
+
+        .sidebar .nav {
+            list-style: none;
+        }
+
+        .sidebar .nav li {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            border-radius: 8px;
+            margin: 6px 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar .nav li i {
+            font-size: 18px;
+        }
+
+        .sidebar .nav li:hover {
+            background-color: #0076aa;
+            /* Medium Blue Hover */
+        }
+
+        .sidebar .nav li.active {
+            background-color: #faa21b;
+            /* Pink Active */
+            color: #fff;
+            border-radius: 8px;
+            margin: 6px 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar.collapsed .nav li {
+            text-align: center;
+            padding: 12px 5px;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .nav li span {
+            display: none;
+        }
+
+        .indicator {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 40px;
+            width: 5px;
+            background-color: #faa21b;
+            /* Pink Indicator */
+            border-radius: 0 5px 5px 0;
+            transition: left 0.5s ease;
+        }
+
+        .sidebar.collapsed .indicator {
+            left: auto;
+            right: 0;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            transition: margin-top 0.3s ease;
+        }
+
+        .content.adjusted {
+            margin-left: 70px;
+        }
+
+        .top-bar {
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            height: 70px;
+            background-color: #0076aa;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .top-bar.adjusted {
+            left: 70px;
+            width: calc(100% - 70px);
+        }
+
+        .top-bar h1 {
+            margin: 0;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #faa21b;
+            /* Pink Avatar */
+            border-radius: 50%;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            /* Add spacing for cards */
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart {
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .table-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+            padding: 12px 15px;
+        }
+
+        table th {
+            background: #0076aa;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        table td {
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover td {
+            background: #e1f5fe;
+        }
+
+        table tr:nth-child(even) td {
+            background: #f1f1f1;
+        }
+
+        .filters-container {
+            position: fixed;
+            top: 70px;
+            /* Debajo del top-bar */
+            left: 250px;
+            width: calc(100% - 250px);
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 900;
+
+        }
+
+        .filters-container.adjusted {
+            left: 70px;
+            width: calc(100% - 70px);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filters>div {
+            flex: 1 1 calc(33.33% - 20px);
+            min-width: 200px;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #666;
+            text-align: left;
+        }
+
+        .btn-refresh {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #0076aa;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .btn-refresh:hover {
+            background-color: #005f8c;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            background-color: #0076aa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #005f8c;
+        }
+
+        #current-page {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Tarjetas */
+        .user-card,
+        .edit-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            /* Una sola columna */
+            box-sizing: border-box;
+        }
+
+        .user-card h3,
+        .edit-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+            border-bottom: 2px solid #0076aa;
+            padding-bottom: 5px;
+        }
+
+        .user-card:hover,
+        .edit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Información del usuario */
+        .user-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .user-info p strong {
+            color: #0076aa;
+        }
+
+        .user-info-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        #user-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #user-role {
+            font-size: 14px;
+            color: #ffd700;
+            /* Amarillo dorado */
+        }
+
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Botón Editar */
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffa500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-edit:hover {
+            background-color: #cc8400;
+        }
+
+        /* Botones del formulario */
+        .btn-save {
+            padding: 10px 20px;
+            background-color: #0076aa;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #005f8c;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+
+            .user-card,
+            .edit-card {
+                width: 100%;
+                /* Mantiene una sola columna en pantallas pequeñas */
+            }
+        }
+
+        /* Contenedor de documentos */
+
+        .document-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .document-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Dos columnas por fila */
+            gap: 20px;
+            /* Espaciado entre las cards */
+            padding: 20px;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .document-container {
+                grid-template-columns: 1fr;
+                /* Una columna en pantallas pequeñas */
+            }
+        }
+
+        /* Diseño de las cards */
+        .document-item {
+            display: flex;
+            /* Usamos Flexbox para dividir el contenido en dos */
+            align-items: flex-start;
+            /* Alinea los elementos al inicio */
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            gap: 20px;
+            /* Espaciado entre columnas dentro de la card */
+        }
+
+        .document-item:hover {
+            transform: translateY(-5px);
+            /* Efecto de elevación */
+        }
+
+        /* Columna izquierda */
+        .document-left {
+            flex: 1;
+        }
+
+        .document-item label {
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        /* Miniatura del documento */
+        .document-preview {
+            width: 120px;
+            height: 160px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Deshabilita la interacción del iframe para permitir clics en el contenedor */
+        }
+
+
+        .document-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-input-wrapper {
+            width: 100%;
+        }
+
+        .btn-select-file {
+            display: inline-block;
+            background-color: #0076aa;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn-select-file:hover {
+            background-color: #005f8c;
+        }
+
+>>>>>>> parent of 9b36ac3 (Changes)
         .btn-select-file:disabled {
 
             cursor: not-allowed;
@@ -1051,8 +1673,6 @@
                     class="indicator"></span><i class="fas fa-file-alt"></i><span>Reportes</span></li>
             <li class="admin-section" style="display: none;" onclick="toggleVisibility('analytics', this)"><span
                     class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
-            <li class="trabajador-section" style="display: none;" onclick="toggleVisibility('nomina', this)"><span
-                    class="indicator"></span><i class="fas fa-money-check"></i><span> Recibo de nómina</span></li>
             <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
                     class="fas fa-file-signature"></i><span>Trámites</span></li>
             <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
@@ -1088,6 +1708,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
         <div id="nomina" class="section">
             <h2>Recibo de nómina</h2>
             <div id="recibo-container" style="margin-top: 20px;">
@@ -1109,6 +1730,8 @@
           <div class="author">Descripción breve</div>
         </div>
       </div>
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
         <div id="mis-datos" class="section">
             <h2 class="section-title">Perfil del Usuario</h2>
             <div class="profile-container">
@@ -1186,67 +1809,6 @@
                 <div class="card edit-card hidden">
                     <h3>Editar Información</h3>
                     <form id="editUserForm">
-                        <!-- Campos adicionales para trabajadores -->
-                        <div id="trabajadorFields" style="display: none;">
-                            <div class="form-group">
-                                <label for="editNoNomina">Número de Nómina</label>
-                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
-                            </div>
-                            <div class="form-group">
-                                <label for="editPuesto">Puesto</label>
-                                <input type="text" id="editPuesto" placeholder="Puesto">
-                            </div>
-                            <div class="form-group">
-                                <label for="editDepartamento">Dependencia</label>
-                                <select id="editDepartamento">
-                                    <option value="">Seleccionar Dependencia</option>
-                                    <option value="JEFATURA DE GABINETE">JEFATURA DE GABINETE</option>
-                                    <option value="JEFATURA DE LA OFICINA DEL PRESIDENTE">JEFATURA DE LA OFICINA DEL
-                                        PRESIDENTE</option>
-                                    <option value="SECRETARIA PARTICULAR">SECRETARÍA PARTICULAR</option>
-                                    <option value="SECRETARIA DEL AYUNTAMIENTO">SECRETARÍA DEL AYUNTAMIENTO</option>
-                                    <option value="SECRETARIA DE GOBIERNO">SECRETARÍA DE GOBIERNO</option>
-                                    <option value="SECRETARIA DE FINANZAS PUBLICAS">SECRETARÍA DE FINANZAS PÚBLICAS
-                                    </option>
-                                    <option value="SECRETARIA DE DESARROLLO INTEGRAL Y ECONOMICO">SECRETARÍA DE
-                                        DESARROLLO INTEGRAL Y ECONÓMICO</option>
-                                    <option value="SECRETARIA DE OBRAS PUBLICAS Y DESARROLLO URBANO">SECRETARÍA DE OBRAS
-                                        PÚBLICAS Y DESARROLLO URBANO</option>
-                                    <option value="SECRETARIA DE DESARROLLO SOCIAL">SECRETARÍA DE DESARROLLO SOCIAL
-                                    </option>
-                                    <option value="SECRETARIA DE SERVICIOS PUBLICOS MUNICIPALES">SECRETARÍA DE SERVICIOS
-                                        PÚBLICOS MUNICIPALES</option>
-                                    <option value="SECRETARIA DE SEGURIDAD PUBLICA">SECRETARÍA DE SEGURIDAD PÚBLICA
-                                    </option>
-                                    <option value="SECRETARIA DEL ORGANO INTERNO DE CONTROL">SECRETARÍA DEL ÓRGANO
-                                        INTERNO DE CONTROL</option>
-                                    <option value="SECRETARIA DE DESARROLLO AGROPECUARIO">SECRETARÍA DE DESARROLLO
-                                        AGROPECUARIO</option>
-                                    <option value="SECRETARIA DE ADMINISTRACION">SECRETARÍA DE ADMINISTRACIÓN</option>
-                                    <option value="SECRETARIA DE LA MUJER">SECRETARÍA DE LA MUJER</option>
-                                    <option value="SECRETARIA DEL CENTRO DE ATENCION MUNICIPAL">SECRETARÍA DEL CENTRO DE
-                                        ATENCIÓN MUNICIPAL</option>
-                                    <option value="SISTEMA DIF">SISTEMA DIF</option>
-                                    <option value="JUNTA DE AGUA POTABLE Y ALCANTARILLADO MUNICIPAL">JUNTA DE AGUA
-                                        POTABLE Y ALCANTARILLADO MUNICIPAL</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <!-- Campos adicionales para organizaciones -->
-                        <div id="organizacionFields" style="display: none;">
-                            <div class="form-group">
-                                <label for="editRazonSocial">Razón Social</label>
-                                <input type="text" id="editRazonSocial" placeholder="Razón Social">
-                            </div>
-                            <div class="form-group">
-                                <label for="editRFC">RFC</label>
-                                <input type="text" id="editRFC" placeholder="RFC">
-                            </div>
-                            <h4>Datos del representante legal</h4>
-                            <br>
-                        </div>
-
                         <div class="form-group">
                             <label for="editNombre">Nombre</label>
                             <input type="text" id="editNombre" placeholder="Nombre">
@@ -1288,6 +1850,7 @@
                             <input type="text" id="editCP" placeholder="Código Postal">
                         </div>
 
+<<<<<<< HEAD
               <!-- Paso 2 -->
               <div class="form-step" data-step="2">
                 <h2>Profile Information</h2>
@@ -1295,6 +1858,30 @@
                   <label for="firstName">First Name</label>
                   <input type="text" id="firstName" name="firstName" >
                   <span class="error-message">First name is required</span>
+=======
+                        <!-- Campos adicionales para trabajadores -->
+                        <div id="trabajadorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editNoNomina">Número de Nómina</label>
+                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPuesto">Puesto</label>
+                                <input type="text" id="editPuesto" placeholder="Puesto">
+                            </div>
+                            <div class="form-group">
+                                <label for="editDepartamento">Departamento</label>
+                                <select id="editDepartamento">
+                                    <option value="">Seleccionar Departamento</option>
+                                    <!-- Agrega opciones dinámicas aquí -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" id="saveButton" class="btn-save">Guardar Cambios</button>
+                        <button type="button" id="cancelEditButton" class="btn-cancel">Cancelar</button>
+                    </form>
+>>>>>>> parent of 9b36ac3 (Changes)
                 </div>
                 <div class="form-group">
                   <label for="lastName">Last Name</label>
@@ -1567,12 +2154,50 @@
             <h3>Programa Becas Municipales</h3>
             <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
             <br>
+<<<<<<< HEAD
 
           </div>
           <div class="stepper">
             <!-- Pasos del stepper -->
             <div class="step active" data-step="1">
               <div class="circle">1</div><span>Datos de Identificación</span>
+=======
+            <div class="filters-container">
+                <div class="filters">
+                    <div>
+                        <label for="filter-nombre-ciudadanos">Nombre</label>
+                        <input id="filter-nombre-ciudadanos" type="text" placeholder="Filtrar por nombre">
+                    </div>
+                    <div>
+                        <label for="filter-colonia-ciudadanos">Colonia</label>
+                        <input id="filter-colonia-ciudadanos" type="text" placeholder="Filtrar por colonia">
+                    </div>
+                    <div>
+                        <label for="filter-cp-ciudadanos">Código postal</label>
+                        <input id="filter-cp-ciudadanos" type="text" placeholder="Filtrar por código postal">
+                    </div>
+                    <div>
+                        <label for="filter-edad-ciudadanos">Rango de edades</label>
+                        <select id="filter-edad-ciudadanos">
+                            <option value="">Todas las edades</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-29">25-29</option>
+                            <option value="30-34">30-34</option>
+                            <option value="35-39">35-39</option>
+                            <option value="40-44">40-44</option>
+                            <option value="45-49">45-49</option>
+                            <option value="50-54">50-54</option>
+                            <option value="55-59">55-59</option>
+                            <option value="60-64">60-64</option>
+                            <option value="65-69">65-69</option>
+                            <option value="70-74">70-74</option>
+                            <option value="75-79">75-79</option>
+                            <option value="80-84">80-84</option>
+                            <option value="85">85 y más</option>
+                        </select>
+                    </div>                    
+                </div>
+>>>>>>> parent of 9b36ac3 (Changes)
             </div>
             <div class="line"></div>
             <div class="step" data-step="2">
@@ -1683,6 +2308,7 @@
                     </tr>
                   </tbody>
                 </table>
+<<<<<<< HEAD
                 <!--Table2-->
                 <table class="tablaTramite">
                   <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio del estudiante
@@ -1814,6 +2440,106 @@
                   <input type="text" id="noPersonasDomicilio" name="noPersonasDomicilio"
                     placeholder="Número de personas que habitan en el domicilio" required  oninput="validarNumeroPersonasHabitan('noPersonasDomicilio')"/>
                   <br>
+=======
+            </div>
+            <!-- Botones de paginación -->
+            <div class="pagination">
+                <button id="prev-page" onclick="prevPage()">Anterior</button>
+                <span id="current-page">Página 1 de 1</span>
+                <button id="next-page" onclick="nextPage()">Siguiente</button>
+            </div>
+        </div>
+
+
+        <!-- Sección Trabajadores Registrados -->
+        <div id="registered-workers" class="section hidden">
+            <h2>Trabajadores Registrados</h2>
+            <br>
+            <div class="filters-container">
+                <div class="filters">
+                    <div>
+                        <label for="filter-nombre-trabajadores">Nombre</label>
+                        <input id="filter-nombre-trabajadores" type="text" placeholder="Filtrar por nombre">
+                    </div>
+                    <div>
+                        <label for="filter-colonia-trabajadores">Colonia</label>
+                        <input id="filter-colonia-trabajadores" type="text" placeholder="Filtrar por colonia">
+                    </div>
+                    <div>
+                        <label for="filter-cp-trabajadores">Código Postal</label>
+                        <input id="filter-cp-trabajadores" type="text" placeholder="Filtrar por código postal">
+                    </div>
+                    <div>
+                        <label for="filter-genero-trabajadores">Género</label>
+                        <select id="filter-genero-trabajadores">
+                            <option value="">Todos los géneros</option>
+                            <option value="h">Hombre</option>
+                            <option value="m">Mujer</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-departamento-trabajadores">Departamento</label>
+                        <input id="filter-departamento-trabajadores" type="text" placeholder="Filtrar por departamento">
+                    </div>
+                    <div>
+                        <label for="filter-puesto-trabajadores">Puesto</label>
+                        <input id="filter-puesto-trabajadores" type="text" placeholder="Filtrar por puesto">
+                    </div>
+                    <div>
+                        <label for="filter-edad-trabajadores">Rango de edades</label>
+                        <select id="filter-edad-trabajadores">
+                            <option value="">Todas las edades</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-29">25-29</option>
+                            <option value="30-34">30-34</option>
+                            <option value="35-39">35-39</option>
+                            <option value="40-44">40-44</option>
+                            <option value="45-49">45-49</option>
+                            <option value="50-54">50-54</option>
+                            <option value="55-59">55-59</option>
+                            <option value="60-64">60-64</option>
+                            <option value="65-69">65-69</option>
+                            <option value="70-74">70-74</option>
+                            <option value="75-79">75-79</option>
+                            <option value="80-84">80-84</option>
+                            <option value="85">85 y más</option>
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+            <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
+            <div class="results-count" id="results-trabajadores">Registros encontrados: 0</div>
+            <div class="table-container">
+                <table id="trabajadores-table">
+                    <thead>
+                        <tr>
+                            <th>No. Nómina</th>
+                            <th>Nombre Completo</th>
+                            <th>CURP</th>
+                            <th>Departamento</th>
+                            <th>Puesto</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Calle</th>
+                            <th>Colonia</th>
+                            <th>No. Exterior</th>
+                            <th>Código Postal</th>
+                            <th>Género</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <!-- Botones de paginación -->
+            <div class="pagination">
+                <button id="prev-page-workers" onclick="prevPageWorkers()">Anterior</button>
+                <span id="current-page-workers">Página 1 de 1</span>
+                <button id="next-page-workers" onclick="nextPageWorkers()">Siguiente</button>
+            </div>
+        </div>
+        
+>>>>>>> parent of 9b36ac3 (Changes)
 
                   <label for="noPersonasAportan">Número de personas
                     que habitan que aportan ingresos</label>
