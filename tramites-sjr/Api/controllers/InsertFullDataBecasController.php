@@ -1,5 +1,4 @@
 <?php
-
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/config/db.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/utils/response.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/utils/fileController.php';
