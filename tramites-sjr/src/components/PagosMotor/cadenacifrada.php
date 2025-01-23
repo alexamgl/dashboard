@@ -92,7 +92,7 @@ try {
         $nvacadena = substr($decrypted, $posicionInicio, $posicionFin - $posicionInicio);
 
         // Redirigir a pagos_genericos.html con la URL como parámetro
-        header("Location: /Tramites/dashboard/tramites-sjr/src/components/PagosMotor/pagos_genericos.html?url=" . urlencode($nvacadena));
+        header("Location: /Becas/dashboard/tramites-sjr/src/components/PagosMotor/pagos_genericos.html?url=" . urlencode($nvacadena));
         exit;
 
 
