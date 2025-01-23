@@ -89,8 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("paso actual (currentFormStep):", currentFormStep);
         
                 // validar los campos del paso actual
-<<<<<<< HEAD
-<<<<<<< HEAD
                /*if (!validarCamposPasoActual(currentFormStep)) {
 =======
                 if (!validarCamposPasoActual(currentFormStep)) {
