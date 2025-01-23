@@ -1260,6 +1260,7 @@
               <div class="line"></div>
               <div class="step"><div class="circle">3</div><span>Documentos</span></div>
             </div>
+<<<<<<< HEAD
   
             <!-- Formulario -->
             <form class="tramite-form" onsubmit="handleSubmit(event, 'becas')">
@@ -1268,6 +1269,281 @@
                 <h2>Datos de Identificación</h2>
                 <table class="form-table">
                   <caption>Datos del Estudiante</caption>
+=======
+
+
+            
+              <div class="detalleTramite-card" id="card-requisitos">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">rule</span>
+                  <span class="detalleTramite-title">Requisitos</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>¿Qué requieres antes de realizar este trámite?</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-requisitos')">Leer más...</a>
+                </div>
+              </div>
+            
+
+           
+              <div class="detalleTramite-card" id="card-fundamento-juridico">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">copyright</span>
+                  <span class="detalleTramite-title">Fundamento Jurídico</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>Información sobre el fundamento jurídico.</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-fundamento-juridico')">Leer
+                    más...</a>
+                </div>
+              </div>
+            
+
+           
+              <div class="detalleTramite-card" id="card-costos">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">attach_money</span>
+                  <span class="detalleTramite-title">Costos</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>Consulta los costos relacionados al trámite.</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-costos')">Leer más...</a>
+                </div>
+              </div>
+            
+            <!-- Modal: Acerca del Trámite -->
+            <div class="detalleTramite-modalInfos" id="modal-acerca-tramite">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-acerca-tramite')">×</button>
+                <h2>Acerca del trámite</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Requisitos -->
+            <div class="detalleTramite-modalInfos" id="modal-requisitos">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-requisitos')">×</button>
+                <h2>Requisitos</h2>
+                <p>Asegúratee de contar con todos los documentos necesarios para completar el trámite de manera exitosa.
+                </p>
+                <div class="modalInfos2-content">
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Acta de Nacimiento</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Comprobante de domicilio</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Curp</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Boleta de calificaciones</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Constancia de inscripción</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Comprobante de ingresos</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Solicitud de beca</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Contar con un número de teléfono celular activo</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Fundamento Jurídico -->
+            <div class="detalleTramite-modalInfos" id="modal-fundamento-juridico">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn"
+                  onclick="closeModalInfos('modal-fundamento-juridico')">×</button>
+                <h2>Fundamento Jurídico</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Costos -->
+            <div class="detalleTramite-modalInfos" id="modal-costos">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-costos')">×</button>
+                <h2>Costo</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+          
+            <div class="btn-containerTramite">
+              <button class="btnTramite" onclick="openModal('modalFormBecas')">Iniciar Trámite</button>
+            </div>
+        </div>
+      </div>
+      
+    
+<!--*****************************************FORMULARIO DE BECAS****************************************************-->
+      <div class="modalTramite" id="modalFormBecas" data-confirmation-modal="confirmationModalBecas">
+      <div class="modalTramite-content">
+        <button class="close-modalTramite" onclick="closeModal('modalFormBecas')">X</button>
+        <div class="containerTramite">
+          <div class="DatosTramite" style="text-align: left;">
+            <h2 style="text-align: center;">Trámite de Becas educativas del Municipio de San Juan del Río</h2>
+            <p style="text-align: center;">Apoyo económico al alumnado del sector educativo</p>
+            <h3>Programa Becas Municipales</h3>
+            <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
+            <br>
+
+          </div>
+          <div class="stepper">
+            <!-- Pasos del stepper -->
+            <div class="step active" data-step="1">
+              <div class="circle">1</div><span>Datos de Identificación</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="2">
+              <div class="circle">2</div><span>Datos Académicos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="3">
+              <div class="circle">3</div><span>Datos Socieconómicos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="4">
+              <div class="circle">4</div><span>Protesta de decir verdad</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="5">
+              <div class="circle">5</div><span>Documentos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="6">
+              <div class="circle">6</div><span>Confirmación</span>
+            </div>
+          </div>
+          <!-- Formulario Becas -->
+          <form id="stepFormBecas">
+            <!-- Paso 1 -->
+            <div class="form-step active" data-step="1">
+              <div class="form-group-tramite">
+                <div id="contenedorMapaBeca">
+                <!--MAPA-->
+                <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; border: 1px solid #d3d3d3; 
+                   border-radius: 5px; ">
+                  <div style="margin-right: 20px;">
+                    <select id="locationSelect" required oninput="validarSelect('locationSelect')">
+                      <option value="hide">-- Seleccione --</option>
+                      <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
+                    </select>
+                  
+                  </div>
+                  <div id="map"></div>
+
+                </div>
+              </div>
+
+
+                </br>
+                </br>
+
+                
+                <!--Table1-->
+                <table class="tablaTramite">
+                  <caption class="captionInput">Datos del estudiante</caption>
+>>>>>>> parent of 24a8826 (cambioDiseño)
                   <thead>
                     <tr>
                       <th>Apellido Paterno</th>
@@ -1323,7 +1599,189 @@
                   <button type="submit" class="btn">Confirmar</button>
                 </div>
               </div>
+<<<<<<< HEAD
             </form>
+=======
+            </div>
+
+
+            <!-- Paso 3 -->
+            <div class="form-step" data-step="3">
+              <div class="form-group-tramite">
+                <table class="tablaTramite">
+                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Datos de la madre, padre o
+                    tutor</caption>
+                  <thead>
+                    <tr class="tr-tramite">
+                      <th>Apellido paterno</th>
+                      <th>Apellido materno</th>
+                      <th>Nombre(s)</th>
+                      <th>Ocupación</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="text" id="apellidoPaternoTutor" name="apellidoPaternoTutor" placeholder="Apellido paterno" value="PRUEBA" style="width: 95%;" disabled />
+                      </td>
+                      <td>
+                        <input type="text" id="apellidoMaterno" name="apellidoMaterno" placeholder="Apellido materno" value="PRUEBA" style="width: 95%;" disabled/>
+                      </td>
+                      <td>
+                        <input type="text" id="nombreTutor" name="nombreTutor" placeholder="Nombre(s)" value="PRUEBA" style="width: 95%;" disabled />
+                      </td>
+                      <td>
+                        <input type="text" id="ocupacionTutor" name="ocupacionTutor" placeholder="Ocupación"  required style="width: 95%;" oninput="validarOcupacionTutor('ocupacionTutor')" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="margin-bottom: 15px;">
+                  <label for="noPersonasDomicilio">Número de personas
+                    que habitan en el domicilio</label>
+                  <input type="text" id="noPersonasDomicilio" name="noPersonasDomicilio"
+                    placeholder="Número de personas que habitan en el domicilio" required  oninput="validarNumeroPersonasHabitan('noPersonasDomicilio')"/>
+                  <br>
+
+                  <label for="noPersonasAportan">Número de personas
+                    que habitan que aportan ingresos</label>
+                  <input type="text" id="noPersonasAportan" name="noPersonasAportan"
+                    placeholder="Número de personas que habitan que aportan ingresos" required oninput="validarNumeroPersonasHabitan('noPersonasAportan')" />
+
+                  <label for="ingresoFamiliar">Ingreso mensual familiar</label>
+                  <input type="text" id="ingresoFamiliar" name="ingresoFamiliar" required placeholder="Ingreso mensual familiar" oninput="validarIngresoMensualFamiliar('ingresoFamiliar')" />
+                </div>
+               
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevTramite">Volver</button>
+                  <button type="button" class="btnNextTramite">Continuar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 4 -->
+            <div class="form-step" data-step="4">
+              <div class="form-group-tramite">
+                <div id="protesta-container">
+                  <div class="contenedor-protesta">
+                    <div class="protesta">
+                      <label class="labelProtesta">Bajo protesta de decir verdad manifiesto que los ingresos familiares
+                        son los declarados</label>
+                      <div class="radio-buttons">
+                        <label class="radio-button">
+                          <input id="protestaBeca"  type="radio" name="protestaBeca"  value="True" required oninput="validarUnRadio('protestaBeca')"
+                          >
+                          <span class="radio-label">Acepto</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevTramite">Volver</button>
+                  <button type="button" class="btnNextTramite">Continuar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 5 -->
+            <div class="form-step" data-step="5">
+              <table class="tablaTramite" id="documentsTable">
+                <thead>
+                  <tr class="tr-tramite">
+                    <th>Ver archivo</th>
+                    <th>Nombre documento</th>
+                    <th>Descripción</th>
+                    <th>Tamaño</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Las filas se agregarán dinámicamente aquí -->
+                </tbody>
+              </table>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevTramite">Volver</button>
+                <button type="button" class="btnNextTramite">Continuar</button>
+              </div>
+            </div>
+
+            <!-- Paso 6 -->
+            <div class="form-step" data-step="6" style="display: block;">
+              <h2>¡Confirmación!</h2>
+              <p>Confirma que has registrado los datos correctos</p>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevTramite">Volver</button>
+                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
+              </div>
+            </div>
+            <!-- Modal de Confirmación Becas -->
+            <div class="modalConfirmationTramite" id="confirmationModalBecas">
+              <div class="modalConfirmationTramite-content"> 
+                <div class="contenedorConfirmacionBeca"> 
+                <h2>Trámite Finalizado: Becas</h2>
+                <p>Tus datos para el trámite de Becas han sido enviados exitosamente.</p>
+                <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
+              </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- **************************************** Acuatica **********************************************-->
+    <!-- Card: Acuatica -->
+    <div class="cardTramite" onclick="openModal('acuaticaInfoModal')">
+      <div class="cardTramite-image">
+        <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
+      </div>
+      <div class="category">Categoría XA</div>
+      <div class="heading">
+        Centro Acuático Municipal
+        <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+      </div>
+    </div>
+
+    <!-- Modal: Información Acuatica -->
+    <div class="modalInfoTramite" id="acuaticaInfoModal">
+      <div class="modalInfoTramite-content">
+        <button class="close-modalInfoTramite" onclick="closeModal('acuaticaInfoModal')">X</button>
+        <h2>Información sobre el Trámite de Acuática Municipal</h2>
+        <p>Aprende a nadar desde cero. Conoce nuevos estilos. Perfecciona las técnicas. Rehabilita tu cuerpo para la
+          recuperación. O simplemente por el gusto de nadar.</p>
+        <button class="btnTramite" onclick="openModal('modalFormAcuatica')">Iniciar Trámite</button>
+      </div>
+    </div>
+
+    <!-- Modal: Formulario Acuatica -->
+    <div class="modalTramite" id="modalFormAcuatica" data-confirmation-modal="confirmationModalAcuatica">
+      <div class="modalTramite-content">
+        <button class="close-modalTramite" onclick="closeModal('modalFormAcuatica')">X</button>
+        <!-- FORMULARIO -->
+        <div class="containerTramite">
+          <div class="stepper">
+            <div class="step active" data-step="1">
+              <div class="circle">1</div>
+              <span>Account</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="2">
+              <div class="circle">2</div>
+              <span>Profile</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="3">
+              <div class="circle">3</div>
+              <span>Address</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="4">
+              <div class="circle">4</div>
+              <span>Confirmation</span>
+            </div>
+>>>>>>> parent of 24a8826 (cambioDiseño)
           </div>
         </div>
       </div>

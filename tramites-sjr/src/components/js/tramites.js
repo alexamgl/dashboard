@@ -89,7 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("paso actual (currentFormStep):", currentFormStep);
         
                 // validar los campos del paso actual
+<<<<<<< HEAD
                /*if (!validarCamposPasoActual(currentFormStep)) {
+=======
+                if (!validarCamposPasoActual(currentFormStep)) {
+>>>>>>> parent of 24a8826 (cambioDiseño)
                     alert("por favor, completa correctamente todos los campos antes de continuar.");
                     return; // no avanzar al siguiente paso
                 }*/
