@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa con Leaflet</title>
+    <!-- Estilos de Leaflet -->
+    <link
+        rel="stylesheet"
+        href="leaflet/leaflet.css"
+    />
+    <style>
+        #map {
+            width: 400px;
+            height: 150px;
+            margin-top: 20px;
+        }
+
+        select {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <select id="locationSelect" onchange="updateMap()">
+        <option value="hide">-- Seleccione --</option>
+        <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
+    </select>
+
+    <div id="map"></div>
+
+    <!-- JavaScript de Leaflet -->
+    <script src="leaflet/leaflet.js"></script>
+    <script>
+        // Variables globales para el mapa y el marcador
+        let map;
+        let marker;
+
+        // Inicializar el mapa con una ubicación predeterminada
+        function initializeMap(lat = 20.3927044, lng = -100.0053128, zoom = 10) {
+            // Crear el mapa
+            map = L.map("map").setView([lat, lng], zoom);
+
+            // Cargar capa de OpenStreetMap
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: '',
+            }).addTo(map);
+
+            // Agregar marcador inicial
+            marker = L.marker([lat, lng]).addTo(map)
+                .bindPopup('Centro Cívico Municipal San Juan del Río')
+                .openPopup();
+        }
+
+        // Actualizar el mapa según la selección
+        function updateMap() {
+            const select = document.getElementById("locationSelect");
+            const value = select.value;
+
+            if (value === "hide") {
+                alert("Por favor, seleccione una ubicación.");
+                return;
+            }
+
+            const [lat, lng] = value.split(",").map(Number); // Obtener latitud y longitud
+
+            // Actualizar vista y marcador
+            map.setView([lat, lng], 17); // Mover el mapa al centro
+            marker.setLatLng([lat, lng]) // Mover el marcador
+                .bindPopup(`${select.options[select.selectedIndex].text}`) // Actualizar popup
+                .openPopup();
+        }
+
+        // Inicializar el mapa al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeMap(); // Coordenadas predeterminadas
+        });
+    </script>
+    <link rel="stylesheet" href="css/leaflet.css">
+    <script src="js/leaflet.js"></script>
+</body>
+</html>
