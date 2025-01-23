@@ -332,9 +332,12 @@
         .pagination {
             display: flex;
             justify-content: center;
+            /* Centra la paginación horizontalmente */
             align-items: center;
-            margin-top: 20px;
             gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            /* Espacio adicional arriba */
         }
 
         .pagination button {
@@ -362,6 +365,101 @@
             font-size: 14px;
             color: #333;
             font-weight: bold;
+        }
+
+        #page-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        #page-buttons button {
+            width: 40px;
+            /* Aumentar el ancho para manejar números de 3 dígitos */
+            height: 40px;
+            /* Aumentar la altura para mantener la proporción */
+            border: none;
+            border-radius: 50%;
+            /* Mantener el diseño circular */
+            background-color: #f0f0f0;
+            color: #555;
+            font-size: 14px;
+            /* Ajustar el tamaño del texto */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Centrar el texto dentro del círculo */
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            /* Asegurarse de que padding/border no afecte el tamaño del botón */
+        }
+
+        #page-buttons button:hover {
+            background-color: #d0d0d0;
+        }
+
+        #page-buttons button.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        #page-buttons-workers {
+            display: flex;
+            gap: 5px;
+        }
+
+        #page-buttons-workers button {
+            width: 40px;
+            /* Aumentar el ancho para manejar números de 3 dígitos */
+            height: 40px;
+            /* Aumentar la altura para mantener la proporción */
+            border: none;
+            border-radius: 50%;
+            /* Mantener el diseño circular */
+            background-color: #f0f0f0;
+            color: #555;
+            font-size: 14px;
+            /* Ajustar el tamaño del texto */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Centrar el texto dentro del círculo */
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            /* Asegurarse de que padding/border no afecte el tamaño del botón */
+        }
+
+        #page-buttons-workers button:hover {
+            background-color: #d0d0d0;
+        }
+
+        #page-buttons-workers button.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+
+        .goto-page {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .goto-page input {
+            width: 100px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .goto-page input:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
 
@@ -1253,6 +1351,8 @@
                     class="indicator"></span><i class="fas fa-file-alt"></i><span>Reportes</span></li>
             <li class="admin-section" style="display: none;" onclick="toggleVisibility('analytics', this)"><span
                     class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
+            <li class="trabajador-section" style="display: none;" onclick="toggleVisibility('nomina', this)"><span
+                    class="indicator"></span><i class="fas fa-money-check"></i><span> Recibo de nómina</span></li>
             <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
                     class="fas fa-file-signature"></i><span>Trámites</span></li>
             <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
@@ -1288,6 +1388,13 @@
             </div>
         </div>
 
+        <div id="nomina" class="section">
+            <h2>Recibo de nómina</h2>
+            <div id="recibo-container" style="margin-top: 20px;">
+                <!-- el contenido del recibo se cargará dinámicamente aquí -->
+            </div>
+        </div>
+
         <div id="mis-datos" class="section">
             <h2 class="section-title">Perfil del Usuario</h2>
             <div class="profile-container">
@@ -1308,6 +1415,67 @@
                 <div class="card edit-card hidden">
                     <h3>Editar Información</h3>
                     <form id="editUserForm">
+                        <!-- Campos adicionales para trabajadores -->
+                        <div id="trabajadorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editNoNomina">Número de Nómina</label>
+                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPuesto">Puesto</label>
+                                <input type="text" id="editPuesto" placeholder="Puesto">
+                            </div>
+                            <div class="form-group">
+                                <label for="editDepartamento">Dependencia</label>
+                                <select id="editDepartamento">
+                                    <option value="">Seleccionar Dependencia</option>
+                                    <option value="JEFATURA DE GABINETE">JEFATURA DE GABINETE</option>
+                                    <option value="JEFATURA DE LA OFICINA DEL PRESIDENTE">JEFATURA DE LA OFICINA DEL
+                                        PRESIDENTE</option>
+                                    <option value="SECRETARIA PARTICULAR">SECRETARÍA PARTICULAR</option>
+                                    <option value="SECRETARIA DEL AYUNTAMIENTO">SECRETARÍA DEL AYUNTAMIENTO</option>
+                                    <option value="SECRETARIA DE GOBIERNO">SECRETARÍA DE GOBIERNO</option>
+                                    <option value="SECRETARIA DE FINANZAS PUBLICAS">SECRETARÍA DE FINANZAS PÚBLICAS
+                                    </option>
+                                    <option value="SECRETARIA DE DESARROLLO INTEGRAL Y ECONOMICO">SECRETARÍA DE
+                                        DESARROLLO INTEGRAL Y ECONÓMICO</option>
+                                    <option value="SECRETARIA DE OBRAS PUBLICAS Y DESARROLLO URBANO">SECRETARÍA DE OBRAS
+                                        PÚBLICAS Y DESARROLLO URBANO</option>
+                                    <option value="SECRETARIA DE DESARROLLO SOCIAL">SECRETARÍA DE DESARROLLO SOCIAL
+                                    </option>
+                                    <option value="SECRETARIA DE SERVICIOS PUBLICOS MUNICIPALES">SECRETARÍA DE SERVICIOS
+                                        PÚBLICOS MUNICIPALES</option>
+                                    <option value="SECRETARIA DE SEGURIDAD PUBLICA">SECRETARÍA DE SEGURIDAD PÚBLICA
+                                    </option>
+                                    <option value="SECRETARIA DEL ORGANO INTERNO DE CONTROL">SECRETARÍA DEL ÓRGANO
+                                        INTERNO DE CONTROL</option>
+                                    <option value="SECRETARIA DE DESARROLLO AGROPECUARIO">SECRETARÍA DE DESARROLLO
+                                        AGROPECUARIO</option>
+                                    <option value="SECRETARIA DE ADMINISTRACION">SECRETARÍA DE ADMINISTRACIÓN</option>
+                                    <option value="SECRETARIA DE LA MUJER">SECRETARÍA DE LA MUJER</option>
+                                    <option value="SECRETARIA DEL CENTRO DE ATENCION MUNICIPAL">SECRETARÍA DEL CENTRO DE
+                                        ATENCIÓN MUNICIPAL</option>
+                                    <option value="SISTEMA DIF">SISTEMA DIF</option>
+                                    <option value="JUNTA DE AGUA POTABLE Y ALCANTARILLADO MUNICIPAL">JUNTA DE AGUA
+                                        POTABLE Y ALCANTARILLADO MUNICIPAL</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <!-- Campos adicionales para organizaciones -->
+                        <div id="organizacionFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editRazonSocial">Razón Social</label>
+                                <input type="text" id="editRazonSocial" placeholder="Razón Social">
+                            </div>
+                            <div class="form-group">
+                                <label for="editRFC">RFC</label>
+                                <input type="text" id="editRFC" placeholder="RFC">
+                            </div>
+                            <h4>Datos del representante legal</h4>
+                            <br>
+                        </div>
+
                         <div class="form-group">
                             <label for="editNombre">Nombre</label>
                             <input type="text" id="editNombre" placeholder="Nombre">
@@ -1349,26 +1517,8 @@
                             <input type="text" id="editCP" placeholder="Código Postal">
                         </div>
 
-                        <!-- Campos adicionales para trabajadores -->
-                        <div id="trabajadorFields" style="display: none;">
-                            <div class="form-group">
-                                <label for="editNoNomina">Número de Nómina</label>
-                                <input type="text" id="editNoNomina" placeholder="Número de Nómina">
-                            </div>
-                            <div class="form-group">
-                                <label for="editPuesto">Puesto</label>
-                                <input type="text" id="editPuesto" placeholder="Puesto">
-                            </div>
-                            <div class="form-group">
-                                <label for="editDepartamento">Departamento</label>
-                                <select id="editDepartamento">
-                                    <option value="">Seleccionar Departamento</option>
-                                    <!-- Agrega opciones dinámicas aquí -->
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="button" id="saveButton" class="btn-save">Guardar Cambios</button>
+                        <button type="button" id="saveButton" class="btn-save" onclick="saveChanges()">Guardar
+                            Cambios</button>
                         <button type="button" id="cancelEditButton" class="btn-cancel">Cancelar</button>
                     </form>
                 </div>
@@ -1726,7 +1876,7 @@
                             <option value="80-84">80-84</option>
                             <option value="85">85 y más</option>
                         </select>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <a class="btn-refresh" onclick="loadCiudadanos()">Actualizar Datos</a>
@@ -1749,12 +1899,19 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <!-- Botones de paginación -->
+            <!-- Contenedor para los números de página -->
             <div class="pagination">
                 <button id="prev-page" onclick="prevPage()">Anterior</button>
                 <span id="current-page">Página 1 de 1</span>
+                <div id="page-buttons" class="page-buttons"></div>
+                <div class="goto-page">
+                    <label for="page-input">Ir a página:</label>
+                    <input type="number" id="page-input" min="1" placeholder="Número de página"
+                        oninput="validateAndGoToPage(this)">
+                </div>
                 <button id="next-page" onclick="nextPage()">Siguiente</button>
             </div>
+
         </div>
 
 
@@ -1811,7 +1968,7 @@
                             <option value="80-84">80-84</option>
                             <option value="85">85 y más</option>
                         </select>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
@@ -1842,10 +1999,17 @@
             <div class="pagination">
                 <button id="prev-page-workers" onclick="prevPageWorkers()">Anterior</button>
                 <span id="current-page-workers">Página 1 de 1</span>
+                <div id="page-buttons-workers" class="page-buttons"></div>
+                <div class="goto-page">
+                    <label for="page-input-workers">Ir a página:</label>
+                    <input type="number" id="page-input-workers" min="1" placeholder="Número de página"
+                        oninput="validateAndGoToPageWorkers(this)">
+                </div>
                 <button id="next-page-workers" onclick="nextPageWorkers()">Siguiente</button>
             </div>
+
         </div>
-        
+
 
         <div id="reports" class="section hidden">
             <h2>Reports</h2>
