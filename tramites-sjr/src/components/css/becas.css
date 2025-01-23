@@ -69,3 +69,42 @@
     border-radius: 5px;
 
   }
+
+  .contenedorConfirmacionBeca{
+    display: flex;
+    background-color: #333;
+    width: 50%;
+    height: 40%;
+  }
+
+  /*estilos de el contenedor de confirmacion*/
+
+  .warning-container-confirmacion-becas {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff5f5;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .warning-title-confirmacion-becas {
+    color: #dc3545;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .warning-text-confirmacion-becas {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .warning-question-confirmacion-becas {
+    color: #212529;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
