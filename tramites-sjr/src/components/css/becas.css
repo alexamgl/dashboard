@@ -1,3 +1,107 @@
+/* Becas Styles */
+.modalTramites #becaInfoModal .modal-content {
+  border-left: 5px solid #007bff;
+}
+
+.modalTramites #modalBecas .container {
+  border-left: 5px solid #007bff;
+}
+
+/* Custom Colors for Becas */
+.modalTramites #modalBecas .stepper .step.active .circle {
+  background-color: #007bff;
+}
+
+/* Map Styles */
+.modalTramites #map {
+  width: 350px;
+  height: 150px;
+  margin-top: 20px;
+  align-content: center;
+}
+.upload-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.upload-btn:hover,
+.delete-btn:hover {
+  opacity: 0.9;
+}
+
+/* Botones específicos del paso 2 */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-group .btn.save {
+  background-color: #007bff; /* Azul */
+  color: white;
+}
+
+.button-group .btn.validate {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+
+.button-group .btn:hover {
+  opacity: 0.9;
+}
+
+/* Estilo general para los radiobuttons */
+.radio-button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.radio-button input[type="radio"] {
+  display: none; /* Ocultar el radiobutton por defecto */
+}
+
+.radio-button .radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.radio-button input[type="radio"]:checked + .radio-circle {
+  background-color: #007bff;
+}
+
+.radio-button .radio-label {
+  font-size: 14px;
+  color: #333;
+}
+
+
+<<<<<<< Updated upstream
 #protesta-container .protesta {
     width: 50%; /* Ajusta el tamaño según lo necesites */
     padding: 20px;
@@ -75,6 +179,8 @@
     background-color: #333;
     width: 50%;
     height: 40%;
+<<<<<<< HEAD
+<<<<<<< HEAD
   }
 
   /*estilos de el contenedor de confirmacion*/
@@ -108,3 +214,113 @@
     font-size: 18px;
     margin-bottom: 20px;
   }
+=======
+/* Becas Styles */
+.modalTramites #becaInfoModal .modal-content {
+  border-left: 5px solid #007bff;
+}
+
+.modalTramites #modalBecas .container {
+  border-left: 5px solid #007bff;
+}
+
+/* Custom Colors for Becas */
+.modalTramites #modalBecas .stepper .step.active .circle {
+  background-color: #007bff;
+}
+
+/* Map Styles */
+.modalTramites #map {
+  width: 350px;
+  height: 150px;
+  margin-top: 20px;
+  align-content: center;
+}
+.upload-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.upload-btn:hover,
+.delete-btn:hover {
+  opacity: 0.9;
+}
+
+/* Botones específicos del paso 2 */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-group .btn.save {
+  background-color: #007bff; /* Azul */
+  color: white;
+}
+
+.button-group .btn.validate {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+
+.button-group .btn:hover {
+  opacity: 0.9;
+}
+
+/* Estilo general para los radiobuttons */
+.radio-button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.radio-button input[type="radio"] {
+  display: none; /* Ocultar el radiobutton por defecto */
+}
+
+.radio-button .radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.radio-button input[type="radio"]:checked + .radio-circle {
+  background-color: #007bff;
+}
+
+.radio-button .radio-label {
+  font-size: 14px;
+  color: #333;
+}
+
+>>>>>>> Stashed changes
+=======
+  }
+>>>>>>> parent of 24a8826 (cambioDiseño)
+=======
+  }
+>>>>>>> parent of 24a8826 (cambioDiseño)

@@ -15,6 +15,11 @@
   
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/gralTramites.css">
+  <link rel="stylesheet" href="css/vistoBueno.css">
+  <link rel="stylesheet" href="css/becas.css">
+
   <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/gralTramites.css">
   <link rel="stylesheet" href="css/becas.css">
@@ -342,12 +347,11 @@
       grid-template-columns: repeat(2, 1fr);
       /* 2 columnas */
     }
-  }
 
-  @media (max-width: 769px) {
-    .filters {
-      grid-template-columns: repeat(1, 1fr);
-      /* 1 columna */
+
+    .modal2-content h2 {
+      margin-top: 0;
+>>>>>>> Stashed changes
     }
   }
 
@@ -438,170 +442,125 @@
       </div>
     </div>
 
-    <div id="tramites-user" class="section hidden">
+    <div id="tramites-user" class="section">
       <h2>Trámites</h2>
-      <!--*************************************** VISTO BUENO *************************************************-->
-      <!-- Card: Visto Bueno -->
-      <div class="cardTramite" onclick="openModal('buenoInfoModal')">
-        <div class="cardTramite-image">
-          <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno" class="imgTramite" />
+      <div class="cards-container">
+        <!-- Card: Visto Bueno -->
+        <div class="card tramite-card" data-tramite="vistoBueno">
+          <div class="card-image">
+            <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno">
+          </div>
+          <div class="category">Protección Civil</div>
+          <div class="heading">
+            Visto Bueno
+            <div class="author">Descripción breve del trámite</div>
+          </div>
         </div>
-        <div class="category">Categoría 1</div>
-        <div class="heading">
-          Visto Bueno - Protección Civil
-          <div class="author">Descripción breve</div>
+  
+        <!-- Card: Becas -->
+        <div class="card tramite-card" data-tramite="becas">
+          <div class="card-image">
+            <img src="images/becas.png" alt="Imagen de Becas">
+          </div>
+          <div class="category">Educación</div>
+          <div class="heading">
+            Becas Municipales
+            <div class="author">Apoyo económico para estudiantes</div>
+          </div>
         </div>
       </div>
-
-      <!-- Modal: Información Visto Bueno -->
-      <div class="modalInfoTramite" id="buenoInfoModal">
-        <div class="modalInfoTramite-content">
-          <button class="close-modalInfoTramite" onclick="closeModal('buenoInfoModal')">X</button>
-          <h2>Información sobre el Trámite de Visto Bueno</h2>
-          <p>El trámite de Visto Bueno está diseñado para ... Por favor, lee atentamente las instrucciones antes de
-            iniciar el trámite.</p>
-          <button class="btnTramite" onclick="openModal('modalFormVisto')">Iniciar Trámite</button>
+  
+      <!-- Modales de Información -->
+      <div class="modal info-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('vistoBueno', 'info')">X</button>
+          <h2>Información del Trámite: Visto Bueno</h2>
+          <p>El trámite de Visto Bueno es necesario para garantizar la seguridad en actividades relacionadas con Protección Civil.</p>
+          <button class="btn open-form" onclick="openModalTramite('vistoBueno', 'tramite')">Iniciar Trámite</button>
         </div>
       </div>
-      <!-- Modal: Formulario Visto Bueno -->
-      <div class="modalTramite" id="modalFormVisto" data-confirmation-modal="confirmationModalVistoBueno">
-        <div class="modalTramite-content">
-          <button class="close-modalTramite" onclick="closeModal('modalFormVisto')">X</button>
-          <!-- FORMULARIO -->
-          <div class="containerTramite">
+  
+      <div class="modal info-modal" data-tramite="becas">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('becas', 'info')">X</button>
+          <h2>Información del Trámite: Becas</h2>
+          <p>Apoyo económico para estudiantes del sector educativo.</p>
+          <button class="btn open-form" onclick="openModalTramite('becas', 'tramite')">Iniciar Trámite</button>
+        </div>
+      </div>
+  
+      <!-- Modales de Formulario -->
+      <div class="modal tramite-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('vistoBueno', 'tramite')">X</button>
+          <div class="container">
+            <!-- Stepper -->
             <div class="stepper">
-              <div class="step active" data-step="1">
-                <div class="circle">1</div>
-                <span>Account</span>
-              </div>
+              <div class="step active"><div class="circle">1</div><span>Paso 1</span></div>
               <div class="line"></div>
-              <div class="step" data-step="2">
-                <div class="circle">2</div>
-                <span>Profile</span>
-              </div>
+              <div class="step"><div class="circle">2</div><span>Paso 2</span></div>
               <div class="line"></div>
-              <div class="step" data-step="3">
-                <div class="circle">3</div>
-                <span>Address</span>
-              </div>
-              <div class="line"></div>
-              <div class="step" data-step="4">
-                <div class="circle">4</div>
-                <span>Confirmation</span>
-              </div>
+              <div class="step"><div class="circle">3</div><span>Confirmación</span></div>
             </div>
-            <!-- Formulario Visto Bueno -->
-            <form id="stepForm">
+  
+            <!-- Formulario -->
+            <form class="tramite-form" onsubmit="handleSubmit(event, 'vistoBueno')">
               <!-- Paso 1 -->
-              <div class="form-step active" data-step="1">
-                <h2>Visto Bueno - Protección Civil</h2>
-                <p>Este es un detalle más completo sobre el contenido del card.</p>
-                <div class="form-group-tramite">
-                  <label for="username">Username</label>
-                  <input type="text" id="username" name="username" >
-                  <span class="error-message">Username is required</span>
+              <div class="form-step active">
+                <h2>Paso 1: Información Inicial</h2>
+                <div class="form-group">
+                  <label for="nombre">Nombre Completo</label>
+                  <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
                 </div>
                 <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email"  onb>
-                  <span class="error-message">Valid email is required</span>
+                  <label for="email">Correo Electrónico</label>
+                  <input type="email" id="email" name="email" placeholder="usuario@ejemplo.com" required>
                 </div>
-                <div class="form-navigation">
-                  <button type="button" class="btnNextTramite">Next</button>
+                <div>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
                 </div>
               </div>
-
               <!-- Paso 2 -->
-              <div class="form-step" data-step="2">
-                <h2>Profile Information</h2>
-                <div class="form-group-tramite">
-                  <label for="firstName">First Name</label>
-                  <input type="text" id="firstName" name="firstName" >
-                  <span class="error-message">First name is required</span>
+              <div class="form-step">
+                <h2>Paso 2: Detalles Adicionales</h2>
+                <div class="form-group">
+                  <label for="direccion">Dirección</label>
+                  <input type="text" id="direccion" name="direccion" placeholder="Escribe tu dirección" required>
                 </div>
                 <div class="form-group">
-                  <label for="lastName">Last Name</label>
-                  <input type="text" id="lastName" name="lastName" >
-                  <span class="error-message">Last name is required</span>
+                  <label for="telefono">Teléfono</label>
+                  <input type="tel" id="telefono" name="telefono" placeholder="123-456-7890" required>
                 </div>
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Back</button>
-                  <button type="button" class="btnNextTramite">Next</button>
-                </div>
-              </div>
-
-              <!-- Paso 3 -->
-              <div class="form-step" data-step="3">
-                <h2>Address</h2>
-                <div class="form-group">
-                  <label for="address">Address</label>
-                  <input type="text" id="address" name="address" >
-                  <span class="error-message">Address is required</span>
-                </div>
-                <div class="form-group">
-                  <label for="city">City</label>
-                  <input type="text" id="city" name="city" >
-                  <span class="error-message">City is required</span>
-                </div>
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Back</button>
-                  <button type="button" class="btnNextTramite">Next</button>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
                 </div>
               </div>
-
-              <!-- Paso 4 -->
-              <div class="form-step" data-step="4">
-                <h2>¡Confirmación!</h2>
-                <p>Confirma que has registrado los datos correctos</p>
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Back</button>
-                  <button type="submit" class="btnConfirmarTramite">Confirmar</button>
-                </div>
-              </div>
-              <!-- Modal de Confirmación -->
-              <div class="modalConfirmationTramite" id="confirmationModalVistoBueno">
-                <div class="modalConfirmationTramite-content">
-                  <h2>Trámite Finalizado: Visto Bueno</h2>
-                  <p>Tus datos para el trámite de Visto Bueno han sido enviados exitosamente.</p>
-                  <!-- Botón de cerrar -->
-                  <button id="closeConfirmationVistoBueno" class="btnCerrarConfirmarTramite">Cerrar</button>
+              <!-- Confirmación -->
+              <div class="form-step">
+                <h2>Confirmación</h2>
+                <p>Verifica que toda la información proporcionada es correcta antes de enviar.</p>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" onclick="(event, 'vistoBueno')" class="btn">Confirmar</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-
-      <!--*************************************** BECAS *************************************************-->
-
-      <!-- Card: Becas -->
-      <div class="cardTramite" onclick="openModal('becaInfoModal')">
-        <div class="cardTramite-image">
-          <img src="images/becas.png" alt="Imagen de Becas" class="imgTramite" />
-        </div>
-        <div class="category">Secretaría de Educación Pública</div>
-        <div class="heading">
-          Becasssss educativas del Municipio de San Juan del Río
-          <div class="author">Apoyo económico al alumnado del sector educativo</div>
-        </div>
-      </div>
-
-      <!-- Modal: Información Becas -->
-      <div class="modalInfoTramite" id="becaInfoModal">
-        <div class="modalInfoTramite-content">
-          <button class="close-modalInfoTramite" onclick="closeModal('becaInfoModal')">X</button>
-          <h2>Información sobre el Trámite de Becas</h2>
-          <p>El trámite de becas está diseñado para apoyar económicamente al alumnado del sector educativo. Por favor,
-            lee atentamente las instrucciones antes de iniciar el trámite.</p>
-            <div class="detalleTramite-card" id="card-acerca-tramite">
-              <div class="detalleTramite-header">
-                <span class="detalleTramite-icon material-symbols-outlined">info</span>
-                <span class="detalleTramite-title">Acerca del trámite</span>
-              </div>
-              <div class="detalleTramite-content">
-                <p>Considera esto antes de realizar el trámite.</p>
-                <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-acerca-tramite')">Leer más...</a>
-              </div>
+  
+      <div class="modal tramite-modal" data-tramite="becas">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('becas', 'tramite')">X</button>
+          <div class="container">
+            <!-- Stepper -->
+            <div class="stepper">
+              <div class="step active"><div class="circle">1</div><span>Identificación</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">2</div><span>Datos Académicos</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">3</div><span>Documentos</span></div>
             </div>
 
 
@@ -679,7 +638,7 @@
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Acta de Nacimiento</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
                     <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
                       del solicitante</p>
                     <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
@@ -688,15 +647,16 @@
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Comprobante de domicilio</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Domicilio del solicitante no mayor a dos meses</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
                     <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
                   </label>
                   </br>
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Curp</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
                     <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
                       del solicitante</p>
                     <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
@@ -705,33 +665,46 @@
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Boleta de calificaciones</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que compruebe la calificacion aprobatoria en todas sus materias</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
                     <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
                   </label>
                   </br>
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Constancia de inscripción</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que compruebe la inscripcion vigente en la institución educativa.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
                     <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
                   </label>
                   </br>
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Comprobante de ingresos</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que comprueben los ingresos del solicitante y/o tutor</p>
-                    <p style="margin-top:0;"><b>Tipo:</b>Documento para entregar al Sujeto Obligado</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
                   </label>
                   </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Solicitud de beca</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
                   </br>
                   <label class="cl-checkbox">
                     <input checked="" type="checkbox">
                     <span><b>Contar con un número de teléfono celular activo</b></span>
-                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Número de celular activo para recibir mensajes.</p>
-                    <p style="margin-top:0;"><b>Tipo:</b>Para entregar al Sujeto Obligado</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
                   </label>
                 </div>
               </div>
@@ -742,16 +715,22 @@
                 <button class="detalleTramite-close-btn"
                   onclick="closeModalInfos('modal-fundamento-juridico')">×</button>
                 <h2>Fundamento Jurídico</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
                 <div class="modalInfos2-content">
-                  <h3>Nombre del Fundamento Jurídico:</h3>
-                  <br>
-                  <p>LEY ORGÁNICA MUNICIPAL DEL ESTADO DE QUERÉTARO</p>
-                  <br>
-                  <h3>Artículo:</h3>
-                  <br>
-                  <p>Articulo 30, fracciones I y XXVII </p>
-                  <br>
-                  <a href="http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf" target="_blank">http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf</a> 
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
                 </div>
               </div>
             </div>
@@ -760,14 +739,22 @@
               <div class="detalleTramite-modalInfos-content">
                 <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-costos')">×</button>
                 <h2>Costo</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
                 <div class="modalInfos2-content">
-                 <h3>¿Este trámite o servicio tiene monto de derechos o aprovechamientos?</h3>
-                 <br>
-                 <p>NO</p>
-                 <br>
-                 <h3>Costos</h3>
-                 <br>
-                 <p>0.00</p>
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
                 </div>
               </div>
             </div>
@@ -849,152 +836,58 @@
                 <table class="tablaTramite">
                   <caption class="captionInput">Datos del estudiante</caption>
                   <thead>
-                    <tr class="tr-tramite">
-                      <th>Apellido paterno</th>
-                      <th>Apellido materno</th>
+                    <tr>
+                      <th>Apellido Paterno</th>
+                      <th>Apellido Materno</th>
                       <th>Nombre(s)</th>
-                      <th>Lugar de nacimiento</th>
-                      <th>Fecha de nacimiento</th>
+                      <th>Lugar de Nacimiento</th>
+                      <th>Fecha de Nacimiento</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        <input
-                          type="text"
-                          id="apellidoPaterno"
-                          name="apellidoPaterno"
-                          placeholder="Apellido paterno"
-                          style="width: 95%;" required
-                          oninput="ValidarNombres('apellidoPaterno')"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          id="apellidoMaterno"
-                          name="apellidoMaterno"
-                          placeholder="Apellido materno"
-                          style="width: 95%;" required
-                          oninput="ValidarNombres('apellidoMaterno')"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          id="nombres"
-                          name="nombres"
-                          placeholder="Nombre(s)"
-                          style="width: 95%;" required
-                          oninput="ValidarNombres('nombres')"
-                        />
-                      </td>
-                      
-                      <td>
-                        <input type="text" id="lugarNacimiento" name="lugarNacimiento" placeholder="Lugar de nacimiento"
-                          style="width: 95%;" required oninput="ValidarLugarNacimiento('lugarNacimiento')" />
-                      </td>
-                      <td>
-                        <input
-                        type="date"
-                        id="fechaNacimientoEstudiante"
-                        name="fechaNacimientoEstudiante"
-                        placeholder="fecha de nacimiento"
-                        style="width: 95%;" required
-                        oninput="validarFechaNacimiento('fechaNacimientoEstudiante')"
-                    />                      </td>
+                      <td><input type="text" name="apellidoPaterno" placeholder="Apellido Paterno" required></td>
+                      <td><input type="text" name="apellidoMaterno" placeholder="Apellido Materno" required></td>
+                      <td><input type="text" name="nombres" placeholder="Nombre(s)" required></td>
+                      <td><input type="text" name="lugarNacimiento" placeholder="Lugar" required></td>
+                      <td><input type="date" name="fechaNacimiento" required></td>
                     </tr>
                   </tbody>
                 </table>
-                <!--Table2-->
-                <table class="tablaTramite">
-                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio del estudiante
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th>Calle</th>
-                      <th>Número</th>
-                      <th>Colonia</th>
-                      <th>Municipio</th>
-                      <th>Teléfono</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <input type="text" id="calleEstudiante" name="calleEstudiante" placeholder="Calle" style="width: 95%;" required oninput="validarCalle('calleEstudiante')"/>
-                      </td>
-                      <td>
-                        <input type="text" id="numeroCasaEstudiante" name="numeroCasaEstudiante" placeholder="Número" style="width: 95%;" required oninput="validarNumeroCasa('numeroCasaEstudiante')"/>
-                      </td>
-                      <td>
-                        <input type="text" id="coloniaEstudiante" name="coloniaEstudiante" placeholder="Colonia" style="width: 95%;" required oninput="validarColonias('coloniaEstudiante')" />
-                      </td>
-                      <td>
-                        <input type="text" id="municipioEstudiante" name="municipioEstudiante" placeholder="Municipio" style="width: 95%;" required oninput="validarMunicipio('municipioEstudiante')" />
-                      </td>
-                      <td>
-                        <input type="tel" id="telefonoDomicilioEstudiante" name="telefonoDomicilioEstudiante" placeholder="Teléfono" style="width: 95%;" required  oninput="validarTelefono('telefonoDomicilioEstudiante')" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div style="margin-bottom: 15px;">
-                  <label>CURP del solicitante</label>
-                  <input type="text" id="curpSolicitante" name="curpSolicitante" placeholder="CURP del solicitante"
-                    class="input-tramite" oninput="validarCURP('curpSolicitante')"/>
-                </div>
-                  
-                <div class="form-navigation">
-                  <button type="button" class="btnNextTramite">Continuar</button>
+                <div>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
                 </div>
               </div>
-            </div>
-            <!-- Paso 2 -->
-            <div class="form-step" data-step="2">
-              <div class="form-group-tramite">
-                <table class="tablaTramite">
-                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio de la
-                    institutción educativa</caption>
+              <!-- Paso 2 -->
+              <div class="form-step">
+                <h2>Datos Académicos</h2>
+                <div class="form-group">
+                  <label for="promedio">Promedio General</label>
+                  <input type="number" id="promedio" name="promedio" step="0.01" placeholder="Ejemplo: 9.5" required>
+                </div>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                </div>
+              </div>
+              <!-- Documentos -->
+              <div class="form-step">
+                <h2>Documentos</h2>
+                <table id="documentsTable">
                   <thead>
-                    <tr class="tr-tramite">
-                      <th>Calle</th>
-                      <th>Número</th>
-                      <th>Colonia</th>
-                      <th>Municipio</th>
+                    <tr>
                       <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <input type="text" id="calleInstitucion" name="calleInstitucion" placeholder="Calle" style="width: 95%;" required oninput="validarCalle('calleInstitucion')"/>
-                      </td>
-                      <td>
-                        <input type="text" id="numeroInstitucion" name="numeroInstitucion" placeholder="Número" style="width: 95%;" required oninput="validarNumeroCasa('numeroInstitucion')"/>
-                      </td>
-                      <td>
-                        <input type="text" id="coloniaInstitucion" name="coloniaInstitucion" placeholder="Colonia" style="width: 95%;" required oninput="validarColonias('coloniaInstitucion')"/>
-                      </td>
-                      <td>
-                        <input type="text" id="municipioInstitucion" name="municipioInstitucion" placeholder="Municipio" style="width: 95%;" required oninput="validarMunicipio('municipioInstitucion')" />
-                      </td>
-                      <td>
-                        <input type="text" id="nombreInstitucion" name="nombreInstitucion" placeholder="Nombre institutción" style="width: 95%;" required oninput="validarNombreInstitucion('nombreInstitucion')" />
-                      </td>
-                    </tr>
+                    <!-- Las filas se generarán dinámicamente -->
                   </tbody>
                 </table>
-                
-                <div style="margin-bottom: 15px;">
-                  <label for="Promedio">Promedio de la
-                    persona estudiante</label>
-                  <input type="text" id="PromedioEstudiante" name="PromedioEstudiante" placeholder="Promedio del estudiante. Ejemplo: 9.5" required oninput="validarPromedioEstudiante('PromedioEstudiante')"/>
-                </div>
-                
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="button" class="btnNextTramite">Continuar</button>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="submit" class="btn">Confirmar</button>
                 </div>
               </div>
             </div>
@@ -1102,23 +995,22 @@
             </div>
 
             <!-- Paso 6 -->
-            <div class="form-step" data-step="6">
-              <div class="warning-container-confirmacion-becas">
-                <h1 class="warning-title-confirmacion-becas">¡ADVERTENCIA!</h1>
-                <b class="warning-text-confirmacion-becas">Una vez le des clic al botón de confirmar no podrás editar los datos.</b>
-                <h2 class="warning-question-confirmacion-becas">¿Estás seguro de que los datos son correctos?</h2>
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="submit" class="btnConfirmarTramite">Confirmar</button>
-                </div>
+            <div class="form-step" data-step="6" style="display: block;">
+              <h2>¡Confirmación!</h2>
+              <p>Confirma que has registrado los datos correctos</p>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevTramite">Volver</button>
+                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
               </div>
             </div>
             <!-- Modal de Confirmación Becas -->
             <div class="modalConfirmationTramite" id="confirmationModalBecas">
               <div class="modalConfirmationTramite-content"> 
+                <div class="contenedorConfirmacionBeca"> 
                 <h2>Trámite Finalizado: Becas</h2>
                 <p>Tus datos para el trámite de Becas han sido enviados exitosamente.</p>
                 <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
+              </div>
               </div>
             </div>
           </form>
@@ -1178,329 +1070,73 @@
               <span>Confirmation</span>
             </div>
           </div>
-          <!-- Formulario Visto Bueno -->
-          <form id="stepForm">
-            <!-- Paso 1 -->
-            <div class="form-step active" data-step="1">
-              <h2 style="text-align: center;">Trámite de Acuática Municipal de San Juan del Río</h2>
-              <p style="text-align: center;">Nuestra alberca olímpica protegida del sol directo o lluvia te permitirán
-                practicar y aprender técnicas de nado de la mano de nuestros capacitados instructores si eres un
-                nadador novato, intermedio o avanzado</p>
-              <h3>Proceso de Inscripción de los usuarios a la Alberca Municipal</h3>
-              <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
-              <h5>Fecha de actualización: 2024-12-26 03:05:03</h5>
-              <p>Este es un detalle más completo sobre el contenido del card.</p>
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-                <span class="error-message">Username is required</span>
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required onb>
-                <span class="error-message">Valid email is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 2 -->
-            <div class="form-step" data-step="2">
-              <h2>Profile Information</h2>
-              <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
-                <span class="error-message">First name is required</span>
-              </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-                <span class="error-message">Last name is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 3 -->
-            <div class="form-step" data-step="3">
-              <h2>Address</h2>
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address" required>
-                <span class="error-message">Address is required</span>
-              </div>
-              <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" required>
-                <span class="error-message">City is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 4 -->
-            <div class="form-step" data-step="4">
-              <h2>¡Confirmación!</h2>
-              <p>Confirma que has registrado los datos correctos</p>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
-              </div>
-            </div>
-
-            <!-- Modal de Confirmación Acuática -->
-            <div class="modalConfirmationTramite" id="confirmationModalAcuatica">
-              <div class="modalConfirmationTramite-content">
-                <h2>Trámite Finalizado: Acuática</h2>
-                <p>Tus datos para el trámite de Acuática Municipal han sido enviados exitosamente.</p>
-                <!-- Botones -->
-                <button id="btnPagarAcuatica" class="btnPagarAcuatica"
-                  onclick="window.location.href='PagosMotor/cadenacifrada.php';">
-                  Pagar ahora
-                </button>
-                <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
-              </div>
-            </div>
-          </form>
+        </div>
+      </div>
+  
+      <!-- Modales de Confirmación -->
+      <div class="modal confirmation-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <h2>¡Trámite Completado!</h2>
+          <p>Tu información de Visto Bueno fue enviada correctamente.</p>
+          <button class="btn close-modal" onclick="closeModalTramite('vistoBueno', 'confirmation')">Cerrar</button>
+        </div>
+      </div>
+  
+      <div class="modal confirmation-modal" data-tramite="becas">
+        <div class="modal-content">
+          <h2>¡Trámite Completado!</h2>
+          <p>Tu solicitud de becas fue enviada correctamente.</p>
+          <button class="btn close-modal" onclick="closeModalTramite('becas', 'confirmation')">Cerrar</button>
         </div>
       </div>
     </div>
+  
 
 
-  </div>
+    <script src="js/main.js"></script>
+    <script src="js/tramites.js"></script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const firstNavItem = document.querySelector('.nav li');
+        if (firstNavItem) {
+          firstNavItem.click();
+        }
+      });
 
-  <!-- Sección Usuarios Registrados -->
-  <div id="registered-users" class="section hidden">
-    <h2>Usuarios Registrados</h2>
-    <div class="filters-container">
-      <div class="filters">
-        <div>
-          <label for="filter-nombre-ciudadanos">Nombre</label>
-          <input id="filter-nombre-ciudadanos" type="text" placeholder="Filtrar por nombre">
-        </div>
-        <div>
-          <label for="filter-colonia-ciudadanos">Colonia</label>
-          <input id="filter-colonia-ciudadanos" type="text" placeholder="Filtrar por colonia">
-        </div>
-        <div>
-          <label for="filter-cp-ciudadanos">Código postal</label>
-          <input id="filter-cp-ciudadanos" type="text" placeholder="Filtrar por código postal">
-        </div>
-      </div>
-    </div>
-    <a class="btn-refresh" onclick="loadCiudadanos()">Actualizar Datos</a>
-    <div class="results-count" id="results-ciudadanos">Registros encontrados: 0</div>
-    <div class="table-container">
-      <table id="ciudadanos-table">
-        <thead>
-          <tr>
-            <th>Nombre Completo</th>
-            <th>CURP</th>
-            <th>Fecha Nacimiento</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Calle</th>
-            <th>Colonia</th>
-            <th>No. Exterior</th>
-            <th>Código Postal</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Sección Trabajadores Registrados -->
-  <div id="registered-workers" class="section hidden">
-    <h2>Trabajadores Registrados</h2>
-    <div class="filters-container">
-      <div class="filters">
-        <div>
-          <label for="filter-nombre-trabajadores">Nombre</label>
-          <input id="filter-nombre-trabajadores" type="text" placeholder="Filtrar por nombre">
-        </div>
-        <div>
-          <label for="filter-colonia-trabajadores">Colonia</label>
-          <input id="filter-colonia-trabajadores" type="text" placeholder="Filtrar por colonia">
-        </div>
-        <div>
-          <label for="filter-cp-trabajadores">Código Postal</label>
-          <input id="filter-cp-trabajadores" type="text" placeholder="Filtrar por código postal">
-        </div>
-        <div>
-          <label for="filter-genero-trabajadores">Género</label>
-          <select id="filter-genero-trabajadores">
-            <option value="">Todos los géneros</option>
-            <option value="hombre">Hombre</option>
-            <option value="mujer">Mujer</option>
-          </select>
-        </div>
-        <div>
-          <label for="filter-departamento-trabajadores">Departamento</label>
-          <input id="filter-departamento-trabajadores" type="text" placeholder="Filtrar por departamento">
-        </div>
-        <div>
-          <label for="filter-puesto-trabajadores">Puesto</label>
-          <input id="filter-puesto-trabajadores" type="text" placeholder="Filtrar por puesto">
-        </div>
-      </div>
-    </div>
-
-    <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
-    <div class="results-count" id="results-trabajadores">Registros encontrados: 0</div>
-    <div class="table-container">
-      <table id="trabajadores-table">
-        <thead>
-          <tr>
-            <th>No. Nómina</th>
-            <th>Nombre Completo</th>
-            <th>CURP</th>
-            <th>Departamento</th>
-            <th>Puesto</th>
-            <th>Fecha Nacimiento</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Calle</th>
-            <th>Colonia</th>
-            <th>No. Exterior</th>
-            <th>Código Postal</th>
-            <th>Género</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div id="reports" class="section hidden">
-    <h2>Reports</h2>
-    <div class="chart">Chart 1</div>
-    <div class="chart">Chart 2</div>
-  </div>
-
-  <div id="analytics" class="section hidden">
-    <h2>Analytics</h2>
-    <div class="chart">Analytics Content</div>
-  </div>
-
-  <div id="settings" class="section hidden">
-    <h2>Settings</h2>
-    <div>Settings Content</div>
-  </div>
-  </div>
-
-  <!--Script para botón pagar-->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const btnPagarAcuatica = document.getElementById("btnPagarAcuatica");
-      const iframePago = document.createElement("iframe");
-
-      if (btnPagarAcuatica) {
-        btnPagarAcuatica.addEventListener("click", () => {
-          // Obtener la URL de cadenacifrada.php
-          fetch("PagosMotor/cadenacifrada.php")
-            .then(response => response.json())
-            .then(data => {
-              if (data.url) {
-                // Crear modal dinámico con iframe
-                const modalPago = document.createElement("div");
-                modalPago.style.position = "fixed";
-                modalPago.style.top = "0";
-                modalPago.style.left = "0";
-                modalPago.style.width = "100%";
-                modalPago.style.height = "100%";
-                modalPago.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-                modalPago.style.zIndex = "1000";
-                modalPago.style.display = "flex";
-                modalPago.style.justifyContent = "center";
-                modalPago.style.alignItems = "center";
-
-                iframePago.src = data.url;
-                iframePago.style.width = "80%";
-                iframePago.style.height = "80%";
-                iframePago.style.border = "none";
-                iframePago.style.borderRadius = "10px";
-
-                const btnCerrar = document.createElement("button");
-                btnCerrar.innerText = "Cerrar";
-                btnCerrar.style.position = "absolute";
-                btnCerrar.style.top = "20px";
-                btnCerrar.style.right = "20px";
-                btnCerrar.style.padding = "10px";
-                btnCerrar.style.backgroundColor = "#ff0000";
-                btnCerrar.style.color = "#fff";
-                btnCerrar.style.border = "none";
-                btnCerrar.style.borderRadius = "5px";
-                btnCerrar.style.cursor = "pointer";
-
-                btnCerrar.addEventListener("click", () => {
-                  modalPago.remove();
-                });
-
-                modalPago.appendChild(iframePago);
-                modalPago.appendChild(btnCerrar);
-                document.body.appendChild(modalPago);
-              } else {
-                alert("No se pudo obtener la URL de pago.");
-              }
-            })
-            .catch(error => {
-              console.error("Error al obtener la URL de pago:", error);
-              alert("Ocurrió un error al cargar la URL de pago.");
-            });
+      function toggleVisibility(sectionId, element) {
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.add('hidden');
         });
-      }
-    });
-  </script>
+        document.querySelectorAll('.nav li').forEach(li => {
+          li.classList.remove('active');
+        });
 
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.classList.remove('hidden');
+        }
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const firstNavItem = document.querySelector('.nav li');
-      if (firstNavItem) {
-        firstNavItem.click();
-      }
-    });
-
-    function toggleVisibility(sectionId, element) {
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('hidden');
-      });
-      document.querySelectorAll('.nav li').forEach(li => {
-        li.classList.remove('active');
-      });
-
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.classList.remove('hidden');
+        element.classList.add('active');
       }
 
-      element.classList.add('active');
-    }
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const topBar = document.getElementById('top-bar');
+        const content = document.getElementById('content');
 
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const topBar = document.getElementById('top-bar');
-      const content = document.getElementById('content');
-
-      sidebar.classList.toggle('collapsed');
-      topBar.classList.toggle('adjusted');
-      content.classList.toggle('adjusted');
-    }
-  </script>
-  <script>
-    // Función toggle para abrir/cerrar el modal
-    function toggleModal() {
-      const modal = document.getElementById('modal');
-      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-    }
-  </script>
+        sidebar.classList.toggle('collapsed');
+        topBar.classList.toggle('adjusted');
+        content.classList.toggle('adjusted');
+      }
+    </script>
+    <script>
+      // Función toggle para abrir/cerrar el modal
+      function toggleModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      }
+    </script>
 
 
 
@@ -1523,8 +1159,14 @@
   <script src="js/mapaLeaflet.js"></script>
   <script src="js/main.js"></script>
 
+    <script>
+      // Función toggle para abrir/cerrar el modal
+      function toggleModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      }
+    </script>
 
 
 </body>
-
 </html>

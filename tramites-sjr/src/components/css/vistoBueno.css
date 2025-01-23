@@ -1,0 +1,13 @@
+/* Visto Bueno Styles */
+.modalTramites #buenoInfoModal .modal-content {
+  border-left: 5px solid #1c7f21;
+}
+
+.modalTramites #modal .container {
+  border-left: 5px solid #1c7f21;
+}
+
+/* Custom Colors for Visto Bueno */
+.modalTramites #modal .stepper .step.active .circle {
+  background-color: #1c7f21;
+}
