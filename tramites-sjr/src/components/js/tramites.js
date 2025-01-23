@@ -90,7 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
                 // validar los campos del paso actual
 <<<<<<< HEAD
+<<<<<<< HEAD
                /*if (!validarCamposPasoActual(currentFormStep)) {
+=======
+                if (!validarCamposPasoActual(currentFormStep)) {
+>>>>>>> parent of 24a8826 (cambioDiseño)
 =======
                 if (!validarCamposPasoActual(currentFormStep)) {
 >>>>>>> parent of 24a8826 (cambioDiseño)
