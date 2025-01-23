@@ -6,8 +6,13 @@ let userData = {}; // Objeto global para almacenar los datos del usuario
 
 document.addEventListener('DOMContentLoaded', () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   loadUserData();
+=======
+    loadUserData();
+    checkUserDocuments();
+>>>>>>> parent of 9b36ac3 (Changes)
 =======
     loadUserData();
     checkUserDocuments();
@@ -85,6 +90,7 @@ function checkAuth() {
     }
 function validateToken() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const token = localStorage.getItem('token');
   if (!token) {
     alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
@@ -115,11 +121,16 @@ function validateToken() {
       window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
       return;
 =======
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
         window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
         return;
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
     }
 
@@ -232,6 +243,7 @@ function logout() {
 // Función para cargar datos del usuario
 function loadUserData() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const token = localStorage.getItem('token');
   if (!token) {
     window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Si no hay token, redirige al login
@@ -265,10 +277,15 @@ function loadUserData() {
     headers: {
       'Authorization': `Bearer ${token}`
 =======
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
     const token = localStorage.getItem('token');
     if (!token) {
         window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Si no hay token, redirige al login
         return;
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
     }
 
@@ -277,6 +294,7 @@ function loadUserData() {
     const id_usuario = decoded.sub;
     const rol = decoded.role;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                 // Mostrar los datos del usuario en la interfaz
                 document.getElementById('user-info').innerHTML = `
@@ -377,6 +395,8 @@ function loadCiudadanos() {
           document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
           userInfoHtml += `
 =======
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
     // URL para obtener los datos del usuario
     const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/usuario_datos/${id_usuario}`;
 
@@ -403,6 +423,9 @@ function loadCiudadanos() {
                     // Actualizar nombre en el top-bar
                     document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
                     userInfoHtml += `
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
                         <p><strong>Nombre Completo:</strong> ${userData.nombre_completo}</p>
                         <p><strong>Correo:</strong> ${userData.email || "No disponible"}</p>
@@ -648,6 +671,9 @@ function loadTrabajadores() {
         .then(data => {
             tableBodyWorkers = document.querySelector("#trabajadores-table tbody");
             resultsCountWorkers = document.getElementById("results-trabajadores");
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
             const filters = {
                 filterNombre: document.getElementById("filter-nombre-trabajadores"),
@@ -656,18 +682,24 @@ function loadTrabajadores() {
                 filterGenero: document.getElementById("filter-genero-trabajadores"),
                 filterDepartamento: document.getElementById("filter-departamento-trabajadores"),
 <<<<<<< HEAD
+<<<<<<< HEAD
                 filterPuesto: document.getElementById("filter-puesto-trabajadores")
             };
             const resultsCount = document.getElementById("results-trabajadores");
 
             function applyFilter() {
 =======
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
                 filterPuesto: document.getElementById("filter-puesto-trabajadores"),
                 filterEdad: document.getElementById("filter-edad-trabajadores") // Nuevo filtro
             };
 
 
             function applyFilterWorkers() {
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
                 const values = {
                     nombre: filters.filterNombre.value.toLowerCase(),
@@ -675,6 +707,7 @@ function loadTrabajadores() {
                     cp: filters.filterCP.value.toLowerCase(),
                     genero: filters.filterGenero.value.toLowerCase(),
                     departamento: filters.filterDepartamento.value.toLowerCase(),
+<<<<<<< HEAD
 <<<<<<< HEAD
                     puesto: filters.filterPuesto.value.toLowerCase()
                 };
@@ -754,6 +787,8 @@ function fillEditForm() {
 }
 
 =======
+=======
+>>>>>>> parent of 9b36ac3 (Changes)
                     puesto: filters.filterPuesto.value.toLowerCase(),
                     rangoEdad: filters.filterEdad.value // Nuevo filtro
                 };
@@ -824,6 +859,7 @@ function saveChanges() {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     const id_trabajador = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
     const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/update_trabajador_data`;
 
@@ -890,6 +926,34 @@ function saveChanges() {
         data.departamento = document.getElementById('editDepartamento').value;
     }
 
+=======
+    const id_usuario = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
+    const rol = JSON.parse(atob(token.split('.')[1])).role; // Obtener el rol del usuario
+    const url = `/tramites-sjr/Api/principal/update_user_data`;
+
+    // Crear un objeto para los datos del formulario
+    const data = {
+        id_usuario: id_usuario,
+        nombre: document.getElementById('editNombre').value,
+        primer_apellido: document.getElementById('editPrimApellido').value,
+        segundo_apellido: document.getElementById('editSegApellido').value,
+        email: document.getElementById('editEmail').value,
+        telefono: document.getElementById('editTelefono').value,
+        calle: document.getElementById('editCalle').value,
+        asentamiento: document.getElementById('editAsentamiento').value,
+        numero_exterior: document.getElementById('editNumExterior').value,
+        numero_interior: document.getElementById('editNumInterior').value,
+        codigo_postal: document.getElementById('editCP').value,
+        rol: rol // Pasar el rol para diferenciar
+    };
+
+    if (rol === 'trabajador') {
+        data.no_nomina = document.getElementById('editNoNomina').value;
+        data.puesto = document.getElementById('editPuesto').value;
+        data.departamento = document.getElementById('editDepartamento').value;
+    }
+
+>>>>>>> parent of 9b36ac3 (Changes)
     if (rol === 'ciudadano_moral') {
         data.razon_social = document.getElementById('editNombre').value; // Razon social se almacena en "nombre"
         data.calle = document.getElementById('editCalle').value;
@@ -897,6 +961,9 @@ function saveChanges() {
         data.numero_exterior = document.getElementById('editNumExterior').value;
         data.numero_interior = document.getElementById('editNumInterior').value;
         data.codigo_postal = document.getElementById('editCP').value;
+<<<<<<< HEAD
+>>>>>>> parent of 9b36ac3 (Changes)
+=======
 >>>>>>> parent of 9b36ac3 (Changes)
     }
 
