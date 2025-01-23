@@ -714,42 +714,6 @@
             background-color: #005f8c;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            gap: 10px;
-        }
-
-        .pagination button {
-            background-color: #0076aa;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination button:disabled {
-            background-color: #ccc;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background-color: #005f8c;
-        }
-
-        #current-page {
-            font-size: 14px;
-            color: #333;
-            font-weight: bold;
-        }
-
-
         /* General */
         .section-title {
             text-align: center;
@@ -1688,11 +1652,11 @@
                 <div></div>
                 <div></div>
             </div>
-            <h1 id="dashboard-title"></h1>
+            <h1>Admin Panel</h1>
             <div class="user-avatar">
                 <div class="avatar"></div>
                 <div class="user-info-top">
-                    <span id="user-name">Bienvenido, Usuario</span>
+                    <span id="user-name">Welcome, User</span>
                     <span id="user-role" style="font-size: 14px; color: #ffd700;">Rol: Invitado</span>
                 </div>
             </div>
@@ -2182,26 +2146,6 @@
                         <label for="filter-cp-ciudadanos">Código postal</label>
                         <input id="filter-cp-ciudadanos" type="text" placeholder="Filtrar por código postal">
                     </div>
-                    <div>
-                        <label for="filter-edad-ciudadanos">Rango de edades</label>
-                        <select id="filter-edad-ciudadanos">
-                            <option value="">Todas las edades</option>
-                            <option value="18-24">18-24</option>
-                            <option value="25-29">25-29</option>
-                            <option value="30-34">30-34</option>
-                            <option value="35-39">35-39</option>
-                            <option value="40-44">40-44</option>
-                            <option value="45-49">45-49</option>
-                            <option value="50-54">50-54</option>
-                            <option value="55-59">55-59</option>
-                            <option value="60-64">60-64</option>
-                            <option value="65-69">65-69</option>
-                            <option value="70-74">70-74</option>
-                            <option value="75-79">75-79</option>
-                            <option value="80-84">80-84</option>
-                            <option value="85">85 y más</option>
-                        </select>
-                    </div>                    
                 </div>
 >>>>>>> parent of 9b36ac3 (Changes)
             </div>
@@ -2360,6 +2304,7 @@
               </div>
             </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <!-- Paso 2 -->
             <div class="form-step" data-step="2">
               <div class="form-group-tramite">
@@ -2457,8 +2402,9 @@
                 <span id="current-page">Página 1 de 1</span>
                 <button id="next-page" onclick="nextPage()">Siguiente</button>
             </div>
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
         </div>
-
 
         <!-- Sección Trabajadores Registrados -->
         <div id="registered-workers" class="section hidden">
@@ -2494,26 +2440,6 @@
                         <label for="filter-puesto-trabajadores">Puesto</label>
                         <input id="filter-puesto-trabajadores" type="text" placeholder="Filtrar por puesto">
                     </div>
-                    <div>
-                        <label for="filter-edad-trabajadores">Rango de edades</label>
-                        <select id="filter-edad-trabajadores">
-                            <option value="">Todas las edades</option>
-                            <option value="18-24">18-24</option>
-                            <option value="25-29">25-29</option>
-                            <option value="30-34">30-34</option>
-                            <option value="35-39">35-39</option>
-                            <option value="40-44">40-44</option>
-                            <option value="45-49">45-49</option>
-                            <option value="50-54">50-54</option>
-                            <option value="55-59">55-59</option>
-                            <option value="60-64">60-64</option>
-                            <option value="65-69">65-69</option>
-                            <option value="70-74">70-74</option>
-                            <option value="75-79">75-79</option>
-                            <option value="80-84">80-84</option>
-                            <option value="85">85 y más</option>
-                        </select>
-                    </div>                    
                 </div>
             </div>
             <a class="btn-refresh" onclick="loadTrabajadores()">Actualizar Datos</a>
@@ -2540,16 +2466,13 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <!-- Botones de paginación -->
-            <div class="pagination">
-                <button id="prev-page-workers" onclick="prevPageWorkers()">Anterior</button>
-                <span id="current-page-workers">Página 1 de 1</span>
-                <button id="next-page-workers" onclick="nextPageWorkers()">Siguiente</button>
-            </div>
         </div>
+<<<<<<< HEAD
         
 <<<<<<< HEAD
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
 
                   <label for="noPersonasAportan">Número de personas
                     que habitan que aportan ingresos</label>
@@ -2969,6 +2892,47 @@
               console.error("Error al obtener la URL de pago:", error);
               alert("Ocurrió un error al cargar la URL de pago.");
             });
+<<<<<<< HEAD
+=======
+
+            document.querySelectorAll('.nav li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.remove('hidden');
+                adjustContentMargin(); // Ajustar el margen cuando cambia la visibilidad
+            }
+
+            element.classList.add('active');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const topBar = document.getElementById('top-bar');
+            const filtersContainers = document.querySelectorAll('.filters-container');
+            const content = document.getElementById('content');
+
+            // Alternar clases para el sidebar, top-bar y contenido
+            sidebar.classList.toggle('collapsed');
+            topBar.classList.toggle('adjusted');
+            content.classList.toggle('adjusted');
+
+            // Ajustar todos los contenedores de filtros visibles
+            filtersContainers.forEach(container => {
+                container.classList.toggle('adjusted');
+            });
+
+            // Ajustar el margen del contenido
+            adjustContentMargin();
+        }
+
+        document.getElementById('editUserButton').addEventListener('click', () => {
+            fillEditForm();
+            document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
+            document.querySelector('.edit-card').classList.remove('hidden'); // Muestra la tarjeta de edición
+>>>>>>> parent of 71de206 (Actualizaciones)
         });
       }
     });

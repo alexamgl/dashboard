@@ -7,6 +7,7 @@ let userData = {}; // Objeto global para almacenar los datos del usuario
 document.addEventListener('DOMContentLoaded', () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   loadUserData();
 =======
@@ -17,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUserData();
     checkUserDocuments();
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+   loadUserData();
+   checkUserDocuments();
+>>>>>>> parent of 71de206 (Actualizaciones)
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,31 +194,6 @@ setInterval(checkInactivity, 60000);
 function configureDashboard(decodedToken) {
     const userRole = decodedToken.role;
 
-    // Actualizar el título del Dashboard basado en el rol
-    const roleTitles = {
-        admin: 'Panel de Administrador',
-        trabajador: 'Panel de Trabajador',
-        ciudadano: 'Trámites en Línea',
-        ciudadano_moral: 'Trámites en Línea'
-    };
-    const dashboardTitle = roleTitles[userRole] || 'Dashboard'; // Fallback si el rol no coincide
-    document.getElementById('dashboard-title').textContent = dashboardTitle;
-
-    // Actualizar el texto del rol en el top-bar
-    const roleDescriptions = {
-        admin: 'Administrador',
-        trabajador: 'Trabajador'
-    };
-    const userRoleText = roleDescriptions[userRole] || ''; // Si es ciudadano, no mostrar nada
-    const userRoleElement = document.getElementById('user-role');
-
-    if (userRoleText) {
-        userRoleElement.textContent = `Rol: ${userRoleText}`;
-        userRoleElement.style.display = 'block'; // Asegurarse de que sea visible
-    } else {
-        userRoleElement.style.display = 'none'; // Ocultar si el rol es ciudadano
-    }
-
     // Mostrar secciones para admin
     document.querySelectorAll('.admin-section').forEach((element) => {
         element.style.display = userRole === 'admin' ? 'block' : 'none';
@@ -221,7 +201,7 @@ function configureDashboard(decodedToken) {
 
     // Mostrar secciones para ciudadano
     document.querySelectorAll('.ciudadano-section').forEach((element) => {
-        element.style.display = userRole === 'ciudadano' || userRole === 'ciudadano_moral' ? 'block' : 'none';
+        element.style.display = userRole === 'ciudadano' ? 'block' : 'none';
     });
 
     // Mostrar secciones para trabajador
@@ -231,16 +211,22 @@ function configureDashboard(decodedToken) {
 
     // Mostrar secciones para ciudadano y trabajador
     document.querySelectorAll('.ciudadano-trabajador-section').forEach((element) => {
-        element.style.display = (userRole === 'ciudadano' || userRole === 'ciudadano_moral' || userRole === 'trabajador') ? 'block' : 'none';
+        element.style.display = (userRole === 'ciudadano' || userRole === 'trabajador') ? 'block' : 'none';
     });
+
+    // Muestra el nombre y el rol en el top-bar
+    document.getElementById('user-name').textContent = decodedToken.sub || 'Usuario';
+    document.getElementById('user-role').textContent = `Rol: ${userRole}`;
 }
+
+
 
 function logout() {
     localStorage.removeItem('token');
     window.location.href = '../../public/login.html';
 }
 
-// Función para cargar datos del usuario
+
 function loadUserData() {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -409,10 +395,11 @@ function loadCiudadanos() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                const userData = data.data;
-                userData.sub = id_usuario; // Agregar ID del usuario desde el token
-                userData.role = rol; // Agregar rol del usuario desde el token
+                userData = data.data;
+                userData.id_usuario = id_usuario; // Agregar ID del usuario desde el token
+                userData.rol = rol; // Agregar rol del usuario desde el token
 
+<<<<<<< HEAD
 
 
                  // Mostrar datos específicos dependiendo del rol
@@ -467,9 +454,21 @@ function loadCiudadanos() {
                 } else {
                     userInfoHtml += `<p>Rol desconocido.</p>`;
                 }
+=======
+                // Actualizar nombre y rol en el top-bar
+                document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
+                document.getElementById('user-role').textContent = `Rol: ${rol || 'Invitado'}`;
+>>>>>>> parent of 71de206 (Actualizaciones)
 
                 // Mostrar los datos del usuario en la interfaz
-                document.getElementById('user-info').innerHTML = userInfoHtml;
+                document.getElementById('user-info').innerHTML = `
+                    <p><strong>Nombre Completo:</strong> ${userData.nombre_completo}</p>
+                    <p><strong>Correo:</strong> ${userData.email || "No disponible"}</p>
+                    <p><strong>Teléfono:</strong> ${userData.telefono || "No disponible"}</p>
+                    <p><strong>Calle:</strong> ${userData.calle || "No disponible"}</p>
+                    <p><strong>Asentamiento:</strong> ${userData.asentamiento || "No disponible"}</p>
+                    <p><strong>Código Postal:</strong> ${userData.codigo_postal || "No disponible"}</p>
+                `;
             } else {
                 alert("Error al cargar los datos del usuario");
             }
@@ -478,132 +477,59 @@ function loadCiudadanos() {
 }
 
 
-// Variables para paginación
-let currentPage = 1;
-const recordsPerPage = 10;
-let filteredData = []; // Datos filtrados después de aplicar los filtros
-let tableBody, resultsCount;
 
-// Función para actualizar la tabla
-function updateTable() {
-    tableBody.innerHTML = "";
-    const startIndex = (currentPage - 1) * recordsPerPage;
-    const endIndex = startIndex + recordsPerPage;
-    const pageData = filteredData.slice(startIndex, endIndex);
-
-    pageData.forEach(ciudadano => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${ciudadano.nombre_completo}</td>
-            <td>${ciudadano.curp_ciudadano}</td>
-            <td>${ciudadano.fecha_nacimiento}</td>
-            <td>${ciudadano.email}</td>
-            <td>${ciudadano.telefono}</td>
-            <td>${ciudadano.calle}</td>
-            <td>${ciudadano.asentamiento}</td>
-            <td>${ciudadano.numero_exterior}</td>
-            <td>${ciudadano.codigo_postal}</td>`;
-        tableBody.appendChild(row);
-    });
-
-    resultsCount.textContent = `Registros encontrados: ${filteredData.length}`;
-    updatePaginationButtons();
-}
-
-// Función para actualizar los botones de paginación
-function updatePaginationButtons() {
-    const totalPages = Math.ceil(filteredData.length / recordsPerPage);
-    document.getElementById("prev-page").disabled = currentPage === 1;
-    document.getElementById("next-page").disabled = currentPage === totalPages || totalPages === 0;
-    document.getElementById("current-page").textContent = `Página ${currentPage} de ${totalPages}`;
-}
-
-// Función para cargar ciudadanos
+// Función para cargar ciudadanos y habilitar filtros
 function loadCiudadanos() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert("No estás autenticado");
-        return;
-    }
-    fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/ciudadanos',{
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/ciudadanos')
         .then(response => response.json())
         .then(data => {
-            tableBody = document.querySelector("#ciudadanos-table tbody");
+            const tableBody = document.querySelector("#ciudadanos-table tbody");
             const filterNombre = document.getElementById("filter-nombre-ciudadanos");
             const filterColonia = document.getElementById("filter-colonia-ciudadanos");
             const filterCP = document.getElementById("filter-cp-ciudadanos");
-            const filterEdad = document.getElementById("filter-edad-ciudadanos");
-            resultsCount = document.getElementById("results-ciudadanos");
+            const resultsCount = document.getElementById("results-ciudadanos");
 
-            // Filtro
-            function applyFilterCiudadanos() {
-                const values = {
-                    nombre: filterNombre.value.toLowerCase(),
-                    colonia: filterColonia.value.toLowerCase(),
-                    cp: filterCP.value.toLowerCase(),
-                    rangoEdad: filterEdad.value
-                };
+            function applyFilter() {
+                const nombreValue = filterNombre.value.toLowerCase();
+                const coloniaValue = filterColonia.value.toLowerCase();
+                const cpValue = filterCP.value.toLowerCase();
 
-                function calcularEdad(fechaNacimiento) {
-                    const hoy = new Date();
-                    const fechaNac = new Date(fechaNacimiento);
-                    let edad = hoy.getFullYear() - fechaNac.getFullYear();
-                    const mes = hoy.getMonth() - fechaNac.getMonth();
-                    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
-                        edad--;
+                tableBody.innerHTML = "";
+                let count = 0;
+                data.forEach(ciudadano => {
+                    if (
+                        (ciudadano.nombre_completo.toLowerCase().includes(nombreValue)) &&
+                        (ciudadano.asentamiento.toLowerCase().includes(coloniaValue)) &&
+                        (ciudadano.codigo_postal.toLowerCase().includes(cpValue))
+                    ) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                <td>${ciudadano.nombre_completo}</td>
+                <td>${ciudadano.curp_ciudadano}</td>
+                <td>${ciudadano.fecha_nacimiento}</td>
+                <td>${ciudadano.email}</td>
+                <td>${ciudadano.telefono}</td>
+                <td>${ciudadano.calle}</td>
+                <td>${ciudadano.asentamiento}</td>
+                <td>${ciudadano.numero_exterior}</td>
+                <td>${ciudadano.codigo_postal}</td>`;
+                        tableBody.appendChild(row);
+                        count++;
                     }
-                    return edad;
-                }
-
-                const [edadMin, edadMax] = values.rangoEdad
-                    ? values.rangoEdad.split('-').map(Number)
-                    : [null, null];
-
-                filteredData = data.filter(ciudadano => {
-                    const edad = calcularEdad(ciudadano.fecha_nacimiento);
-                    return (
-                        ciudadano.nombre_completo.toLowerCase().includes(values.nombre) &&
-                        ciudadano.asentamiento.toLowerCase().includes(values.colonia) &&
-                        ciudadano.codigo_postal.toLowerCase().includes(values.cp) &&
-                        (values.rangoEdad === "" ||
-                            (edadMin !== null && edadMax !== null
-                                ? edad >= edadMin && edad <= edadMax
-                                : edad >= 85))
-                    );
                 });
-
-                currentPage = 1; // Reiniciar a la primera página
-                updateTable();
+                resultsCount.textContent = `Registros encontrados: ${count}`;
             }
 
-            filterNombre.addEventListener("input", applyFilterCiudadanos);
-            filterColonia.addEventListener("input", applyFilterCiudadanos);
-            filterCP.addEventListener("input", applyFilterCiudadanos);
-            filterEdad.addEventListener("input", applyFilterCiudadanos);
-            applyFilterCiudadanos();
+            filterNombre.addEventListener("input", applyFilter);
+            filterColonia.addEventListener("input", applyFilter);
+            filterCP.addEventListener("input", applyFilter);
+            applyFilter();
         })
         .catch(error => console.error('Error al cargar los ciudadanos:', error));
 }
 
-// Botones de navegación
-function nextPage() {
-    currentPage++;
-    updateTable();
-}
-
-function prevPage() {
-    currentPage--;
-    updateTable();
-}
-
-
-
 // Función para cargar trabajadores y habilitar filtros
+<<<<<<< HEAD
 <<<<<<< HEAD
 function loadTrabajadores() {
     fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/trabajadores')
@@ -655,32 +581,29 @@ function updatePaginationButtonsWorkers() {
 }
 
 // Función para cargar trabajadores
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
 function loadTrabajadores() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert("No estás autenticado");
-        return;
-    }
-    fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/trabajadores',{
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/trabajadores')
         .then(response => response.json())
         .then(data => {
+<<<<<<< HEAD
             tableBodyWorkers = document.querySelector("#trabajadores-table tbody");
             resultsCountWorkers = document.getElementById("results-trabajadores");
 <<<<<<< HEAD
 >>>>>>> parent of 9b36ac3 (Changes)
 =======
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+            const tableBody = document.querySelector("#trabajadores-table tbody");
+>>>>>>> parent of 71de206 (Actualizaciones)
             const filters = {
                 filterNombre: document.getElementById("filter-nombre-trabajadores"),
                 filterColonia: document.getElementById("filter-colonia-trabajadores"),
                 filterCP: document.getElementById("filter-cp-trabajadores"),
                 filterGenero: document.getElementById("filter-genero-trabajadores"),
                 filterDepartamento: document.getElementById("filter-departamento-trabajadores"),
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                 filterPuesto: document.getElementById("filter-puesto-trabajadores")
@@ -693,20 +616,29 @@ function loadTrabajadores() {
 >>>>>>> parent of 9b36ac3 (Changes)
                 filterPuesto: document.getElementById("filter-puesto-trabajadores"),
                 filterEdad: document.getElementById("filter-edad-trabajadores") // Nuevo filtro
+=======
+                filterPuesto: document.getElementById("filter-puesto-trabajadores")
+>>>>>>> parent of 71de206 (Actualizaciones)
             };
+            const resultsCount = document.getElementById("results-trabajadores");
 
+<<<<<<< HEAD
 
             function applyFilterWorkers() {
 <<<<<<< HEAD
 >>>>>>> parent of 9b36ac3 (Changes)
 =======
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+            function applyFilter() {
+>>>>>>> parent of 71de206 (Actualizaciones)
                 const values = {
                     nombre: filters.filterNombre.value.toLowerCase(),
                     colonia: filters.filterColonia.value.toLowerCase(),
                     cp: filters.filterCP.value.toLowerCase(),
                     genero: filters.filterGenero.value.toLowerCase(),
                     departamento: filters.filterDepartamento.value.toLowerCase(),
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                     puesto: filters.filterPuesto.value.toLowerCase()
@@ -791,64 +723,84 @@ function fillEditForm() {
 >>>>>>> parent of 9b36ac3 (Changes)
                     puesto: filters.filterPuesto.value.toLowerCase(),
                     rangoEdad: filters.filterEdad.value // Nuevo filtro
+=======
+                    puesto: filters.filterPuesto.value.toLowerCase()
+>>>>>>> parent of 71de206 (Actualizaciones)
                 };
 
-                // Función para calcular la edad
-                function calcularEdad(fechaNacimiento) {
-                    const hoy = new Date();
-                    const fechaNac = new Date(fechaNacimiento);
-                    let edad = hoy.getFullYear() - fechaNac.getFullYear();
-                    const mes = hoy.getMonth() - fechaNac.getMonth();
-                    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
-                        edad--;
+                tableBody.innerHTML = "";
+                let count = 0;
+                data.forEach(trabajador => {
+                    if (
+                        (trabajador.nombre_completo.toLowerCase().includes(values.nombre)) &&
+                        (trabajador.asentamiento.toLowerCase().includes(values.colonia)) &&
+                        (trabajador.codigo_postal.toLowerCase().includes(values.cp)) &&
+                        (trabajador.sexo.toLowerCase().includes(values.genero)) &&
+                        (trabajador.departamento.toLowerCase().includes(values.departamento)) &&
+                        (trabajador.puesto.toLowerCase().includes(values.puesto))
+                    ) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                <td>${trabajador.no_nomina}</td>
+                <td>${trabajador.nombre_completo}</td>
+                <td>${trabajador.curp_trabajador}</td>
+                <td>${trabajador.departamento}</td>
+                <td>${trabajador.puesto}</td>
+                <td>${trabajador.fecha_nacimiento}</td>
+                <td>${trabajador.email}</td>
+                <td>${trabajador.telefono}</td>
+                <td>${trabajador.calle}</td>
+                <td>${trabajador.asentamiento}</td>
+                <td>${trabajador.numero_exterior}</td>
+                <td>${trabajador.codigo_postal}</td>
+                <td>${trabajador.sexo}</td>`;
+                        tableBody.appendChild(row);
+                        count++;
                     }
-                    return edad;
-                }
-
-                // Obtener los rangos de edad seleccionados
-                const [edadMin, edadMax] = values.rangoEdad
-                    ? values.rangoEdad.split('-').map(Number)
-                    : [null, null];
-
-                filteredWorkers = data.filter(trabajador => {
-                    const edad = calcularEdad(trabajador.fecha_nacimiento);
-
-                    return (
-                        trabajador.nombre_completo.toLowerCase().includes(values.nombre) &&
-                        trabajador.asentamiento.toLowerCase().includes(values.colonia) &&
-                        trabajador.codigo_postal.toLowerCase().includes(values.cp) &&
-                        trabajador.sexo.toLowerCase().includes(values.genero) &&
-                        trabajador.departamento.toLowerCase().includes(values.departamento) &&
-                        trabajador.puesto.toLowerCase().includes(values.puesto) &&
-                        (values.rangoEdad === "" ||
-                            (edadMin !== null && edadMax !== null
-                                ? edad >= edadMin && edad <= edadMax
-                                : edad >= 85)) // Condición para "85 y más"
-                    );
                 });
-
-                currentPageWorkers = 1; // Reiniciar a la primera página
-                updateTableWorkers();
+                resultsCount.textContent = `Registros encontrados: ${count}`;
             }
 
-
-            Object.values(filters).forEach(filter => filter.addEventListener("input", applyFilterWorkers));
-            applyFilterWorkers();
+            Object.values(filters).forEach(filter => filter.addEventListener("input", applyFilter));
+            applyFilter();
         })
         .catch(error => console.error('Error al cargar los trabajadores:', error));
 }
 
-// Botones de navegación
-function nextPageWorkers() {
-    currentPageWorkers++;
-    updateTableWorkers();
-}
+function fillEditForm() {
+    // Asegúrate de que userData está inicializado
+    if (!userData || Object.keys(userData).length === 0) {
+        alert("No se pueden cargar los datos del usuario. Por favor, intenta nuevamente.");
+        return;
+    }
 
-function prevPageWorkers() {
-    currentPageWorkers--;
-    updateTableWorkers();
-}
+    // Llenar los campos del formulario con los datos del usuario
+    document.getElementById('editNombre').value = userData.nombre || '';
+    document.getElementById('editPrimApellido').value = userData.primer_apellido || '';
+    document.getElementById('editSegApellido').value = userData.segundo_apellido || '';
+    document.getElementById('editEmail').value = userData.email || '';
+    document.getElementById('editTelefono').value = userData.telefono || '';
+    document.getElementById('editCalle').value = userData.calle || '';
+    document.getElementById('editAsentamiento').value = userData.asentamiento || '';
+    document.getElementById('editNumExterior').value = userData.numero_exterior || '';
+    document.getElementById('editNumInterior').value = userData.numero_interior || '';
+    document.getElementById('editCP').value = userData.codigo_postal || '';
 
+    if (userData.rol === 'trabajador') {
+        document.getElementById('trabajadorFields').style.display = 'block';
+        document.getElementById('editNoNomina').value = userData.no_nomina || '';
+        document.getElementById('editPuesto').value = userData.puesto || '';
+
+        const departamentoSelect = document.getElementById('editDepartamento');
+        Array.from(departamentoSelect.options).forEach(option => {
+            if (option.value === userData.departamento) {
+                option.selected = true;
+            }
+        });
+    } else {
+        document.getElementById('trabajadorFields').style.display = 'none';
+    }
+}
 
 >>>>>>> parent of 9b36ac3 (Changes)
 function saveChanges() {
@@ -858,6 +810,7 @@ function saveChanges() {
         return;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     const id_trabajador = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
@@ -903,29 +856,42 @@ function saveChanges() {
     const id_usuario = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
     const rol = JSON.parse(atob(token.split('.')[1])).role; // Obtener el rol del usuario
     const url = `/tramites-sjr/Api/principal/update_user_data`;
+=======
+    const id_trabajador = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
+    const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/update_trabajador_data`;
+>>>>>>> parent of 71de206 (Actualizaciones)
 
-    // Crear un objeto para los datos del formulario
+    // Crear un objeto para los datos del formulario y valores predeterminados
     const data = {
-        id_usuario: id_usuario,
-        nombre: document.getElementById('editNombre').value,
-        primer_apellido: document.getElementById('editPrimApellido').value,
-        segundo_apellido: document.getElementById('editSegApellido').value,
-        email: document.getElementById('editEmail').value,
-        telefono: document.getElementById('editTelefono').value,
-        calle: document.getElementById('editCalle').value,
-        asentamiento: document.getElementById('editAsentamiento').value,
-        numero_exterior: document.getElementById('editNumExterior').value,
-        numero_interior: document.getElementById('editNumInterior').value,
-        codigo_postal: document.getElementById('editCP').value,
-        rol: rol // Pasar el rol para diferenciar
+        id_trabajador: id_trabajador,
+        nombre: document.getElementById('editNombre').value || userData.nombre,
+        primer_apellido: document.getElementById('editPrimApellido').value || userData.primer_apellido,
+        segundo_apellido: document.getElementById('editSegApellido').value || userData.segundo_apellido,
+        email: document.getElementById('editEmail').value || userData.email,
+        telefono: document.getElementById('editTelefono').value || userData.telefono,
+        calle: document.getElementById('editCalle').value || userData.calle,
+        asentamiento: document.getElementById('editAsentamiento').value || userData.asentamiento,
+        numero_exterior: document.getElementById('editNumExterior').value || userData.numero_exterior,
+        numero_interior: document.getElementById('editNumInterior').value || userData.numero_interior,
+        codigo_postal: document.getElementById('editCP').value || userData.codigo_postal,
+        // Mantener valores actuales de campos no editables
+        sexo: userData.sexo || null,
+        estado: userData.estado || null,
+        curp_trabajador: userData.curp_trabajador || null,
+        fecha_nacimiento: userData.fecha_nacimiento || null,
+        password: userData.password || null,
+        carpeta_raiz: userData.carpeta_raiz || null,
+        acepto_terminos_condiciones: userData.acepto_terminos_condiciones || 0,
+        tipo_asentamiento: userData.tipo_asentamiento || null,
+        latitud: userData.latitud || null,
+        longitud: userData.longitud || null,
+        tipo_telefono: userData.tipo_telefono || null
     };
 
-    if (rol === 'trabajador') {
-        data.no_nomina = document.getElementById('editNoNomina').value;
-        data.puesto = document.getElementById('editPuesto').value;
-        data.departamento = document.getElementById('editDepartamento').value;
-    }
+    // Calcular el nombre completo concatenando los campos de nombre y apellidos
+    data.nombre_completo = `${data.nombre} ${data.primer_apellido} ${data.segundo_apellido}`.trim();
 
+<<<<<<< HEAD
 =======
     const id_usuario = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
     const rol = JSON.parse(atob(token.split('.')[1])).role; // Obtener el rol del usuario
@@ -965,6 +931,14 @@ function saveChanges() {
 >>>>>>> parent of 9b36ac3 (Changes)
 =======
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+    // Solo agregar estos campos si el usuario es un trabajador
+    const rol = JSON.parse(atob(token.split('.')[1])).role;
+    if (rol === 'trabajador') {
+        data.no_nomina = document.getElementById('editNoNomina').value || userData.no_nomina;
+        data.departamento = document.getElementById('editDepartamento').value || userData.departamento;
+        data.puesto = document.getElementById('editPuesto').value || userData.puesto;
+>>>>>>> parent of 71de206 (Actualizaciones)
     }
 
     fetch(url, {
@@ -986,7 +960,6 @@ function saveChanges() {
         })
         .catch(error => console.error('Error:', error));
 }
-
 
 document.getElementById('manageDocumentsButton').addEventListener('click', () => {
     document.querySelector('.user-card').classList.add('hidden'); // Oculta la tarjeta de información
@@ -1072,8 +1045,7 @@ async function uploadDocument(fieldId) {
     const roleMapping = {
         admin: 1,
         trabajador: 2,
-        ciudadano: 3,
-        ciudadano_moral: 3
+        ciudadano: 3
     };
 
     // Convertir el rol del usuario a su valor numérico
@@ -1145,8 +1117,7 @@ async function checkUserDocuments() {
     const roleMapping = {
         admin: 1,
         trabajador: 2,
-        ciudadano: 3,
-        ciudadano_moral: 3
+        ciudadano: 3
     };
 
     const numericRole = roleMapping[user.role];
@@ -1157,7 +1128,7 @@ async function checkUserDocuments() {
 
     try {
         const response = await fetch(
-            `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/get_documentos?id_usuario=${user.sub}&rol=${numericRole}`,
+            `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/get_documentos?id_usuario=${user.sub}&rol=${numericRole}`, 
             {
                 method: 'GET',
                 headers: {
@@ -1257,24 +1228,24 @@ function cargarGraficaSecretarias() {
             'Authorization': `Bearer ${token}`
         }
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Filtrar las dependencias con total mayor a 5
-                const filteredData = data.data.filter(item => item.total > 0);
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Filtrar las dependencias con total mayor a 5
+            const filteredData = data.data.filter(item => item.total > 0);
 
-                // Extraer etiquetas y valores solo de las dependencias filtradas
-                const labels = filteredData.map(item => item.departamento);
-                const values = filteredData.map(item => item.total);
+            // Extraer etiquetas y valores solo de las dependencias filtradas
+            const labels = filteredData.map(item => item.departamento);
+            const values = filteredData.map(item => item.total);
 
-                renderGraficaDependencias(labels, values);
-            } else {
-                console.error('Error al obtener los datos de la gráfica:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error al cargar la gráfica:', error);
-        });
+            renderGraficaDependencias(labels, values);
+        } else {
+            console.error('Error al obtener los datos de la gráfica:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error al cargar la gráfica:', error);
+    });
 }
 
 let grafica;
@@ -1311,6 +1282,10 @@ function renderGraficaDependencias(labels, values) {
     });
 }
 
+
+
+
+
 // Escuchar cambios en el tamaño de la ventana
 window.addEventListener('resize', () => {
     if (grafica) {
@@ -1319,19 +1294,9 @@ window.addEventListener('resize', () => {
 });
 
 function cargarGraficaCodigosPostales() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert("No estás autenticado");
-        return;
-    }
     const apiUrl = "https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/grafica_cp_trabajadores"; // Cambia al endpoint real
 
-    fetch(apiUrl,{
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -1381,123 +1346,125 @@ function renderGraficaCodigosPostales(labels, values) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Inicializar el mapa
-    const map = L.map("map").setView([20.3864, -100.0110], 13); // Coordenadas aproximadas de San Juan del Río
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar el mapa
+        const map = L.map("map").setView([20.3864, -100.0110], 13); // Coordenadas aproximadas de San Juan del Río
 
-    // Añadir la capa base
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+        // Añadir la capa base
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
 
-    // Datos ficticios de códigos postales de San Juan del Río
-    const jsonMarkers = {
-        "success": true,
-        "data": [
-            { "codigo_postal": "76806", "lat": 20.3871, "lon": -100.0084, "trabajadores": "JOSÉ ALFREDO ORDAZ MONTOYA" },
-            { "codigo_postal": "76800", "lat": 20.3915, "lon": -100.0098, "trabajadores": "LUIS ALBERTO GALVAN HERNANDEZ" },
-            { "codigo_postal": "76803", "lat": 20.3899, "lon": -100.0120, "trabajadores": "OLIVIA NOELIA CHAVEZ ESTRELLA" },
-            { "codigo_postal": "76804", "lat": 20.3934, "lon": -100.0143, "trabajadores": "LORENA ANGELES GARCIA" },
-            { "codigo_postal": "76805", "lat": 20.3886, "lon": -100.0167, "trabajadores": "ANGEL RIVERA FERNANDO" },
-            { "codigo_postal": "76807", "lat": 20.3949, "lon": -100.0180, "trabajadores": "MARISOL FIERRO VALLE" }
-        ]
-    };
+        // Datos ficticios de códigos postales de San Juan del Río
+        const jsonMarkers = {
+            "success": true,
+            "data": [
+                { "codigo_postal": "76806", "lat": 20.3871, "lon": -100.0084, "trabajadores": "JOSÉ ALFREDO ORDAZ MONTOYA" },
+                { "codigo_postal": "76800", "lat": 20.3915, "lon": -100.0098, "trabajadores": "LUIS ALBERTO GALVAN HERNANDEZ" },
+                { "codigo_postal": "76803", "lat": 20.3899, "lon": -100.0120, "trabajadores": "OLIVIA NOELIA CHAVEZ ESTRELLA" },
+                { "codigo_postal": "76804", "lat": 20.3934, "lon": -100.0143, "trabajadores": "LORENA ANGELES GARCIA" },
+                { "codigo_postal": "76805", "lat": 20.3886, "lon": -100.0167, "trabajadores": "ANGEL RIVERA FERNANDO" },
+                { "codigo_postal": "76807", "lat": 20.3949, "lon": -100.0180, "trabajadores": "MARISOL FIERRO VALLE" }
+            ]
+        };
 
-    const jsonCircles = {
-        "success": true,
-        "data": [
-            { "codigo_postal": "76830", "lat": 20.4012, "lon": -100.0215, "trabajadores": 20 },
-            { "codigo_postal": "76810", "lat": 20.3975, "lon": -100.0238, "trabajadores": 14 },
-            { "codigo_postal": "76820", "lat": 20.3950, "lon": -100.0261, "trabajadores": 30 },
-            { "codigo_postal": "768024", "lat": 20.3900, "lon": -100.0283, "trabajadores": 25 },
-            { "codigo_postal": "76814", "lat": 20.3965, "lon": -100.0305, "trabajadores": 22 },
-            { "codigo_postal": "76826", "lat": 20.3987, "lon": -100.0327, "trabajadores": 28 }
-        ]
-    };
+        const jsonCircles = {
+            "success": true,
+            "data": [
+                { "codigo_postal": "76830", "lat": 20.4012, "lon": -100.0215, "trabajadores": 20 },
+                { "codigo_postal": "76810", "lat": 20.3975, "lon": -100.0238, "trabajadores": 14 },
+                { "codigo_postal": "76820", "lat": 20.3950, "lon": -100.0261, "trabajadores": 30 },
+                { "codigo_postal": "768024", "lat": 20.3900, "lon": -100.0283, "trabajadores": 25 },
+                { "codigo_postal": "76814", "lat": 20.3965, "lon": -100.0305, "trabajadores": 22 },
+                { "codigo_postal": "76826", "lat": 20.3987, "lon": -100.0327, "trabajadores": 28 }
+            ]
+        };
 
-    let markerLayer = null;
-    let circleLayer = null;
+        let markerLayer = null;
+        let circleLayer = null;
 
-    // Función para mostrar marcadores agrupados
-    const mostrarMarcadores = (map, data) => {
-        if (circleLayer) map.removeLayer(circleLayer); // Quitar círculos si existen
+        // Función para mostrar marcadores agrupados
+        const mostrarMarcadores = (map, data) => {
+            if (circleLayer) map.removeLayer(circleLayer); // Quitar círculos si existen
 
-        if (markerLayer) map.removeLayer(markerLayer); // Reiniciar la capa si ya existe
-        markerLayer = L.markerClusterGroup();
+            if (markerLayer) map.removeLayer(markerLayer); // Reiniciar la capa si ya existe
+            markerLayer = L.markerClusterGroup();
 
-        data.forEach((item) => {
-            const marker = L.marker([item.lat, item.lon]).bindPopup(`
+            data.forEach((item) => {
+                const marker = L.marker([item.lat, item.lon]).bindPopup(`
                     <b>Código Postal:</b> ${item.codigo_postal}<br>
                     <b>Trabajador:</b> ${item.trabajadores}
                 `);
-            markerLayer.addLayer(marker);
-        });
+                markerLayer.addLayer(marker);
+            });
 
-        map.addLayer(markerLayer);
-    };
+            map.addLayer(markerLayer);
+        };
 
-    // Función para mostrar círculos con tamaño dinámico basado en el zoom
-    const mostrarCirculos = (map, data) => {
-        if (markerLayer) map.removeLayer(markerLayer); // Quitar marcadores si existen
+        // Función para mostrar círculos con tamaño dinámico basado en el zoom
+        const mostrarCirculos = (map, data) => {
+            if (markerLayer) map.removeLayer(markerLayer); // Quitar marcadores si existen
 
-        if (circleLayer) map.removeLayer(circleLayer); // Reiniciar la capa si ya existe
-        circleLayer = L.layerGroup();
+            if (circleLayer) map.removeLayer(circleLayer); // Reiniciar la capa si ya existe
+            circleLayer = L.layerGroup();
 
-        const baseRadius = 500; // Tamaño base del círculo
+            const baseRadius = 500; // Tamaño base del círculo
 
-        data.forEach((item) => {
-            const circle = L.circle([item.lat, item.lon], {
-                radius: baseRadius, // Tamaño base
-                color: '#faa21b', // Color base naranja
-                fillColor: '#faa21b',
-                fillOpacity: 0.5,
-            })
-                .bindPopup(`
+            data.forEach((item) => {
+                const circle = L.circle([item.lat, item.lon], {
+                    radius: baseRadius, // Tamaño base
+                    color: '#faa21b', // Color base naranja
+                    fillColor: '#faa21b',
+                    fillOpacity: 0.5,
+                })
+                    .bindPopup(`
                         <b>Código Postal:</b> ${item.codigo_postal}<br>
                         <b>Trabajadores:</b> ${item.trabajadores}
                     `);
 
-            circleLayer.addLayer(circle);
-        });
-
-        circleLayer.addTo(map);
-
-        // Ajustar tamaño dinámico de los círculos al cambiar el nivel de zoom
-        map.on("zoomend", () => {
-            const zoomFactor = map.getZoom() / 15; // Relación del zoom inicial (15)
-            circleLayer.eachLayer((layer) => {
-                layer.setRadius(baseRadius * zoomFactor);
+                circleLayer.addLayer(circle);
             });
+
+            circleLayer.addTo(map);
+
+            // Ajustar tamaño dinámico de los círculos al cambiar el nivel de zoom
+            map.on("zoomend", () => {
+                const zoomFactor = map.getZoom() / 15; // Relación del zoom inicial (15)
+                circleLayer.eachLayer((layer) => {
+                    layer.setRadius(baseRadius * zoomFactor);
+                });
+            });
+        };
+
+        // Configurar los botones para alternar entre mapas
+        document.getElementById("load-markers").addEventListener("click", () => {
+            mostrarMarcadores(map, jsonMarkers.data);
+            document.getElementById("load-markers").classList.add("active");
+            document.getElementById("load-circles").classList.remove("active");
         });
-    };
 
-    // Configurar los botones para alternar entre mapas
-    document.getElementById("load-markers").addEventListener("click", () => {
+        document.getElementById("load-circles").addEventListener("click", () => {
+            mostrarCirculos(map, jsonCircles.data);
+            document.getElementById("load-circles").classList.add("active");
+            document.getElementById("load-markers").classList.remove("active");
+        });
+
+        // Mostrar el mapa de marcadores por defecto
         mostrarMarcadores(map, jsonMarkers.data);
-        document.getElementById("load-markers").classList.add("active");
-        document.getElementById("load-circles").classList.remove("active");
     });
-
-    document.getElementById("load-circles").addEventListener("click", () => {
-        mostrarCirculos(map, jsonCircles.data);
-        document.getElementById("load-circles").classList.add("active");
-        document.getElementById("load-markers").classList.remove("active");
-    });
-
-    // Mostrar el mapa de marcadores por defecto
-    mostrarMarcadores(map, jsonMarkers.data);
-});
 
 
 
 // Llamar a la función para cargar la gráfica
 document.addEventListener('DOMContentLoaded', cargarGraficaCodigosPostales);
 
+
 function logout() {
     localStorage.removeItem('token'); // Elimina el token
     window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html'; // Redirige al login
 }
+
 
 //FORMULARIOS
 // Manejo de apertura y cierre de modales
@@ -1622,3 +1589,6 @@ formBecas.addEventListener('submit', (e) => {
 document.getElementById('closeConfirmationVistoBueno').addEventListener('click', () => {
     document.getElementById('confirmationModalVistoBueno').style.display = 'none';
 });
+
+
+
