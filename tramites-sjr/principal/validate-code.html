@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validar código</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/validate-code.js" defer></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header,
+        #footer {
+            color: white;
+            padding: 0;
+            text-align: center;
+            outline: none;
+            box-shadow: none;
+        }
+
+        #header,
+        #footer:focus,
+        #header a:focus,
+        #footer a:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        #header {
+            margin-bottom: 20px;
+        }
+
+        #footer {
+            margin-top: 40px;
+        }
+
+        .container {
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            color: #737373;
+            border: 1px solid rgb(219, 219, 219);
+            text-align: center;
+            background: white;
+            width: 400px;
+            margin: 50px auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .content__form h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .content__form {
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+        }
+
+        .content__inputs {
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+        }
+
+        .content__form label {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .content__form input {
+            width: 100%;
+            background: rgb(250, 250, 250);
+            border: 1px solid rgb(200, 200, 200);
+            outline: none;
+            padding: 10px 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .content__form input:focus {
+            border: 2px solid #0056b3;
+            box-shadow: 0 0 15px rgba(0, 86, 179, 0.4);
+            background: #f0f8ff;
+        }
+
+        .button {
+            position: relative;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            background-color: rgb(0 107 179);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffff;
+            gap: 10px;
+            font-weight: bold;
+            border: 3px solid #ffffff4d;
+            outline: none;
+            overflow: hidden;
+            font-size: 15px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            border-color: #fff9;
+        }
+
+        .button:hover .icon {
+            transform: translate(4px);
+        }
+
+        .button:hover::before {
+            animation: shine 1.5s ease-out infinite;
+        }
+
+        .button::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100%;
+            background-image: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0) 30%,
+                    rgba(255, 255, 255, 0.8),
+                    rgba(255, 255, 255, 0) 70%);
+            top: 0;
+            left: -100px;
+            opacity: 0.6;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100px;
+            }
+
+            60% {
+                left: 100%;
+            }
+
+            to {
+                left: 100%;
+            }
+        }
+
+        .content__forgot-buttons {
+            margin-top: 20px;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
+
+        .content__forgot-buttons a {
+            text-decoration: none;
+            color: #00376b;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .content__forgot-buttons a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">Trámites Digitales</div>
+    <div class="container">
+        <div class="content__form">
+            <h2>Validar código</h2>
+            <div class="content__inputs">
+                <label for="email">Correo</label>
+                <input type="email" id="email" placeholder="Ingresa tu correo" readonly>
+                <label for="code">Código</label>
+                <input type="text" id="code" placeholder="Ingresa el código recibido" required>
+            </div>
+            <button class="button" onclick="validateCode()">Validar código</button>
+        </div>
+    </div>
+    <div id="footer">© 2024 Trámites Digitales</div>
+</body>
+
+</html>
