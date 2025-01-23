@@ -18,6 +18,7 @@ require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullOrganizacio
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GraficaCPTrabajadorController.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GraficaDependenciasController.php';
 require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UploadDocumentController.php';
+require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullDataBecasController.php';
 
 // Configuración de CORS y tipo de contenido
 header("Access-Control-Allow-Origin: *"); 

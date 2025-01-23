@@ -9,47 +9,128 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const decodedToken = validateToken(); // Validar el token y obtener datos decodificados
+  const decodedToken = validateToken(); // Validar el token y obtener datos decodificados
 
-    if (decodedToken) {
-        configureDashboard(decodedToken); // Configurar el Dashboard según el rol
-        resetActivityTimer(); // Iniciar el seguimiento de actividad
-    }
+  if (decodedToken) {
+    configureDashboard(decodedToken); // Configurar el Dashboard según el rol
+    resetActivityTimer(); // Iniciar el seguimiento de actividad
+  }
 });
 
 window.addEventListener('pageshow', () => {
-    validateToken(); // Revalidar el token si el usuario regresa con el botón Atrás
+  validateToken(); // Revalidar el token si el usuario regresa con el botón Atrás
+>>>>>>> Stashed changes
 });
 
 document.addEventListener('DOMContentLoaded', loadCiudadanos);
 document.addEventListener('DOMContentLoaded', loadTrabajadores);
 
-function validateToken() {
+<<<<<<< Updated upstream
+function getRoleFromToken() {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-        window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+        return null;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role || 'user';
+}
+
+function displaySectionsBasedOnRole() {
+    const role = getRoleFromToken();
+    if (role === 'admin') {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+    } else if (role === 'trabajador' || role === 'ciudadano') {
+        document.getElementById('mis-datos-section').style.display = 'block';
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    } else {
+        console.error("Rol desconocido o no permitido");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', displaySectionsBasedOnRole);
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = '../../public/login.html';
+}
+
+function VerificaToken() {
+    const Token = localStorage.getItem("token");
+    if (Token) {
+        const TokenSplit = Token.split(".");
+        if (TokenSplit.length === 3) {
+            //window.location.href = "login.html"
+            const payload = JSON.parse(atob(TokenSplit[1]));
+            console.log("Payload", payload);
+        } else {
+            console.error("Token invalido");
+        }
+    } else {
+        console.error("Token no encontrado");
+        window.location.href = "https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html"
+    }
+}
+
+
+function checkAuth() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';;
         return;
     }
 
     try {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+        const payload = parseJwt(token);
+        const currentTime = Math.floor(Date.now() / 1000);
 
-        if (decoded.exp < currentTime) {
+        if (payload.exp && payload.exp < currentTime) {
             alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
             localStorage.removeItem('token');
             window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
-            return;
         }
-
-        return decoded; // Retorna el token decodificado para usar el ID y rol
-    } catch (error) {
-        console.error('Error al validar el token:', error);
-        alert('Hubo un problema con tu sesión. Por favor, inicia sesión nuevamente.');
+    } catch (e) {
+        alert('Token inválido. Por favor, inicia sesión nuevamente.');
         localStorage.removeItem('token');
         window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
     }
+}
+
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+=======
+function validateToken() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+    window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+    return;
+  }
+
+  try {
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+
+    if (decoded.exp < currentTime) {
+      alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      localStorage.removeItem('token');
+      window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+      return;
+    }
+
+    return decoded; // Retorna el token decodificado para usar el ID y rol
+  } catch (error) {
+    console.error('Error al validar el token:', error);
+    alert('Hubo un problema con tu sesión. Por favor, inicia sesión nuevamente.');
+    localStorage.removeItem('token');
+    window.location.href = 'https://sanjuandelrio.gob.mx/tramites-sjr/public/login.html';
+  }
 }
 
 let lastActivityTime = Date.now();
@@ -143,8 +224,9 @@ function loadUserData() {
     const id_usuario = decoded.sub;
     const rol = decoded.role;
 
+<<<<<<< Updated upstream
     // URL para obtener los datos del usuario
-    const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/usuario_datos/${id_usuario}`;
+    const url = `/tramites-sjr/Api/principal/usuario_datos/${id_usuario}`;
 
     // Realizar la solicitud para obtener los datos del usuario
     fetch(url, {
@@ -155,7 +237,7 @@ function loadUserData() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                const userData = data.data;
+                userData = data.data;
                 userData.sub = id_usuario; // Agregar ID del usuario desde el token
                 userData.role = rol; // Agregar rol del usuario desde el token
 
@@ -218,7 +300,6 @@ function loadUserData() {
         })
         .catch(error => console.error('Error:', error));
 }
-
 
 // Variables para paginación
 let currentPage = 1;
@@ -486,11 +567,11 @@ function prevPageWorkers() {
 
 
 function saveChanges() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert("No estás autenticado");
-        return;
-    }
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert("No estás autenticado");
+    return;
+  }
 
     const id_usuario = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
     const rol = JSON.parse(atob(token.split('.')[1])).role; // Obtener el rol del usuario
