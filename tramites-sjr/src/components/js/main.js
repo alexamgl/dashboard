@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   loadUserData();
 =======
@@ -18,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUserData();
     checkUserDocuments();
 >>>>>>> parent of 9b36ac3 (Changes)
+=======
+   loadUserData();
+   checkUserDocuments();
+>>>>>>> parent of 71de206 (Actualizaciones)
 =======
    loadUserData();
    checkUserDocuments();
@@ -400,6 +405,7 @@ function loadCiudadanos() {
                 userData.rol = rol; // Agregar rol del usuario desde el token
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
                  // Mostrar datos específicos dependiendo del rol
@@ -454,6 +460,11 @@ function loadCiudadanos() {
                 } else {
                     userInfoHtml += `<p>Rol desconocido.</p>`;
                 }
+=======
+                // Actualizar nombre y rol en el top-bar
+                document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
+                document.getElementById('user-role').textContent = `Rol: ${rol || 'Invitado'}`;
+>>>>>>> parent of 71de206 (Actualizaciones)
 =======
                 // Actualizar nombre y rol en el top-bar
                 document.getElementById('user-name').textContent = userData.nombre_completo || 'Usuario';
@@ -531,6 +542,7 @@ function loadCiudadanos() {
 // Función para cargar trabajadores y habilitar filtros
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 function loadTrabajadores() {
     fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/trabajadores')
         .then(response => response.json())
@@ -583,10 +595,13 @@ function updatePaginationButtonsWorkers() {
 // Función para cargar trabajadores
 =======
 >>>>>>> parent of 71de206 (Actualizaciones)
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
 function loadTrabajadores() {
     fetch('https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/trabajadores')
         .then(response => response.json())
         .then(data => {
+<<<<<<< HEAD
 <<<<<<< HEAD
             tableBodyWorkers = document.querySelector("#trabajadores-table tbody");
             resultsCountWorkers = document.getElementById("results-trabajadores");
@@ -597,12 +612,16 @@ function loadTrabajadores() {
 =======
             const tableBody = document.querySelector("#trabajadores-table tbody");
 >>>>>>> parent of 71de206 (Actualizaciones)
+=======
+            const tableBody = document.querySelector("#trabajadores-table tbody");
+>>>>>>> parent of 71de206 (Actualizaciones)
             const filters = {
                 filterNombre: document.getElementById("filter-nombre-trabajadores"),
                 filterColonia: document.getElementById("filter-colonia-trabajadores"),
                 filterCP: document.getElementById("filter-cp-trabajadores"),
                 filterGenero: document.getElementById("filter-genero-trabajadores"),
                 filterDepartamento: document.getElementById("filter-departamento-trabajadores"),
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -632,6 +651,13 @@ function loadTrabajadores() {
 =======
             function applyFilter() {
 >>>>>>> parent of 71de206 (Actualizaciones)
+=======
+                filterPuesto: document.getElementById("filter-puesto-trabajadores")
+            };
+            const resultsCount = document.getElementById("results-trabajadores");
+
+            function applyFilter() {
+>>>>>>> parent of 71de206 (Actualizaciones)
                 const values = {
                     nombre: filters.filterNombre.value.toLowerCase(),
                     colonia: filters.filterColonia.value.toLowerCase(),
@@ -641,6 +667,9 @@ function loadTrabajadores() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
                     puesto: filters.filterPuesto.value.toLowerCase()
                 };
 
@@ -689,6 +718,7 @@ function fillEditForm() {
         alert("No se pueden cargar los datos del usuario. Por favor, intenta nuevamente.");
         return;
     }
+<<<<<<< HEAD
 
     // Llenar los campos del formulario con los datos del usuario
     document.getElementById('editNombre').value = userData.nombre || '';
@@ -773,6 +803,36 @@ function fillEditForm() {
         alert("No se pueden cargar los datos del usuario. Por favor, intenta nuevamente.");
         return;
     }
+=======
+
+    // Llenar los campos del formulario con los datos del usuario
+    document.getElementById('editNombre').value = userData.nombre || '';
+    document.getElementById('editPrimApellido').value = userData.primer_apellido || '';
+    document.getElementById('editSegApellido').value = userData.segundo_apellido || '';
+    document.getElementById('editEmail').value = userData.email || '';
+    document.getElementById('editTelefono').value = userData.telefono || '';
+    document.getElementById('editCalle').value = userData.calle || '';
+    document.getElementById('editAsentamiento').value = userData.asentamiento || '';
+    document.getElementById('editNumExterior').value = userData.numero_exterior || '';
+    document.getElementById('editNumInterior').value = userData.numero_interior || '';
+    document.getElementById('editCP').value = userData.codigo_postal || '';
+
+    if (userData.rol === 'trabajador') {
+        document.getElementById('trabajadorFields').style.display = 'block';
+        document.getElementById('editNoNomina').value = userData.no_nomina || '';
+        document.getElementById('editPuesto').value = userData.puesto || '';
+
+        const departamentoSelect = document.getElementById('editDepartamento');
+        Array.from(departamentoSelect.options).forEach(option => {
+            if (option.value === userData.departamento) {
+                option.selected = true;
+            }
+        });
+    } else {
+        document.getElementById('trabajadorFields').style.display = 'none';
+    }
+}
+>>>>>>> parent of 71de206 (Actualizaciones)
 
     // Llenar los campos del formulario con los datos del usuario
     document.getElementById('editNombre').value = userData.nombre || '';
@@ -810,6 +870,7 @@ function saveChanges() {
         return;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -896,29 +957,42 @@ function saveChanges() {
     const id_usuario = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
     const rol = JSON.parse(atob(token.split('.')[1])).role; // Obtener el rol del usuario
     const url = `/tramites-sjr/Api/principal/update_user_data`;
+=======
+    const id_trabajador = JSON.parse(atob(token.split('.')[1])).sub; // Obtener el ID del usuario desde el token
+    const url = `https://sanjuandelrio.gob.mx/tramites-sjr/Api/principal/update_trabajador_data`;
+>>>>>>> parent of 71de206 (Actualizaciones)
 
-    // Crear un objeto para los datos del formulario
+    // Crear un objeto para los datos del formulario y valores predeterminados
     const data = {
-        id_usuario: id_usuario,
-        nombre: document.getElementById('editNombre').value,
-        primer_apellido: document.getElementById('editPrimApellido').value,
-        segundo_apellido: document.getElementById('editSegApellido').value,
-        email: document.getElementById('editEmail').value,
-        telefono: document.getElementById('editTelefono').value,
-        calle: document.getElementById('editCalle').value,
-        asentamiento: document.getElementById('editAsentamiento').value,
-        numero_exterior: document.getElementById('editNumExterior').value,
-        numero_interior: document.getElementById('editNumInterior').value,
-        codigo_postal: document.getElementById('editCP').value,
-        rol: rol // Pasar el rol para diferenciar
+        id_trabajador: id_trabajador,
+        nombre: document.getElementById('editNombre').value || userData.nombre,
+        primer_apellido: document.getElementById('editPrimApellido').value || userData.primer_apellido,
+        segundo_apellido: document.getElementById('editSegApellido').value || userData.segundo_apellido,
+        email: document.getElementById('editEmail').value || userData.email,
+        telefono: document.getElementById('editTelefono').value || userData.telefono,
+        calle: document.getElementById('editCalle').value || userData.calle,
+        asentamiento: document.getElementById('editAsentamiento').value || userData.asentamiento,
+        numero_exterior: document.getElementById('editNumExterior').value || userData.numero_exterior,
+        numero_interior: document.getElementById('editNumInterior').value || userData.numero_interior,
+        codigo_postal: document.getElementById('editCP').value || userData.codigo_postal,
+        // Mantener valores actuales de campos no editables
+        sexo: userData.sexo || null,
+        estado: userData.estado || null,
+        curp_trabajador: userData.curp_trabajador || null,
+        fecha_nacimiento: userData.fecha_nacimiento || null,
+        password: userData.password || null,
+        carpeta_raiz: userData.carpeta_raiz || null,
+        acepto_terminos_condiciones: userData.acepto_terminos_condiciones || 0,
+        tipo_asentamiento: userData.tipo_asentamiento || null,
+        latitud: userData.latitud || null,
+        longitud: userData.longitud || null,
+        tipo_telefono: userData.tipo_telefono || null
     };
 
-    if (rol === 'trabajador') {
-        data.no_nomina = document.getElementById('editNoNomina').value;
-        data.puesto = document.getElementById('editPuesto').value;
-        data.departamento = document.getElementById('editDepartamento').value;
-    }
+    // Calcular el nombre completo concatenando los campos de nombre y apellidos
+    data.nombre_completo = `${data.nombre} ${data.primer_apellido} ${data.segundo_apellido}`.trim();
 
+<<<<<<< HEAD
 >>>>>>> parent of 9b36ac3 (Changes)
     if (rol === 'ciudadano_moral') {
         data.razon_social = document.getElementById('editNombre').value; // Razon social se almacena en "nombre"
@@ -932,12 +1006,17 @@ function saveChanges() {
 =======
 >>>>>>> parent of 9b36ac3 (Changes)
 =======
+=======
+>>>>>>> parent of 71de206 (Actualizaciones)
     // Solo agregar estos campos si el usuario es un trabajador
     const rol = JSON.parse(atob(token.split('.')[1])).role;
     if (rol === 'trabajador') {
         data.no_nomina = document.getElementById('editNoNomina').value || userData.no_nomina;
         data.departamento = document.getElementById('editDepartamento').value || userData.departamento;
         data.puesto = document.getElementById('editPuesto').value || userData.puesto;
+<<<<<<< HEAD
+>>>>>>> parent of 71de206 (Actualizaciones)
+=======
 >>>>>>> parent of 71de206 (Actualizaciones)
     }
 
