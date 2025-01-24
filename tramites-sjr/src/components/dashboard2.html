@@ -15,6 +15,14 @@
   
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<<<<<<< HEAD
+=======
+  <link rel="stylesheet" href="leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/gralTramites.css">
+  <link rel="stylesheet" href="css/vistoBueno.css">
+  <link rel="stylesheet" href="css/becas.css">
+
+>>>>>>> parent of aef1076 (Intento de unir1)
   <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/gralTramites.css">
   <link rel="stylesheet" href="css/becas.css">
@@ -24,6 +32,14 @@
   <!-- En el head con defer -->
   <script src="script.js" defer></script>
 </head>
+<<<<<<< HEAD
+=======
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+>>>>>>> parent of aef1076 (Intento de unir1)
 
 <style>
   * {
@@ -317,6 +333,7 @@
     font-size: 14px;
   }
 
+<<<<<<< HEAD
   .filters label {
     font-size: 14px;
     font-weight: bold;
@@ -371,11 +388,809 @@
     cursor: pointer;
     margin-bottom: 20px;
   }
+=======
+        .btn-refresh {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #0076aa;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .btn-refresh:hover {
+            background-color: #005f8c;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            background-color: #0076aa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #005f8c;
+        }
+
+        #current-page {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        /* General */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0076aa;
+            margin-bottom: 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Tarjetas */
+        .user-card,
+        .edit-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            /* Una sola columna */
+            box-sizing: border-box;
+        }
+
+        .user-card h3,
+        .edit-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+            border-bottom: 2px solid #0076aa;
+            padding-bottom: 5px;
+        }
+
+        .user-card:hover,
+        .edit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Información del usuario */
+        .user-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .user-info p strong {
+            color: #0076aa;
+        }
+
+        .user-info-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        #user-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #user-role {
+            font-size: 14px;
+            color: #ffd700;
+            /* Amarillo dorado */
+        }
+
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Botón Editar */
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffa500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-edit:hover {
+            background-color: #cc8400;
+        }
+
+        /* Botones del formulario */
+        .btn-save {
+            padding: 10px 20px;
+            background-color: #0076aa;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #005f8c;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+
+            .user-card,
+            .edit-card {
+                width: 100%;
+                /* Mantiene una sola columna en pantallas pequeñas */
+            }
+        }
+
+        /* Contenedor de documentos */
+
+        .document-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .document-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Dos columnas por fila */
+            gap: 20px;
+            /* Espaciado entre las cards */
+            padding: 20px;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .document-container {
+                grid-template-columns: 1fr;
+                /* Una columna en pantallas pequeñas */
+            }
+        }
+
+        /* Diseño de las cards */
+        .document-item {
+            display: flex;
+            /* Usamos Flexbox para dividir el contenido en dos */
+            align-items: flex-start;
+            /* Alinea los elementos al inicio */
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            gap: 20px;
+            /* Espaciado entre columnas dentro de la card */
+        }
+
+        .document-item:hover {
+            transform: translateY(-5px);
+            /* Efecto de elevación */
+        }
+
+        /* Columna izquierda */
+        .document-left {
+            flex: 1;
+        }
+
+        .document-item label {
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 5px;
+        }
+
+        /* Miniatura del documento */
+        .document-preview {
+            width: 120px;
+            height: 160px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Deshabilita la interacción del iframe para permitir clics en el contenedor */
+        }
+
+
+        .document-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-input-wrapper {
+            width: 100%;
+        }
+
+        .btn-select-file {
+            display: inline-block;
+            background-color: #0076aa;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+        }
+>>>>>>> parent of aef1076 (Intento de unir1)
 
   .btn-refresh:hover {
     background-color: #005f8c;
   }
 
+<<<<<<< HEAD
+=======
+        .btn-select-file:disabled {
+
+            cursor: not-allowed;
+            /* Muestra el cursor de círculo rojo */
+        }
+
+        /* Botones */
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .file-actions-bottom {
+            display: flex;
+            justify-content: space-between;
+            /* Coloca los botones en extremos opuestos */
+            margin-top: 10px;
+        }
+
+
+        /* Información del archivo */
+        .file-info {
+            font-size: 0.9em;
+            color: #555;
+            text-align: left;
+            margin-top: 8px;
+        }
+
+        /* Contenedor de barra de progreso */
+        .progress-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Barra de progreso */
+        .progress-bar {
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .progress-bar .progress {
+            background-color: #4caf50;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Icono de éxito */
+        .progress-success {
+            font-size: 20px;
+            color: #4caf50;
+            visibility: hidden;
+            opacity: 0;
+            transform: rotate(0deg);
+            /* Inicialmente sin rotación */
+            transition: visibility 0.3s ease, opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        .progress-success.visible {
+            visibility: visible;
+            /* Hacer visible */
+            opacity: 1;
+            /* Incrementar opacidad */
+            transform: rotate(360deg);
+            /* Gira una vuelta completa */
+        }
+
+        .btn-upload {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            /* Estado deshabilitado */
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            flex: 1;
+            /* Ocupa todo el espacio disponible */
+            margin-right: 5px;
+            /* Espaciado entre botones */
+            margin-top: 15px;
+        }
+
+        .btn-upload:enabled {
+            cursor: pointer;
+            background-color: #218838;
+        }
+
+        .btn-upload:enabled:hover {
+            background-color: #1e7e34;
+        }
+
+        .btn-cancel {
+            margin-top: 20px;
+            /* Mayor separación */
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .document-item {
+                flex: 1 1 100%;
+                /* Una columna */
+            }
+        }
+
+
+        /* Botón de Cerrar Sesión */
+        .logout {
+            position: absolute;
+            bottom: 20px;
+            /* Más espacio en la parte inferior */
+            width: calc(100% - 32px);
+            /* Ajusta al ancho del sidebar */
+            margin: 0 16px;
+            /* Margen interno */
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            /* Igual que otros botones */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .logout:hover {
+            background-color: #ff4d4d;
+            /* Rojo claro al pasar el cursor */
+            color: white;
+        }
+
+        .logout .indicator {
+            background-color: #ff0000;
+            /* Indicador rojo */
+            height: 40px;
+            /* Altura igual a otros indicadores */
+            border-radius: 0 5px 5px 0;
+        }
+
+        .sidebar.collapsed .logout {
+            justify-content: center;
+            text-align: center;
+            padding: 12px 5px;
+        }
+
+        .sidebar.collapsed .logout span {
+            display: none;
+        }
+
+        .logout i {
+            color: white;
+            /* Ícono blanco por defecto */
+        }
+
+        .logout:hover i {
+            color: white;
+            /* Ícono blanco al pasar el cursor */
+        }
+
+        .chart-item {
+            flex: 1 1 calc(50% - 20px);
+            /* Ocupa el 50% del ancho en pantallas grandes */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            /* Máximo ancho de cada gráfica */
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .chart-item canvas {
+            width: 100% !important;
+            /* Asegura que el canvas nunca exceda el contenedor */
+            max-height: 300px;
+            /* Limita la altura máxima */
+            height: auto;
+            /* Ajusta la altura automáticamente */
+        }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0076aa;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 100%;
+            /* Limita la altura del canvas al contenedor */
+            max-width: 100%;
+            /* Limita el ancho del canvas al contenedor */
+        }
+
+
+        @media (max-width: 768px) {
+            .chart-item {
+                flex: 1 1 100%;
+                /* Ocupa el 100% del ancho en pantallas pequeñas */
+                max-width: none;
+                /* Permite ocupar todo el ancho */
+            }
+
+            .charts-container {
+                flex-direction: column;
+                /* Cambia a columna en pantallas pequeñas */
+            }
+        }
+
+        /*CARD 1*/
+        /* Estilo del Card */
+        .card-tramite {
+            width: 190px;
+            background: white;
+            padding: 0.4em;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .card-tramite:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-tramite-image {
+            background-color: rgb(236, 236, 236);
+            width: 100%;
+            height: 130px;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-tramite-image:hover {
+            transform: scale(0.98);
+            transition: transform 0.3s ease;
+        }
+
+        .vbueno {
+            position: absolute;
+            width: 177px;
+            height: 129px;
+            border-radius: 5px;
+        }
+
+        .category {
+            text-transform: uppercase;
+            font-size: 0.7em;
+            font-weight: 600;
+            color: rgb(63, 121, 230);
+            padding: 10px 7px 0;
+        }
+
+        .category:hover {
+            cursor: pointer;
+        }
+
+        .heading {
+            font-weight: 600;
+            color: rgb(88, 87, 87);
+            padding: 7px;
+        }
+
+        .heading:hover {
+            cursor: pointer;
+        }
+
+        .author {
+            color: gray;
+            font-weight: 400;
+            font-size: 11px;
+            padding-top: 20px;
+        }
+
+        /* Estilo del Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            padding-top: 50px;
+            border-radius: 10px;
+            width: 80%;
+            max-height: 80vh;
+            /* Limita la altura del modal al 80% del viewport */
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            color: gray;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Animación del Modal */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /*FORMULARIO*/
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+            padding: 30px;
+            width: auto;
+            max-width: auto;
+            max-height: 70vh;
+            /* Altura máxima del formulario */
+            overflow-y: auto;
+            /* Scroll vertical interno */
+            padding-right: 10px;
+            /* Espaciado para evitar superposición con el scroll */
+            scrollbar-width: thin;
+            /* Estilo del scroll (para navegadores compatibles) */
+            scrollbar-color: #faa21b #e0e0e0;
+            /* Colores personalizados del scroll */
+        }
+
+        /* Stepper */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .step .circle {
+            background-color: #e0e0e0;
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .step.active .circle {
+            background-color: #faa21b;
+        }
+
+        .step span {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .line {
+            flex: 1;
+            height: 2px;
+            background-color: #e0e0e0;
+            align-self: center;
+            margin: 0 10px;
+        }
+
+        .step.active~.line {
+            background-color: #faa21b;
+        }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .error-message {
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+>>>>>>> parent of aef1076 (Intento de unir1)
   .btnPagarAcuatica {
     background-color: #007bff;
     color: white;
@@ -386,6 +1201,7 @@
     cursor: pointer;
   }
 
+<<<<<<< HEAD
   .btnPagarAcuatica:hover {
     background-color: #0056b3;
   }
@@ -425,8 +1241,173 @@
       <div class="user-avatar">
         <div class="avatar"></div>
         Welcome, User
-      </div>
+=======
+        .btn.next,
+        .btn.submit {
+            background-color: #faa21b;
+            color: #fff;
+        }
+
+        .btn.prev {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        /*MODAL CLOSE*/
+        .modal2 {
+            display: none;
+            /* Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+
+        .modal2-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .modal2-content h2 {
+            margin-top: 0;
+        }
+
+        .modal2-content p {
+            margin: 10px 0 20px;
+        }
+
+        .modal2-content .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal2-content .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /*BECAS*/
+        .cardBeca {
+            margin-left: 230px;
+            margin-top: -250px;
+        }
+
+        .beca-img {
+            position: absolute;
+            width: 140px;
+            height: 125px;
+            top: 2px;
+            left: 20px;
+            border-radius: 5px;
+        }
+
+
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        #controls {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #controls button {
+            padding: 10px 15px;
+            margin: 0 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076aa;
+            color: white;
+        }
+
+        #controls button.active {
+            background-color: #005f8c;
+        }
+
+        .btn-preview {
+            background-color: #0076aa;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            flex: 1;
+            /* Ocupa todo el espacio disponible */
+            margin-left: 5px;
+            /* Espaciado entre botones */
+        }
+
+        .btn-preview:enabled {
+            cursor: pointer;
+            background-color: #005f8c;
+        }
+
+        .btn-preview:enabled:hover {
+            background-color: #004d70;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="header">
+            <img src="palomanaranja.png" alt="Logo"> <!-- Replace with your expanded image path -->
+        </div>
+        <ul class="nav" id="nav-list">
+            <li class="active" onclick="toggleVisibility('mis-datos', this)"><span class="indicator"></span><i
+                    class="fas fa-id-card"></i><span>Mis datos</span></li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('registered-users', this)"><span
+                    class="indicator"></span><i class="fas fa-users"></i><span>Usuarios registrados</span></li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('registered-workers', this)">
+                <span class="indicator"></span><i class="fas fa-briefcase"></i><span>Trabajadores registrados</span>
+            </li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('reports', this)"><span
+                    class="indicator"></span><i class="fas fa-file-alt"></i><span>Reportes</span></li>
+            <li class="admin-section" style="display: none;" onclick="toggleVisibility('analytics', this)"><span
+                    class="indicator"></span><i class="fas fa-chart-line"></i><span>Gráficas</span></li>
+            <li onclick="toggleVisibility('tramites-user', this)"><span class="indicator"></span><i
+                    class="fas fa-file-signature"></i><span>Trámites</span></li>
+            <li onclick="toggleVisibility('settings', this)"><span class="indicator"></span><i
+                    class="fas fa-cog"></i><span>Ajustes</span></li>
+        </ul>
+        <li id="logout-button" class="logout" onclick="logout()"><span class="indicator"></span><i
+                class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></li>
     </div>
+    <div class="content" id="content">
+        <div class="top-bar" id="top-bar">
+            <div class="hamburger" onclick="toggleSidebar()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <h1 id="dashboard-title"></h1>
+            <div class="user-avatar">
+                <div class="avatar"></div>
+                <div class="user-info-top">
+                    <span id="user-name">Bienvenido, Usuario</span>
+                    <span id="user-role" style="font-size: 14px; color: #ffd700;">Rol: Invitado</span>
+                </div>
+            </div>
+        </div>
 
     <div id="overview" class="section">
       <h2>Overview</h2>
@@ -438,6 +1419,688 @@
       </div>
     </div>
 
+    <div id="tramites-user" class="section">
+      <h2>Trámites</h2>
+      <div class="cards-container">
+        <!-- Card: Visto Bueno -->
+        <div class="card tramite-card" data-tramite="vistoBueno">
+          <div class="card-image">
+            <img src="images/vbueno.jpg" alt="Imagen de Visto Bueno">
+          </div>
+          <div class="category">Protección Civil</div>
+          <div class="heading">
+            Visto Bueno
+            <div class="author">Descripción breve del trámite</div>
+          </div>
+        </div>
+  
+        <!-- Card: Becas -->
+        <div class="card tramite-card" data-tramite="becas">
+          <div class="card-image">
+            <img src="images/becas.png" alt="Imagen de Becas">
+          </div>
+          <div class="category">Educación</div>
+          <div class="heading">
+            Becas Municipales
+            <div class="author">Apoyo económico para estudiantes</div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Modales de Información -->
+      <div class="modal info-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('vistoBueno', 'info')">X</button>
+          <h2>Información del Trámite: Visto Bueno</h2>
+          <p>El trámite de Visto Bueno es necesario para garantizar la seguridad en actividades relacionadas con Protección Civil.</p>
+          <button class="btn open-form" onclick="openModalTramite('vistoBueno', 'tramite')">Iniciar Trámite</button>
+        </div>
+      </div>
+  
+      <div class="modal info-modal" data-tramite="becas">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('becas', 'info')">X</button>
+          <h2>Información del Trámite: Becas</h2>
+          <p>Apoyo económico para estudiantes del sector educativo.</p>
+          <button class="btn open-form" onclick="openModalTramite('becas', 'tramite')">Iniciar Trámite</button>
+        </div>
+      </div>
+  
+      <!-- Modales de Formulario -->
+      <div class="modal tramite-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('vistoBueno', 'tramite')">X</button>
+          <div class="container">
+            <!-- Stepper -->
+            <div class="stepper">
+              <div class="step active"><div class="circle">1</div><span>Paso 1</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">2</div><span>Paso 2</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">3</div><span>Confirmación</span></div>
+            </div>
+  
+            <!-- Formulario -->
+            <form class="tramite-form" onsubmit="handleSubmit(event, 'vistoBueno')">
+              <!-- Paso 1 -->
+              <div class="form-step active">
+                <h2>Paso 1: Información Inicial</h2>
+                <div class="form-group">
+                  <label for="nombre">Nombre Completo</label>
+                  <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Correo Electrónico</label>
+                  <input type="email" id="email" name="email" placeholder="usuario@ejemplo.com" required>
+                </div>
+                <div>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                </div>
+              </div>
+              <!-- Paso 2 -->
+              <div class="form-step">
+                <h2>Paso 2: Detalles Adicionales</h2>
+                <div class="form-group">
+                  <label for="direccion">Dirección</label>
+                  <input type="text" id="direccion" name="direccion" placeholder="Escribe tu dirección" required>
+                </div>
+                <div class="form-group">
+                  <label for="telefono">Teléfono</label>
+                  <input type="tel" id="telefono" name="telefono" placeholder="123-456-7890" required>
+                </div>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                </div>
+              </div>
+              <!-- Confirmación -->
+              <div class="form-step">
+                <h2>Confirmación</h2>
+                <p>Verifica que toda la información proporcionada es correcta antes de enviar.</p>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" onclick="(event, 'vistoBueno')" class="btn">Confirmar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  
+      <div class="modal tramite-modal" data-tramite="becas">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeModalTramite('becas', 'tramite')">X</button>
+          <div class="container">
+            <!-- Stepper -->
+            <div class="stepper">
+              <div class="step active"><div class="circle">1</div><span>Identificación</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">2</div><span>Datos Académicos</span></div>
+              <div class="line"></div>
+              <div class="step"><div class="circle">3</div><span>Documentos</span></div>
+            </div>
+
+
+            
+              <div class="detalleTramite-card" id="card-requisitos">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">rule</span>
+                  <span class="detalleTramite-title">Requisitos</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>¿Qué requieres antes de realizar este trámite?</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-requisitos')">Leer más...</a>
+                </div>
+              </div>
+            
+
+           
+              <div class="detalleTramite-card" id="card-fundamento-juridico">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">copyright</span>
+                  <span class="detalleTramite-title">Fundamento Jurídico</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>Información sobre el fundamento jurídico.</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-fundamento-juridico')">Leer
+                    más...</a>
+                </div>
+              </div>
+            
+
+           
+              <div class="detalleTramite-card" id="card-costos">
+                <div class="detalleTramite-header">
+                  <span class="detalleTramite-icon material-symbols-outlined">attach_money</span>
+                  <span class="detalleTramite-title">Costos</span>
+                </div>
+                <div class="detalleTramite-content">
+                  <p>Consulta los costos relacionados al trámite.</p>
+                  <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-costos')">Leer más...</a>
+                </div>
+              </div>
+            
+            <!-- Modal: Acerca del Trámite -->
+            <div class="detalleTramite-modalInfos" id="modal-acerca-tramite">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-acerca-tramite')">×</button>
+                <h2>Acerca del trámite</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Requisitos -->
+            <div class="detalleTramite-modalInfos" id="modal-requisitos">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-requisitos')">×</button>
+                <h2>Requisitos</h2>
+                <p>Asegúratee de contar con todos los documentos necesarios para completar el trámite de manera exitosa.
+                </p>
+                <div class="modalInfos2-content">
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Acta de Nacimiento</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Comprobante de domicilio</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Curp</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Boleta de calificaciones</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Constancia de inscripción</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Comprobante de ingresos</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Solicitud de beca</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Contar con un número de teléfono celular activo</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b> Copia Simple</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Fundamento Jurídico -->
+            <div class="detalleTramite-modalInfos" id="modal-fundamento-juridico">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn"
+                  onclick="closeModalInfos('modal-fundamento-juridico')">×</button>
+                <h2>Fundamento Jurídico</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Costos -->
+            <div class="detalleTramite-modalInfos" id="modal-costos">
+              <div class="detalleTramite-modalInfos-content">
+                <button class="detalleTramite-close-btn" onclick="closeModalInfos('modal-costos')">×</button>
+                <h2>Costo</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+          
+            <div class="btn-containerTramite">
+              <button class="btnTramite" onclick="openModal('modalFormBecas')">Iniciar Trámite</button>
+            </div>
+        </div>
+      </div>
+      
+    
+<!--*****************************************FORMULARIO DE BECAS****************************************************-->
+      <div class="modalTramite" id="modalFormBecas" data-confirmation-modal="confirmationModalBecas">
+      <div class="modalTramite-content">
+        <button class="close-modalTramite" onclick="closeModal('modalFormBecas')">X</button>
+        <div class="containerTramite">
+          <div class="DatosTramite" style="text-align: left;">
+            <h2 style="text-align: center;">Trámite de Becas educativas del Municipio de San Juan del Río</h2>
+            <p style="text-align: center;">Apoyo económico al alumnado del sector educativo</p>
+            <h3>Programa Becas Municipales</h3>
+            <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
+            <br>
+
+          </div>
+          <div class="stepper">
+            <!-- Pasos del stepper -->
+            <div class="step active" data-step="1">
+              <div class="circle">1</div><span>Datos de Identificación</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="2">
+              <div class="circle">2</div><span>Datos Académicos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="3">
+              <div class="circle">3</div><span>Datos Socieconómicos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="4">
+              <div class="circle">4</div><span>Protesta de decir verdad</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="5">
+              <div class="circle">5</div><span>Documentos</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="6">
+              <div class="circle">6</div><span>Confirmación</span>
+            </div>
+          </div>
+          <!-- Formulario Becas -->
+          <form id="stepFormBecas">
+            <!-- Paso 1 -->
+            <div class="form-step active" data-step="1">
+              <div class="form-group-tramite">
+                <div id="contenedorMapaBeca">
+                <!--MAPA-->
+                <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; border: 1px solid #d3d3d3; 
+                   border-radius: 5px; ">
+                  <div style="margin-right: 20px;">
+                    <select id="locationSelect" required oninput="validarSelect('locationSelect')">
+                      <option value="hide">-- Seleccione --</option>
+                      <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
+                    </select>
+                  
+                  </div>
+                  <div id="map"></div>
+
+                </div>
+              </div>
+
+
+                </br>
+                </br>
+
+                
+                <!--Table1-->
+                <table class="tablaTramite">
+                  <caption class="captionInput">Datos del estudiante</caption>
+                  <thead>
+                    <tr>
+                      <th>Apellido Paterno</th>
+                      <th>Apellido Materno</th>
+                      <th>Nombre(s)</th>
+                      <th>Lugar de Nacimiento</th>
+                      <th>Fecha de Nacimiento</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" name="apellidoPaterno" placeholder="Apellido Paterno" required></td>
+                      <td><input type="text" name="apellidoMaterno" placeholder="Apellido Materno" required></td>
+                      <td><input type="text" name="nombres" placeholder="Nombre(s)" required></td>
+                      <td><input type="text" name="lugarNacimiento" placeholder="Lugar" required></td>
+                      <td><input type="date" name="fechaNacimiento" required></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                </div>
+              </div>
+              <!-- Paso 2 -->
+              <div class="form-step">
+                <h2>Datos Académicos</h2>
+                <div class="form-group">
+                  <label for="promedio">Promedio General</label>
+                  <input type="number" id="promedio" name="promedio" step="0.01" placeholder="Ejemplo: 9.5" required>
+                </div>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                </div>
+              </div>
+              <!-- Documentos -->
+              <div class="form-step">
+                <h2>Documentos</h2>
+                <table id="documentsTable">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Las filas se generarán dinámicamente -->
+                  </tbody>
+                </table>
+                <div>
+                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
+                  <button type="submit" class="btn">Confirmar</button>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Paso 3 -->
+            <div class="form-step" data-step="3">
+              <div class="form-group-tramite">
+                <table class="tablaTramite">
+                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Datos de la madre, padre o
+                    tutor</caption>
+                  <thead>
+                    <tr class="tr-tramite">
+                      <th>Apellido paterno</th>
+                      <th>Apellido materno</th>
+                      <th>Nombre(s)</th>
+                      <th>Ocupación</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="text" id="apellidoPaternoTutor" name="apellidoPaternoTutor" placeholder="Apellido paterno" value="PRUEBA" style="width: 95%;" disabled />
+                      </td>
+                      <td>
+                        <input type="text" id="apellidoMaterno" name="apellidoMaterno" placeholder="Apellido materno" value="PRUEBA" style="width: 95%;" disabled/>
+                      </td>
+                      <td>
+                        <input type="text" id="nombreTutor" name="nombreTutor" placeholder="Nombre(s)" value="PRUEBA" style="width: 95%;" disabled />
+                      </td>
+                      <td>
+                        <input type="text" id="ocupacionTutor" name="ocupacionTutor" placeholder="Ocupación"  required style="width: 95%;" oninput="validarOcupacionTutor('ocupacionTutor')" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="margin-bottom: 15px;">
+                  <label for="noPersonasDomicilio">Número de personas
+                    que habitan en el domicilio</label>
+                  <input type="text" id="noPersonasDomicilio" name="noPersonasDomicilio"
+                    placeholder="Número de personas que habitan en el domicilio" required  oninput="validarNumeroPersonasHabitan('noPersonasDomicilio')"/>
+                  <br>
+
+                  <label for="noPersonasAportan">Número de personas
+                    que habitan que aportan ingresos</label>
+                  <input type="text" id="noPersonasAportan" name="noPersonasAportan"
+                    placeholder="Número de personas que habitan que aportan ingresos" required oninput="validarNumeroPersonasHabitan('noPersonasAportan')" />
+
+                  <label for="ingresoFamiliar">Ingreso mensual familiar</label>
+                  <input type="text" id="ingresoFamiliar" name="ingresoFamiliar" required placeholder="Ingreso mensual familiar" oninput="validarIngresoMensualFamiliar('ingresoFamiliar')" />
+                </div>
+               
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevTramite">Volver</button>
+                  <button type="button" class="btnNextTramite">Continuar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 4 -->
+            <div class="form-step" data-step="4">
+              <div class="form-group-tramite">
+                <div id="protesta-container">
+                  <div class="contenedor-protesta">
+                    <div class="protesta">
+                      <label class="labelProtesta">Bajo protesta de decir verdad manifiesto que los ingresos familiares
+                        son los declarados</label>
+                      <div class="radio-buttons">
+                        <label class="radio-button">
+                          <input id="protestaBeca"  type="radio" name="protestaBeca"  value="True" required oninput="validarUnRadio('protestaBeca')"
+                          >
+                          <span class="radio-label">Acepto</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevTramite">Volver</button>
+                  <button type="button" class="btnNextTramite">Continuar</button>
+                </div>
+              </div>
+                <!-- Modal de Confirmación VistoBueno -->
+            <div class="modal2" id="confirmationModalVistoBueno">
+                <div class="modal2-content">
+                    <h2>Trámite Finalizado: Visto Bueno</h2>
+                    <p>Tus datos para el trámite de Visto Bueno han sido enviados exitosamente.</p>
+                    <button id="closeConfirmationVistoBueno" class="btn">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+            <!-- Paso 5 -->
+            <div class="form-step" data-step="5">
+              <table class="tablaTramite" id="documentsTable">
+                <thead>
+                  <tr class="tr-tramite">
+                    <th>Ver archivo</th>
+                    <th>Nombre documento</th>
+                    <th>Descripción</th>
+                    <th>Tamaño</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Las filas se agregarán dinámicamente aquí -->
+                </tbody>
+              </table>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevTramite">Volver</button>
+                <button type="button" class="btnNextTramite">Continuar</button>
+              </div>
+            </div>
+
+            <!-- Paso 6 -->
+            <div class="form-step" data-step="6" style="display: block;">
+              <h2>¡Confirmación!</h2>
+              <p>Confirma que has registrado los datos correctos</p>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevTramite">Volver</button>
+                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
+              </div>
+            </div>
+            <!-- Modal de Confirmación Becas -->
+            <div class="modalConfirmationTramite" id="confirmationModalBecas">
+              <div class="modalConfirmationTramite-content"> 
+                <div class="contenedorConfirmacionBeca"> 
+                <h2>Trámite Finalizado: Becas</h2>
+                <p>Tus datos para el trámite de Becas han sido enviados exitosamente.</p>
+                <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
+              </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- **************************************** Acuatica **********************************************-->
+    <!-- Card: Acuatica -->
+    <div class="cardTramite" onclick="openModal('acuaticaInfoModal')">
+      <div class="cardTramite-image">
+        <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
+      </div>
+      <div class="category">Categoría XA</div>
+      <div class="heading">
+        Centro Acuático Municipal
+        <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+      </div>
+    </div>
+
+    <!-- Modal: Información Acuatica -->
+    <div class="modalInfoTramite" id="acuaticaInfoModal">
+      <div class="modalInfoTramite-content">
+        <button class="close-modalInfoTramite" onclick="closeModal('acuaticaInfoModal')">X</button>
+        <h2>Información sobre el Trámite de Acuática Municipal</h2>
+        <p>Aprende a nadar desde cero. Conoce nuevos estilos. Perfecciona las técnicas. Rehabilita tu cuerpo para la
+          recuperación. O simplemente por el gusto de nadar.</p>
+        <button class="btnTramite" onclick="openModal('modalFormAcuatica')">Iniciar Trámite</button>
+      </div>
+    </div>
+
+    <!-- Modal: Formulario Acuatica -->
+    <div class="modalTramite" id="modalFormAcuatica" data-confirmation-modal="confirmationModalAcuatica">
+      <div class="modalTramite-content">
+        <button class="close-modalTramite" onclick="closeModal('modalFormAcuatica')">X</button>
+        <!-- FORMULARIO -->
+        <div class="containerTramite">
+          <div class="stepper">
+            <div class="step active" data-step="1">
+              <div class="circle">1</div>
+              <span>Account</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="2">
+              <div class="circle">2</div>
+              <span>Profile</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="3">
+              <div class="circle">3</div>
+              <span>Address</span>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-step="4">
+              <div class="circle">4</div>
+              <span>Confirmation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Modales de Confirmación -->
+      <div class="modal confirmation-modal" data-tramite="vistoBueno">
+        <div class="modal-content">
+          <h2>¡Trámite Completado!</h2>
+          <p>Tu información de Visto Bueno fue enviada correctamente.</p>
+          <button class="btn close-modal" onclick="closeModalTramite('vistoBueno', 'confirmation')">Cerrar</button>
+        </div>
+            <!-- Contenedor para el mapa -->
+            <div id="map-section" class="charts-container" style="margin-top: 20px;">
+                <h3>Mapa Interactivo de Trabajadores</h3>
+                <div id="controls" style="text-align: center; margin-bottom: 10px;">
+                    <button id="load-markers" class="active">Mapa Marcadores</button>
+                    <button id="load-circles">Mapa Círculos</button>
+                </div>
+                <div id="map" style="height: 600px; width: 100%;"></div>
+            </div>
+
+      </div>
+  
+      <div class="modal confirmation-modal" data-tramite="becas">
+        <div class="modal-content">
+          <h2>¡Trámite Completado!</h2>
+          <p>Tu solicitud de becas fue enviada correctamente.</p>
+          <button class="btn close-modal" onclick="closeModalTramite('becas', 'confirmation')">Cerrar</button>
+        </div>
+>>>>>>> parent of aef1076 (Intento de unir1)
+      </div>
+    </div>
+  
+
+
+    <div id="overview" class="section">
+      <h2>Overview</h2>
+      <div class="cards">
+        <div class="card">Card 1</div>
+        <div class="card">Card 2</div>
+        <div class="card">Card 3</div>
+        <div class="card">Card 4</div>
+      </div>
+    </div>
+
+<<<<<<< HEAD
     <div id="tramites-user" class="section hidden">
       <h2>Trámites</h2>
       <!--*************************************** VISTO BUENO *************************************************-->
@@ -1523,6 +3186,80 @@
 
 
 
+=======
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const firstNavItem = document.querySelector('.nav li');
+        if (firstNavItem) {
+          firstNavItem.click();
+        }
+      });
+
+      function toggleVisibility(sectionId, element) {
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.add('hidden');
+        });
+        document.querySelectorAll('.nav li').forEach(li => {
+          li.classList.remove('active');
+        });
+
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.classList.remove('hidden');
+        }
+
+        element.classList.add('active');
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const topBar = document.getElementById('top-bar');
+        const content = document.getElementById('content');
+
+        sidebar.classList.toggle('collapsed');
+        topBar.classList.toggle('adjusted');
+        content.classList.toggle('adjusted');
+      }
+    </script>
+    <script>
+      // Función toggle para abrir/cerrar el modal
+      function toggleModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      }
+    </script>
+
+
+
+  <script>
+    //******************************Funcionalidad de abrir modals de los cards de información*************************************** */
+    function showModalInfos(id) {
+      document.getElementById(id).classList.add('show');
+    }
+
+    function closeModalInfos(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/leaflet.css">
+  <script src="js/leaflet.js"></script>
+  <script src="js/tramites.js"></script>
+  <script src="js/becas.js"></script>
+  <script src="js/funcionesTramites.js"></script>
+  <script src="js/mapaLeaflet.js"></script>
+  <script src="js/main.js"></script>
+
+    <script>
+      // Función toggle para abrir/cerrar el modal
+      function toggleModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      }
+    </script>
+
+
+>>>>>>> parent of aef1076 (Intento de unir1)
 </body>
 
 </html>
