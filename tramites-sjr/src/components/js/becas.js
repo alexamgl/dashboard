@@ -116,21 +116,83 @@ const documents = [
     // Limpiar inputs de archivo
     fileInputs.forEach((input) => {
         input.value = ""; // Resetea el valor del input
-        console.log(`Reseteando input de archivo con id: ${input.id}`);
     });
 
     // Restablecer tamaños
     sizeCells.forEach((cell) => {
         cell.textContent = "Bytes"; // Reinicia el texto del tamaño
-        console.log(`Reiniciando tamaño en celda con id: ${cell.id}`);
     });
 
     // Restablecer íconos
     pdfIcons.forEach((icon) => {
         icon.innerHTML = `<span style="font-size: 20px;">📄</span>`;
-        console.log(`Reiniciando ícono en celda con id: ${icon.id}`);
     });
 
     console.log("Campos de PDF reiniciados.");
 }
+
+///******************************FUNCION PARA GUARDADO DE DATOS EN LA BD************************************* */
+
+// función actualizada para guardar datos en la base de datos
+async function RegistroFormBecaAPI() {
+  console.log('función de registro iniciada');
+  let data = {};
+  let apiUrl = 'http://localhost/tramites/dashboard/tramites-sjr/Api/principal/insert_full_beca_data';
+
+  try {
+      // recolectar datos del formulario
+      data = {
+          id_usuario: 1,
+          ubicacion_tramite_beca: document.getElementById("ubicacion_tramite_beca").value,
+          primer_apellido_estudiante: document.getElementById("primer_apellido_est").value,
+          segundo_apellido_estudiante: document.getElementById("segundo_apellido_est").value,
+          nombre_estudiante: document.getElementById("nombre_est").value,
+          lugar_nac_estudiante: document.getElementById("lugar_nac_est").value,
+          fec_nac_estudiante: document.getElementById("fecha_nac_est").value,
+          calle_dom_estudiante: document.getElementById("calle_dom_est").value,
+          num_dom_estudiante: document.getElementById("num_dom_est").value,
+          col_dom_estudiante: document.getElementById("col_dom_est").value,
+          mun_dom_estudiante: document.getElementById("mun_dom_est").value,
+          tel_dom_estudiante: document.getElementById("tel_dom_est").value,
+          curp_estudiante: document.getElementById("curp_estudiante").value,
+          calle_inst: document.getElementById("calle_inst").value,
+          num_inst: document.getElementById("num_inst").value,
+          colonia_inst: document.getElementById("col_inst").value,
+          municipio_inst: document.getElementById("mun_inst").value,
+          nombre_inst: document.getElementById("nombre_inst").value,
+          promedio_estudiante: document.getElementById("promedio_est").value,
+          ape_paterno_tutor: document.getElementById("ape_paterno_tutor").value,
+          ape_materno_tutor: document.getElementById("ape_materno_tutor").value,
+          nombre_tutor_estudiante: document.getElementById("nombre_tutor_est").value,
+          ocupacion_tutor_estudiante: document.getElementById("ocupacion_tutor_est").value,
+          num_habitan_beca: document.getElementById("num_habitan_beca").value,
+          num_personas_aportan: document.getElementById("num_personas_apor").value,
+          ingreso_mensual_familiar: document.getElementById("ingreso_mensual").value,
+          protesta_ingreso_beca: document.getElementById("protesta_beca").checked ? 1 : 0,
+      };
+
+     // llamada a la api
+     const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (result && result.mensaje) {
+      console.log('registro exitoso:', result);
+      // mostrar el modal de éxito y avanzar al cerrar
+      mostrarModalGlobal('registro exitoso. pasando al siguiente paso.', 'success', () => {
+          avanzarPaso(); // avanzar al siguiente paso
+      });
+  } else {
+      mostrarModalGlobal('error en el registro. verifica los datos e inténtalo de nuevo.', 'error');
+  }
+} catch (error) {
+  console.error('error durante el registro:', error);
+  mostrarModalGlobal('ocurrió un error inesperado. inténtalo más tarde.', 'error');
+}
+}
+
 

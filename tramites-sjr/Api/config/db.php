@@ -1,8 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
 
 class Database {
     private $host;
@@ -12,10 +9,10 @@ class Database {
     public $conn;
 
     public function __construct() {
-        $this->host = $_ENV['DB_HOST'];
-        $this->db_name = $_ENV['DB_NAME'];
-        $this->username = $_ENV['DB_USER'];
-        $this->password = $_ENV['DB_PASSWORD'];
+        $this->host = 'localhost:3305';
+        $this->db_name = 'tramites';
+        $this->username = 'root';
+        $this->password = '';
     }
 
     public function getConnection() {

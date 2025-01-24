@@ -80,25 +80,35 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.addEventListener("click", (event) => {
             const target = event.target;
 
-
-                //btn Next
             if (target.classList.contains("btnNextTramite")) {
-                const currentFormStep = steps[currentStep]; // obtener el paso actual
-        
-                // agregar el console.log para verificar el paso actual
-                console.log("paso actual (currentFormStep):", currentFormStep);
-        
-                // validar los campos del paso actual
-               if (!validarCamposPasoActual(currentFormStep)) {
-                    alert("por favor, completa correctamente todos los campos antes de continuar.");
-                    return; // no avanzar al siguiente paso
+                // Verificar si el botón tiene una acción personalizada (como "Guardar y continuar" del trámite de becas)
+                const isGuardarContinuar = target.getAttribute("onclick") === "RegistroFormBecaAPI()";
+            
+                if (isGuardarContinuar) {
+                    console.log("El botón pertenece a 'Guardar y continuar'. El avance será controlado por RegistroFormBecaAPI.");
+                    return; // Detener el avance automático. RegistroFormBecaAPI manejará el avance al siguiente paso.
                 }
-        
+            
+                // Validar campos del paso actual si la validación no está comentada
+                const currentFormStep = steps[currentStep]; // Obtener el paso actual
+            
+                console.log("Paso actual (currentFormStep):", currentFormStep);
+            
+                // Descomenta esta validación si deseas validar campos en los pasos normales
+                if (!validarCamposPasoActual(currentFormStep)) {
+                    alert("Por favor, completa correctamente todos los campos antes de continuar.");
+                    return; // No avanzar al siguiente paso si hay errores
+                }
+                
+            
+                // Avanzar al siguiente paso si no es el último
                 if (currentStep < steps.length - 1) {
                     currentStep++;
-                    updateStepVisibility();
+                    updateStepVisibility(); // Actualizar la visibilidad de los pasos
+                    console.log(`Paso avanzado a: ${currentStep}`);
                 }
             }
+            
             
             
 
@@ -241,3 +251,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
  
+// función para avanzar al siguiente paso
+function avanzarPaso() {
+    const activeModal = document.querySelector(".modalTramite[style*='display: flex']");
+    if (!activeModal) {
+        console.error("No hay modal activo para avanzar el paso.");
+        return;
+    }
+
+    const steps = activeModal.querySelectorAll(".form-step");
+    const stepperItems = activeModal.querySelectorAll(".stepper .step");
+    let currentStep = Array.from(steps).findIndex(step => step.classList.contains("active"));
+
+    if (currentStep < 0 || currentStep >= steps.length - 1) {
+        console.error("No se puede avanzar porque no hay más pasos.");
+        return;
+    }
+
+    // Ocultar paso actual
+    steps[currentStep].classList.remove("active");
+    steps[currentStep].style.display = "none";
+
+    // Mostrar siguiente paso
+    currentStep++;
+    steps[currentStep].classList.add("active");
+    steps[currentStep].style.display = "block";
+
+    // Actualizar stepper
+    stepperItems.forEach((item, index) => {
+        item.classList.toggle("active", index <= currentStep);
+    });
+
+    console.log(`Paso avanzado a: ${currentStep + 1}`);
+}

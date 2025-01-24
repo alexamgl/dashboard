@@ -1,3 +1,4 @@
+console.log('ARCHIVO FUNCIONES TRAMITES CARGADO')
 function validarCURP(inputId) {
     const input = document.getElementById(inputId);
   
@@ -563,59 +564,112 @@ function validarUnRadio(inputId) {
   return esValido; // devolver true si está seleccionado, false si no
 }
 
+//******************************************************************************************************************************** */
+//***************************************FUNCION PARA VALIDACIONES DE LOS CAMPOS EN EL PASO ACTUAL********************************** */
+//*********************************************************************************************************************************** */
 function validarCamposPasoActual(formStep) {
-  const inputs = formStep.querySelectorAll("input, select"); // seleccionar todos los inputs y selects visibles
-  let todosValidos = true; // inicializar como válidos
-
-  inputs.forEach((input) => {
-      const id = input.id;
-
-      if (id) {
-          let esValido = true; // suponer que el campo es válido inicialmente
-
-          // validar inputs con oninput
-          if (input.hasAttribute("oninput")) {
-              const funcionValidar = input.getAttribute("oninput").match(/([a-zA-Z]+)\(/);
-              if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
-                  esValido = window[funcionValidar[1]](id); // llamar la función de validación
-              }
-          }
-
-          // validar selects con onchange
-          if (input.hasAttribute("onchange")) {
-              const funcionValidar = input.getAttribute("onchange").match(/([a-zA-Z]+)\(/);
-              if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
-                  esValido = window[funcionValidar[1]](id); // llamar la función de validación
-              }
-          }
-
-          // verificar campos requeridos y vacíos
-          if (input.hasAttribute("required") && input.value.trim() === "") {
-              esValido = false;
-              input.classList.add("invalid");
-          }
-
-          if (!esValido) {
-              todosValidos = false;
-          } else {
-              input.classList.remove("invalid");
-          }
-      }
-  });
-
-  // validar documentos en la tabla si existe
-  const documentsTable = formStep.querySelector("#documentsTable");
-  if (documentsTable) {
-      const fileInputs = documentsTable.querySelectorAll("input[type='file']");
-      fileInputs.forEach((input) => {
-          if (!input.files || input.files.length === 0) {
-              todosValidos = false;
-              input.parentElement.classList.add("invalid"); // resaltar la celda como inválida
-          } else {
-              input.parentElement.classList.remove("invalid"); // quitar el resaltado si es válido
-          }
-      });
+    const inputs = formStep.querySelectorAll("input, select"); // seleccionar todos los inputs y selects visibles
+    let todosValidos = true; // inicializar como válidos
+  
+    inputs.forEach((input) => {
+        const id = input.id;
+  
+        if (id) {
+            let esValido = true; // suponer que el campo es válido inicialmente
+  
+            // validar inputs con oninput
+            if (input.hasAttribute("oninput")) {
+                const funcionValidar = input.getAttribute("oninput").match(/([a-zA-Z]+)\(/);
+                if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
+                    esValido = window[funcionValidar[1]](id); // llamar la función de validación
+                }
+            }
+  
+            // validar selects con onchange
+            if (input.hasAttribute("onchange")) {
+                const funcionValidar = input.getAttribute("onchange").match(/([a-zA-Z]+)\(/);
+                if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
+                    esValido = window[funcionValidar[1]](id); // llamar la función de validación
+                }
+            }
+  
+            // verificar campos requeridos y vacíos
+            if (input.hasAttribute("required") && input.value.trim() === "") {
+                esValido = false;
+                input.classList.add("invalid");
+            }
+  
+            if (!esValido) {
+                todosValidos = false;
+            } else {
+                input.classList.remove("invalid");
+            }
+        }
+    });
+  
+    // validar documentos en la tabla si existe
+    const documentsTable = formStep.querySelector("#documentsTable");
+    if (documentsTable) {
+        const fileInputs = documentsTable.querySelectorAll("input[type='file']");
+        fileInputs.forEach((input) => {
+            if (!input.files || input.files.length === 0) {
+                todosValidos = false;
+                input.parentElement.classList.add("invalid"); // resaltar la celda como inválida
+            } else {
+                input.parentElement.classList.remove("invalid"); // quitar el resaltado si es válido
+            }
+        });
+    }
+  
+    return todosValidos; // devolver true si todo es válido
   }
+  
 
-  return todosValidos; // devolver true si todo es válido
+
+//******************************************************************************************************************************** */
+//***************************************MODAL GLOBAL DE ADVERTENCIA EN EL REGISTRO DE DATOS A LA BD********************************** */
+//*********************************************************************************************************************************** */
+// función para mostrar un modal dinámicamente
+function mostrarModalGlobal(mensaje, tipo, onCloseCallback = null) {
+    // crear el modal dinámicamente
+    const modal = document.createElement("div");
+    modal.classList.add("modal-global");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "10000";
+
+    // contenido del modal
+    const modalContent = `
+        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; text-align: center;">
+            <h2>${tipo === "success" ? "¡Éxito!" : "¡Error!"}</h2>
+            <p>${mensaje}</p>
+            <button id="cerrarModalGlobal" style="margin-top: 10px; padding: 10px 20px; background-color: ${
+                tipo === "success" ? "#4CAF50" : "#f44336"
+            }; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Cerrar
+            </button>
+        </div>
+    `;
+
+    modal.innerHTML = modalContent;
+    document.body.appendChild(modal);
+
+    // cerrar el modal al hacer clic en el botón
+    const cerrarBoton = modal.querySelector("#cerrarModalGlobal");
+    cerrarBoton.addEventListener("click", () => {
+        modal.remove(); // eliminar el modal
+        if (typeof onCloseCallback === "function") {
+            onCloseCallback(); // ejecutar el callback si se pasa uno
+        }
+    });
 }
+
+
+
