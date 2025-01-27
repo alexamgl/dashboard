@@ -940,12 +940,13 @@
                   </tbody>
                 </table>
                 <div style="margin-bottom: 15px;">
-                  <label>CURP del solicitante</label>
+                  <label>CURP del estudiante</label>
                   <input type="text" id="curp_estudiante" name="curp_estudiante" placeholder="CURP del solicitante"
                     class="input-tramite" oninput="validarCURP('curp_estudiante')"/>
                 </div>
                   
                 <div class="form-navigation">
+                  <div></div>
                   <button type="button" class="btnNextTramite">Continuar</button>
                 </div>
               </div>
@@ -1074,7 +1075,7 @@
                 </div>
                 <div class="form-navigation">
                   <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="button" onclick="RegistroFormBecaAPI()" class="btnNextTramite">Guardar y continuar</button>
+                  <button type="button" data-btn="protesta" class="btnNextTramite">Guardar y continuar</button>
                 </div>
               </div>
             </div>
@@ -1096,7 +1097,7 @@
                 </tbody>
               </table>
               <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Volver</button>
+                <div></div>
                 <button type="button" class="btnNextTramite">Continuar</button>
               </div>
             </div>

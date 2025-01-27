@@ -10,7 +10,7 @@ class InsertFullDataBecaController {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
-
+            
     public function Create($data) {
         
         // Inicia un buffer de salida para prevenir salidas no deseadas
@@ -47,6 +47,7 @@ class InsertFullDataBecaController {
                 :ingreso_mensual_familiar,
                 :protesta_ingreso_beca
             )";
+
             $stmt = $this->conn->prepare($query);
             
              // Mapear los valores del frontend a los nombres de la base de datos
@@ -78,8 +79,6 @@ class InsertFullDataBecaController {
     $stmt->bindParam(':ingreso_mensual_familiar', $data->ingreso_mensual_familiar);
     $stmt->bindParam(':protesta_ingreso_beca', $data->protesta_ingreso_beca);
             
-            
-    
             // Ejecutar el procedimiento almacenado
             if ($stmt->execute()) {
                 ob_end_clean(); // Limpia el buffer de salida antes de enviar la respuesta

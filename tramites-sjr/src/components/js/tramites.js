@@ -1,6 +1,25 @@
 console.log("archivo cargado");
 console.log("validarCamposPasoActual:", typeof validarCamposPasoActual);
 
+// paso actual del formulario
+let currentStep = 0;
+
+// guardar el paso actual en localstorage
+const saveCurrentStep = (modalId, step) => {
+    localStorage.setItem(`currentStep_${modalId}`, step);
+};
+
+// restaurar el paso guardado al abrir el modal
+const restoreStep = (modalId) => {
+    const savedStep = localStorage.getItem(`currentStep_${modalId}`);
+    return savedStep ? parseInt(savedStep, 10) : 0; // por defecto, paso 1
+};
+
+// limpiar el paso guardado al finalizar el trámite
+const clearCurrentStep = (modalId) => {
+    localStorage.removeItem(`currentStep_${modalId}`);
+};
+
 
 // función para abrir un modal
 window.openModal = function (modalId) {
@@ -16,10 +35,18 @@ window.openModal = function (modalId) {
     
 };
 
-window.closeModal = function(modalId){
+window.closeModal = function (modalId) {
     const modal = document.getElementById(modalId);
-    modal.style.display='none';
-}
+    if (!modal) {
+        console.error(`No se encontró el modal con id: ${modalId}`);
+        return;
+    }
+
+    // Ocultar el modal sin reiniciar los datos ni los pasos
+    modal.style.display = "none";
+    console.log(`Modal ${modalId} cerrado. Los datos se mantienen.`);
+};
+
 
 // función para cerrar todos los modales y reiniciar los pasos
 window.closeAllModalsAndReset = function () {
@@ -28,7 +55,7 @@ window.closeAllModalsAndReset = function () {
         modal.style.display = "none"; // Ocultar todos los modales
     });
 
-    // Reiniciar formularios y pasos
+   /* // Reiniciar formularios y pasos
     const modalContainers = document.querySelectorAll(".modalTramite");
     modalContainers.forEach((modal) => {
         resetFormAndSteps(modal.id);
@@ -36,7 +63,7 @@ window.closeAllModalsAndReset = function () {
 
     // Llamar a resetFormFields
     console.log("Llamando a resetFormFields desde closeAllModalsAndReset");
-    resetFormFields();
+    resetFormFields();*/
 };
 
 
@@ -66,52 +93,89 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        // función: reiniciar el paso actual al cerrar/reiniciar
-        const resetCurrentStep = () => {
-            currentStep = 0; // reiniciar la variable local
-            updateStepVisibility();
-            console.log(`pasos reiniciados en modal: ${modal.id}`);
-        };
-
-        // reiniciar pasos al abrir el modal
-        modal.addEventListener("open", resetCurrentStep);
-
+    
         // manejo de botones dentro del modal
-        modal.addEventListener("click", (event) => {
+        modal.addEventListener("click", async (event) => {
             const target = event.target;
 
+            // Manejo de botones "Siguiente" (btnNextTramite)
             if (target.classList.contains("btnNextTramite")) {
-                // Verificar si el botón tiene una acción personalizada (como "Guardar y continuar" del trámite de becas)
-                const isGuardarContinuar = target.getAttribute("onclick") === "RegistroFormBecaAPI()";
-            
-                if (isGuardarContinuar) {
-                    console.log("El botón pertenece a 'Guardar y continuar'. El avance será controlado por RegistroFormBecaAPI.");
-                    return; // Detener el avance automático. RegistroFormBecaAPI manejará el avance al siguiente paso.
+                console.log("click en btnNextTramite.");
+        
+                // verificar si es el botón con `data-btn="protesta"`
+                if (target.getAttribute("data-btn") === "protesta") {
+    console.log("botón de protesta detectado.");
+
+    mostrarModalConfirmacion(async () => {
+        try {
+            // llamar a la api
+            const registroExitoso = await RegistroFormBecaAPI();
+
+            if (registroExitoso) {
+                console.log("¡Registro exitoso! mostrando modal y avanzando al siguiente paso.");
+
+                // avanzar al siguiente paso con currentstep
+                const steps = modal.querySelectorAll(".form-step");
+                const stepperItems = modal.querySelectorAll(".stepper .step");
+
+                currentStep++;
+                steps.forEach((step, index) => {
+                    step.classList.toggle("active", index === currentStep);
+                    step.style.display = index === currentStep ? "block" : "none";
+                });
+
+                stepperItems.forEach((stepper, index) => {
+                    stepper.classList.toggle("active", index <= currentStep);
+                });
+
+                mostrarModalGlobal("Los datos se guardaron correctamente", "success");
+            } else {
+                console.warn("el registro no fue exitoso. mostrando alerta.");
+                mostrarModalGlobal("No se pudieron guardar los datos. Verifica los datos e intenta nuevamente.", "error");
+            }
+        } catch (error) {
+            console.error("error durante el registro:", error);
+            mostrarModalGlobal("ocurrió un error inesperado. por favor, intenta de nuevo.", "error");
+        }
+    });
+
+    return; // detener el flujo normal para este caso
+}
+
+        
+                // lógica para otros botones "siguiente"
+                const steps = modal.querySelectorAll(".form-step");
+                currentStep = Array.from(steps).findIndex((step) =>
+                    step.classList.contains("active")
+                );
+                console.log("paso actual antes de avanzar:", currentStep);
+        
+                if (!validarCamposPasoActual(steps[currentStep])) {
+                    alert("por favor, completa correctamente todos los campos antes de continuar.");
+                    return;
                 }
-            
-                // Validar campos del paso actual si la validación no está comentada
-                const currentFormStep = steps[currentStep]; // Obtener el paso actual
-            
-                console.log("Paso actual (currentFormStep):", currentFormStep);
-            
-                // Descomenta esta validación si deseas validar campos en los pasos normales
-                if (!validarCamposPasoActual(currentFormStep)) {
-                    alert("Por favor, completa correctamente todos los campos antes de continuar.");
-                    return; // No avanzar al siguiente paso si hay errores
-                }
-                
-            
-                // Avanzar al siguiente paso si no es el último
+        
                 if (currentStep < steps.length - 1) {
                     currentStep++;
-                    updateStepVisibility(); // Actualizar la visibilidad de los pasos
-                    console.log(`Paso avanzado a: ${currentStep}`);
+                    console.log("actualizando paso a:", currentStep);
+        
+                    steps.forEach((step, index) => {
+                        step.classList.toggle("active", index === currentStep);
+                        step.style.display = index === currentStep ? "block" : "none";
+                    });
+        
+                    const stepperItems = modal.querySelectorAll(".stepper .step");
+                    stepperItems.forEach((stepper, index) => {
+                        stepper.classList.toggle("active", index <= currentStep);
+                    });
+        
+                    console.log("paso avanzado a:", currentStep);
+                } else {
+                    console.warn("ya estás en el último paso.");
                 }
             }
+        
             
-            
-            
-
             // botón "prev"
             if (target.classList.contains("btnPrevTramite")) {
                 if (currentStep > 0) {
@@ -161,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // reiniciar formulario y pasos
-window.resetFormAndSteps = function (modalId) {
+/*window.resetFormAndSteps = function (modalId) {
     console.log(`reiniciando formulario y pasos del modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -190,7 +254,7 @@ window.resetFormAndSteps = function (modalId) {
     } else {
         console.error(`no se encontró el modal con id: ${modalId}`);
     }
-};
+};*/
 
 
 // Botón de pago ACUÁTICA
@@ -250,37 +314,106 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
- 
-// función para avanzar al siguiente paso
-function avanzarPaso() {
-    const activeModal = document.querySelector(".modalTramite[style*='display: flex']");
-    if (!activeModal) {
-        console.error("No hay modal activo para avanzar el paso.");
-        return;
-    }
 
-    const steps = activeModal.querySelectorAll(".form-step");
-    const stepperItems = activeModal.querySelectorAll(".stepper .step");
-    let currentStep = Array.from(steps).findIndex(step => step.classList.contains("active"));
 
-    if (currentStep < 0 || currentStep >= steps.length - 1) {
-        console.error("No se puede avanzar porque no hay más pasos.");
-        return;
-    }
+//******************************************************************************************************************************** */
+//***************************************MODAL GLOBAL DE ADVERTENCIA PARA EL GUARDADO DE DATOS********************************** */
+//*********************************************************************************************************************************** */
 
-    // Ocultar paso actual
-    steps[currentStep].classList.remove("active");
-    steps[currentStep].style.display = "none";
 
-    // Mostrar siguiente paso
-    currentStep++;
-    steps[currentStep].classList.add("active");
-    steps[currentStep].style.display = "block";
+function mostrarModalConfirmacion(onAcceptCallback) {
+    const modal = document.createElement("div");
+    modal.classList.add("modal-global");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "10000";
 
-    // Actualizar stepper
-    stepperItems.forEach((item, index) => {
-        item.classList.toggle("active", index <= currentStep);
+    const modalContent = `
+        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; text-align: center;">
+            <h2>¿estás seguro?</h2>
+            <p>una vez que avances, no podrás regresar para editar esta información.</p>
+            <button id="aceptarModal" style="margin: 10px; padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                aceptar
+            </button>
+            <button id="cancelarModal" style="margin: 10px; padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                cancelar
+            </button>
+        </div>
+    `;
+
+    modal.innerHTML = modalContent;
+    document.body.appendChild(modal);
+
+    // manejar clic en "aceptar"
+    const aceptarBoton = modal.querySelector("#aceptarModal");
+    aceptarBoton.addEventListener("click", () => {
+        modal.remove(); // cerrar modal
+        if (typeof onAcceptCallback === "function") {
+            onAcceptCallback(); // ejecutar callback de aceptación
+        }
     });
 
-    console.log(`Paso avanzado a: ${currentStep + 1}`);
+    // manejar clic en "cancelar"
+    const cancelarBoton = modal.querySelector("#cancelarModal");
+    cancelarBoton.addEventListener("click", () => {
+        modal.remove(); // cerrar modal
+    });
 }
+ 
+
+
+//******************************************************************************************************************************** */
+//***************************************MODAL GLOBAL DE ADVERTENCIA EN EL REGISTRO DE DATOS A LA BD********************************** */
+//*********************************************************************************************************************************** */
+// función para mostrar un modal dinámicamente
+function mostrarModalGlobal(mensaje, tipo, onCloseCallback = null) {
+    const modal = document.createElement("div");
+    modal.classList.add("modal-global");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "10000";
+
+    const modalContent = `
+        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; text-align: center;">
+            <h2>${tipo === "success" ? "¡Éxito!" : "¡Error!"}</h2>
+            <p>${mensaje}</p>
+            <button id="cerrarModalGlobal" style="margin-top: 10px; padding: 10px 20px; background-color: ${
+                tipo === "success" ? "#4CAF50" : "#f44336"
+            }; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Cerrar
+            </button>
+        </div>
+    `;
+
+    modal.innerHTML = modalContent;
+    document.body.appendChild(modal);
+
+    const cerrarBoton = modal.querySelector("#cerrarModalGlobal");
+    cerrarBoton.addEventListener("click", () => {
+        modal.remove();
+        if (typeof onCloseCallback === "function") {
+            onCloseCallback(); // ejecuta el callback al cerrar el modal
+        }
+    });
+}
+
+
+
+
+
+
+

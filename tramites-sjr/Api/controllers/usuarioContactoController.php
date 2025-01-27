@@ -3,6 +3,7 @@ include_once __DIR__. '/../config/db.php';
 include_once __DIR__. '/../models/UsuarioContacto.php';
 include_once __DIR__. '/../utils/response.php';
 
+
 class UsuarioContactoController {
     private $db;
     private $usuarioContacto;
