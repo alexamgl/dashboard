@@ -48,7 +48,7 @@ $headers = apache_request_headers();
 $authHeader = $headers['Authorization'] ?? '';
 
 // Definir las rutas públicas
-$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data'];
+$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data'];
 
 $request = $_SERVER['REQUEST_URI'];
 $requestParts = explode('/', trim($request, '/'));
@@ -138,6 +138,11 @@ if ($entity === 'usuarios') {
 }elseif ($entity === 'insert_full_beca_data') {
     require_once '../controllers/InsertFullDataBecaController.php';
     $controller = new InsertFullDataBecaController();
+}elseif ($entity === 'upload_documents_beca_data') {
+    require_once '../controllers/UploadDocumentsBecaController.php';
+    $controller = new UploadDocumentsBecaController();
+    $controller -> uploadDocumentsBeca($_POST);
+    exit();
     
    /* $data = json_decode(file_get_contents("php://input"));
 

@@ -42,7 +42,7 @@
           <td id="size-${index}">Bytes</td>
           <td>
             <input type="file" id="file-${index}" style="display: none;" accept=".pdf">
-            <button class="btnSubirDoc" onclick="uploadDocument(${index})">Subir documento</button>
+            <button class="btnSubirDoc" onclick="seleccionarDocumento(${index})">Seleccionar documento</button>
             <button class="btnBorrarDoc" onclick="deleteDocument(${index})">X</button>
           </td>
         `;
@@ -52,37 +52,48 @@
       });
     }
     
-    // Llamar a la función para generar las filas al cargar la página
-    document.addEventListener("DOMContentLoaded", generateTableRows);
-    
-    // Función para subir documento
-    function uploadDocument(rowIndex) {
+
+    function seleccionarDocumento(rowIndex) {
       const fileInput = document.getElementById(`file-${rowIndex}`);
-      fileInput.click(); // Abrir cuadro de diálogo
+      fileInput.click(); // Simula el clic para abrir el cuadro de diálogo de archivo
     
-      // Evento de cambio para procesar el archivo seleccionado
+      // Manejar el evento de cambio (cuando el usuario selecciona un archivo)
       fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
-        if (file && file.type === "application/pdf") {
-          const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convertir tamaño a MB
-          document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB} MB`; // Actualizar tamaño en la tabla
+        if (file) {
+          if (file.type !== "application/pdf") {
+            alert("Por favor, selecciona un archivo PDF válido.");
+            fileInput.value = ""; // Restablecer input si el archivo no es válido
+            return;
+          }
     
-          // Crear URL para mostrar el PDF
+          // Mostrar tamaño del archivo en la tabla
+          const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convertir tamaño a MB
+          document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB} MB`;
+    
+          // Crear una URL para previsualizar el PDF
           const fileURL = URL.createObjectURL(file);
     
-          // Agregar el emoji de ojito que permita abrir el PDF
+          // Agregar el "ojito" para visualizar el PDF
           const iconCell = document.querySelector(`#pdf-icon-${rowIndex}`);
           iconCell.innerHTML = `
             <a href="${fileURL}" target="_blank" title="Ver documento" style="text-decoration: none; font-size: 20px;">
               👁️
             </a>
           `;
-        } else {
-          alert("Por favor, selecciona un archivo PDF válido.");
         }
       });
     }
     
+    
+
+
+    
+    // Llamar a la función para generar las filas al cargar la página
+    document.addEventListener("DOMContentLoaded", generateTableRows);
+    
+    // Función para subir documento
+   
     // Función para eliminar documento
     function deleteDocument(rowIndex) {
       // Restablecer input de archivo
@@ -198,5 +209,67 @@ async function RegistroFormBecaAPI() {
   } catch (error) {
       console.error("Error durante la llamada a la API:", error);
       return false; // Error
+  }
+}
+
+ ///******************************FUNCION PARA GUARDADO DE DOCUMENTOS EN LA BD************************************* */
+ async function guardarDocumentosBeca() {
+  const tableBody = document.querySelector("#documentsTable tbody");
+  const rows = tableBody.querySelectorAll("tr");
+  const documentos = [];
+  const id_usuario = 1; // ⚠️ Cambiar dinámicamente al ID del usuario logueado
+
+  for (let i = 0; i < rows.length; i++) {
+    const fileInput = document.getElementById(`file-${i}`);
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert(`Por favor selecciona un archivo para el documento ${i + 1}.`);
+      return;
+    }
+
+    // Verificar que el archivo sea un PDF
+    if (file.type !== "application/pdf") {
+      alert(`El archivo seleccionado para el documento ${i + 1} no es un PDF.`);
+      return;
+    }
+
+    documentos.push({
+      file: file,
+      nombre: rows[i].querySelector("td:nth-child(2)").textContent.trim(), // Nombre del documento
+    });
+  }
+
+  const resultados = [];
+  for (const documento of documentos) {
+    const formData = new FormData();
+    formData.append("file", documento.file);
+    formData.append("nombre", documento.nombre);
+    formData.append("id_usuario", id_usuario); // Ahora se envía el ID de usuario dinámico
+
+    try {
+      const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_beca_data", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        resultados.push(result.url);
+        console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
+      } else {
+        alert(`Error al subir el documento ${documento.nombre}: ${result.message}`);
+        return;
+      }
+    } catch (error) {
+      console.error(`Error al subir el documento ${documento.nombre}:`, error);
+      alert(`Error al subir el documento ${documento.nombre}.`);
+      return;
+    }
+  }
+
+  if (resultados.length === documentos.length) {
+    alert("Todos los documentos se subieron con éxito.");
+    console.log("URLs de los documentos:", resultados);
   }
 }
