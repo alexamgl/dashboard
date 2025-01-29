@@ -1098,22 +1098,25 @@
               </table>
               <div class="form-navigation">
                 <div></div>
-                <button type="button" class="btnNextTramite" id="guardarDocumentosBeca" onclick="guardarDocumentosBeca()">Guardar y continuar</button>
+                <button type="button" class="btnNextTramite" data-btn="docsBeca" >Guardar y continuar</button>
               </div>
             </div>
 
             <!-- Paso 6 -->
             <div class="form-step" data-step="6">
-              <div class="warning-container-confirmacion-becas">
-                <h1 class="warning-title-confirmacion-becas">¡ADVERTENCIA!</h1>
-                <b class="warning-text-confirmacion-becas">Una vez le des clic al botón de confirmar no podrás editar los datos.</b>
-                <h2 class="warning-question-confirmacion-becas">¿Estás seguro de que los datos son correctos?</h2>
-                <div class="form-navigation">
-                  <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="submit"  class="btnConfirmarTramite">Confirmar</button>
-                </div>
+              <div class="success-container-confirmacion-becas">
+                  <h1 class="success-title-confirmacion-becas">¡ÉXITO!</h1>
+                  <b class="success-text-confirmacion-becas">
+                      Sus datos han sido guardados correctamente. Por favor, haga clic en el botón <span style="color: #28a745;">"Confirmar"</span> para finalizar el trámite.
+                  </b>
+                  <h2 class="success-question-confirmacion-becas">¿Desea continuar con la finalización del trámite?</h2>
+                  <div class="form-navigation">
+                    <DIV></DIV>
+                      <button type="submit" class="btnConfirmarTramite">Confirmar</button>
+                  </div>
               </div>
-            </div>
+          </div>
+          
             <!-- Modal de Confirmación Becas -->
             <div class="modalConfirmationTramite" id="confirmationModalBecas">
               <div class="modalConfirmationTramite-content"> 

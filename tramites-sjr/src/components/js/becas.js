@@ -37,7 +37,7 @@
           <td id="pdf-icon-${index}">
             <span style="font-size: 20px;">📄</span>
           </td>
-          <td>${doc.name} <span style="color: red;">*</span></td>
+          <td>${doc.name} </td>
           <td>${doc.description}</td>
           <td id="size-${index}">Bytes</td>
           <td>
@@ -60,16 +60,27 @@
       // Manejar el evento de cambio (cuando el usuario selecciona un archivo)
       fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
+    
         if (file) {
+          // Validar que sea PDF
           if (file.type !== "application/pdf") {
             alert("Por favor, selecciona un archivo PDF válido.");
             fileInput.value = ""; // Restablecer input si el archivo no es válido
             return;
           }
     
+          // Validar tamaño menor a 3 MB
+          const maxSizeMB = 3;
+          const fileSizeMB = file.size / (1024 * 1024); // Convertir tamaño a MB
+    
+          if (fileSizeMB > maxSizeMB) {
+            alert(`El archivo seleccionado es demasiado grande (${fileSizeMB.toFixed(2)} MB). Debe ser menor a ${maxSizeMB} MB.`);
+            fileInput.value = ""; // Limpiar la selección
+            return;
+          }
+    
           // Mostrar tamaño del archivo en la tabla
-          const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convertir tamaño a MB
-          document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB} MB`;
+          document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB.toFixed(2)} MB`;
     
           // Crear una URL para previsualizar el PDF
           const fileURL = URL.createObjectURL(file);
@@ -84,6 +95,7 @@
         }
       });
     }
+    
     
     
 
@@ -213,63 +225,156 @@ async function RegistroFormBecaAPI() {
 }
 
  ///******************************FUNCION PARA GUARDADO DE DOCUMENTOS EN LA BD************************************* */
- async function guardarDocumentosBeca() {
+ // Función para subir documentos al servidor
+async function guardarDocumentosBeca() {
   const tableBody = document.querySelector("#documentsTable tbody");
   const rows = tableBody.querySelectorAll("tr");
   const documentos = [];
-  const id_usuario = 1; // ⚠️ Cambiar dinámicamente al ID del usuario logueado
+  const id_usuario = 1; // ⚠️ Cambiar dinámicamente con sesión cuando esté disponible
 
   for (let i = 0; i < rows.length; i++) {
-    const fileInput = document.getElementById(`file-${i}`);
-    const file = fileInput.files[0];
+      const fileInput = document.getElementById(`file-${i}`);
+      const file = fileInput.files[0];
 
-    if (!file) {
-      alert(`Por favor selecciona un archivo para el documento ${i + 1}.`);
-      return;
-    }
-
-    // Verificar que el archivo sea un PDF
-    if (file.type !== "application/pdf") {
-      alert(`El archivo seleccionado para el documento ${i + 1} no es un PDF.`);
-      return;
-    }
-
-    documentos.push({
-      file: file,
-      nombre: rows[i].querySelector("td:nth-child(2)").textContent.trim(), // Nombre del documento
-    });
+      if (file) {
+          documentos.push({
+              file: file,
+              nombre: rows[i].querySelector("td:nth-child(2)").textContent.trim()
+          });
+      }
   }
+
+  mostrarModalCarga("Espere, se están guardando los documentos...");
 
   const resultados = [];
   for (const documento of documentos) {
-    const formData = new FormData();
-    formData.append("file", documento.file);
-    formData.append("nombre", documento.nombre);
-    formData.append("id_usuario", id_usuario); // Ahora se envía el ID de usuario dinámico
+      const formData = new FormData();
+      formData.append("file", documento.file);
+      formData.append("nombre", documento.nombre);
+      formData.append("id_usuario", id_usuario);
 
-    try {
-      const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_beca_data", {
-        method: "POST",
-        body: formData,
+      try {
+          const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_beca_data", {
+              method: "POST",
+              body: formData,
+          });
+
+          const result = await response.json();
+          if (result.success) {
+              resultados.push(result.url);
+              console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
+          } else {
+              cerrarModalCarga();
+              mostrarModalGlobal(`Error al subir el documento ${documento.nombre}: ${result.message}`, "error");
+              return false;
+          }
+      } catch (error) {
+          cerrarModalCarga();
+          console.error(`Error al subir el documento ${documento.nombre}:`, error);
+          mostrarModalGlobal(`Error al subir el documento ${documento.nombre}.`, "error");
+          return false;
+      }
+  }
+
+  cerrarModalCarga();
+
+  if (resultados.length === documentos.length) {
+      mostrarModalGlobal("Los documentos fueron guardados correctamente.", "success");
+      return true;
+  }
+
+  return false;
+}
+
+
+// Función para validar si todos los documentos están seleccionados antes de mostrar el modal de carga
+async function validarDocumentosAntesDeGuardar() {
+  const tableBody = document.querySelector("#documentsTable tbody");
+  const rows = tableBody.querySelectorAll("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+      const fileInput = document.getElementById(`file-${i}`);
+      if (!fileInput.files[0]) {
+          mostrarModalGlobal("Aún faltan documentos por seleccionar. Por favor, suba todos los documentos antes de continuar.", "warning");
+          return false;
+      }
+  }
+
+  return true;
+}
+
+
+/**
+ * Muestra un modal de carga con un GIF animado
+ */
+function mostrarModalCarga(mensaje) {
+  // Eliminar cualquier modal de carga previo para evitar duplicaciones
+  cerrarModalCarga();
+
+  const modal = document.createElement("div");
+  modal.classList.add("modal-global");
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100%";
+  modal.style.height = "100%";
+  modal.style.display = "flex";
+  modal.style.justifyContent = "center";
+  modal.style.alignItems = "center";
+  modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  modal.style.zIndex = "10000";
+
+  const modalContent = `
+      <div style="
+          background: white; 
+          padding: 20px; 
+          border-radius: 12px; 
+          max-width: 400px; 
+          text-align: center;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      ">
+          <h2 style="color: #333; font-size: 18px; margin-bottom: 10px;">${mensaje}</h2>
+          <img src="  ./images/Spinner.gif" alt="Cargando..." style="width: 80px; height: 80px;">
+          <p style="font-size: 14px; color: #666;">Por favor espere...</p>
+      </div>
+  `;
+
+  modal.innerHTML = modalContent;
+  document.body.appendChild(modal);
+}
+
+/**
+* Cierra el modal de carga
+*/
+function cerrarModalCarga() {
+  const modal = document.querySelector(".modal-global");
+  if (modal) {
+      modal.remove();
+  }
+}
+
+
+async function verificarDatosBeca(id_usuario) {
+  try {
+      const response = await fetch(`http://localhost/tramites/dashboard/tramites-sjr/Api/principal/get_datos_beca?id_usuario=${id_usuario}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
       });
 
       const result = await response.json();
+      
       if (result.success) {
-        resultados.push(result.url);
-        console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
+          console.log("El usuario ya tiene datos en becas:", result.data);
+          return true;
       } else {
-        alert(`Error al subir el documento ${documento.nombre}: ${result.message}`);
-        return;
+          console.warn("No se encontraron datos de becas para este usuario.");
+          return false;
       }
-    } catch (error) {
-      console.error(`Error al subir el documento ${documento.nombre}:`, error);
-      alert(`Error al subir el documento ${documento.nombre}.`);
-      return;
-    }
-  }
-
-  if (resultados.length === documentos.length) {
-    alert("Todos los documentos se subieron con éxito.");
-    console.log("URLs de los documentos:", resultados);
+  } catch (error) {
+      console.error("Error al verificar los datos de becas:", error);
+      return false;
   }
 }

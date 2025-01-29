@@ -32,7 +32,8 @@ function checkRole($requiredRole, $userRole) {
 
 // Obtener la ruta solicitada
 $request = $_SERVER['REQUEST_URI'];
-$requestParts = explode('/', trim($request, '/'));
+$path = parse_url($request, PHP_URL_PATH);
+$requestParts = explode('/', trim($path, '/'));
 $entity = isset($requestParts[3]) ? $requestParts[3] : null;
 
 $controller = null;
@@ -48,11 +49,8 @@ $headers = apache_request_headers();
 $authHeader = $headers['Authorization'] ?? '';
 
 // Definir las rutas públicas
-$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data'];
+$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data','get_Datos_Becas'];
 
-$request = $_SERVER['REQUEST_URI'];
-$requestParts = explode('/', trim($request, '/'));
-$entity = isset($requestParts[5]) ? $requestParts[5] : null;
 
 // Verificar el token solo si la ruta no es pública
 if (!in_array($entity, $publicRoutes)) {
@@ -142,7 +140,11 @@ if ($entity === 'usuarios') {
     require_once '../controllers/UploadDocumentsBecaController.php';
     $controller = new UploadDocumentsBecaController();
     $controller -> uploadDocumentsBeca($_POST);
+}elseif ($entity === 'get_Datos_Becas') {
+    require_once '../controllers/GetDatosBecas.php';
+    $controller = new GetDatosBecasController();
     exit();
+    
     
    /* $data = json_decode(file_get_contents("php://input"));
 
