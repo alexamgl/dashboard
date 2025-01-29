@@ -1,3 +1,192 @@
+/* General Styles for Tramites */
+.modalTramites {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Card Container */
+.modalTramites .cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.modalTramites .card {
+  width: 180px;
+  background: white;
+  padding: 0.4em;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.modalTramites .card:hover {
+  transform: scale(1.05);
+}
+
+.modalTramites .card-image {
+  background-color: rgb(236, 236, 236);
+  width: 100%;
+  height: 160px;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.modalTramites .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalTramites .category {
+  text-transform: uppercase;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: rgb(63, 121, 230);
+  padding: 10px 7px 0;
+}
+
+.modalTramites .heading {
+  font-weight: 600;
+  color: rgb(88, 87, 87);
+  padding: 7px;
+}
+
+.modalTramites .author {
+  color: gray;
+  font-weight: 400;
+  font-size: 11px;
+  padding-top: 10px;
+}
+
+/* Modal Styles */
+.modalTramites .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modalTramites .modal.show {
+  display: flex;
+}
+
+.modalTramites .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-height: 80vh;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.modalTramites .modal-content h2 {
+  margin-top: 0;
+}
+
+.modalTramites .modal-content p {
+  color: gray;
+}
+
+.modalTramites .close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form Container */
+.modalTramites .container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+  padding: 30px;
+  width: auto;
+  max-width: auto;
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #faa21b #e0e0e0;
+}
+
+.modalTramites .stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.modalTramites .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.modalTramites .step .circle {
+  background-color: #e0e0e0;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.modalTramites .step.active .circle {
+  background-color: #faa21b;
+  color: #fff;
+}
+
+/* Código problemático */
+.form-group {
+  text-align: center;
+}
+
+/* Solución: Encapsular estilos solo para el Paso 4 */
+.paso4 .form-group-radio {
+  text-align: center;
+  margin-top: 10px;
+}
+
+<<<<<<< Updated upstream
+
 /*CARD 1*/
 /* Estilo del Card */
 .section {
@@ -171,358 +360,9 @@
   margin-bottom: 10px;
 }
 
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-                   /*COMIENZO DE MODAL DE INFORMACION*/
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-      .modalInfoTramite {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-      }
-      
-      /* Contenedor del Modal */
-      .modalInfoTramite-content {
-        display: flex; /* Usar Flexbox para organizar los elementos */
-        flex-wrap: wrap; /* Permitir que los elementos dentro se acomoden en filas */
-        gap: 16px; /* Espaciado entre los elementos */
-        justify-content: center; /* Centrar horizontalmente los cards */
-        align-items: flex-start; /* Alinear los elementos verticalmente */
-        padding: 20px;
-        max-height: 80vh;
-        width: 90%;
-        overflow-y: auto; /* Habilitar scroll vertical si es necesario */
-        overflow-x: hidden;
-        background-color: white;
-        border-radius: 10px;
-        box-sizing: border-box;
-        position: relative; /* Asegurar que los elementos absolutos estén contenidos */
-        
-      }
-      
-      .modalInfoTramite-content h2{
-        border-bottom: 2px solid #faa21b;
-      }
-      
-      /* Cards individuales */
-      .detalleTramite-card {
-        flex: 1 1 calc(33.333% - 16px); /* Configuración para 3 cards por fila */
-        max-width: calc(33.333% - 16px); /* Limitar ancho máximo de cada card */
-        min-width: 250px; /* Ancho mínimo para evitar cards demasiado pequeñas */
-        height: auto;
-        box-sizing: border-box;
-        text-align: center;
-        overflow: hidden;
-        background-color: #0b3b60; /* Fondo azul */
-        color: #fff;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      
-      .detalleTramite-card:hover {
-        transform: translateY(-5px); /* Pequeño efecto al pasar el cursor */
-      }
-      
-      /* Títulos dentro de los cards */
-      .detalleTramite-header {
-        padding: 10px;
-        font-size: 1.2rem;
-        font-weight: bold;
-      }
-      
-      /* Responsividad para pantallas medianas */
-      @media (max-width: 768px) {
-        .detalleTramite-card {
-          flex: 1 1 calc(50% - 16px); /* Configuración para 2 cards por fila */
-          max-width: calc(50% - 16px);
-        }
-      }
-      
-      /* Responsividad para pantallas pequeñas */
-      @media (max-width: 480px) {
-        .detalleTramite-card {
-          flex: 1 1 100%; /* Configuración para 1 card por fila */
-          max-width: 100%;
-        }
-      }
-      
-      .close-modalInfoTramite {
-        position: absolute; /* Posicionamiento dentro del modal */
-        top: 10px; /* Espaciado desde la parte superior */
-        right: 10px; /* Espaciado desde la parte derecha */
-        background: #f44336; /* Fondo rojo */
-        color: white; /* Color del texto */
-        border: none;
-        border-radius: 50%; /* Forma redonda */
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s ease;
-      }
-      
-      .close-modalInfoTramite:hover {
-        background: #d32f2f; /* Fondo más oscuro al pasar el cursor */
-      }
-    
-        /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-                   /*COMIENZO DE MODAL DE CONFIRMACIÓN*/
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-  
-   /* Estilo del Modal */
-   .modalConfirmationTramite {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro translúcido */
-    z-index: 1000;
-      }
-  
-      .modalConfirmationTramite-content {
-        background: rgb(255, 255, 255);
-    padding: 20px;
-    padding-top: 50px;
-    border-radius: 10px;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-    max-height: 80vh;
-    text-align: center;
-    position: relative;
-    animation: fadeIn 0.3s ease; /* Animación al mostrar */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra del modal */
-      }
-  
-      .modalConfirmationTramite-content h2 {
-        margin-top: 0;
-      }
-  
-      .modalConfirmationTramite-content p {
-        color: gray;
-      }
-  
-      .close-modalConfirmationTramite {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #f44336;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-  
-  
-  
-      /*FORMULARIO*/
-      .containerTramite {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
-        padding: 20px;
-        width: auto;
-        max-width: auto;
-        max-height: 70vh;
-        /* Altura máxima del formulario */
-        overflow-y: auto;
-        /* Espaciado para evitar superposición con el scroll */
-        scrollbar-width: thin;
-        /* Estilo del scroll (para navegadores compatibles) */
-        scrollbar-color: #faa21b #e0e0e0;
-        /* Colores personalizados del scroll */
-      }
-  
-      /* Stepper */
-      .stepper {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-      }
-  
-      .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-      }
-  
-      .step .circle {
-        background-color: #e0e0e0;
-        color: #fff;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s;
-      }
-      .line {
-        width: 45px;
-        height: 2px;
-        background-color: #e0e0e0;
-        align-self: center;
-        margin: 0 10px;
-      }
-  
-      .step.active~.line {
-        background-color: #faa21b;
-      }
-  
-     /* Estilos para pasos activos */
-     .form-step {
-      display: none; /* Ocultar pasos por defecto */
-  }
-  
-  .form-step.active {
-      display: block; /* Mostrar solo el paso activo */
-  }
-  
-  .step.active .circle {
-      background-color: #faa21b; /* Color del paso activo */
-      color: #fff;
-  }
-  
-  .step.active span {
-      font-weight: bold;
-  }
-      .form-group-tramite {
-        margin-bottom: 20px;
-        text-align: left;
-      }
-  
-      .form-group-tramite label {
-        margin-top: 10px;
-        font-size: 15px;
-        text-align: left; 
-        display: block; 
-        font-weight: bold; 
-        margin-bottom: 5px;
-      }
-  
-      .form-group-tramite input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        border-color: #faa21b;
-      }
-
-      .form-group-tramite select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        border-color: #faa21b;
-      }
-  
-      .error-message {
-        font-size: 12px;
-        color: red;
-        display: none;
-      }
-  
-      .form-navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-      }
-
-      .btn-containerTramite {
-        width: 100%; /* Asegura que ocupe todo el ancho */
-        text-align: center; /* Centra el botón horizontalmente */
-        margin-top: 20px; /* Espacio entre los cards y el botón */
-    }
-  
-      .btnTramite {
-        background-color: #faa21b;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
-
-      .btnTramite:hover {
-        background-color: #e69900;
-      }
-
-      .btnNextTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-      .btnConfirmarTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-      .btnCerrarConfirmarTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .btnPrevTramite {
-        background-color: #999595;
-        color: #ffffff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-    
-  
-        select {
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .invalid {
-          border: 2px solid red;
-          background-color: #ffe6e6;
-      }
-      
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /*COMIENZO DE MODAL DE INFORMACION*/
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-/* Estilo del Modal */
 .modalInfoTramite {
   display: none;
   position: fixed;
@@ -530,45 +370,117 @@
   left: 0;
   width: 100%;
   height: 100%;
-  display: none;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
 
+/* Contenedor del Modal */
 .modalInfoTramite-content {
-  background: white;
+  display: flex;
+  /* Usar Flexbox para organizar los elementos */
+  flex-wrap: wrap;
+  /* Permitir que los elementos dentro se acomoden en filas */
+  gap: 16px;
+  /* Espaciado entre los elementos */
+  justify-content: center;
+  /* Centrar horizontalmente los cards */
+  align-items: flex-start;
+  /* Alinear los elementos verticalmente */
   padding: 20px;
-  padding-top: 50px;
-  border-radius: 10px;
-  width: 90%;
   max-height: 80vh;
-  text-align: center;
+  width: 90%;
+  overflow-y: auto;
+  /* Habilitar scroll vertical si es necesario */
+  overflow-x: hidden;
+  background-color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
   position: relative;
-  animation: fadeIn 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Asegurar que los elementos absolutos estén contenidos */
+
 }
 
-.modalInfoTramite-content h2 {
-  margin-bottom: 10px;
+
+/* Cards individuales */
+.detalleTramite-card {
+  flex: 1 1 calc(33.333% - 16px);
+  /* Configuración para 3 cards por fila */
+  max-width: calc(33.333% - 16px);
+  /* Limitar ancho máximo de cada card */
+  min-width: 250px;
+  /* Ancho mínimo para evitar cards demasiado pequeñas */
+  height: auto;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: hidden;
+  background-color: #0b3b60;
+  /* Fondo azul */
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.modalInfoTramite-content p {
-  color: gray;
+.detalleTramite-card:hover {
+  transform: translateY(-5px);
+  /* Pequeño efecto al pasar el cursor */
+}
+
+/* Títulos dentro de los cards */
+.detalleTramite-header {
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Responsividad para pantallas medianas */
+@media (max-width: 768px) {
+  .detalleTramite-card {
+    flex: 1 1 calc(50% - 16px);
+    /* Configuración para 2 cards por fila */
+    max-width: calc(50% - 16px);
+  }
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 480px) {
+  .detalleTramite-card {
+    flex: 1 1 100%;
+    /* Configuración para 1 card por fila */
+    max-width: 100%;
+  }
 }
 
 .close-modalInfoTramite {
   position: absolute;
+  /* Posicionamiento dentro del modal */
   top: 10px;
+  /* Espaciado desde la parte superior */
   right: 10px;
+  /* Espaciado desde la parte derecha */
   background: #f44336;
+  /* Fondo rojo */
   color: white;
+  /* Color del texto */
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 50%;
+  /* Forma redonda */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.close-modalInfoTramite:hover {
+  background: #d32f2f;
+  /* Fondo más oscuro al pasar el cursor */
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -732,6 +644,14 @@
   border-color: #faa21b;
 }
 
+.form-group-tramite select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-color: #faa21b;
+}
+
 .error-message {
   font-size: 12px;
   color: red;
@@ -744,14 +664,28 @@
   margin-top: 20px;
 }
 
+.btn-containerTramite {
+  width: 100%;
+  /* Asegura que ocupe todo el ancho */
+  text-align: center;
+  /* Centra el botón horizontalmente */
+  margin-top: 20px;
+  /* Espacio entre los cards y el botón */
+}
+
 .btnTramite {
   background-color: #faa21b;
   color: white;
-  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.btnTramite:hover {
+  background-color: #e69900;
 }
 
 .btnNextTramite {
@@ -790,29 +724,206 @@
   cursor: pointer;
 }
 
-.btnPagarAcuatica {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
 
-.btnPagarAcuatica:hover {
-  background-color: #0056b3;
-}
-
-#map {
-  width: 300px;
-  height: 300px;
-  margin-top: 20px;
-  align-content: center;
-}
 
 select {
   margin-top: 20px;
   padding: 10px;
   font-size: 16px;
 }
+
+.invalid {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+=======
+
+/* General Styles for Tramites */
+.modalTramites {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Card Container */
+.modalTramites .cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.modalTramites .card {
+  width: 180px;
+  background: white;
+  padding: 0.4em;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.modalTramites .card:hover {
+  transform: scale(1.05);
+}
+
+.modalTramites .card-image {
+  background-color: rgb(236, 236, 236);
+  width: 100%;
+  height: 160px;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.modalTramites .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalTramites .category {
+  text-transform: uppercase;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: rgb(63, 121, 230);
+  padding: 10px 7px 0;
+}
+
+.modalTramites .heading {
+  font-weight: 600;
+  color: rgb(88, 87, 87);
+  padding: 7px;
+}
+
+.modalTramites .author {
+  color: gray;
+  font-weight: 400;
+  font-size: 11px;
+  padding-top: 10px;
+}
+
+/* Modal Styles */
+.modalTramites .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modalTramites .modal.show {
+  display: flex;
+}
+
+.modalTramites .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-height: 80vh;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.modalTramites .modal-content h2 {
+  margin-top: 0;
+}
+
+.modalTramites .modal-content p {
+  color: gray;
+}
+
+.modalTramites .close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form Container */
+.modalTramites .container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+  padding: 30px;
+  width: auto;
+  max-width: auto;
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #faa21b #e0e0e0;
+}
+
+.modalTramites .stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.modalTramites .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.modalTramites .step .circle {
+  background-color: #e0e0e0;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.modalTramites .step.active .circle {
+  background-color: #faa21b;
+  color: #fff;
+}
+
+/* Código problemático */
+.form-group {
+  text-align: center;
+}
+
+/* Solución: Encapsular estilos solo para el Paso 4 */
+.paso4 .form-group-radio {
+  text-align: center;
+  margin-top: 10px;
+}
+
+>>>>>>>Stashed changes
