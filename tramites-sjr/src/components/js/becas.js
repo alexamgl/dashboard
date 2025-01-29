@@ -307,6 +307,7 @@ async function validarDocumentosAntesDeGuardar() {
 /**
  * Muestra un modal de carga con un GIF animado
  */
+//
 function mostrarModalCarga(mensaje) {
   // Eliminar cualquier modal de carga previo para evitar duplicaciones
   cerrarModalCarga();
