@@ -1,6 +1,18 @@
 {
+    "name": "egome/api",
+    "autoload": {
+        "psr-4": {
+            "Egome\\Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "EduGlz21",
+            "email": "eduardogz.ti21@utsjr.edu.mx"
+        }
+    ],
     "require": {
-        "vlucas/phpdotenv": "^5.6",
-        "firebase/php-jwt": "^6.10"
+        "cloudinary/cloudinary_php": "^3.1",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

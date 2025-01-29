@@ -1,23 +1,13 @@
 <?php
-
-
 // Definir la constante DOC_ROOT_PATH para evitar repetir $_SERVER['DOCUMENT_ROOT'] en todo el código
 define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'] . '/');
 
 // Incluir los archivos de configuración y controladores utilizando la constante DOC_ROOT_PATH
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/config/config.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/src/jwt_helper.php';
+require_once '../config/config.php';
+//require_once '../src/jwt_helper.php';
 
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/ValidaCurpController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullDataController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullDataTrabajadorController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/TrabajadorController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/CiudadanoController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/updateFullTrabajador.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullOrganizacionController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/GraficaDependenciasController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/UploadDocumentController.php';
-require_once DOC_ROOT_PATH . 'tramites-sjr/Api/controllers/InsertFullDataBecasController.php';
+
+
 
 // Configuración de CORS y tipo de contenido
 header("Access-Control-Allow-Origin: *"); 
@@ -42,7 +32,8 @@ function checkRole($requiredRole, $userRole) {
 
 // Obtener la ruta solicitada
 $request = $_SERVER['REQUEST_URI'];
-$requestParts = explode('/', trim($request, '/'));
+$path = parse_url($request, PHP_URL_PATH);
+$requestParts = explode('/', trim($path, '/'));
 $entity = isset($requestParts[3]) ? $requestParts[3] : null;
 
 $controller = null;
@@ -58,16 +49,13 @@ $headers = apache_request_headers();
 $authHeader = $headers['Authorization'] ?? '';
 
 // Definir las rutas públicas
-$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos'];
+$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data','get_Datos_Becas'];
 
-$request = $_SERVER['REQUEST_URI'];
-$requestParts = explode('/', trim($request, '/'));
-$entity = isset($requestParts[3]) ? $requestParts[3] : null;
 
 // Verificar el token solo si la ruta no es pública
 if (!in_array($entity, $publicRoutes)) {
     if ($authHeader) {
-        list($bearer, $token) = explode(" ", $authHeader, 3);
+        list($bearer, $token) = explode(" ", $authHeader, 5);
         $userData = validateJWT($token);
 
         if (!$userData) {
@@ -145,6 +133,19 @@ if ($entity === 'usuarios') {
     $controller = new UpdateFullDataTrabajadorController();
 }elseif ($entity === 'validar_curp') {
     $controller = new ValidaCurpController();
+}elseif ($entity === 'insert_full_beca_data') {
+    require_once '../controllers/InsertFullDataBecaController.php';
+    $controller = new InsertFullDataBecaController();
+}elseif ($entity === 'upload_documents_beca_data') {
+    require_once '../controllers/UploadDocumentsBecaController.php';
+    $controller = new UploadDocumentsBecaController();
+    $controller -> uploadDocumentsBeca($_POST);
+}elseif ($entity === 'get_Datos_Becas') {
+    require_once '../controllers/GetDatosBecas.php';
+    $controller = new GetDatosBecasController();
+    exit();
+    
+    
    /* $data = json_decode(file_get_contents("php://input"));
 
     // Llama al método adecuado, en este caso 'create'
@@ -185,24 +186,44 @@ if ($entity === 'send_otp' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // Ejecuta el método en el controlador correspondiente
+// definir método http y datos recibidos
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"));
 
+// manejar solicitudes según el método http
 switch ($method) {
     case 'POST':
-        $controller->create($data);
+        if (method_exists($controller, 'create')) {
+            $controller->create($data);
+        } else {
+            echo json_encode(["error" => "El método 'create' no está definido en este controlador."]);
+        }
         break;
     case 'GET':
-        $controller->read($data);
+        if (method_exists($controller, 'read')) {
+            $controller->read($data);
+        } else {
+            echo json_encode(["error" => "El método 'read' no está definido en este controlador."]);
+        }
         break;
     case 'PUT':
-        $controller->update($data);
+        if (method_exists($controller, 'update')) {
+            $controller->update($data);
+        } else {
+            echo json_encode(["error" => "El método 'update' no está definido en este controlador."]);
+        }
         break;
     case 'DELETE':
-        $controller->delete($data);
+        if (method_exists($controller, 'delete')) {
+            $controller->delete($data);
+        } else {
+            echo json_encode(["error" => "El método 'delete' no está definido en este controlador."]);
+        }
         break;
     default:
-        sendErrorResponse(405, "Método no permitido");
+        echo json_encode(["error" => "Método no permitido"]);
         break;
 }
+
+
 ?>

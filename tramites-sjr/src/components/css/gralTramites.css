@@ -735,3 +735,302 @@ select {
   border: 2px solid red;
   background-color: #ffe6e6;
 }
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*COMIENZO DE MODAL DE INFORMACION*/
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/* Estilo del Modal */
+.modalInfoTramite {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modalInfoTramite-content {
+  background: white;
+  padding: 20px;
+  padding-top: 50px;
+  border-radius: 10px;
+  width: 90%;
+  max-height: 80vh;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modalInfoTramite-content h2 {
+  margin-bottom: 10px;
+}
+
+.modalInfoTramite-content p {
+  color: gray;
+}
+
+.close-modalInfoTramite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*COMIENZO DE MODAL DE CONFIRMACIÓN*/
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/* Estilo del Modal */
+.modalConfirmationTramite {
+  display: none;
+  /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo oscuro translúcido */
+  z-index: 1000;
+}
+
+.modalConfirmationTramite-content {
+  background: rgb(255, 255, 255);
+  padding: 20px;
+  padding-top: 50px;
+  border-radius: 10px;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  max-height: 80vh;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  /* Animación al mostrar */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Sombra del modal */
+}
+
+.modalConfirmationTramite-content h2 {
+  margin-top: 0;
+}
+
+.modalConfirmationTramite-content p {
+  color: gray;
+}
+
+.close-modalConfirmationTramite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+
+/*FORMULARIO*/
+.containerTramite {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+  padding: 20px;
+  width: auto;
+  max-width: auto;
+  max-height: 70vh;
+  /* Altura máxima del formulario */
+  overflow-y: auto;
+  /* Espaciado para evitar superposición con el scroll */
+  scrollbar-width: thin;
+  /* Estilo del scroll (para navegadores compatibles) */
+  scrollbar-color: #faa21b #e0e0e0;
+  /* Colores personalizados del scroll */
+}
+
+/* Stepper */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.step .circle {
+  background-color: #e0e0e0;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.line {
+  width: 45px;
+  height: 2px;
+  background-color: #e0e0e0;
+  align-self: center;
+  margin: 0 10px;
+}
+
+.step.active~.line {
+  background-color: #faa21b;
+}
+
+/* Estilos para pasos activos */
+.form-step {
+  display: none;
+  /* Ocultar pasos por defecto */
+}
+
+.form-step.active {
+  display: block;
+  /* Mostrar solo el paso activo */
+}
+
+.step.active .circle {
+  background-color: #faa21b;
+  /* Color del paso activo */
+  color: #fff;
+}
+
+.step.active span {
+  font-weight: bold;
+}
+
+.form-group-tramite {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group-tramite label {
+  margin-top: 10px;
+  font-size: 15px;
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group-tramite input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-color: #faa21b;
+}
+
+.error-message {
+  font-size: 12px;
+  color: red;
+  display: none;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btnTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.btnNextTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnConfirmarTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnCerrarConfirmarTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnPrevTramite {
+  background-color: #999595;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnPagarAcuatica {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btnPagarAcuatica:hover {
+  background-color: #0056b3;
+}
+
+#map {
+  width: 300px;
+  height: 300px;
+  margin-top: 20px;
+  align-content: center;
+}
+
+select {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 16px;
+}

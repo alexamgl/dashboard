@@ -548,18 +548,37 @@
           </div>
         </div>
       </div>
-  
-      <div class="modal tramite-modal" data-tramite="becas">
-        <div class="modal-content">
-          <button class="close-modal" onclick="closeModalTramite('becas', 'tramite')">X</button>
-          <div class="container">
-            <!-- Stepper -->
-            <div class="stepper">
-              <div class="step active"><div class="circle">1</div><span>Identificación</span></div>
-              <div class="line"></div>
-              <div class="step"><div class="circle">2</div><span>Datos Académicos</span></div>
-              <div class="line"></div>
-              <div class="step"><div class="circle">3</div><span>Documentos</span></div>
+
+      <!--*************************************** BECAS *************************************************-->
+
+      <!-- Card: Becas -->
+      <div class="cardTramite" onclick="openModal('becaInfoModal')">
+        <div class="cardTramite-image">
+          <img src="images/becas.png" alt="Imagen de Becas" class="imgTramite" />
+        </div>
+        <div class="category">Secretaría de Educación Pública</div>
+        <div class="heading">
+          Becas educativas del Municipio de San Juan del Río
+          <div class="author">Apoyo económico al alumnado del sector educativo</div>
+        </div>
+      </div>
+
+      <!-- Modal: Información Becas -->
+      <div class="modalInfoTramite" id="becaInfoModal">
+        <div class="modalInfoTramite-content">
+          <button class="close-modalInfoTramite" onclick="closeModal('becaInfoModal')">X</button>
+          <h2>Información sobre el Trámite de Becas</h2>
+          <p>El trámite de becas está diseñado para apoyar económicamente al alumnado del sector educativo. Por favor,
+            lee atentamente las instrucciones antes de iniciar el trámite.</p>
+            <div class="detalleTramite-card" id="card-acerca-tramite">
+              <div class="detalleTramite-header">
+                <span class="detalleTramite-icon material-symbols-outlined">info</span>
+                <span class="detalleTramite-title">Acerca del trámite</span>
+              </div>
+              <div class="detalleTramite-content">
+                <p>Considera esto antes de realizar el trámite.</p>
+                <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-acerca-tramite')">Leer más...</a>
+              </div>
             </div>
 
 
@@ -815,7 +834,7 @@
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; border: 1px solid #d3d3d3; 
                    border-radius: 5px; ">
                   <div style="margin-right: 20px;">
-                    <select id="locationSelect" required oninput="validarSelect('locationSelect')">
+                    <select id="ubicacion_tramite_beca" required oninput="validarSelect('locationSelect')">
                       <option value="hide">-- Seleccione --</option>
                       <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
                     </select>
@@ -845,34 +864,104 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="text" name="apellidoPaterno" placeholder="Apellido Paterno" required></td>
-                      <td><input type="text" name="apellidoMaterno" placeholder="Apellido Materno" required></td>
-                      <td><input type="text" name="nombres" placeholder="Nombre(s)" required></td>
-                      <td><input type="text" name="lugarNacimiento" placeholder="Lugar" required></td>
-                      <td><input type="date" name="fechaNacimiento" required></td>
+                      <td>
+                        <input
+                          type="text"
+                          id="primer_apellido_est"
+                          name="primer_apellido_est"
+                          placeholder="Apellido paterno"
+                          style="width: 95%;" required
+                          oninput="ValidarNombres('primer_apellido_est')"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          id="segundo_apellido_est"
+                          name="segundo_apellido_est"
+                          placeholder="Apellido materno"
+                          style="width: 95%;" required
+                          oninput="ValidarNombres('segundo_apellido_est')"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          id="nombre_est"
+                          name="nombre_est"
+                          placeholder="Nombre(s)"
+                          style="width: 95%;" required
+                          oninput="ValidarNombres('nombre_est')"
+                        />
+                      </td>
+                      
+                      <td>
+                        <input type="text" id="lugar_nac_est" name="lugar_nac_est" placeholder="Lugar de nacimiento"
+                          style="width: 95%;" required oninput="ValidarLugarNacimiento('lugar_nac_est')" />
+                      </td>
+                      <td>
+                        <input
+                        type="date"
+                        id="fecha_nac_est"
+                        name="fecha_nac_est"
+                        placeholder="fecha de nacimiento"
+                        style="width: 95%;" required
+                        oninput="validarFechaNacimiento('fecha_nac_est')"
+                    />                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <div>
-                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
+                <!--Table2-->
+                <table class="tablaTramite">
+                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio del estudiante
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>Calle</th>
+                      <th>Número</th>
+                      <th>Colonia</th>
+                      <th>Municipio</th>
+                      <th>Teléfono</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="text" id="calle_dom_est" name="calle_dom_est" placeholder="Calle" style="width: 95%;" required oninput="validarCalle('calle_dom_est')"/>
+                      </td>
+                      <td>
+                        <input type="text" id="num_dom_est" name="num_dom_est" placeholder="Número" style="width: 95%;" required oninput="validarNumeroCasa('num_dom_est')"/>
+                      </td>
+                      <td>
+                        <input type="text" id="col_dom_est" name="col_dom_est" placeholder="Colonia" style="width: 95%;" required oninput="validarColonias('col_dom_est')" />
+                      </td>
+                      <td>
+                        <input type="text" id="mun_dom_est" name="mun_dom_est" placeholder="Municipio" style="width: 95%;" required oninput="validarMunicipio('mun_dom_est')" />
+                      </td>
+                      <td>
+                        <input type="tel" id="tel_dom_est" name="tel_dom_est" placeholder="Teléfono" style="width: 95%;" required  oninput="validarTelefono('tel_dom_est')" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="margin-bottom: 15px;">
+                  <label>CURP del estudiante</label>
+                  <input type="text" id="curp_estudiante" name="curp_estudiante" placeholder="CURP del solicitante"
+                    class="input-tramite" oninput="validarCURP('curp_estudiante')"/>
+                </div>
+                  
+                <div class="form-navigation">
+                  <div></div>
+                  <button type="button" class="btnNextTramite">Continuar</button>
                 </div>
               </div>
-              <!-- Paso 2 -->
-              <div class="form-step">
-                <h2>Datos Académicos</h2>
-                <div class="form-group">
-                  <label for="promedio">Promedio General</label>
-                  <input type="number" id="promedio" name="promedio" step="0.01" placeholder="Ejemplo: 9.5" required>
-                </div>
-                <div>
-                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
-                  <button type="button" class="btn next" onclick="nextStep()">Siguiente</button>
-                </div>
-              </div>
-              <!-- Documentos -->
-              <div class="form-step">
-                <h2>Documentos</h2>
-                <table id="documentsTable">
+            </div>
+            <!-- Paso 2 -->
+            <div class="form-step" data-step="2">
+              <div class="form-group-tramite">
+                <table class="tablaTramite">
+                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio de la
+                    institutción educativa</caption>
                   <thead>
                     <tr>
                       <th>Nombre</th>
@@ -881,12 +970,35 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Las filas se generarán dinámicamente -->
+                    <tr>
+                      <td>
+                        <input type="text" id="calle_inst" name="calle_inst" placeholder="Calle" style="width: 95%;" required oninput="validarCalle('calle_inst')"/>
+                      </td>
+                      <td>
+                        <input type="text" id="num_inst" name="num_inst" placeholder="Número" style="width: 95%;" required oninput="validarNumeroCasa('num_inst')"/>
+                      </td>
+                      <td>
+                        <input type="text" id="col_inst" name="col_inst" placeholder="Colonia" style="width: 95%;" required oninput="validarColonias('col_inst')"/>
+                      </td>
+                      <td>
+                        <input type="text" id="mun_inst" name="mun_inst" placeholder="Municipio" style="width: 95%;" required oninput="validarMunicipio('mun_inst')" />
+                      </td>
+                      <td>
+                        <input type="text" id="nombre_inst" name="nombre_inst" placeholder="Nombre institutción" style="width: 95%;" required oninput="validarNombreInstitucion('nombre_inst')" />
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-                <div>
-                  <button type="button" class="btn prev" onclick="prevStep()">Atrás</button>
-                  <button type="submit" class="btn">Confirmar</button>
+                
+                <div style="margin-bottom: 15px;">
+                  <label for="Promedio">Promedio de la
+                    persona estudiante</label>
+                  <input type="text" id="promedio_est" name="promedio_est" placeholder="Promedio del estudiante. Ejemplo: 9.5" required oninput="validarPromedioEstudiante('promedio_est')"/>
+                </div>
+                
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevTramite">Volver</button>
+                  <button type="button" class="btnNextTramite">Continuar</button>
                 </div>
               </div>
             </div>
@@ -909,34 +1021,34 @@
                   <tbody>
                     <tr>
                       <td>
-                        <input type="text" id="apellidoPaternoTutor" name="apellidoPaternoTutor" placeholder="Apellido paterno" value="PRUEBA" style="width: 95%;" disabled />
+                        <input type="text" id="ape_paterno_tutor" name="ape_paterno_tutor" placeholder="Apellido paterno" value="PRUEBA" style="width: 95%;" disabled />
                       </td>
                       <td>
-                        <input type="text" id="apellidoMaterno" name="apellidoMaterno" placeholder="Apellido materno" value="PRUEBA" style="width: 95%;" disabled/>
+                        <input type="text" id="ape_materno_tutor" name="ape_materno_tutor" placeholder="Apellido materno" value="PRUEBA" style="width: 95%;" disabled/>
                       </td>
                       <td>
-                        <input type="text" id="nombreTutor" name="nombreTutor" placeholder="Nombre(s)" value="PRUEBA" style="width: 95%;" disabled />
+                        <input type="text" id="nombre_tutor_est" name="nombre_tutor_est" placeholder="Nombre(s)" value="PRUEBA" style="width: 95%;" disabled />
                       </td>
                       <td>
-                        <input type="text" id="ocupacionTutor" name="ocupacionTutor" placeholder="Ocupación"  required style="width: 95%;" oninput="validarOcupacionTutor('ocupacionTutor')" />
+                        <input type="text" id="ocupacion_tutor_est" name="ocupacion_tutor_est" placeholder="Ocupación"  required style="width: 95%;" oninput="validarOcupacionTutor('ocupacion_tutor_est')" />
                       </td>
                     </tr>
                   </tbody>
                 </table>
                 <div style="margin-bottom: 15px;">
-                  <label for="noPersonasDomicilio">Número de personas
+                  <label for="num_habitan_beca">Número de personas
                     que habitan en el domicilio</label>
-                  <input type="text" id="noPersonasDomicilio" name="noPersonasDomicilio"
-                    placeholder="Número de personas que habitan en el domicilio" required  oninput="validarNumeroPersonasHabitan('noPersonasDomicilio')"/>
+                  <input type="text" id="num_habitan_beca" name="num_habitan_beca"
+                    placeholder="Número de personas que habitan en el domicilio" required  oninput="validarNumeroPersonasHabitan('num_habitan_beca')"/>
                   <br>
 
-                  <label for="noPersonasAportan">Número de personas
+                  <label for="num_personas_apor">Número de personas
                     que habitan que aportan ingresos</label>
-                  <input type="text" id="noPersonasAportan" name="noPersonasAportan"
-                    placeholder="Número de personas que habitan que aportan ingresos" required oninput="validarNumeroPersonasHabitan('noPersonasAportan')" />
+                  <input type="text" id="num_personas_apor" name="num_personas_apor"
+                    placeholder="Número de personas que habitan que aportan ingresos" required oninput="validarNumeroPersonasHabitan('num_personas_apor')" />
 
-                  <label for="ingresoFamiliar">Ingreso mensual familiar</label>
-                  <input type="text" id="ingresoFamiliar" name="ingresoFamiliar" required placeholder="Ingreso mensual familiar" oninput="validarIngresoMensualFamiliar('ingresoFamiliar')" />
+                  <label for="ingreso_mensual">Ingreso mensual familiar</label>
+                  <input type="text" id="ingreso_mensual" name="ingreso_mensual" required placeholder="Ingreso mensual familiar" oninput="validarIngresoMensualFamiliar('ingreso_mensual')" />
                 </div>
                
                 <div class="form-navigation">
@@ -956,7 +1068,7 @@
                         son los declarados</label>
                       <div class="radio-buttons">
                         <label class="radio-button">
-                          <input id="protestaBeca"  type="radio" name="protestaBeca"  value="True" required oninput="validarUnRadio('protestaBeca')"
+                          <input id="protesta_beca"  type="radio" name="protesta_beca"  value="True" required oninput="validarUnRadio('protesta_beca')"
                           >
                           <span class="radio-label">Acepto</span>
                         </label>
@@ -966,7 +1078,7 @@
                 </div>
                 <div class="form-navigation">
                   <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="button" class="btnNextTramite">Continuar</button>
+                  <button type="button" data-btn="protesta" class="btnNextTramite">Guardar y continuar</button>
                 </div>
               </div>
             </div>
@@ -988,20 +1100,26 @@
                 </tbody>
               </table>
               <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Volver</button>
-                <button type="button" class="btnNextTramite">Continuar</button>
+                <div></div>
+                <button type="button" class="btnNextTramite" data-btn="docsBeca" >Guardar y continuar</button>
               </div>
             </div>
 
             <!-- Paso 6 -->
-            <div class="form-step" data-step="6" style="display: block;">
-              <h2>¡Confirmación!</h2>
-              <p>Confirma que has registrado los datos correctos</p>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Volver</button>
-                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
+            <div class="form-step" data-step="6">
+              <div class="success-container-confirmacion-becas">
+                  <h1 class="success-title-confirmacion-becas">¡ÉXITO!</h1>
+                  <b class="success-text-confirmacion-becas">
+                      Sus datos han sido guardados correctamente. Por favor, haga clic en el botón <span style="color: #28a745;">"Confirmar"</span> para finalizar el trámite.
+                  </b>
+                  <h2 class="success-question-confirmacion-becas">¿Desea continuar con la finalización del trámite?</h2>
+                  <div class="form-navigation">
+                    <DIV></DIV>
+                      <button type="submit" class="btnConfirmarTramite">Confirmar</button>
+                  </div>
               </div>
-            </div>
+          </div>
+          
             <!-- Modal de Confirmación Becas -->
             <div class="modalConfirmationTramite" id="confirmationModalBecas">
               <div class="modalConfirmationTramite-content"> 
@@ -1153,8 +1271,8 @@
   <link rel="stylesheet" href="css/leaflet.css">
   <script src="js/leaflet.js"></script>
   <script src="js/tramites.js"></script>
-  <script src="js/becas.js"></script>
   <script src="js/funcionesTramites.js"></script>
+  <script src="js/becas.js"></script>
   <script src="js/mapaLeaflet.js"></script>
   <script src="js/main.js"></script>
 

@@ -1,3 +1,4 @@
+console.log('ARCHIVO FUNCIONES TRAMITES CARGADO')
 function validarCURP(inputId) {
     const input = document.getElementById(inputId);
   
@@ -563,59 +564,68 @@ function validarUnRadio(inputId) {
   return esValido; // devolver true si está seleccionado, false si no
 }
 
+//******************************************************************************************************************************** */
+//***************************************FUNCION PARA VALIDACIONES DE LOS CAMPOS EN EL PASO ACTUAL********************************** */
+//*********************************************************************************************************************************** */
 function validarCamposPasoActual(formStep) {
-  const inputs = formStep.querySelectorAll("input, select"); // seleccionar todos los inputs y selects visibles
-  let todosValidos = true; // inicializar como válidos
-
-  inputs.forEach((input) => {
-      const id = input.id;
-
-      if (id) {
-          let esValido = true; // suponer que el campo es válido inicialmente
-
-          // validar inputs con oninput
-          if (input.hasAttribute("oninput")) {
-              const funcionValidar = input.getAttribute("oninput").match(/([a-zA-Z]+)\(/);
-              if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
-                  esValido = window[funcionValidar[1]](id); // llamar la función de validación
-              }
-          }
-
-          // validar selects con onchange
-          if (input.hasAttribute("onchange")) {
-              const funcionValidar = input.getAttribute("onchange").match(/([a-zA-Z]+)\(/);
-              if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
-                  esValido = window[funcionValidar[1]](id); // llamar la función de validación
-              }
-          }
-
-          // verificar campos requeridos y vacíos
-          if (input.hasAttribute("required") && input.value.trim() === "") {
-              esValido = false;
-              input.classList.add("invalid");
-          }
-
-          if (!esValido) {
-              todosValidos = false;
-          } else {
-              input.classList.remove("invalid");
-          }
-      }
-  });
-
-  // validar documentos en la tabla si existe
-  const documentsTable = formStep.querySelector("#documentsTable");
-  if (documentsTable) {
-      const fileInputs = documentsTable.querySelectorAll("input[type='file']");
-      fileInputs.forEach((input) => {
-          if (!input.files || input.files.length === 0) {
-              todosValidos = false;
-              input.parentElement.classList.add("invalid"); // resaltar la celda como inválida
-          } else {
-              input.parentElement.classList.remove("invalid"); // quitar el resaltado si es válido
-          }
-      });
+    const inputs = formStep.querySelectorAll("input, select"); // seleccionar todos los inputs y selects visibles
+    let todosValidos = true; // inicializar como válidos
+  
+    inputs.forEach((input) => {
+        const id = input.id;
+  
+        if (id) {
+            let esValido = true; // suponer que el campo es válido inicialmente
+  
+            // validar inputs con oninput
+            if (input.hasAttribute("oninput")) {
+                const funcionValidar = input.getAttribute("oninput").match(/([a-zA-Z]+)\(/);
+                if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
+                    esValido = window[funcionValidar[1]](id); // llamar la función de validación
+                }
+            }
+  
+            // validar selects con onchange
+            if (input.hasAttribute("onchange")) {
+                const funcionValidar = input.getAttribute("onchange").match(/([a-zA-Z]+)\(/);
+                if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
+                    esValido = window[funcionValidar[1]](id); // llamar la función de validación
+                }
+            }
+  
+            // verificar campos requeridos y vacíos
+            if (input.hasAttribute("required") && input.value.trim() === "") {
+                esValido = false;
+                input.classList.add("invalid");
+            }
+  
+            if (!esValido) {
+                todosValidos = false;
+            } else {
+                input.classList.remove("invalid");
+            }
+        }
+    });
+  
+    // validar documentos en la tabla si existe
+    const documentsTable = formStep.querySelector("#documentsTable");
+    if (documentsTable) {
+        const fileInputs = documentsTable.querySelectorAll("input[type='file']");
+        fileInputs.forEach((input) => {
+            if (!input.files || input.files.length === 0) {
+                todosValidos = false;
+                input.parentElement.classList.add("invalid"); // resaltar la celda como inválida
+            } else {
+                input.parentElement.classList.remove("invalid"); // quitar el resaltado si es válido
+            }
+        });
+    }
+  
+    return todosValidos; // devolver true si todo es válido
   }
+  
 
-  return todosValidos; // devolver true si todo es válido
-}
+
+
+
+
