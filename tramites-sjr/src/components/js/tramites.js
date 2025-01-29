@@ -13,12 +13,12 @@ window.openModal = function (modalId) {
         console.error(`no se encontró el modal con id: ${modalId}`);
     }
 
-    
+
 };
 
-window.closeModal = function(modalId){
+window.closeModal = function (modalId) {
     const modal = document.getElementById(modalId);
-    modal.style.display='none';
+    modal.style.display = 'none';
 }
 
 // función para cerrar todos los modales y reiniciar los pasos
@@ -81,34 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
             const target = event.target;
 
 
-                //btn Next
+            //btn Next
             if (target.classList.contains("btnNextTramite")) {
                 const currentFormStep = steps[currentStep]; // obtener el paso actual
-        
+
                 // agregar el console.log para verificar el paso actual
                 console.log("paso actual (currentFormStep):", currentFormStep);
-        
+
                 // validar los campos del paso actual
-<<<<<<< HEAD
-<<<<<<< HEAD
-               /*if (!validarCamposPasoActual(currentFormStep)) {
-=======
-                if (!validarCamposPasoActual(currentFormStep)) {
->>>>>>> parent of 24a8826 (cambioDiseño)
-=======
-                if (!validarCamposPasoActual(currentFormStep)) {
->>>>>>> parent of 24a8826 (cambioDiseño)
-                    alert("por favor, completa correctamente todos los campos antes de continuar.");
-                    return; // no avanzar al siguiente paso
-                }*/
-        
+                /*if (!validarCamposPasoActual(currentFormStep)) {
+ =======
+                 if (!validarCamposPasoActual(currentFormStep)) {
+ >>>>>>> parent of 24a8826 (cambioDiseño)
+ =======
+                 if (!validarCamposPasoActual(currentFormStep)) {
+ >>>>>>> parent of 24a8826 (cambioDiseño)
+                     alert("por favor, completa correctamente todos los campos antes de continuar.");
+                     return; // no avanzar al siguiente paso
+                 }*/
+
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     updateStepVisibility();
                 }
             }
-            
-            
+
+
 
             // botón "prev"
             if (target.classList.contains("btnPrevTramite")) {
@@ -248,4 +246,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
- 
