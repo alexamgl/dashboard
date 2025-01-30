@@ -5,10 +5,21 @@
   padding: 20px;
 }
 
-#tramites-user {
-
-  flex-direction: column;
-  align-items: center;
+.tramites-user {
+  display: flex; /* Usar Flexbox para organizar los elementos */
+        flex-wrap: wrap; /* Permitir que los elementos dentro se acomoden en filas */
+        gap: 16px; /* Espaciado entre los elementos */
+        justify-content: center; /* Centrar horizontalmente los cards */
+        align-items: flex-start; /* Alinear los elementos verticalmente */
+        padding: 20px;
+        max-height: 80vh;
+        width: 90%;
+        overflow-y: auto; /* Habilitar scroll vertical si es necesario */
+        overflow-x: hidden;
+        background-color: white;
+        border-radius: 10px;
+        box-sizing: border-box;
+        position: relative; /*
 }
 
 .cards-container {
@@ -24,7 +35,10 @@
 /* Card Styles */
 /**/
 .cardTramite {
-  width: 200px;
+  position: relative;
+  display: inline-block;
+  gap: 5px;
+  width: 350px;
   height: auto;
   background: white;
   padding: 0.4em;
@@ -72,6 +86,7 @@
   font-weight: 600;
   color: rgb(88, 87, 87);
   padding: 7px;
+  height: 100px;
 }
 
 .author {
@@ -161,9 +176,39 @@
     transform: scale(1);
   }
 }
+/* Ajuste de tablas para que abarquen todo el modal en modo PC */
+.tablaTramite-container {
+  overflow-x: auto;
+}
+
+.tablaTramite {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.tablaTramite th, .tablaTramite td {
+  min-width: 150px;
+  padding: 10px;
+  text-align: center;
+}
 
 .tablaTramite th {
   background-color: #0b3b60;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .tablaTramite {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .tablaTramite th, .tablaTramite td {
+    padding: 8px;
+    font-size: 14px;
+  }
 }
 
 .captionInput {
@@ -351,62 +396,110 @@
         /* Colores personalizados del scroll */
       }
   
-      /* Stepper */
-      .stepper {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-      }
-  
-      .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-      }
-  
-      .step .circle {
-        background-color: #e0e0e0;
-        color: #fff;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s;
-      }
-      .line {
-        width: 45px;
-        height: 2px;
-        background-color: #e0e0e0;
-        align-self: center;
-        margin: 0 10px;
-      }
-  
-      .step.active~.line {
-        background-color: #faa21b;
-      }
-  
-     /* Estilos para pasos activos */
-     .form-step {
-      display: none; /* Ocultar pasos por defecto */
+     /* stepper - versión base */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  max-width: 100%;
+}
+
+/* estilos generales de cada paso */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  min-width: 100px;
+}
+
+/* círculo con número */
+.step .circle {
+  background-color: #e0e0e0;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+/* línea entre los pasos */
+.line {
+  width: 45px;
+  height: 2px;
+  background-color: #e0e0e0;
+  align-self: center;
+  margin: 0 10px;
+}
+
+/* estilos para pasos activos */
+.step.active .circle {
+  background-color: #faa21b;
+  color: #fff;
+}
+
+.step.active span {
+  font-weight: bold;
+}
+
+
+
+/* 🟢 responsive - ocultar steps en móviles */
+@media screen and (max-width: 600px) {
+  .stepper {
+    justify-content: center;
+    gap: 5px;
   }
-  
-  .form-step.active {
-      display: block; /* Mostrar solo el paso activo */
+
+  .step {
+    display: none; /* oculta todos los pasos */
   }
-  
-  .step.active .circle {
-      background-color: #faa21b; /* Color del paso activo */
-      color: #fff;
+
+  .step.active {
+    display: flex; /* solo muestra el paso activo */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
-  
-  .step.active span {
-      font-weight: bold;
+
+  .step .circle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    margin-right: 10px;
+    background-color: #faa21b; /* mantiene el color del paso activo */
+    color: white;
+    font-weight: bold;
   }
+
+  .line {
+    display: none; /* oculta las líneas en móvil */
+  }
+}
+@media screen and (min-width: 601px) {
+  .step {
+    flex-direction: column !important; /* 🔥 vuelve a alinear en columna en pc */
+    align-items: center !important;
+  }
+
+  .step span {
+    text-align: center !important;
+  }
+}
+
+
+  /*fin de el stepper*/
       .form-group-tramite {
         margin-bottom: 20px;
         text-align: left;

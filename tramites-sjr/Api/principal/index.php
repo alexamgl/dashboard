@@ -34,7 +34,7 @@ function checkRole($requiredRole, $userRole) {
 $request = $_SERVER['REQUEST_URI'];
 $path = parse_url($request, PHP_URL_PATH);
 $requestParts = explode('/', trim($path, '/'));
-$entity = isset($requestParts[3]) ? $requestParts[3] : null;
+$entity = isset($requestParts[5]) ? $requestParts[5] : null;
 
 $controller = null;
 
@@ -140,8 +140,9 @@ if ($entity === 'usuarios') {
     require_once '../controllers/UploadDocumentsBecaController.php';
     $controller = new UploadDocumentsBecaController();
     $controller -> uploadDocumentsBeca($_POST);
+    exit();
 }elseif ($entity === 'get_Datos_Becas') {
-    require_once '../controllers/GetDatosBecas.php';
+    require_once '../controllers/GetDatosBecaController.php';
     $controller = new GetDatosBecasController();
     exit();
     
