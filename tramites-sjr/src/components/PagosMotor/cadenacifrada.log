@@ -1,0 +1,185 @@
+2025-01-29 15:51:26 - Original String Before Encryption: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT1738187486853d8b581e7bece4096</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-29 15:51:26 - ENCRYPTED STRING: KZPUvQadY6fGqBYJTfg7LqQNZnEW6UhsH8tqt0o81yL4+fpRuwnvvWAveBieqfDwUDM5IH8iYUpby5Qmauy3cwrq3RMk8co0zDQycEfx6R70H8Gk0S8DWQddzNxoKQHjiWeENuevcTPzQ0CavGgGN268y5849vrcgmMVzK0wNJdqDD1CCL45TWheu8Y8b1a7kkBMTmveFsLSWuv1Ps0qAo1n1SyfEWwKhGdhN5yXTmChH/FUK7GEftmSzJu7CRpw0hvw4qWY7V5Kdv4HZhsGjXXXO0H7YKYHJbxlMtEVkNKalAprG0O9nWRzQntVkOgFjDGD2/xijrexCz9oLWoJw8MU5UJ6DlxcV2LLzl5obKzrL426hFBqAss2B0OGSsY8lk1z4ONMhHfzaSzoRIpwlPb/sNPxiQiJXg5JJbU9c0BThj0MCx6N8W51y7VOsQ+pbHVxWftjVT3BScMNM5r+yUJlNhHaGT+eVIfuhrPI1G7nPO+SRsrq5AtkFApAqRT2WdC332A+yve2G2pWUJVawARviDEhYelSqTVOyJrPJL4nimzNn+3msDN1MEkN/aFKYvprXX9IyzCKwtWwiAZCOnyRaCRNSTJ3alTtPS0VpT4=
+2025-01-29 15:51:26 - DECRYPTED TEST: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT1738187486853d8b581e7bece4096</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-30 15:34:14 - Original String Before Encryption: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT173827285455462172f1b0388cc38</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-30 15:34:14 - ENCRYPTED STRING: ltctRciw1t3sAG0ACBcIPqoG01ZRdlOXCdeippCnjZmDAp7I84/wUmPwu6o6TRR8FqXDZxQbWvF5rNlZIypKQchUPGzfvRHE/KLvOyn4iV3Xbi784c+f8x7le/dIq/gKYDh0Um4Bo+RUceGuw6QrXLqL3ggrdQCgWVvNAmZx851uPBWs2Z+3EkK7V1jhLVjTuWw/hUEsnz6qmQ1RwXDHrx0ymfBrs7yZXUH40CPLxx0TAH1KfcE5RvltMFo+PyJHFO9zQ/lOEqZl4Xhbs07OxtaMH1u5ocgbrTT1uYcoW9cNOslZgyoiHx9mMjBroXPGtv4B1w2GxyoP5I3SKwITL9oFK8IxXlBV6Tsr/8mC0D7hwSUTVvzS4nTgiEacYJlA9QmmF0HLNmj41wrx5DzABC+conUYwkmt6ls1zKEueRuHQPHe8zmvY2BYYUuF9dSZWLBY1WB5Eqn2PXWlal8pOXYQ4S0uHx0/0VYtdLxhH1QELhJRRAHl7ztEsOP7LUY1SzOVxi8Bj2874pSmchx/C+odjx9TUC4gKmEzi4y/ZxY3R4+eP0aeZikTIPvLPAyoLTmXrDXfRVzzzx9UeTGOu7m1SWPTPLvTH5F02UcBUSU=
+2025-01-30 15:34:14 - DECRYPTED TEST: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT173827285455462172f1b0388cc38</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-30 15:51:02 - Original String Before Encryption: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT17382738628152d36016c385fb61c</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-30 15:51:02 - ENCRYPTED STRING: LNy3wvmwoe4i5qp3yWjboS9s466gV5M9nR6una1B2o0K8I7lyyN7h1akiRk2qEo+iPUL8RhfYO8ACxlOmMWfV2DVEe8MtMSnMDpBKawjEGO+GaB7zt5vDoPHclT2Kf5pFkL5SRvY6Sc9Zu7S/n63G2K1V5DJjgEHd1upIr9KcFch32mIvHjktM2gylcUUBIjc74ktf5bymKsyv7RDvaeljp8wZnHlTF3vZzS6xxPPuW35892RQoMRWMGjg2Ts+2UMPcOJC9jEjxCcynE2Oa02Y99yuUr9Fz8S5xUXmSJh9SpWqfbn8bJCHLdyjywdHd2dUu236o433C2VYuQv/LFWcZOe0U+smJT46crgyb6xutRnonGz7xbxsaGgnCKOK0h4X90j60eSaN4xXdH1IXPyO8u0+eJgz66wOvGfMmN8FNWORzAeZs9K4gh5lDljjJEVBXnRlhMcu5xjIh5aNlkEbEgwkhzG7MswT2hbseoEo8sjuiWT1NVtDVOinnxTMH8/v0sINub9nUmRifmLw6WlRT+fn/XTiXNhIvhabolQMp8Islsj8VRCheyPzTFQfpKiWAuByYkelcCibjtICipI0am3uBuncE2hBTBgyHSad8=
+2025-01-30 15:51:02 - DECRYPTED TEST: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT17382738628152d36016c385fb61c</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-31 10:17:22 - Original String Before Encryption: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT17383402421473b1b9375c88df01d</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-31 10:17:22 - ENCRYPTED STRING: jWakO/HjhrPt5/GaLcCHvo0s3TASLtWam4FRU3uZEag66QtPa/GvN9AHiS+wH8xSYOW9D07SqRQvMSCsKJuyOt3ob1Fr2X4Ht84TwdK1+NfTrpd2CSOa2VBryukHuGR+31i6r7t4BLaYyUJ4ULGdQo7hyrCeUUA2m1kuFQJ7qBkJThakjsUEDkQhCzsKUIve79Vtr8u6GeDVi6aOAoR0toZA0Xb6hueqZ58t+BQ9mnhicsfjN9BcgSHJAeDjR9ABkPnKBXyfiTN9Aynr9OoycuuAdp2ANjnEg9ljkiC8cT2I7SuyG19ky1bh+kAe3afN8YC+gkB+NXYkHXd6aeSFvbV8yT7QfTQqTRrxdyyBXCaszm2Z33A8LLXnxfjvltlR7rcCrSZb19stXzECaOm0vNqD1YHqp7BfPfrv5spTnaQVCeT2PfZd2x3DGwCKShgx6MzXYoqRirT4FRr9x6/XiLYzF4lZzzwEWUWSWHA9REsC2sjT09K9RJPoZ4XbL5BA/dDCT8bz6b+8U55nPTF92NUBFHxUBDn2rlWclqLmw3LX4eInTOd1EmeoeNnisJAzI/7f3QgbyN+urJC1Y/EhOuqzYoWlbr98ppf+2fZx/5A=
+2025-01-31 10:17:22 - DECRYPTED TEST: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT17383402421473b1b9375c88df01d</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-31 10:17:23 - Original String Before Encryption: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT1738340243028d59aa845bb1d9348</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+2025-01-31 10:17:23 - ENCRYPTED STRING: nrQZqYC5fCPeV/CtfIj3I169+VXsDhSm6Fpc/xhc9APi7pYOEU3Y0wySsBlRIVee8nFmcqnaAnv4gX51ccOFThdl5OCu0GHOmhaEGsjPZVhBBXRsk3c04mlNB5Bxn9017jYSzeN/X+dRYMWgGe5+drskuqn+ApgtTA8orrnM4JNeD8zscJXS+e4EMLTj2/Ocm+4ab2nH39zd65kQniPNPcvW74OCv+8k6gUcHjnnXW2c44NbnSgc17GYeKc+kXJdaG4yg4ZPVvQQFWnPEuzqEUp1tIOFZ8Q5wXtHkhp4AskIA6BQNLVOuX4LMdjRQRFqsj3X2o2xpGy2H30HYTf18+zheb7SwUdpxzgmyOLQcNGc6NgFOQHM/wjn3Y9DNXb5uYucy4pDMh7GvobkVZhW1Tzw9n9EINJgpN5bOGIQawjMxOKBO4fyOPfTFDK1cDR2SvLAdjMjsss3h7fMvw99KmfMPSM+C6BySbKqq0eRjaABrK8nqdTybq7ralDf2aUa6wrlepOdwr561S3Wrd0MchsRl6EMajYGXeyTaFTSuFHaGqj2EaWfPYkDWp8ASMZMC64a2fCmUALIJgeSb6u2VY+hQQfrqP6DmNpNwfNZI10=
+2025-01-31 10:17:23 - DECRYPTED TEST: <?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT1738340243028d59aa845bb1d9348</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+

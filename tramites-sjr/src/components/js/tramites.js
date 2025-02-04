@@ -42,6 +42,12 @@ window.closeModal = function (modalId) {
   // Ocultar el modal sin reiniciar los datos ni los pasos
   modal.style.display = "none";
   console.log(`Modal ${modalId} cerrado. Los datos se mantienen.`);
+
+  // 📌 Si el modal cerrado es el de acuáticas, restablecer su contenido
+  if (modalId === "acuaticaInfoModal0") {
+    resetAcuaticaModal();
+  }
+
 };
 
 // función para cerrar todos los modales y reiniciar los pasos
@@ -331,16 +337,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 };*/
 
-// Botón de pago ACUÁTICA
+// Botón de pagos
 
+// tramites.js (optimizado para montos dinámicos)
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Documento cargado.");
 
-  // Escuchar clic en el botón de pago
-  const btnPagarAcuatica = document.getElementById("btnPagarAcuatica");
-  if (btnPagarAcuatica) {
-    btnPagarAcuatica.addEventListener("click", () => {
-      // Crear modal dinámico para el iframe de pago
+  // Seleccionar todos los botones de pago que tengan atributos de pago dinámico
+  const botonesPago = document.querySelectorAll("[data-tramite]");
+
+  botonesPago.forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const tramite = boton.dataset.tramite;
+      const pagoUrl = `PagosMotor/cadenacifrada.php?tramite=${encodeURIComponent(tramite)}`;
+
+      console.log("Generando pago para:", tramite);
+      console.log("URL generada:", pagoUrl);
+
       const modalPago = document.createElement("div");
       modalPago.style.position = "fixed";
       modalPago.style.top = "0";
@@ -353,15 +366,21 @@ document.addEventListener("DOMContentLoaded", () => {
       modalPago.style.justifyContent = "center";
       modalPago.style.alignItems = "center";
 
-      // Crear iframe para mostrar la URL del pago
       const iframePago = document.createElement("iframe");
-      iframePago.src = "PagosMotor/cadenacifrada.php"; // Cambia esta URL
+      iframePago.src = pagoUrl;
       iframePago.style.width = "80%";
       iframePago.style.height = "80%";
       iframePago.style.border = "none";
       iframePago.style.borderRadius = "10px";
 
-      // Crear botón para cerrar el modal
+      iframePago.onload = function () {
+        console.log("Iframe cargado con éxito:", pagoUrl);
+      };
+
+      iframePago.onerror = function () {
+        console.error("Error al cargar el iframe:", pagoUrl);
+      };
+
       const btnCerrar = document.createElement("button");
       btnCerrar.innerText = "Cerrar";
       btnCerrar.style.position = "absolute";
@@ -374,19 +393,16 @@ document.addEventListener("DOMContentLoaded", () => {
       btnCerrar.style.borderRadius = "5px";
       btnCerrar.style.cursor = "pointer";
 
-      // Cerrar el modal cuando se haga clic en el botón
       btnCerrar.addEventListener("click", () => {
         modalPago.remove();
       });
 
-      // Agregar el iframe y el botón al modal
       modalPago.appendChild(iframePago);
       modalPago.appendChild(btnCerrar);
 
-      // Agregar el modal al body
       document.body.appendChild(modalPago);
     });
-  }
+  });
 });
 
 //******************************************************************************************************************************** */
@@ -461,9 +477,8 @@ function mostrarModalGlobal(mensaje, tipo, onCloseCallback = null) {
         <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; text-align: center;">
             <h2>${tipo === "success" ? "¡Éxito!" : "¡Error!"}</h2>
             <p>${mensaje}</p>
-            <button id="cerrarModalGlobal" style="margin-top: 10px; padding: 10px 20px; background-color: ${
-              tipo === "success" ? "#4CAF50" : "#f44336"
-            }; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            <button id="cerrarModalGlobal" style="margin-top: 10px; padding: 10px 20px; background-color: ${tipo === "success" ? "#4CAF50" : "#f44336"
+    }; color: white; border: none; border-radius: 4px; cursor: pointer;">
                 Cerrar
             </button>
         </div>
@@ -480,3 +495,71 @@ function mostrarModalGlobal(mensaje, tipo, onCloseCallback = null) {
     }
   });
 }
+
+
+/***************************************** Botón para pagar trámites **************************************/
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Documento cargado.");
+
+  // Seleccionar todos los botones de pago que tengan atributos de pago dinámico
+  const botonesPago = document.querySelectorAll("[data-tramite]");
+
+  botonesPago.forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const tramite = boton.dataset.tramite;
+      const pagoUrl = `PagosMotor/cadenacifrada.php?tramite=${encodeURIComponent(tramite)}`;
+
+      console.log("Generando pago para:", tramite);
+      console.log("URL generada:", pagoUrl);
+
+      const modalPago = document.createElement("div");
+      modalPago.style.position = "fixed";
+      modalPago.style.top = "0";
+      modalPago.style.left = "0";
+      modalPago.style.width = "100%";
+      modalPago.style.height = "100%";
+      modalPago.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+      modalPago.style.zIndex = "1000";
+      modalPago.style.display = "flex";
+      modalPago.style.justifyContent = "center";
+      modalPago.style.alignItems = "center";
+
+      const iframePago = document.createElement("iframe");
+      iframePago.src = pagoUrl;
+      iframePago.style.width = "80%";
+      iframePago.style.height = "80%";
+      iframePago.style.border = "none";
+      iframePago.style.borderRadius = "10px";
+
+      iframePago.onload = function () {
+        console.log("Iframe cargado con éxito:", pagoUrl);
+      };
+
+      iframePago.onerror = function () {
+        console.error("Error al cargar el iframe:", pagoUrl);
+      };
+
+      const btnCerrar = document.createElement("button");
+      btnCerrar.innerText = "Cerrar";
+      btnCerrar.style.position = "absolute";
+      btnCerrar.style.top = "20px";
+      btnCerrar.style.right = "20px";
+      btnCerrar.style.padding = "10px";
+      btnCerrar.style.backgroundColor = "#ff0000";
+      btnCerrar.style.color = "#fff";
+      btnCerrar.style.border = "none";
+      btnCerrar.style.borderRadius = "5px";
+      btnCerrar.style.cursor = "pointer";
+
+      btnCerrar.addEventListener("click", () => {
+        modalPago.remove();
+      });
+
+      modalPago.appendChild(iframePago);
+      modalPago.appendChild(btnCerrar);
+
+      document.body.appendChild(modalPago);
+    });
+  });
+});

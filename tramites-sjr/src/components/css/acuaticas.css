@@ -1,0 +1,44 @@
+.tabla-acuatica {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabla-acuatica th,
+.tabla-acuatica td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.tabla-acuatica th {
+    background-color: #007bff;
+    color: white;
+}
+
+.tabla-acuatica tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.modalInfoTramite-content,
+.modalTramite-content {
+    text-align: center;
+    /* Centra todo el contenido */
+}
+
+.modalInfoTramite-content h2,
+.modalTramite-content h2 {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.modalInfoTramite-content p,
+.modalTramite-content p {
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}

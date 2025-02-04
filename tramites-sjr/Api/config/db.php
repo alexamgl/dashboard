@@ -9,8 +9,8 @@ class Database {
     public $conn;
 
     public function __construct() {
-        $this->host = 'localhost:3305';
-        $this->db_name = 'tramites';
+        $this->host = 'localhost';
+        $this->db_name = 'pmsjr_tramites';
         $this->username = 'root';
         $this->password = '';
     }

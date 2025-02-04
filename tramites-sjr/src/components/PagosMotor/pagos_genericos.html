@@ -3,49 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pago genérico</title>
+    <title>Pago Genérico</title>
     <style>
         body {
-            font-family: arial, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            flex-direction: column;
             margin: 0;
             background-color: #f5f5f5;
         }
         iframe {
             width: 100%;
-            height: 100%;
+            height: 80vh;
             border: none;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
+        h1 {
+            color: #333;
+        }
+        #error-message {
+            color: red;
+            font-size: 16px;
+            text-align: center;
+        }
+        #success-message {
+            color: green;
+            font-size: 16px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <!-- mensaje de error en caso de que la url no se proporcione -->
-    <div id="error-message" style="display: none; color: red; font-size: 16px; text-align: center;">
-        no se proporcionó una url válida.
+    <h1>Realiza el pago de tu trámite</h1>
+
+    <!-- Mensaje de error en caso de que no se proporcione una URL -->
+    <div id="error-message" style="display: none;">
+        No se proporcionó una URL válida o no es accesible.
     </div>
 
-    <!-- iframe dinámico -->
-    <iframe id="payment-iframe" style="display: none;"></iframe>
+    <!-- Mensaje de éxito después del pago -->
+    <div id="success-message">
+        ¡Pago exitoso! Serás redirigido a tu panel en 5 segundos...
+    </div>
+
+    <!-- Contenedor para el iframe -->
+    <div class="iframe-container">
+        <iframe id="payment-iframe" style="display: none;"></iframe>
+    </div>
 
     <script>
-        // obtener la url del parámetro "url"
-        const params = new URLSearchParams(window.location.search);
-        const paymentUrl = params.get('url');
-
-        if (paymentUrl) {
-            // si la url existe, mostrar el iframe
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const paymentUrl = params.get('url');
             const iframe = document.getElementById('payment-iframe');
-            iframe.src = decodeURIComponent(paymentUrl);
-            iframe.style.display = 'block';
-        } else {
-            // si no existe, mostrar el mensaje de error
-            document.getElementById('error-message').style.display = 'block';
-        }
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+    
+            if (paymentUrl && isValidUrl(paymentUrl)) {
+                iframe.src = decodeURIComponent(paymentUrl);
+                iframe.style.display = 'block';
+    
+                // Escuchar mensajes del iframe
+                window.addEventListener('message', function(event) {
+                    if (!isValidOrigin(event.origin)) {
+                        console.warn('Origen no válido:', event.origin);
+                        return;
+                    }
+    
+                    const data = event.data;
+    
+                    if (data === 'payment_success') {
+                        successMessage.style.display = 'block';
+    
+                        // Notificar al webhook
+                        console.log('paymentUrl:', paymentUrl);
+                        notifyWebhook(paymentUrl);
+    
+                        // ⏳ **Redirigir automáticamente a dashboard2.html tras 5 segundos**
+                        setTimeout(() => {
+                            window.location.href = '../dashboard2.html';
+                        }, 5000);
+                        
+                    } else if (data === 'payment_failed') {
+                        alert('El pago no se pudo completar. Por favor, inténtalo nuevamente.');
+                    } else {
+                        console.warn('Mensaje desconocido recibido:', data);
+                    }
+                });
+            } else {
+                errorMessage.style.display = 'block';
+            }
+    
+            function isValidUrl(url) {
+                try {
+                    new URL(url);
+                    return true;
+                } catch (_) {
+                    return false;
+                }
+            }
+    
+            function isValidOrigin(origin) {
+                const allowedOrigins = ['https://sandboxpol.mit.com.mx'];
+                return allowedOrigins.includes(origin);
+            }
+    
+            function notifyWebhook(responseData) {
+                if (!responseData) {
+                    console.error("No se proporcionó un responseData válido para el webhook.");
+                    return;
+                }
+    
+                console.log("Cadena enviada al webhook:", responseData);
+    
+                fetch("https://www.sanjuandelrio.gob.mx/PagosMotor/webhook.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams({ strResponse: responseData }).toString(),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error("Fallo en la respuesta del servidor:", response.status);
+                        return;
+                    }
+                    return response.json(); 
+                })
+                .then(data => console.log("Webhook Response:", data))
+                .catch(error => console.error("Error en el Webhook:", error));
+            }
+        })();
     </script>
+    
 </body>
 </html>

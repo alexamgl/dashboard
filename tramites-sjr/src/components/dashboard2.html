@@ -18,8 +18,9 @@
   <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/gralTramites.css">
   <link rel="stylesheet" href="css/becas.css">
+  <link rel="stylesheet" href="css/acuaticas.css">
   <link rel="stylesheet" href="css/cards_info_tramites.css">
-
+ 
 
   <!-- En el head con defer -->
   <script src="script.js" defer></script>
@@ -387,6 +388,20 @@
   }
 
   .btnPagarAcuatica:hover {
+    background-color: #0056b3;
+  }
+
+  .btnPagarMiTramite {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .btnPagarMiTramite:hover {
     background-color: #0056b3;
   }
 </style>
@@ -1131,152 +1146,96 @@
     </div>
 
 
-    <!-- **************************************** Acuatica **********************************************-->
-    <!-- Card: Acuatica -->
-    <div class="cardTramite" onclick="openModal('acuaticaInfoModal')">
-      <div class="cardTramite-image">
-        <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
-      </div>
-      <div class="category">Categoría XA</div>
-      <div class="heading">
-        Centro Acuático Municipal
-        <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
-      </div>
-    </div>
-
-    <!-- Modal: Información Acuatica -->
-    <div class="modalInfoTramite" id="acuaticaInfoModal">
-      <div class="modalInfoTramite-content">
-        <button class="close-modalInfoTramite" onclick="closeModal('acuaticaInfoModal')">X</button>
-        <h2>Información sobre el Trámite de Acuática Municipal</h2>
-        <p>Aprende a nadar desde cero. Conoce nuevos estilos. Perfecciona las técnicas. Rehabilita tu cuerpo para la
-          recuperación. O simplemente por el gusto de nadar.</p>
-        <button class="btnTramite" onclick="openModal('modalFormAcuatica')">Iniciar Trámite</button>
-      </div>
-    </div>
-
-    <!-- Modal: Formulario Acuatica -->
-    <div class="modalTramite" id="modalFormAcuatica" data-confirmation-modal="confirmationModalAcuatica">
-      <div class="modalTramite-content">
-        <button class="close-modalTramite" onclick="closeModal('modalFormAcuatica')">X</button>
-        <!-- FORMULARIO -->
-        <div class="containerTramite">
-          <div class="stepper">
-            <div class="step active" data-step="1">
-              <div class="circle">1</div>
-              <span>Account</span>
-            </div>
-            <div class="line"></div>
-            <div class="step" data-step="2">
-              <div class="circle">2</div>
-              <span>Profile</span>
-            </div>
-            <div class="line"></div>
-            <div class="step" data-step="3">
-              <div class="circle">3</div>
-              <span>Address</span>
-            </div>
-            <div class="line"></div>
-            <div class="step" data-step="4">
-              <div class="circle">4</div>
-              <span>Confirmation</span>
-            </div>
-          </div>
-          <!-- Formulario Visto Bueno -->
-          <form id="stepForm">
-            <!-- Paso 1 -->
-            <div class="form-step active" data-step="1">
-              <h2 style="text-align: center;">Trámite de Acuática Municipal de San Juan del Río</h2>
-              <p style="text-align: center;">Nuestra alberca olímpica protegida del sol directo o lluvia te permitirán
-                practicar y aprender técnicas de nado de la mano de nuestros capacitados instructores si eres un
-                nadador novato, intermedio o avanzado</p>
-              <h3>Proceso de Inscripción de los usuarios a la Alberca Municipal</h3>
-              <h5>SECRETARÍA DE DESARROLLO SOCIAL</h5>
-              <h5>Fecha de actualización: 2024-12-26 03:05:03</h5>
-              <p>Este es un detalle más completo sobre el contenido del card.</p>
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-                <span class="error-message">Username is required</span>
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required onb>
-                <span class="error-message">Valid email is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 2 -->
-            <div class="form-step" data-step="2">
-              <h2>Profile Information</h2>
-              <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
-                <span class="error-message">First name is required</span>
-              </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-                <span class="error-message">Last name is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 3 -->
-            <div class="form-step" data-step="3">
-              <h2>Address</h2>
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address" required>
-                <span class="error-message">Address is required</span>
-              </div>
-              <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" required>
-                <span class="error-message">City is required</span>
-              </div>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="button" class="btnNextTramite">Next</button>
-              </div>
-            </div>
-
-            <!-- Paso 4 -->
-            <div class="form-step" data-step="4">
-              <h2>¡Confirmación!</h2>
-              <p>Confirma que has registrado los datos correctos</p>
-              <div class="form-navigation">
-                <button type="button" class="btnPrevTramite">Back</button>
-                <button type="submit" class="btnConfirmarTramite">Confirmar</button>
-              </div>
-            </div>
-
-            <!-- Modal de Confirmación Acuática -->
-            <div class="modalConfirmationTramite" id="confirmationModalAcuatica">
-              <div class="modalConfirmationTramite-content">
-                <h2>Trámite Finalizado: Acuática</h2>
-                <p>Tus datos para el trámite de Acuática Municipal han sido enviados exitosamente.</p>
-                <!-- Botones -->
-                <button id="btnPagarAcuatica" class="btnPagarAcuatica"
-                  onclick="window.location.href='PagosMotor/cadenacifrada.php';">
-                  Pagar ahora
-                </button>
-                <button id="closeConfirmationBecas" class="btnCerrarConfirmarTramite">Cerrar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
+<!-- **************************************** Acuática **********************************************-->
+<!-- Modal: Card Acuáticas -->
+<div class="cardTramite" onclick="openModal('acuaticaInfoModal0')">
+  <div class="cardTramite-image">
+    <img src="images/acuatica.jpg" alt="Imagen de acuatica" class="imgTramite" />
   </div>
+  <div class="category">Jefatura de Albercas</div>
+  <div class="heading">
+    Albercas Municipales
+    <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+  </div>
+</div>
+
+<!-- Modal: Opciones Acuáticas -->
+<div class="modalInfoTramite" id="acuaticaInfoModal0">
+  <div class="modalInfoTramite-content">
+    <button class="close-modalInfoTramite" onclick="closeModal('acuaticaInfoModal0')">X</button>
+    <h2>Información sobre el Trámite de Acuática Municipal</h2>
+    <p>Selecciona la acuática de tu interés:</p>
+    
+    <div class="acuaticas-container">
+      <div class="cardTramite" onclick="showAcuaticaInfo('cdc', 'Centro de Desarrollo Comunitario', 'Ubicado en Granjas Banthi, este centro ofrece clases de natación para todas las edades y niveles.')">
+        <div class="cardTramite-image">
+          <img src="images/CDC.jpg" alt="Centro de Desarrollo Comunitario" class="imgTramite" />
+        </div>
+        <div class="heading">Centro de Desarrollo Comunitario</div>
+      </div>
+      
+      <div class="cardTramite" onclick="showAcuaticaInfo('multideportivo', 'Multideportivo Municipal', 'Un espacio ideal para entrenamientos intensivos y clases de natación con instructores certificados.')">
+        <div class="cardTramite-image">
+          <img src="images/MultideportivoMunicipal.JPG" alt="Multideportivo Municipal" class="imgTramite" />
+        </div>
+        <div class="heading">Multideportivo Municipal</div>
+      </div>
+      
+      <div class="cardTramite" onclick="showAcuaticaInfo('oriente', 'Acuática Municipal Oriente', 'Piscinas semiolímpicas con clases para principiantes y avanzados, ubicadas en INFONAVIT Pedregoso.')">
+        <div class="cardTramite-image">
+          <img src="images/MunicipalOriente.jpg" alt="Acuática Municipal Oriente" class="imgTramite" />
+        </div>
+        <div class="heading">Acuática Municipal Oriente</div>
+      </div>
+      
+      <div class="cardTramite" onclick="showAcuaticaInfo('gomez_morin')">
+        <div class="cardTramite-image">
+          <img src="images/ManuelGomezMorin.jpg" alt="Acuática Manuel Gómez Morín" class="imgTramite" />
+        </div>
+        <div class="heading">Acuática Manuel Gómez Morín</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Información Acuáticas -->
+<div class="modalInfoTramite" id="acuaticaInfoModal">
+  <div class="modalInfoTramite-content">
+    <button class="close-modalInfoTramite" onclick="closeModal('acuaticaInfoModal')">X</button>
+    <h2 id="modalAcuaticaTitulo">Información sobre el Trámite</h2>
+    <p id="modalAcuaticaDescripcion">Aquí irá la descripción de la acuática.</p>
+    <button id="btnIniciarTramite" class="btnTramite" data-acuatica="" onclick="openAcuaticaForm()">Iniciar Trámite</button>
+  </div>
+</div>
+
+<!-- Modal: Formulario Acuática -->
+<div class="modalTramite" id="modalFormAcuatica">
+  <div class="modalTramite-content">
+    <button class="close-modalTramite" onclick="closeModal('modalFormAcuatica')">X</button>
+    <h2 id="formularioAcuaticaTitulo">Trámite de Acuática Municipal</h2>
+    <p id="formularioAcuaticaDescripcion">Selecciona una acuática para continuar.</p>
+    <div id="acuaticasFormContainer"></div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación Acuática -->
+<div class="modalConfirmationTramite" id="confirmationModalAcuatica">
+  <div class="modalConfirmationTramite-content">
+      <h2>Trámite Finalizado: Acuática</h2>
+      <p>Tus datos para el trámite de Acuática Municipal han sido enviados exitosamente.</p>
+      <!-- Botón corregido -->
+      <button class="btnPagarMiTramite" id="btnPagarAcuatica" data-tramite="acuatica">
+          Pagar Acuática
+      </button>
+      <button class="btnCerrarConfirmarTramite" onclick="closeModal('confirmationModalAcuatica')">Cerrar</button>
+  </div>
+</div>
+
+
+
+
+
+</div>
 
 
   <!-- Sección Usuarios Registrados -->
@@ -1520,13 +1479,13 @@
   </script>
 
   <link rel="stylesheet" href="css/leaflet.css">
-  <script src="js/leaflet.js"></script>
-  <script src="js/tramites.js"></script>
+  <script src="js/leaflet.js"></script> 
   <script src="js/funcionesTramites.js"></script>
   <script src="js/becas.js"></script>
+  <script src="js/acuaticas.js"></script>
   <script src="js/mapaLeaflet.js"></script>
   <script src="js/main.js"></script>
-
+  <script src="js/tramites.js"></script>
 
 
 </body>
