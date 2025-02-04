@@ -841,8 +841,7 @@
                 <div id="contenedorMapaBeca">
                 <!--MAPA-->
                 <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; border: 1px solid #d3d3d3; 
-                   border-radius: 5px; ">
+                <div class="mapaBecasContainer">
                   <div style="margin-right: 20px;">
                     <select id="ubicacion_tramite_beca" required oninput="validarSelect('locationSelect')">
                       <option value="hide">-- Seleccione --</option>
@@ -851,7 +850,6 @@
                   
                   </div>
                   <div id="map"></div>
-
                 </div>
               </div>
 
@@ -921,9 +919,10 @@
                     </tr>
                   </tbody>
                 </table>
+              
                 <!--Table2-->
                 <table class="tablaTramite">
-                  <caption style="text-align: left; font-weight: bold; margin-bottom: 10px;">Domicilio del estudiante
+                  <caption class="captionInput">Domicilio del estudiante
                   </caption>
                   <thead>
                     <tr>
@@ -1090,10 +1089,11 @@
                 </div>
                 <div class="form-navigation">
                   <button type="button" class="btnPrevTramite">Volver</button>
-                  <button type="button" data-btn="protesta" class="btnNextTramite">Guardar y continuar</button>
+                  <button type="button" data-btn="protesta"  class="btnNextTramite">Guardar y continuar</button>
                 </div>
               </div>
             </div>
+           <!-- -->
 
             <!-- Paso 5 -->
             <div class="form-step" data-step="5">
@@ -1113,9 +1113,11 @@
               </table>
               <div class="form-navigation">
                 <div></div>
-                <button type="button" class="btnNextTramite" data-btn="docsBeca" >Guardar y continuar</button>
+                <button type="button" data-btn="docsBeca" class="btnNextTramite"  >Guardar y continuar</button>
               </div>
             </div>
+
+            <!---->
 
             <!-- Paso 6 -->
             <div class="form-step" data-step="6">

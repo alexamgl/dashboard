@@ -85,15 +85,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // función: actualizar visibilidad de los pasos
     const updateStepVisibility = () => {
+      console.log("actualizando stepper, paso actual:", currentStep + 1);
+    
+      // actualizar visibilidad de los pasos del formulario
       steps.forEach((step, index) => {
         step.classList.toggle("active", index === currentStep);
         step.style.display = index === currentStep ? "block" : "none";
       });
-
+    
+      // actualizar el stepper visualmente
       stepperItems.forEach((stepper, index) => {
         stepper.classList.toggle("active", index <= currentStep);
       });
+    
+      // manejar visibilidad en móviles (menor a 600px)
+      if (window.innerWidth <= 600) {
+        stepperItems.forEach((stepper) => {
+          stepper.style.display = "none"; // oculta todos los steps
+        });
+    
+        // 🔥 corregido: mostrar el paso correcto en móviles
+        if (stepperItems[currentStep]) {
+          stepperItems[currentStep].style.display = "flex";
+          stepperItems[currentStep].style.flexDirection = "row";
+          stepperItems[currentStep].style.alignItems = "center";
+          stepperItems[currentStep].style.justifyContent = "center";
+          stepperItems[currentStep].style.width = "100%";
+        }
+      } else {
+        // en pantallas grandes, mostrar todos los pasos
+        stepperItems.forEach((stepper) => {
+          stepper.style.display = "flex";
+        });
+      }
     };
+    
+    // ✅ asegurarse de que el primer paso se muestre al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+      updateStepVisibility();
+    });
+    
+    // ✅ forzar actualización al avanzar o retroceder
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("btnNextTramite") || event.target.classList.contains("btnPrevTramite")) {
+        setTimeout(updateStepVisibility, 10);
+      }
+    });
+    
 
     // manejo de botones dentro del modal
     modal.addEventListener("click", async (event) => {
@@ -292,6 +330,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // inicializar pasos visibles
     updateStepVisibility();
+    // 🔥 detectar cambios en el tamaño de la ventana y actualizar la visibilidad del stepper
+window.addEventListener("resize", () => {
+  updateStepVisibility();
+});
+
   });
 
   // configurar botones de cierre de confirmación
