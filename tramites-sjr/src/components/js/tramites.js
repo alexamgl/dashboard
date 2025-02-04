@@ -1,4 +1,4 @@
-console.log("archivo cargado");
+//console.log("archivo cargado");
 console.log("validarCamposPasoActual:", typeof validarCamposPasoActual);
 
 // paso actual del formulario
@@ -12,8 +12,18 @@ const saveCurrentStep = (modalId, step) => {
 // restaurar el paso guardado al abrir el modal
 const restoreStep = (modalId) => {
   const savedStep = localStorage.getItem(`currentStep_${modalId}`);
-  return savedStep ? parseInt(savedStep, 10) : 0; // por defecto, paso 1
+  
+  // si ya se movió al paso de documentos, mantenerlo
+  if (window.currentStep > 0) {
+      return window.currentStep;
+  }
+
+  // si hay un paso guardado en localstorage, úsalo
+  return savedStep !== null ? parseInt(savedStep, 10) : 0;
 };
+
+
+
 
 // limpiar el paso guardado al finalizar el trámite
 const clearCurrentStep = (modalId) => {
@@ -21,28 +31,105 @@ const clearCurrentStep = (modalId) => {
 };
 
 // función para abrir un modal
-window.openModal = function (modalId) {
+window.openModal = async function (modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = "flex"; // mostrar el modal
-    console.log(`modal con id ${modalId} abierto.`);
-    modal.dispatchEvent(new Event("open")); // disparar evento personalizado al abrir el modal
-  } else {
-    console.error(`no se encontró el modal con id: ${modalId}`);
+
+  if (!modal) {
+      return;
   }
+
+  // Restaurar el paso guardado antes de abrir el modal
+  window.currentStep = restoreStep(modalId);
+
+  if (modalId === "modalFormBecas") {
+      const id_usuario = 1; // ⚠️ cambiar por el id real cuando esté disponible
+
+      try {
+          const estado = await verificarDatosBecaYDocumentos(id_usuario);
+
+          if (estado === "beca_y_documentos") {
+              mostrarModalGlobal("ya tienes un trámite de beca registrado y todos tus documentos. no puedes hacer otro.", "warning");
+              return;
+          }
+
+          // Si solo tiene beca, lo mandamos al paso de documentos
+          if (estado === "solo_beca") {
+              modal.style.display = "flex";
+              modal.dispatchEvent(new Event("open"));
+
+              setTimeout(() => {
+                  moverAlPasoDeDocumentos(modal, modalId);
+              }, 300);
+
+              return;
+          }
+      } catch (error) {
+          mostrarModalGlobal("hubo un problema al verificar los datos de beca. inténtalo de nuevo.", "error");
+          return;
+      }
+  }
+
+  modal.style.display = "flex";
+  modal.dispatchEvent(new Event("open"));
 };
+
 
 window.closeModal = function (modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) {
-    console.error(`No se encontró el modal con id: ${modalId}`);
+    //console.error(`No se encontró el modal con id: ${modalId}`);
     return;
   }
-
   // Ocultar el modal sin reiniciar los datos ni los pasos
   modal.style.display = "none";
-  console.log(`Modal ${modalId} cerrado. Los datos se mantienen.`);
+ // console.log(`Modal ${modalId} cerrado. Los datos se mantienen.`);
 };
+
+
+function moverAlPasoDeDocumentos(modal, modalId) {
+  const pasos = modal.querySelectorAll(".form-step");
+  const stepperItems = modal.querySelectorAll(".stepper .step");
+
+  let pasoDocumentosIndex = -1;
+  pasos.forEach((step, index) => {
+      if (step.getAttribute("data-step") === "5") { // verifica que este sea el número correcto
+          pasoDocumentosIndex = index;
+      }
+  });
+
+  if (pasoDocumentosIndex !== -1) {
+      console.log("🚀 Moviendo al paso de documentos...");
+      console.log("📌 Total de pasos:", pasos.length);
+      console.log("📌 Índice del paso de documentos:", pasoDocumentosIndex);
+      console.log("📌 CurrentStep antes de actualizar:", window.currentStep);
+
+      // actualizar currentStep y guardarlo en localStorage
+      window.currentStep = pasoDocumentosIndex; 
+      saveCurrentStep(modalId, window.currentStep);
+
+      console.log("✅ CurrentStep actualizado:", window.currentStep);
+      console.log("✅ Paso guardado en localStorage:", localStorage.getItem(`currentStep_${modalId}`));
+
+      // actualizar visibilidad de los pasos
+      pasos.forEach((step, index) => {
+          step.classList.toggle("active", index === window.currentStep);
+          step.style.display = index === window.currentStep ? "block" : "none";
+      });
+
+      stepperItems.forEach((stepper, index) => {
+          stepper.classList.toggle("active", index <= window.currentStep);
+      });
+
+      console.log(`🎯 Usuario enviado al paso ${window.currentStep} (documentos) en ${modalId}.`);
+  } else {
+      console.warn("⚠️ No se encontró el paso de documentos.");
+  }
+}
+
+
+
+
+
 
 // función para cerrar todos los modales y reiniciar los pasos
 window.closeAllModalsAndReset = function () {
@@ -66,7 +153,7 @@ window.closeAllModalsAndReset = function () {
 
 // manejar eventos del dom al cargar
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Documento cargado. Configurando eventos...");
+  //console.log("Documento cargado. Configurando eventos...");
 
   const modalContainers = document.querySelectorAll(".modalTramite");
 
@@ -78,42 +165,74 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentStep = 0; // paso actual del formulario
 
     // función: actualizar visibilidad de los pasos
-    const updateStepVisibility = () => {
-      console.log("actualizando stepper, paso actual:", currentStep + 1);
-    
-      // actualizar visibilidad de los pasos del formulario
-      steps.forEach((step, index) => {
-        step.classList.toggle("active", index === currentStep);
-        step.style.display = index === currentStep ? "block" : "none";
-      });
-    
-      // actualizar el stepper visualmente
-      stepperItems.forEach((stepper, index) => {
-        stepper.classList.toggle("active", index <= currentStep);
-      });
-    
-      // manejar visibilidad en móviles (menor a 600px)
-      if (window.innerWidth <= 600) {
-        stepperItems.forEach((stepper) => {
-          stepper.style.display = "none"; // oculta todos los steps
-        });
-    
-        // 🔥 corregido: mostrar el paso correcto en móviles
-        if (stepperItems[currentStep]) {
-          stepperItems[currentStep].style.display = "flex";
-          stepperItems[currentStep].style.flexDirection = "row";
-          stepperItems[currentStep].style.alignItems = "center";
-          stepperItems[currentStep].style.justifyContent = "center";
-          stepperItems[currentStep].style.width = "100%";
-        }
-      } else {
-        // en pantallas grandes, mostrar todos los pasos
-        stepperItems.forEach((stepper) => {
-          stepper.style.display = "flex";
-        });
+    function updateStepVisibility(modal, step) {
+      if (!modal) {
+          console.error("⚠️ Error: El `modal` no está definido en updateStepVisibility.");
+          return;
       }
-    };
-    
+  
+      /* const steps = modal.querySelectorAll(".form-step");
+      const stepperItems = modal.querySelectorAll(".stepper .step");
+  
+      console.log("🔄 Actualizando visibilidad de pasos...");
+      console.log("📌 Total de pasos:", steps.length);
+      console.log("📌 CurrentStep:", step);
+  
+      // Asegurar que el paso esté dentro de los límites
+      if (step < 0 || step >= steps.length) {
+          console.warn("⚠️ Paso fuera de rango, no se actualiza la visibilidad.");
+          return;
+      } */
+  
+      // ✅ Actualizar visibilidad de los pasos del formulario
+      steps.forEach((stepElement, index) => {
+          stepElement.classList.toggle("active", index === step);
+          stepElement.style.display = index === step ? "block" : "none";
+      });
+  
+      // ✅ Actualizar el stepper visualmente
+      stepperItems.forEach((stepper, index) => {
+          stepper.classList.toggle("active", index <= step);
+          console.log('funciona');
+      });
+  
+      // **🔥 Manejo de visibilidad en MÓVILES (<600px)**
+      if (window.innerWidth <= 600) {
+          stepperItems.forEach((stepper) => {
+              stepper.style.display = "none"; // Oculta todos los steps
+          });
+  
+          // **Mostrar solo el paso activo con su círculo y nombre**
+          if (stepperItems[step]) {
+              stepperItems[step].style.display = "flex";
+              stepperItems[step].style.flexDirection = "row";
+              stepperItems[step].style.alignItems = "center";
+              stepperItems[step].style.justifyContent = "center";
+              stepperItems[step].style.width = "100%";
+          }
+      } else {
+          // **En pantallas grandes, restaurar todos los pasos visibles**
+          stepperItems.forEach((stepper) => {
+              stepper.style.display = "flex";
+          });
+      }
+  
+      // ✅ Guardar el paso actual en LocalStorage
+      saveCurrentStep("", step);
+      window.currentStep = step; // Actualizar variable global
+  
+      console.log("✅ Visibilidad de pasos actualizada correctamente.");
+      console.log("✅ Paso actual en `window.currentStep`:", window.currentStep);
+      console.log("✅ Paso guardado en LocalStorage:", localStorage.getItem(`currentStep_${modal.id}`));
+  }
+  
+  // 🔥 Detectar cambios en el tamaño de la ventana y actualizar la visibilidad del stepper automáticamente
+  window.addEventListener("resize", () => {
+      updateStepVisibility(document.querySelector(".modalTramite"), window.currentStep);
+  });
+  
+  
+
     // ✅ asegurarse de que el primer paso se muestre al cargar la página
     document.addEventListener("DOMContentLoaded", () => {
       updateStepVisibility();
@@ -125,6 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(updateStepVisibility, 10);
       }
     });
+
+    
     
 
     // manejo de botones dentro del modal
@@ -133,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Manejo de botones "Siguiente" (btnNextTramite)
       if (target.classList.contains("btnNextTramite")) {
-        console.log("Click en btnNextTramite.");
+        //console.log("Click en btnNextTramite.");
 
         // Primero ejecutar `RegistroFormBecaAPI()` si es el botón de protesta
         if (target.getAttribute("data-btn") === "protesta") {
@@ -144,24 +265,28 @@ document.addEventListener("DOMContentLoaded", () => {
               const registroExitoso = await RegistroFormBecaAPI();
 
               if (registroExitoso) {
-                console.log(
+                /*console.log(
                   "¡Registro exitoso! Mostrando modal y avanzando al siguiente paso."
-                );
+                );*/
                 mostrarModalGlobal(
                   "Los datos se guardaron correctamente.",
                   "success"
                 );
-                currentStep++;
-                updateStepVisibility();
+            window.currentStep++;
+            console.log("📌 Paso actualizado a:", window.currentStep);
+            saveCurrentStep(modal.id, window.currentStep);
+            updateStepVisibility(modal, window.currentStep);
+
+
               } else {
-                console.warn("El registro no fue exitoso.");
+                //console.warn("El registro no fue exitoso.");//
                 mostrarModalGlobal(
                   "No se pudieron guardar los datos. Verifica los datos e intenta nuevamente.",
                   "error"
                 );
               }
             } catch (error) {
-              console.error("Error durante el registro:", error);
+             // console.error("Error durante el registro:", error);//
               mostrarModalGlobal(
                 "Ocurrió un error inesperado. Por favor, intenta de nuevo.",
                 "error"
@@ -174,8 +299,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Primero ejecutar `RegistroFormBecaAPI()` si es el botón de protesta
         if (target.getAttribute("data-btn") === "docsBeca") {
-          console.log("Botón de documentos detectado.");
-
+         // console.log("Botón de documentos detectado.");
+          
           // Validar documentos antes de mostrar el modal de carga
           const documentosValidos = await validarDocumentosAntesDeGuardar();
           if (!documentosValidos) {
@@ -190,15 +315,18 @@ document.addEventListener("DOMContentLoaded", () => {
             cerrarModalCarga(); // Cerrar modal de carga después de la ejecución
 
             if (documentosGuardados) {
-              console.log("¡Documentos guardados con éxito!");
+             // console.log("¡Documentos guardados con éxito!");
               mostrarModalGlobal(
                 "Los documentos fueron guardados correctamente.",
                 "success"
               );
-              currentStep++;
-              updateStepVisibility();
+              window.currentStep++;
+              console.log("📌 Paso actualizado a:", window.currentStep);
+              saveCurrentStep(modal.id, window.currentStep);
+              updateStepVisibility(modal, window.currentStep);
+  
             } else {
-              console.warn("Los documentos no pudieron ser guardados.");
+              //console.warn("Los documentos no pudieron ser guardados.");
               mostrarModalGlobal(
                 "No fue posible guardar los documentos. Intente nuevamente.",
                 "error"
@@ -206,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           } catch (error) {
             cerrarModalCarga(); // Asegurar que el modal de carga se cierra en caso de error
-            console.error("Error al guardar documentos:", error);
+            //console.error("Error al guardar documentos:", error);
             mostrarModalGlobal(
               "Ocurrió un error al guardar los documentos. Intente nuevamente.",
               "error"
@@ -218,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Luego ejecutar `guardarDocumentosBeca()` si es el botón de documentos
         if (target.getAttribute("data-btn") === "docsBeca") {
-          console.log("Botón de documentos detectado.");
+          //console.log("Botón de documentos detectado.");
           mostrarModalGlobal(
             "Espere, se están guardando los documentos...",
             "loading"
@@ -228,22 +356,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const documentosGuardados = await guardarDocumentosBeca();
 
             if (documentosGuardados) {
-              console.log("¡Documentos guardados con éxito!");
+              //console.log("¡Documentos guardados con éxito!");
               mostrarModalGlobal(
                 "Los documentos fueron guardados correctamente.",
                 "success"
               );
-              currentStep++;
-              updateStepVisibility();
+              window.currentStep++;
+              saveCurrentStep(modal.id,  window.currentStep);
+              updateStepVisibility(modal,  window.currentStep);              
             } else {
-              console.warn("Los documentos no pudieron ser guardados.");
+             // console.warn("Los documentos no pudieron ser guardados.");
               mostrarModalGlobal(
                 "No fue posible guardar los documentos. Intente nuevamente.",
                 "error"
               );
             }
           } catch (error) {
-            console.error("Error al guardar documentos:", error);
+           // console.error("Error al guardar documentos:", error);
             mostrarModalGlobal(
               "Ocurrió un error al guardar los documentos. Intente nuevamente.",
               "error"
@@ -258,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentStep = Array.from(steps).findIndex((step) =>
           step.classList.contains("active")
         );
-        console.log("paso actual antes de avanzar:", currentStep);
+       // console.log("paso actual antes de avanzar:", currentStep);
 
         if (!validarCamposPasoActual(steps[currentStep])) {
           alert(
@@ -269,7 +398,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentStep < steps.length - 1) {
           currentStep++;
-          console.log("actualizando paso a:", currentStep);
+          saveCurrentStep(modal.id, currentStep);
+          updateStepVisibility(modal, currentStep);
+          //console.log("actualizando paso a:", currentStep);
 
           steps.forEach((step, index) => {
             step.classList.toggle("active", index === currentStep);
@@ -281,19 +412,24 @@ document.addEventListener("DOMContentLoaded", () => {
             stepper.classList.toggle("active", index <= currentStep);
           });
 
-          console.log("paso avanzado a:", currentStep);
+         // console.log("paso avanzado a:", currentStep);
         } else {
-          console.warn("ya estás en el último paso.");
+         // console.warn("ya estás en el último paso.");
         }
       }
 
       // botón "prev"
       if (target.classList.contains("btnPrevTramite")) {
-        if (currentStep > 0) {
-          currentStep--; // retroceder paso
-          updateStepVisibility();
+
+        if (window.currentStep > 0) {
+            window.currentStep--; // retroceder paso
+            saveCurrentStep(modal.id, window.currentStep);
+            updateStepVisibility(modal, window.currentStep);
+            console.log("🔙 botón prev presionado, paso actual antes:", window.currentStep);
+
         }
-      }
+    }
+    
 
       // botón "confirmar"
       if (target.classList.contains("btnConfirmarTramite")) {
@@ -318,7 +454,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (form) {
       form.addEventListener("submit", (event) => {
         event.preventDefault(); // evitar el envío del formulario
-        console.log(`formulario del modal ${modal.id} bloqueado para envío.`);
+        //console.log(`formulario del modal ${modal.id} bloqueado para envío.`);
       });
     }
 
@@ -377,7 +513,7 @@ window.addEventListener("resize", () => {
 // Botón de pago ACUÁTICA
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Documento cargado.");
+  //console.log("Documento cargado.");
 
   // Escuchar clic en el botón de pago
   const btnPagarAcuatica = document.getElementById("btnPagarAcuatica");
@@ -523,3 +659,5 @@ function mostrarModalGlobal(mensaje, tipo, onCloseCallback = null) {
     }
   });
 }
+
+

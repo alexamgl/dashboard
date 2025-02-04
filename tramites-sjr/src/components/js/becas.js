@@ -1,4 +1,3 @@
-  console.log("Archivo becas.js cargado");
 
   // Lista de documentos
   const documents = [
@@ -122,19 +121,19 @@
 
 
     function resetFormFields() {
-      console.log("Ejecutando resetFormFields...");
+      //console.log("Ejecutando resetFormFields...");
 
       // Seleccionar los inputs tipo "file" dentro de la tabla
       const fileInputs = document.querySelectorAll("#documentsTable input[type='file']");
-      console.log("File inputs encontrados:", fileInputs);
+      //console.log("File inputs encontrados:", fileInputs);
 
       // Seleccionar las celdas de tamaño (id que empieza con 'size-') dentro de la tabla
       const sizeCells = document.querySelectorAll("#documentsTable [id^='size-']");
-      console.log("Celdas de tamaño encontradas:", sizeCells);
+      //console.log("Celdas de tamaño encontradas:", sizeCells);
 
       // Seleccionar los íconos de PDF (id que empieza con 'pdf-icon-') dentro de la tabla
       const pdfIcons = document.querySelectorAll("#documentsTable [id^='pdf-icon-']");
-      console.log("Íconos de PDF encontrados:", pdfIcons);
+      // console.log("Íconos de PDF encontrados:", pdfIcons);
 
       // Limpiar inputs de archivo
       fileInputs.forEach((input) => {
@@ -151,7 +150,7 @@
           icon.innerHTML = `<span style="font-size: 20px;">📄</span>`;
       });
 
-      console.log("Campos de PDF reiniciados.");
+      //console.log("Campos de PDF reiniciados.");
   }
 
   ///******************************FUNCION PARA GUARDADO DE DATOS EN LA BD************************************* */
@@ -200,7 +199,7 @@ async function RegistroFormBecaAPI() {
           protesta_ingreso_beca: document.getElementById("protesta_beca").checked ? 1 : 0,
       };
 
-      console.log("Datos recolectados para envío:", data);
+      //console.log("Datos recolectados para envío:", data);
 
         // Llamada a la API
         const response = await fetch(apiUrl, {
@@ -212,14 +211,14 @@ async function RegistroFormBecaAPI() {
       const result = await response.json();
 
       if (result && result.mensaje) {
-          console.log("Registro exitoso:", result);
+          //console.log("Registro exitoso:", result);
           return true; // Éxito
       } else {
-          console.error("Error en el registro:", result);
+          //console.error("Error en el registro:", result);
           return false; // Fallo
       }
   } catch (error) {
-      console.error("Error durante la llamada a la API:", error);
+      //console.error("Error durante la llamada a la API:", error);
       return false; // Error
   }
 }
@@ -244,7 +243,12 @@ async function guardarDocumentosBeca() {
       }
   }
 
+  console.log("Hola");
+
   mostrarModalCarga("Espere, se están guardando los documentos...");
+
+  
+  console.log("Hola2");
 
   const resultados = [];
   for (const documento of documentos) {
@@ -253,12 +257,16 @@ async function guardarDocumentosBeca() {
       formData.append("nombre", documento.nombre);
       formData.append("id_usuario", id_usuario);
 
+      
+  console.log("Hola3");
+
       try {
           const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_beca_data", {
               method: "POST",
               body: formData,
           });
 
+          console.log("Hola4");
           const result = await response.json();
           if (result.success) {
               resultados.push(result.url);
@@ -358,24 +366,44 @@ function cerrarModalCarga() {
 }
 
 
-async function verificarDatosBeca(id_usuario) {
+
+async function verificarDatosBecaYDocumentos(id_usuario=1) {  
   try {
-      const response = await fetch(`http://localhost/tramites/dashboard/tramites-sjr/Api/principal/get_datos_beca?id_usuario=${id_usuario}`, {
-          method: "GET",
+      const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/get_datos_becas", {
+          method: "POST",
           headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_usuario }) // Enviar el ID en el body
       });
 
       const result = await response.json();
       
       if (result.success) {
-          console.log("El usuario ya tiene datos en becas:", result.data);
-          return true;
-      } else {
-          console.warn("No se encontraron datos de becas para este usuario.");
-          return false;
+          console.log("Datos de beca:", result.beca);
+          console.log("Documentos encontrados:", result.documentos);
+
+          // Si tiene datos en becas_estudiantes pero NO tiene documentos, lo deja avanzar
+          if (result.beca && (!result.documentos || result.documentos.length === 0)) {
+              return "solo_beca"; // El usuario solo tiene el registro de beca, aún puede subir documentos
+          } 
+          
+          // Si tiene registros en ambas tablas, ya no debe poder hacer nada
+          if (result.beca && result.documentos.length > 0) {
+              return "beca_y_documentos"; // Tiene todo registrado, bloquear trámite
+          }
       }
+
+      // Si no tiene ningún registro en `becas_estudiantes`, puede hacer el trámite desde cero
+      return "sin_registro";
+
   } catch (error) {
-      console.error("Error al verificar los datos de becas:", error);
-      return false;
+      console.error("Error al verificar los datos de beca y documentos:", error);
+      return "error";
   }
 }
+
+
+
+
+
+
+

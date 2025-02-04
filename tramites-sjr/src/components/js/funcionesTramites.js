@@ -1,4 +1,3 @@
-console.log('ARCHIVO FUNCIONES TRAMITES CARGADO')
 function validarCURP(inputId) {
     const input = document.getElementById(inputId);
   
@@ -12,7 +11,7 @@ function validarCURP(inputId) {
         /^[A-Z]{4}\d{6}[HM][A-Z]{2}[A-Z]{3}[A-Z]$/, // penúltimo carácter alfanumérico
         /^[A-Z]{4}\d{6}[HM][A-Z]{2}[A-Z]{3}[A-Z]\d$/ // último carácter numérico
     ];
-  
+    
     let esValido = false; // inicializar como no válido
   
     // verificar si el campo es obligatorio y está vacío
@@ -51,8 +50,6 @@ function validarCURP(inputId) {
   
     return esValido; // devolver true si es válido, false si no lo es
   }
-  
-
   
 function ValidarNombres(inputId) {
   const input = document.getElementById(inputId);

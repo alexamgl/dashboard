@@ -164,8 +164,10 @@
     width: 80%; /* Ajusta el ancho del select */
   }
 
-  #map {
-    width: 100%; /* Hace que el mapa se adapte al ancho */
-    height: 300px; /* Mantiene una altura adecuada */
-  }
+ 
+
+}
+#mapaBecas {
+  width: 300px;
+  height: 300px;
 }

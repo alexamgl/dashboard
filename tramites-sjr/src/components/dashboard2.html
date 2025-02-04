@@ -828,13 +828,13 @@
                 <h4>Indique el módulo en el cual prefiere que se lleve a cabo el trámite</h4>
                 <div class="mapaBecasContainer">
                   <div style="margin-right: 20px;">
-                    <select id="ubicacion_tramite_beca" required oninput="validarSelect('locationSelect')">
+                    <select id="ubicacion_tramite_beca" required oninput="validarSelect('ubicacion_tramite_beca')">
                       <option value="hide">-- Seleccione --</option>
                       <option value="20.3927044,-100.0053128">SECRETARÍA DE DESARROLLO SOCIAL</option>
                     </select>
                   
                   </div>
-                  <div id="map"></div>
+                  <div id="mapaBecas"></div>
                 </div>
               </div>
 
@@ -1097,7 +1097,7 @@
                 </tbody>
               </table>
               <div class="form-navigation">
-                <div></div>
+                <button type="button" class="btnPrevTramite">Volver</button>
                 <button type="button" data-btn="docsBeca" class="btnNextTramite"  >Guardar y continuar</button>
               </div>
             </div>
