@@ -1,3 +1,26 @@
+document.getElementById('toggleCardDesarrolloSocial')?.addEventListener('click', () => {
+  document.querySelector('.contenedorCardsSecretarias')?.classList.toggle('hidden');
+  document.querySelector('.contenedorCardsDesarrolloSocial')?.classList.toggle('hidden');
+});
+
+document.getElementById('btnVolverPlantilla')?.addEventListener('click', () => {
+  document.querySelector('.ContenedorCardsDashboard')?.classList.toggle('hiddenPlantilla');
+  document.querySelector('.modalInfoTramitePlantilla')?.classList.toggle('hiddenPlantilla');
+});
+
+document.getElementById('toggleCardDesarrolloIntegral')?.addEventListener('click', () => {
+  document.querySelector('.contenedorCardsSecretarias')?.classList.toggle('hidden');
+  document.querySelector('.contenedorCardsDesarroIntegral')?.classList.toggle('hidden');
+});
+
+// Volver al menú principal
+document.getElementById('btnVolverPlantilla')?.addEventListener('click', () => {
+  document.querySelector('.ContenedorCardsDashboard')?.classList.toggle('hiddenPlantilla');
+  document.querySelector('.modalInfoTramitePlantilla')?.classList.toggle('hiddenPlantilla');
+});
+
+
+
 //console.log("archivo cargado");
 console.log("validarCamposPasoActual:", typeof validarCamposPasoActual);
 
@@ -167,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // función: actualizar visibilidad de los pasos
     function updateStepVisibility(modal, step) {
       if (!modal) {
-          console.error("⚠️ Error: El `modal` no está definido en updateStepVisibility.");
+         // console.error("⚠️ Error: El `modal` no está definido en updateStepVisibility.");
           return;
       }
   
@@ -193,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // ✅ Actualizar el stepper visualmente
       stepperItems.forEach((stepper, index) => {
           stepper.classList.toggle("active", index <= step);
-          console.log('funciona');
+          //console.log('funciona');
       });
   
       // **🔥 Manejo de visibilidad en MÓVILES (<600px)**
@@ -221,9 +244,9 @@ document.addEventListener("DOMContentLoaded", () => {
       saveCurrentStep("", step);
       window.currentStep = step; // Actualizar variable global
   
-      console.log("✅ Visibilidad de pasos actualizada correctamente.");
-      console.log("✅ Paso actual en `window.currentStep`:", window.currentStep);
-      console.log("✅ Paso guardado en LocalStorage:", localStorage.getItem(`currentStep_${modal.id}`));
+      //console.log("✅ Visibilidad de pasos actualizada correctamente.");
+      //console.log("✅ Paso actual en `window.currentStep`:", window.currentStep);
+      //console.log("✅ Paso guardado en LocalStorage:", localStorage.getItem(`currentStep_${modal.id}`));
   }
   
   // 🔥 Detectar cambios en el tamaño de la ventana y actualizar la visibilidad del stepper automáticamente

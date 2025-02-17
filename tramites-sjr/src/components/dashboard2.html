@@ -8,10 +8,13 @@
   <!-- Font Awesome for icons -->
    
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.0.2/tesseract.min.js"></script>
   
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -19,6 +22,8 @@
   <link rel="stylesheet" href="css/gralTramites.css">
   <link rel="stylesheet" href="css/becas.css">
   <link rel="stylesheet" href="css/cards_info_tramites.css">
+  <link rel="stylesheet" href="css/dictamenSuelo.css">
+  <link rel="stylesheet" href="css/plantillaTramite.css">
 
 
   <!-- En el head con defer -->
@@ -438,8 +443,11 @@
       </div>
     </div>
 
-    <div id="tramites-user" class="section hidden">
-      <h2>Trámites</h2>
+    <div id="tramites-user" class="tramites-user section hidden">
+      <div class="ContenedorCardsDashboard">
+        <div class="tituloDashboard"><h1>BIENVENIDO A TRÁMITES</h1></div>
+
+
       <!--*************************************** VISTO BUENO *************************************************-->
       <!-- Card: Visto Bueno -->
       <div class="cardTramite" onclick="openModal('buenoInfoModal')">
@@ -574,18 +582,6 @@
 
       <!--*************************************** BECAS *************************************************-->
 
-      <!-- Card: Becas -->
-      <div class="cardTramite" onclick="openModal('becaInfoModal')">
-        <div class="cardTramite-image">
-          <img src="images/becas.png" alt="Imagen de Becas" class="imgTramite" />
-        </div>
-        <div class="category">Secretaría de Educación Pública</div>
-        <div class="heading">
-          Becas educativas del Municipio de San Juan del Río
-          <div class="author">Apoyo económico al alumnado del sector educativo</div>
-        </div>
-      </div>
-
       <!-- Modal: Información Becas -->
       <div class="modalInfoTramite" id="becaInfoModal">
         <div class="modalInfoTramite-content">
@@ -603,8 +599,6 @@
                 <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-acerca-tramite')">Leer más...</a>
               </div>
             </div>
-
-
             
               <div class="detalleTramite-card" id="card-requisitos">
                 <div class="detalleTramite-header">
@@ -616,8 +610,6 @@
                   <a class="detalleTramite-btn-link" onclick="showModalInfos('modal-requisitos')">Leer más...</a>
                 </div>
               </div>
-            
-
            
               <div class="detalleTramite-card" id="card-fundamento-juridico">
                 <div class="detalleTramite-header">
@@ -630,8 +622,6 @@
                     más...</a>
                 </div>
               </div>
-            
-
            
               <div class="detalleTramite-card" id="card-costos">
                 <div class="detalleTramite-header">
@@ -1277,8 +1267,776 @@
       </div>
     </div>
 
+    <!--***********************************************************************************************************************************-->
+    <!--**************************************************Cards de los nuevos trámites**************************************************-->
+    <!--***********************************************************************************************************************************-->
+
+    <!-- Card: Becas -->
+      <div class="cardTramite" onclick="openModal('becaInfoModal')">
+        <div class="cardTramite-image">
+          <img src="images/becas.png" alt="Imagen de Becas" class="imgTramite" />
+        </div>
+        <div class="category">Secretaría de Desarrollo Social</div>
+        <div class="heading">
+          Becas educativas 
+          <div class="author">Apoyo económico al alumnado del sector educativo</div>
+        </div>
+      </div>
+      
+          <!-- Card: Dictamen de uso de suelo -->
+      <div class="cardTramite" id="toggleTramiteDicSuelo">
+        <div class="cardTramite-image">
+          <img src="images/DicSuelo.jpeg" alt="Imagen de acuatica" class="imgTramite" />
+        </div>
+        <div class="category">Secretaría de Desarrollo Sustentable</div>
+        <div class="heading">
+          Dictamen de uso de suelo
+          <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+        </div>
+      </div>
+      
+      <div class="cardTramite" id="toggleTramitePlantilla">
+        <div class="cardTramite-image">
+          <img src="images/prueba.jpeg" alt="Imagen de acuatica" class="imgTramite" />
+        </div>
+        <div class="category">Categoría XA</div>
+        <div class="heading">
+          Plantilla de trámite
+          <div class="author">Alfonso Pasiño s/n, Centro, 76807 San Juan del Río, Qro.</div>
+        </div>
+      </div>
+
+  </div> <!-- Este div es el de contenedores de los cards, dentro de el van puros cards de el trámite-->
+
+
+  
+  <div class="contenedorCardsSecretarias hidden"> <!--****************CONTENEDOR DE LOS CARDS DE LAS SECRETARIAS******************-->
+
+    <div class="cardSecretaria" id="toggleCardDesarrolloSocial">
+      <div class="cardImageSecretaria">
+          <img src="./images/Desarrollo Social.jpg" alt="Desarrollo Social">
+      </div>
+      <div class="cardContentSecretaria">
+          <h3 class="cardTitleSecretaria">Acerca de...</h3>
+          <p class="cardDescriptionSecretaria">
+              Este programa está enfocado en el bienestar de la comunidad.  
+              Busca mejorar la calidad de vida mediante proyectos de inclusión y desarrollo.
+          </p>
+      </div>
+  </div>
+
+  <div class="cardSecretaria" id="toggleCardDesarrolloIntegral">
+    <div class="cardImageSecretaria">
+        <img src="./images/Sec Desarrollo Integral.jpg" alt="Desarrollo Integral">
+    </div>
+    <div class="cardContentSecretaria">
+        <h3 class="cardTitleSecretaria">Acerca de...</h3>
+        <p class="cardDescriptionSecretaria">
+            Este programa está enfocado en el bienestar de la comunidad.  
+            Busca mejorar la calidad de vida mediante proyectos de inclusión y desarrollo.
+        </p>
+    </div>
+</div>
 
   </div>
+
+  <div class="contenedorCardsDesarrolloSocial hidden">
+    
+     <!-- Card: Becas -->
+     <div class="cardTramite" onclick="openModal('becaInfoModal')">
+      <div class="cardTramite-image">
+        <img src="images/becas.png" alt="Imagen de Becas" class="imgTramite" />
+      </div>
+      <div class="category">Secretaría de Educación Pública</div>
+      <div class="heading">
+        Becas educativas del Municipio de San Juan del Río
+        <div class="author">Apoyo económico al alumnado del sector educativo</div>
+      </div>
+    </div>
+
+  </div>
+
+   <!--***********************************************************************************************************************************-->
+    <!--***********************************Containers de los nuevos trámites**************************************************-->
+    <!--***********************************************************************************************************************************-->
+
+
+    <!--#############################################################################################################################-->
+    <!--########################################### ESTA ES LA PLANTILA DE EL TRAMITE ###########################################-->
+    <!--#############################################################################################################################-->
+  <div class="containerTramitePlantilla" > 
+    <div class="modalInfoTramitePlantilla hiddenPlantilla">
+      <div class="modalInfoTramitePlantilla-content">
+        <h2>Información sobre el trámite de plantilla</h2>
+        <p>El trámite de becas está diseñado para apoyar económicamente al alumnado del sector educativo. Por favor,
+          lee atentamente las instrucciones antes de iniciar el trámite.</p>
+        <div class="detalleTramitePlantilla-container">
+          <div class="detalleTramitePlantilla-card" onclick="showModalInfoPlantilla('modal-acerca-tramite-plantilla')" id="card-acerca-tramite">
+            <div class="detalleTramitePlantilla-header">
+              <span class="detalleTramitePlantilla-icon material-symbols-outlined">info</span>
+              <span class="detalleTramitePlantilla-title">Acerca del trámite</span>
+            </div>
+            <div class="detalleTramitePlantilla-content">
+              <p>Considera esto antes de realizar el trámite.</p>
+            </div>
+          </div>
+
+
+          
+            <div class="detalleTramitePlantilla-card" onclick="showModalInfoPlantilla('modal-requisitos-plantilla')" id="card-requisitos-plantilla">
+              <div class="detalleTramitePlantilla-header">
+                <span class="detalleTramitePlantilla-icon material-symbols-outlined">rule</span>
+                <span class="detalleTramitePlantilla-title">Requisitos</span>
+              </div>
+              <div class="detalleTramitePlantilla-content">
+                <p>¿Qué requieres antes de realizar este trámite?</p>
+              </div>
+            </div>
+          
+
+         
+            <div class="detalleTramitePlantilla-card" onclick="showModalInfoPlantilla('modal-fundamento-juridico-plantilla')" id="card-fundamento-juridico">
+              <div class="detalleTramitePlantilla-header">
+                <span class="detalleTramitePlantilla-icon material-symbols-outlined">copyright</span>
+                <span class="detalleTramitePlantilla-title">Fundamento Jurídico</span>
+              </div>
+              <div class="detalleTramitePlantilla-content">
+                <p>Información sobre el fundamento jurídico.</p>
+                
+              </div>
+            </div>
+          
+
+         
+            <div class="detalleTramitePlantilla-card" onclick="showModalInfoPlantilla('modal-costos-plantilla')" id="card-costos">
+              <div class="detalleTramitePlantilla-header">
+                <span class="detalleTramitePlantilla-icon material-symbols-outlined">attach_money</span>
+                <span class="detalleTramitePlantilla-title">Costos</span>
+              </div>
+              <div class="detalleTramitePlantilla-content">
+                <p>Consulta los costos relacionados al trámite.</p>
+              </div>
+            </div>
+          
+          <!-- Modal: Acerca del Trámite -->
+          <div class="detalleTramitePlantilla-modalInfos" id="modal-acerca-tramite-plantilla">
+            <div class="detalleTramitePlantilla-modalInfos-content">
+              <button class="detalleTramitePlantilla-close-btn" onclick="closeModalInfoPlantilla('modal-acerca-tramite-plantilla')">×</button>
+              <h2>Acerca del trámite</h2>
+              <p>En esta sección encontrarás información clave sobre el trámite.</p>
+              <div class="modalInfos2-content">
+                <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                <p><b>Palabras clave:</b> </br>NA</p>
+                <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                <ul>
+                  <li>Interesado</li>
+                  <li>Tutor</li>
+                  <li>Padres</li>
+                  <li>Interesado</li>
+                  <li>Tutor</li>
+                  <li>Padres</li>
+                </ul>
+                </p>
+                <p><b>Categoria:</b> </br>Educación</p>
+              </div>
+            </div>
+          </div>
+          <!-- Modal: Requisitos -->
+          <div class="detalleTramitePlantilla-modalInfos" id="modal-requisitos-plantilla">
+            <div class="detalleTramitePlantilla-modalInfos-content">
+              <button class="detalleTramitePlantilla-close-btn" onclick="closeModalInfoPlantilla('modal-requisitos-plantilla')">×</button>
+              <h2>Requisitos</h2>
+              <p>Asegúratee de contar con todos los documentos necesarios para completar el trámite de manera exitosa.
+              </p>
+              <div class="modalInfos2-content">
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Acta de Nacimiento</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                    del solicitante</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Comprobante de domicilio</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Domicilio del solicitante no mayor a dos meses</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Curp</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                    del solicitante</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Boleta de calificaciones</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que compruebe la calificacion aprobatoria en todas sus materias</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Constancia de inscripción</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que compruebe la inscripcion vigente en la institución educativa.</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Comprobante de ingresos</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que comprueben los ingresos del solicitante y/o tutor</p>
+                  <p style="margin-top:0;"><b>Tipo:</b>Documento para entregar al Sujeto Obligado</p>
+                </label>
+                </br>
+                </br>
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Contar con un número de teléfono celular activo</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Número de celular activo para recibir mensajes.</p>
+                  <p style="margin-top:0;"><b>Tipo:</b>Para entregar al Sujeto Obligado</p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- Modal: Fundamento Jurídico -->
+          <div class="detalleTramitePlantilla-modalInfos" id="modal-fundamento-juridico-plantilla">
+            <div class="detalleTramitePlantilla-modalInfos-content">
+              <button class="detalleTramitePlantilla-close-btn"
+                onclick="closeModalInfoPlantilla('modal-fundamento-juridico-plantilla')">×</button>
+              <h2>Fundamento Jurídico</h2>
+              <div class="modalInfos2-content">
+                <h3>Nombre del Fundamento Jurídico:</h3>
+                <br>
+                <p>LEY ORGÁNICA MUNICIPAL DEL ESTADO DE QUERÉTARO</p>
+                <br>
+                <h3>Artículo:</h3>
+                <br>
+                <p>Articulo 30, fracciones I y XXVII </p>
+                <br>
+                <a href="http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf" target="_blank">http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf</a> 
+              </div>
+            </div>
+          </div>
+          <!-- Modal: Costos -->
+          <div class="detalleTramitePlantilla-modalInfos" id="modal-costos-plantilla">
+            <div class="detalleTramitePlantilla-modalInfos-content">
+              <button class="detalleTramitePlantilla-close-btn" onclick="closeModalInfoPlantilla('modal-costos-plantilla')">×</button>
+              <h2>Costo</h2>
+              <div class="modalInfos2-content">
+               <h3>¿Este trámite o servicio tiene monto de derechos o aprovechamientos?</h3>
+               <br>
+               <p>NO</p>
+               <br>
+               <h3>Costos</h3>
+               <br>
+               <p>0.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-containerTramite">
+            <button id="btnVolverPlantilla" class="btnVolverPlantilla">Volver</button>
+            <button class="btnTramite" id="toggleTramiteFormPlantilla">Iniciar Trámite</button>
+          </div>
+      </div>
+      </div>
+    </div>
+    
+       <!--*********************************************************************************-->
+       <!--***************************FORMULARIO DE PLANTILLA**************************************-->
+       <!--*********************************************************************************-->
+
+      <div class="containerFormTramitePlantilla hiddenPlantilla">
+  <!-- FORMULARIO -->
+  <div class="contTramitePlantilla">
+    <div class="stepperPlantilla">
+      <div class="stepPlantilla" data-step="1">
+        <div class="circle">1</div>
+        <span>Account</span>
+      </div>
+      <div class="linePlantilla"></div>
+      <div class="stepPlantilla" data-step="2">
+        <div class="circle">2</div>
+        <span>Profile</span>
+      </div>
+      <div class="linePlantilla"></div>
+      <div class="stepPlantilla" data-step="3">
+        <div class="circle">3</div>
+        <span>Address</span>
+      </div>
+      <div class="linePlantilla"></div>
+      <div class="stepPlantilla" data-step="4">
+        <div class="circle">4</div>
+        <span>Confirmation</span>
+      </div>
+      <div class="linePlantilla"></div>
+      <div class="stepPlantilla" data-step="5">
+        <div class="circle">5</div>
+        <span>Payment</span>
+      </div>
+    </div>
+
+    <!-- Formulario Plantilla -->
+    <form id="stepFormPlantilla">
+      <!-- Paso 1 -->
+      <div class="form-step activePlantilla" data-step="1">
+        <h2>Visto Bueno - Protección Civil</h2>
+        <p>Este es un detalle más completo sobre el contenido del card.</p>
+        <div class="form-group-tramite">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username">
+          <span class="error-message">Username is required</span>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email">
+          <span class="error-message">Valid email is required</span>
+        </div>
+      </div>
+        <div class="form-navigation">
+          <button type="button" class="btnVolverAInfo">Volver a informacion</button>
+          <button type="button" class="btnNextPlantilla">siguiente</button>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="form-step" data-step="2">
+        <h2>Profile Information</h2>
+        <div class="form-group-tramite">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName">
+          <span class="error-message">First name is required</span>
+        
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName">
+          <span class="error-message">Last name is required</span>
+        </div>
+        </div>
+        <div class="form-navigation">
+          <button type="button" class="btnPrevPlantilla">Volver</button>
+          <button type="button" class="btnNextPlantilla">Siguiente</button>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="form-step" data-step="3">
+        <h2>Address</h2>
+        <div class="form-group-tramite">
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address">
+          <span class="error-message">Address is required</span>
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city">
+          <span class="error-message">City is required</span>
+        </div>
+        </div>
+        <div class="form-navigation">
+          <button type="button" class="btnPrevPlantilla">Volver</button>
+          <button type="button" class="btnNextPlantilla">Siguiente</button>
+        </div>
+      </div>
+
+      <!-- Paso 4 -->
+      <div class="form-step" data-step="4">
+        <h2>¡Confirmación!</h2>
+        <p>Tus datos han sido correctamente insertados, favor de avanzar al siguiente paso para proceder con el pago de su trámite</p>
+        <div class="form-navigation">
+          <button type="button" class="btnPrevPlantilla">Volver</button>
+          <button type="button" class="btnNextPlantilla">Siguiente</button>
+        </div>
+      </div>
+
+       <!-- Paso 5 -->
+       <div class="form-step" data-step="5">
+        <h2>!Pago de el trámite!</h2>
+        <p>Aqui puedes hacer el pago de tu trámite </p>
+        <div class="form-navigation">
+          <button type="button" class="btnPrevPlantilla">Volver</button>
+          <button type="button" class="btnConfirmarPlantilla">Confirmar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    
+  </div> <!--CONTAINER DE TRAMITEPLANTILLA-->
+
+  
+    <!--#############################################################################################################################-->
+    <!--####################################### ESTE ES EL TRAMITE DE DICTAMEN DE USO DE SUELO ###########################################-->
+    <!--#############################################################################################################################-->
+    <div class="containerTramiteDicSuelo" > 
+      <div class="modalInfoTramiteDicSuelo hiddenDicSuelo">
+        <div class="modalInfoTramiteDicSuelo-content">
+          <h2>Información sobre el trámite de Dictamen de uso de suelo</h2>
+          <p>un trámite de dictamen de uso de suelo es un procedimiento administrativo mediante el cual se determina si un terreno o inmueble es apto para un uso específico (residencial, comercial, industrial, etc.), conforme a las normativas y planes de desarrollo urbano de una ciudad o municipio. este documento es esencial para 
+            obtener licencias de construcción, apertura de negocios o cambios de uso en una propiedad.</p>
+          <div class="detalleTramiteDicSuelo-container">
+            <div class="detalleTramiteDicSuelo-card" onclick="showModalInfoDicSuelo('modal-acerca-tramite-DicSuelo')" id="card-acerca-tramite">
+              <div class="detalleTramiteDicSuelo-header">
+                <span class="detalleTramiteDicSuelo-icon material-symbols-outlined">info</span>
+                <span class="detalleTramiteDicSuelo-title">Acerca del trámite</span>
+              </div>
+              <div class="detalleTramiteDicSuelo-content">
+                <p>Considera esto antes de realizar el trámite.</p>
+              </div>
+            </div>
+            
+              <div class="detalleTramiteDicSuelo-card" onclick="showModalInfoDicSuelo('modal-requisitos-DicSuelo')" id="card-requisitos-DicSuelo">
+                <div class="detalleTramiteDicSuelo-header">
+                  <span class="detalleTramiteDicSuelo-icon material-symbols-outlined">rule</span>
+                  <span class="detalleTramiteDicSuelo-title">Requisitos</span>
+                </div>
+                <div class="detalleTramiteDicSuelo-content">
+                  <p>¿Qué requieres antes de realizar este trámite?</p>
+                </div>
+              </div>
+            
+  
+           
+              <div class="detalleTramiteDicSuelo-card" onclick="showModalInfoDicSuelo('modal-fundamento-juridico-DicSuelo')" id="card-fundamento-juridico">
+                <div class="detalleTramiteDicSuelo-header">
+                  <span class="detalleTramiteDicSuelo-icon material-symbols-outlined">copyright</span>
+                  <span class="detalleTramiteDicSuelo-title">Fundamento Jurídico</span>
+                </div>
+                <div class="detalleTramiteDicSuelo-content">
+                  <p>Información sobre el fundamento jurídico.</p>
+                  
+                </div>
+              </div>
+            
+  
+           
+              <div class="detalleTramiteDicSuelo-card" onclick="showModalInfoDicSuelo('modal-costos-DicSuelo')" id="card-costos">
+                <div class="detalleTramiteDicSuelo-header">
+                  <span class="detalleTramiteDicSuelo-icon material-symbols-outlined">attach_money</span>
+                  <span class="detalleTramiteDicSuelo-title">Costos</span>
+                </div>
+                <div class="detalleTramiteDicSuelo-content">
+                  <p>Consulta los costos relacionados al trámite.</p>
+                </div>
+              </div>
+            
+            <!-- Modal: Acerca del Trámite -->
+            <div class="detalleTramiteDicSuelo-modalInfos" id="modal-acerca-tramite-DicSuelo">
+              <div class="detalleTramiteDicSuelo-modalInfos-content">
+                <button class="detalleTramiteDicSuelo-close-btn" onclick="closeModalInfoDicSuelo('modal-acerca-tramite-DicSuelo')">×</button>
+                <h2>Acerca del trámite</h2>
+                <p>En esta sección encontrarás información clave sobre el trámite.</p>
+                <div class="modalInfos2-content">
+                  <p><b>Homoclave:</b> </br>SDES-02-002</p>
+                  <p><b>Palabras clave:</b> </br>NA</p>
+                  <p><b>Usuario a quien está dirigido el trámite:</b> </br>Estudiantes</p>
+                  <p><b>¿Quién puede realizar el trámite?:</b> </br>
+                  <ul>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                    <li>Interesado</li>
+                    <li>Tutor</li>
+                    <li>Padres</li>
+                  </ul>
+                  </p>
+                  <p><b>Categoria:</b> </br>Educación</p>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Requisitos -->
+            <div class="detalleTramiteDicSuelo-modalInfos" id="modal-requisitos-DicSuelo">
+              <div class="detalleTramiteDicSuelo-modalInfos-content">
+                <button class="detalleTramiteDicSuelo-close-btn" onclick="closeModalInfoDicSuelo('modal-requisitos-DicSuelo')">×</button>
+                <h2>Requisitos</h2>
+                <p>Asegúratee de contar con todos los documentos necesarios para completar el trámite de manera exitosa.
+                </p>
+                <br>
+                <div class="modalInfos2-content">
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Escritura o título de propiedad.</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb de peso.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento completo inscrito en el Registro Público de la propiedad y del comercio</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Identificación oficial del propietario o propietarios, y en su caso del representante legal.</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Domicilio del solicitante no mayor a dos meses</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Recibo del pago del impuesto predial del ejercicio fiscal en curso.</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Documento que compruebe la identidad
+                      del solicitante</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Anteproyecto o proyecto.</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Señalar la totalidad del predio,
+                       los espacios a ocupar por cada giro o uso y las áreas de estacionamiento</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Fotografías del predio.</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Tomadas desde la vía pública, donde se aprecie la fachada o las fachadas del predio, con diferentes ángulos.</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Comprobante de ingresos</b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>Documento que comprueben los ingresos del solicitante y/o tutor</p>
+                    <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                  </label>
+                  </br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>En caso de pretender la ratificación ampliación modificación y/o revisión de un 
+                      Dictamen de Uso de Suelo autorizado, anexar copia del mismo.</b></span>
+                  </label>
+                  <br> <br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>En caso de persona moral anexar Acta Constitutiva y documento que acredite al representante legal o apoderado.</b></span>
+                  </label>
+                  <br> <br>
+                  <b>⚠️SOLO PARA PREDIOS BAJO EL RÉGIMEN DE PROPIEDAD EN CONDOMINIO⚠️</b>
+                  <br>
+                
+                <label class="cl-checkbox">
+                  <input checked="" type="checkbox">
+                  <span><b>Visto bueno de la asociación de condominios</b></span>
+                  <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                  <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                </label>
+                <br>
+                <b>⚠️PARA USOS INDUSTRIALES⚠️</b>
+                <br>
+                  <label class="cl-checkbox">
+                    <input checked="" type="checkbox">
+                    <span><b>Formulario de inducción </b></span>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                    <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b>  Anexar formulario de inducción de la Secretaría 
+                      de Desarrollo Sustentable de Gobierno del Estado de Querétaro, o en caso de trámite en línea, anexar copia simple del acuse de ingreso.</p>
+                      <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                    </label>
+                    <BR></BR>
+                    <b>⚠️PARA GIROS RELACIONADOS CON EL ALMACENAMIENTO, VENTA O DISTRIBUCIÓN DE DERIVADOS DEL PETRÓLEO, 
+                      COMO GASOLINA, DIESEL, GAS, ETC.⚠️</b>
+                      <br>
+                      <label class="cl-checkbox">
+                        <input checked="" type="checkbox">
+                        <span><b>Autorización de la ASEA o CRE.</b></span>
+                        <p style="margin-top:0; margin-bottom:0;"><b>Presentación:</b>Pdf legible de menos de 3 mb.</p>
+                        <p style="margin-top:0; margin-bottom:0;"><b>Observaciones:</b> Presentar autorización de procedencia en Materia de Impacto Ambiental, Impacto Social y de Riesgos emitida por la Agencia 
+                          Nacional de Seguridad Industrial y Protección al Medio Ambiente del Sector Hidrocarburos (ASEA), o en su caso, del Titulo de Concesión emitido por la Comisión Reguladora de Energía (CRE).</p>
+                          <p style="margin-top:0;"><b>Tipo:</b> Para el cotejo del servidor público</p>
+                        </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Modal: Fundamento Jurídico -->
+            <div class="detalleTramiteDicSuelo-modalInfos" id="modal-fundamento-juridico-DicSuelo">
+              <div class="detalleTramiteDicSuelo-modalInfos-content">
+                <button class="detalleTramiteDicSuelo-close-btn"
+                  onclick="closeModalInfoDicSuelo('modal-fundamento-juridico-DicSuelo')">×</button>
+                <h2>Fundamento Jurídico</h2>
+                <div class="modalInfos2-content">
+                  <h3>Nombre del Fundamento Jurídico:</h3>
+                  <br>
+                  <p>LEY ORGÁNICA MUNICIPAL DEL ESTADO DE QUERÉTARO</p>
+                  <br>
+                  <h3>Artículo:</h3>
+                  <br>
+                  <p>Articulo 30, fracciones I y XXVII </p>
+                  <br>
+                  <a href="http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf" target="_blank">http://legislaturaqueretaro.gob.mx/app/uploads/2016/01/LO003.pdf</a> 
+                </div>
+              </div>
+            </div>
+            <!-- Modal: Costos -->
+            <div class="detalleTramiteDicSuelo-modalInfos" id="modal-costos-DicSuelo">
+              <div class="detalleTramiteDicSuelo-modalInfos-content">
+                <button class="detalleTramiteDicSuelo-close-btn" onclick="closeModalInfoDicSuelo('modal-costos-DicSuelo')">×</button>
+                <h2>Costo</h2>
+                <div class="modalInfos2-content">
+                 <h3>¿Este trámite o servicio tiene monto de derechos o aprovechamientos?</h3>
+                 <br>
+                 <p>NO</p>
+                 <br>
+                 <h3>Costos</h3>
+                 <br>
+                 <p>760 .00</p>
+                </div>
+              </div>
+            </div>
+  
+            <div class="btn-containerTramite">
+              <button id="btnVolverDicSuelo" class="btnVolverDicSuelo">Volver</button>
+              <button class="btnTramite" id="toggleTramiteFormDicSuelo">Iniciar Trámite</button>
+            </div>
+        </div>
+        </div>
+      </div>
+      
+         <!--*********************************************************************************-->
+         <!--**********************FORMULARIO DE DICTAMEN DE USO DE SUELO****************-->
+         <!--*********************************************************************************-->
+  
+        <div class="containerFormTramiteDicSuelo hiddenDicSuelo">
+    <!-- FORMULARIO -->
+    <div class="contTramiteDicSuelo">
+      <div class="stepperDicSuelo">
+        <div class="stepDicSuelo" data-step="1">
+          <div class="circle">1</div>
+          <span>Datos del propiertario</span>
+        </div>
+        <div class="lineDicSuelo"></div>
+        <div class="stepDicSuelo" data-step="2">
+          <div class="circle">2</div>
+          <span>Profile</span>
+        </div>
+        <div class="lineDicSuelo"></div>
+        <div class="stepDicSuelo" data-step="3">
+          <div class="circle">3</div>
+          <span>Address</span>
+        </div>
+        <div class="lineDicSuelo"></div>
+        <div class="stepDicSuelo" data-step="4">
+          <div class="circle">4</div>
+          <span>Confirmation</span>
+        </div>
+        <div class="lineDicSuelo"></div>
+        <div class="stepDicSuelo" data-step="5">
+          <div class="circle">5</div>
+          <span>Payment</span>
+        </div>
+      </div>
+  
+      <!-- Formulario DicSuelo -->
+      <form id="stepFormDicSuelo">
+        <!-- Paso 1 -->
+        <div class="form-step activeDicSuelo" data-step="1">
+          <h2>Dictamen de uso de suelo - Secretaría de Desarrollo Sustentable.</h2>
+          <p>Favor de leer cuidadosamente y contesta los campos con la información requerida.</p>
+          <div class="form-group-tramite">
+            <label for="username">Clave catastral</label>
+            <input type="text" id="username" name="username">
+            <span class="error-message">Username is required</span>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            <span class="error-message">Valid email is required</span>
+          </div>
+        </div>
+          <div class="form-navigation">
+            <button type="button" class="btnVolverAInfo">Volver a informacion</button>
+            <button type="button" class="btnNextDicSuelo">siguiente</button>
+          </div>
+        </div>
+  
+        <!-- Paso 2 -->
+        <div class="form-step" data-step="2">
+          <h2>Profile Information</h2>
+          <div class="form-group-tramite">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName">
+            <span class="error-message">First name is required</span>
+          
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName">
+            <span class="error-message">Last name is required</span>
+          </div>
+          </div>
+          <div class="form-navigation">
+            <button type="button" class="btnPrevDicSuelo">Volver</button>
+            <button type="button" class="btnNextDicSuelo">Siguiente</button>
+          </div>
+        </div>
+  
+        <!-- Paso 3 -->
+        <div class="form-step" data-step="3">
+          <h2>Address</h2>
+          <div class="form-group-tramite">
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address">
+            <span class="error-message">Address is required</span>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city">
+            <span class="error-message">City is required</span>
+          </div>
+          </div>
+          <div class="form-navigation">
+            <button type="button" class="btnPrevDicSuelo">Volver</button>
+            <button type="button" class="btnNextDicSuelo">Siguiente</button>
+          </div>
+        </div>
+  
+        <!-- Paso 4 -->
+        <div class="form-step" data-step="4">
+          <h2>¡Confirmación!</h2>
+          <p>Tus datos han sido correctamente insertados, favor de avanzar al siguiente paso para proceder con el pago de su trámite</p>
+          <div class="form-navigation">
+            <button type="button" class="btnPrevDicSuelo">Volver</button>
+            <button type="button" class="btnNextDicSuelo">Siguiente</button>
+          </div>
+        </div>
+  
+         <!-- Paso 5 -->
+         <div class="form-step" data-step="5">
+          <h2>!Pago de el trámite!</h2>
+          <p>Aqui puedes hacer el pago de tu trámite </p>
+          <div class="form-navigation">
+            <button type="button" class="btnPrevDicSuelo">Volver</button>
+            <button type="button" class="btnConfirmarDicSuelo">Confirmar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
+      
+    </div> <!--CONTAINER DEL TRAMITE DE DICTAMEN DE USO DE SUELO-->
+  
+
+  </div> <!--Este div es el contenedor de tramites-user, adentro de el van todos los contenedores de los tramites-->
+
 
 
   <!-- Sección Usuarios Registrados -->
@@ -1526,6 +2284,8 @@
   <script src="js/tramites.js"></script>
   <script src="js/funcionesTramites.js"></script>
   <script src="js/becas.js"></script>
+  <script src="js/dictamenSuelo.js"></script>
+  <script src="js/plantillaTramite.js"></script>
   <script src="js/mapaLeaflet.js"></script>
   <script src="js/main.js"></script>
 

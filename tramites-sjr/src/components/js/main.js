@@ -28,7 +28,7 @@ function displaySectionsBasedOnRole() {
         document.getElementById('mis-datos-section').style.display = 'block';
         document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
     } else {
-        console.error("Rol desconocido o no permitido");
+        //console.error("Rol desconocido o no permitido");
     }
 }
 
@@ -214,7 +214,7 @@ function loadCiudadanos() {
             filterCP.addEventListener("input", applyFilter);
             applyFilter();
         })
-        .catch(error => console.error('Error al cargar los ciudadanos:', error));
+       // .catch(error => console.error('Error al cargar los ciudadanos:', error));
 }
 
 // Función para cargar trabajadores y habilitar filtros
@@ -279,7 +279,7 @@ function loadTrabajadores() {
             Object.values(filters).forEach(filter => filter.addEventListener("input", applyFilter));
             applyFilter();
         })
-        .catch(error => console.error('Error al cargar los trabajadores:', error));
+        //.catch(error => console.error('Error al cargar los trabajadores:', error));
 }
 
 function saveChanges() {

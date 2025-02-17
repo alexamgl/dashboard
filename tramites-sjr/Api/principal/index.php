@@ -49,7 +49,9 @@ $headers = apache_request_headers();
 $authHeader = $headers['Authorization'] ?? '';
 
 // Definir las rutas públicas
-$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data','get_datos_becas'];
+$publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 
+'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data',
+'get_datos_becas','insert_full_suelo_data','upload_documents_suelo_data'];
 
 
 // Verificar el token solo si la ruta no es pública
@@ -136,11 +138,19 @@ if ($entity === 'usuarios') {
 }elseif ($entity === 'insert_full_beca_data') {
     require_once '../controllers/InsertFullDataBecaController.php';
     $controller = new InsertFullDataBecaController();
-}elseif ($entity === 'upload_documents_beca_data') {
-    require_once '../controllers/UploadDocumentsBecaController.php';
-    $controller = new UploadDocumentsBecaController();
-    $controller -> uploadDocumentsBeca($_POST);
+
+}elseif ($entity === 'insert_full_suelo_data') {
+    require_once '../controllers/InsertFullDataSueloController.php';
+    $controller = new InsertFullDataSueloController();
+    
+}elseif ($entity === 'upload_documents_suelo_data') {
+    require_once '../controllers/UploadDocumentsSueloController.php';
+    $controller = new UploadDocumentsSueloController();
+    $controller -> uploadDocumentsSuelo($_POST);
     exit();
+
+
+
 }elseif ($entity === 'get_datos_becas' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../controllers/GetDatosBecaController.php';
     $controller = new GetDatosBecaController();
@@ -148,7 +158,7 @@ if ($entity === 'usuarios') {
     $controller->read($data);
     exit();
     
-    
+
    /* $data = json_decode(file_get_contents("php://input"));
 
     // Llama al método adecuado, en este caso 'create'

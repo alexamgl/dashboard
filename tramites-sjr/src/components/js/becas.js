@@ -50,55 +50,304 @@
         tableBody.appendChild(row);
       });
     }
-    
 
+
+    
     function seleccionarDocumento(rowIndex) {
-      const fileInput = document.getElementById(`file-${rowIndex}`);
-      fileInput.click(); // Simula el clic para abrir el cuadro de diálogo de archivo
+        let fileInput = document.getElementById(`file-${rowIndex}`);
     
-      // Manejar el evento de cambio (cuando el usuario selecciona un archivo)
-      fileInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-    
-        if (file) {
-          // Validar que sea PDF
-          if (file.type !== "application/pdf") {
-            alert("Por favor, selecciona un archivo PDF válido.");
-            fileInput.value = ""; // Restablecer input si el archivo no es válido
+        // 🔹 Si ya hay un archivo seleccionado, no permitir subir otro
+        if (fileInput.files.length > 0) {
+            mostrarModalGlobal("⚠️ Ya has seleccionado un archivo para este documento. Elimina el archivo antes de subir uno nuevo.", "warning");
             return;
-          }
-    
-          // Validar tamaño menor a 3 MB
-          const maxSizeMB = 3;
-          const fileSizeMB = file.size / (1024 * 1024); // Convertir tamaño a MB
-    
-          if (fileSizeMB > maxSizeMB) {
-            alert(`El archivo seleccionado es demasiado grande (${fileSizeMB.toFixed(2)} MB). Debe ser menor a ${maxSizeMB} MB.`);
-            fileInput.value = ""; // Limpiar la selección
-            return;
-          }
-    
-          // Mostrar tamaño del archivo en la tabla
-          document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB.toFixed(2)} MB`;
-    
-          // Crear una URL para previsualizar el PDF
-          const fileURL = URL.createObjectURL(file);
-    
-          // Agregar el "ojito" para visualizar el PDF
-          const iconCell = document.querySelector(`#pdf-icon-${rowIndex}`);
-          iconCell.innerHTML = `
-            <a href="${fileURL}" target="_blank" title="Ver documento" style="text-decoration: none; font-size: 20px;">
-              👁️
-            </a>
-          `;
         }
-      });
+    
+        // 🔹 Clonar y reemplazar el input para eliminar eventos previos
+        const newFileInput = fileInput.cloneNode(true);
+        fileInput.replaceWith(newFileInput);
+        fileInput = newFileInput; // Actualizar referencia
+    
+        // 🔹 Agregar el evento change asegurando que no se acumule
+        fileInput.addEventListener("change", async (event) => {
+            const file = event.target.files[0];
+    
+            if (!file) return;
+    
+            // 🔹 Validar que sea PDF
+            if (file.type !== "application/pdf") {
+                mostrarModalGlobal("❌ Por favor, selecciona un archivo PDF válido.", "error");
+                fileInput.value = "";
+                return;
+            }
+    
+            // 🔹 Validar tamaño menor a 3 MB
+            const maxSizeMB = 3;
+            const fileSizeMB = file.size / (1024 * 1024);
+    
+            if (fileSizeMB > maxSizeMB) {
+                mostrarModalGlobal(`❌ El archivo seleccionado es demasiado grande (${fileSizeMB.toFixed(2)} MB). Debe ser menor a ${maxSizeMB} MB.`, "error");
+                fileInput.value = "";
+                return;
+            }
+    
+            // 🔹 Mostrar tamaño del archivo en la tabla
+            document.getElementById(`size-${rowIndex}`).textContent = `${fileSizeMB.toFixed(2)} MB`;
+    
+            // 🔹 Crear una URL para previsualizar el PDF
+            const fileURL = URL.createObjectURL(file);
+    
+            // 🔹 Agregar el "ojito" para visualizar el PDF
+            document.querySelector(`#pdf-icon-${rowIndex}`).innerHTML = `
+                <a href="${fileURL}" target="_blank" title="Ver documento" style="text-decoration: none; font-size: 20px;">
+                    👁️
+                </a>
+            `;
+    
+            // 🔹 Mostrar el modal de carga
+            mostrarModalCarga("Verificando documento... Esto puede tardar un poco, sea paciente.");
+    
+            // 🔹 Procesar el documento PDF y validarlo
+            procesarPDF(file, rowIndex, async (documentoValido) => {
+                cerrarModalCarga();
+    
+                if (documentoValido.isValid) {
+                    mostrarModalGlobal(documentoValido.message, "success");
+                } else {
+                    deleteDocument(rowIndex);
+                    mostrarModalGlobal(documentoValido.message, "error");
+                }
+            });
+        });
+    
+        // 🔹 Simular el clic para abrir el cuadro de diálogo de archivo
+        fileInput.click();
     }
     
     
-    
+    // Función para procesar el PDF y realizar la validación específica para cada tipo de documento
+function procesarPDF(file, rowIndex, callback) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const pdfData = new Uint8Array(event.target.result);
+        pdfjsLib.getDocument({ data: pdfData }).promise.then(pdf => {
+            let textoCompleto = "";
+
+            let promises = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                promises.push(
+                    pdf.getPage(i).then(page => {
+                        return page.getTextContent().then(textContent => {
+                            let textoPagina = textContent.items.map(item => item.str).join(" ");
+                            textoCompleto += textoPagina + " ";
+                        });
+                    })
+                );
+            }
+
+            // Una vez obtenemos todo el texto, verificamos si hay más imágenes para OCR.
+            Promise.all(promises).then(() => {
+                // Si el texto extraído está vacío, usamos la función de OCR (extraerTextoDeImagenes)
+                if (textoCompleto.trim() === "") {
+                    extraerTextoDeImagenes(pdf, (ocrTexto) => {
+                        textoCompleto = ocrTexto;
+                        realizarValidacion(rowIndex, textoCompleto, callback);
+                    });
+                } else {
+                    realizarValidacion(rowIndex, textoCompleto, callback);
+                }
+            });
+        }).catch(error => {
+           // console.error("Error al procesar el PDF:", error);
+            callback({ isValid: false, message: "Hubo un error al procesar el PDF." });
+        });
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+// Función para extraer texto de las imágenes generadas a partir del PDF
+function extraerTextoDeImagenes(pdf, callback) {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    // Procesar la primera página como imagen
+    pdf.getPage(1).then(page => {
+        const viewport = page.getViewport({ scale: 2 }); // Mantener una escala moderada para mejor calidad
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+            const imageData = canvas.toDataURL("image/png");
+
+            // Procesar la imagen con Tesseract.js
+            Tesseract.recognize(
+                imageData,
+                'spa', 
+                {
+                   // logger: (m) => console.log(m)
+                }
+            ).then(({ data: { text } }) => {
+                //console.log("Texto extraído de imagen:", text);
+                callback(text);
+            });
+        });
+    });
+}
 
 
+async function realizarValidacion(rowIndex, textoCompleto, callback) {
+    let documentoValido;
+
+    if (documents[rowIndex].name === "Acta de Nacimiento") {
+        // 🔹 Ahora `await` espera a que se complete `validarActaNacimiento`
+        documentoValido = await validarActaNacimiento(textoCompleto);
+    } else if (documents[rowIndex].name === "Comprobante de Domicilio") {
+        documentoValido = validarComprobanteDomicilio(textoCompleto);
+    } else if (documents[rowIndex].name === "Constancia de Inscripción") {
+        documentoValido = validarConstanciaInscripcion(textoCompleto);
+    } else {
+        // Si no es un documento con validación específica, se aprueba automáticamente
+        callback({ isValid: true, message: "✅ El documento se ha validado correctamente." });
+        return;
+    }
+
+    // 🔹 Asegurar que `documentoValido` tiene un valor antes de continuar
+    if (!documentoValido) {
+        documentoValido = { isValid: false, message: "❌ Error inesperado en la validación del documento, intente de nuevo"};
+    }
+
+    // 🔹 Mostrar el resultado de la validación
+    if (documentoValido.isValid) {
+        cerrarModalCarga();
+        mostrarModalGlobal(documentoValido.message, "success");
+    } else {
+        cerrarModalCarga();
+        mostrarModalGlobal(documentoValido.message, "error");
+        deleteDocument(rowIndex);
+    }
+}
+
+function verificarTexto(texto, nombreUsuario) {
+    return new Promise((resolve) => {
+        //console.log("texto extraído:", texto);
+        //console.log("nombre esperado:", nombreUsuario);
+
+        let textoNormalizado = normalizarTexto(texto);
+        const nombreNormalizado = normalizarTexto(nombreUsuario);
+
+        // separar el nombre en partes
+        const nombreFragmentos = nombreUsuario.split(" ").map(fragment => normalizarTexto(fragment));
+
+        // verificar si al menos un fragmento del nombre aparece en el texto
+        let nombreValido = nombreFragmentos.some(fragmento => textoNormalizado.includes(fragmento));
+
+        resolve(nombreValido);
+    });
+}
+
+
+
+// Normalización de texto (quitar acentos, pasar a minúsculas, etc.)
+function normalizarTexto(texto) {
+    if (!texto || typeof texto !== "string") return "";
+
+    return texto
+        .toLowerCase() // Hace todo minúsculas
+        .normalize("NFD") // Normaliza caracteres acentuados
+        .replace(/[\u0300-\u036f]/g, "") // Elimina acentos
+        .replace(/\s+/g, " ") // Elimina espacios extras
+        .trim(); // Quita espacios al principio y al final
+}
+
+
+// función para validar el acta de nacimiento usando el nombre desde la base de datos
+async function validarActaNacimiento(texto) {
+    const id_usuario = 1; // ⚠️ Cambiar esto para obtener el ID del usuario dinámicamente
+
+    try {
+        const beca = await obtenerDatosEstudiante(id_usuario);
+
+        if (!beca) {
+            return { isValid: false, message: "❌ No se encontraron datos del estudiante para validar el acta de nacimiento, en caso de ser correctos suba un Archivo PDF con mayor calidad" };
+        }
+
+        // 🔹 Verificar si los datos clave existen antes de continuar
+        if (!beca.nombre_estudiante || !beca.primer_apellido_estudiante || !beca.segundo_apellido_estudiante) {
+            return { isValid: false, message: "❌ Los datos del estudiante están incompletos en la base de datos." };
+        }
+
+        // 🔹 Obtener el nombre completo del estudiante
+        const nombreCompleto = `${beca.nombre_estudiante} ${beca.primer_apellido_estudiante} ${beca.segundo_apellido_estudiante}`.trim();
+        //console.log("🔍 Nombre del estudiante obtenido:", nombreCompleto);
+
+        // 🔹 Normalizar el texto del acta y el nombre del estudiante
+        let textoNormalizado = normalizarTexto(texto);
+        let nombreNormalizado = normalizarTexto(nombreCompleto);
+
+       // console.log("📜 Texto extraído del PDF:", textoNormalizado);
+        //console.log("🎯 Nombre a buscar en el PDF:", nombreNormalizado);
+
+        // 🔹 Comparar si el nombre está en el texto del acta
+        const nombreFragmentos = nombreCompleto.split(" ").map(fragmento => normalizarTexto(fragmento));
+        let nombreValido = nombreFragmentos.every(fragmento => textoNormalizado.includes(fragmento));
+
+        if (nombreValido) {
+            //console.log("✅ Acta de nacimiento válida.");
+            return { isValid: true, message: "✅ El acta de nacimiento es válida." };
+        } else {
+            //console.log("❌ Error: El nombre del acta de nacimiento no coincide.");
+            return { isValid: false, message: `❌ El nombre del acta de nacimiento no coincide con el estudiante (${nombreCompleto}).` };
+        }
+
+    } catch (error) {
+        //console.error("❌ Error inesperado al validar el acta de nacimiento:", error);
+        return { isValid: false, message: "❌ Error inesperado al obtener los datos del estudiante." };
+    }
+}
+
+
+
+// Validación para Comprobante de Domicilio
+function validarComprobanteDomicilio(texto) {
+    const palabrasClave = /domicilio|recibo|dirección|comprobante|cfe|japam|pago|factura|agua|luz/i; // Palabras clave asociadas con un comprobante de domicilio
+    if (palabrasClave.test(texto)) {
+        return { isValid: true, message: "✅El comprobante de domicilio es válido." };
+    } else {
+        return { isValid: false, message: "❌ El comprobante de domicilio no contiene los datos necesarios, en caso de ser correctos suba un Archivo PDF con mayor calidad" };
+    }
+}
+
+/*
+// corrección de la validación para boleta de calificaciones
+function validarBoletaCalificaciones(texto) {
+    const calificacionesEncontradas = texto.match(/\b\d+\b/g); // buscar solo números enteros
+
+    // si no se encuentran números, devolver error
+    if (!calificacionesEncontradas) {
+        return { isValid: false, message: "❌ No se encontraron calificaciones en el documento." };
+    }
+
+    // convertir a enteros y verificar si alguna calificación es menor a 6
+    const algunaReprobada = calificacionesEncontradas.some(num => parseInt(num, 10) < 6);
+
+    if (algunaReprobada) {
+        return { isValid: false, message: "❌ La boleta de calificaciones tiene calificaciones menores a 6." };
+    } else {
+        return { isValid: true, message: "La boleta de calificaciones es válida." };
+    }
+}
+    */
+
+// Validación para Constancia de Inscripción
+function validarConstanciaInscripcion(texto) {
+    const palabrasClaveInscripcion = /inscripción|número de inscripción|matrícula|alumno|código de alumno|matricula/i;
+    const palabrasClaveInstitucion = /escuela|primaria1|escuela||institución|colegio|primaria/i;
+
+    if (palabrasClaveInscripcion.test(texto) && palabrasClaveInstitucion.test(texto)) {
+        return { isValid: true, message: "✅La constancia de inscripción es válida." };
+    } else {
+        return { isValid: false, message: "❌ La constancia de inscripción no contiene los datos necesarios,en caso de ser correctos suba un Archivo PDF con mayor calidad" };
+    }
+}
     
     // Llamar a la función para generar las filas al cargar la página
     document.addEventListener("DOMContentLoaded", generateTableRows);
@@ -243,12 +492,9 @@ async function guardarDocumentosBeca() {
       }
   }
 
-  console.log("Hola");
 
   mostrarModalCarga("Espere, se están guardando los documentos...");
 
-  
-  console.log("Hola2");
 
   const resultados = [];
   for (const documento of documentos) {
@@ -257,20 +503,16 @@ async function guardarDocumentosBeca() {
       formData.append("nombre", documento.nombre);
       formData.append("id_usuario", id_usuario);
 
-      
-  console.log("Hola3");
-
       try {
           const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_beca_data", {
               method: "POST",
               body: formData,
           });
 
-          console.log("Hola4");
           const result = await response.json();
           if (result.success) {
               resultados.push(result.url);
-              console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
+             // console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
           } else {
               cerrarModalCarga();
               mostrarModalGlobal(`Error al subir el documento ${documento.nombre}: ${result.message}`, "error");
@@ -278,7 +520,7 @@ async function guardarDocumentosBeca() {
           }
       } catch (error) {
           cerrarModalCarga();
-          console.error(`Error al subir el documento ${documento.nombre}:`, error);
+          //console.error(`Error al subir el documento ${documento.nombre}:`, error);
           mostrarModalGlobal(`Error al subir el documento ${documento.nombre}.`, "error");
           return false;
       }
@@ -317,9 +559,6 @@ async function validarDocumentosAntesDeGuardar() {
  */
 //
 function mostrarModalCarga(mensaje) {
-  // Eliminar cualquier modal de carga previo para evitar duplicaciones
-  cerrarModalCarga();
-
   const modal = document.createElement("div");
   modal.classList.add("modal-global");
   modal.style.position = "fixed";
@@ -346,18 +585,15 @@ function mostrarModalCarga(mensaje) {
           align-items: center;
       ">
           <h2 style="color: #333; font-size: 18px; margin-bottom: 10px;">${mensaje}</h2>
-          <img src="  ./images/Spinner.gif" alt="Cargando..." style="width: 80px; height: 80px;">
-          <p style="font-size: 14px; color: #666;">Por favor espere...</p>
+          <img src="./images/Spinner.gif" alt="Cargando..." style="width: 80px; height: 80px;">
+          <p style="font-size: 14px; color: #666;">Por favor...</p>
       </div>
   `;
-
   modal.innerHTML = modalContent;
   document.body.appendChild(modal);
 }
 
-/**
-* Cierra el modal de carga
-*/
+// Función para cerrar el modal de carga
 function cerrarModalCarga() {
   const modal = document.querySelector(".modal-global");
   if (modal) {
@@ -378,8 +614,8 @@ async function verificarDatosBecaYDocumentos(id_usuario=1) {
       const result = await response.json();
       
       if (result.success) {
-          console.log("Datos de beca:", result.beca);
-          console.log("Documentos encontrados:", result.documentos);
+        //.log("Datos de beca:", result.beca);
+         // console.log("Documentos encontrados:", result.documentos);
 
           // Si tiene datos en becas_estudiantes pero NO tiene documentos, lo deja avanzar
           if (result.beca && (!result.documentos || result.documentos.length === 0)) {
@@ -396,12 +632,33 @@ async function verificarDatosBecaYDocumentos(id_usuario=1) {
       return "sin_registro";
 
   } catch (error) {
-      console.error("Error al verificar los datos de beca y documentos:", error);
+     // console.error("Error al verificar los datos de beca y documentos:", error);
       return "error";
   }
 }
 
 
+async function obtenerDatosEstudiante(id_usuario = 1) {
+    try {
+        const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/get_datos_becas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_usuario }) // enviar el id en el body
+        });
+
+        const result = await response.json();
+        
+        if (result.success && result.beca) {
+           // console.log("datos del estudiante obtenidos:", result.beca);
+            return result.beca; // devuelve solo los datos del estudiante
+        }
+
+        return null; // si no hay datos de beca, devuelve null
+    } catch (error) {
+        //console.error("error al obtener los datos del estudiante:", error);
+        return null;
+    }
+}
 
 
 

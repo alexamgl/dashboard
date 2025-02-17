@@ -1,25 +1,21 @@
 /*CARD 1*/
 /* Estilo del Card */
 .section {
-  margin: 20px;
-  padding: 20px;
+  
+}
+
+.hidden {
+  display: none;
 }
 
 .tramites-user {
-  display: flex; /* Usar Flexbox para organizar los elementos */
-        flex-wrap: wrap; /* Permitir que los elementos dentro se acomoden en filas */
-        gap: 16px; /* Espaciado entre los elementos */
-        justify-content: center; /* Centrar horizontalmente los cards */
-        align-items: flex-start; /* Alinear los elementos verticalmente */
-        padding: 20px;
-        max-height: 80vh;
-        width: 90%;
-        overflow-y: auto; /* Habilitar scroll vertical si es necesario */
-        overflow-x: hidden;
-        background-color: white;
-        border-radius: 10px;
-        box-sizing: border-box;
-        position: relative; /*
+  text-align: center;
+}
+.tramites-user h1{
+  color: #0b3b60;
+  border-bottom: 3px solid #faa21b;
+
+
 }
 
 .cards-container {
@@ -32,48 +28,67 @@
   max-width: 1200px;
 }
 
+
+
+/* Contenedor flexible para los cards */
+/* Contenedor de los cards */
+.ContenedorCardsDashboard {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
+  justify-content: center; /* Centra los cards horizontalmente */
+  gap: 15px; /* Espaciado entre los cards */
+}
+
+/* Estilo para el título */
+.tituloDashboard {
+  width: 100%; /* Para que ocupe todo el ancho y no se mezcle con los cards */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 20px; /* Espacio entre el título y los cards */
+}
+
 /* Card Styles */
-/**/
 .cardTramite {
   position: relative;
-  display: inline-block;
-  gap: 5px;
-  width: 350px;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  height: 270px; /* Se ajusta para permitir una imagen más grande */
   background: white;
   padding: 0.4em;
   border-radius: 6px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 7px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.3s ease;
+  margin-bottom: 20px;
+  border: 4px solid #0076aa;
+
 }
 
 .cardTramite:hover {
   transform: scale(1.05);
 }
 
+/* Imagen dentro del card */
 .cardTramite-image {
   background-color: rgb(236, 236, 236);
   width: 100%;
-  height: 160px;
-  /* Altura ajustada proporcionalmente */
+  height: 180px; /* Se aumentó la altura de la imagen */
   border-radius: 6px 6px 0 0;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cardTramite-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 180px;
+  object-fit: cover; /* Asegura que todas las imágenes tengan el mismo tamaño sin deformarse */
 }
 
-.imgTramite {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* Texto dentro del card */
 .category {
   text-transform: uppercase;
   font-size: 0.7em;
@@ -96,17 +111,25 @@
   padding-top: 10px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .cards-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card {
-    max-width: 90%;
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .ContenedorCardsDashboard {
+      justify-content: center; /* Mantiene el centrado en pantallas más grandes */
   }
 }
+
+@media (max-width: 768px) {
+  .ContenedorCardsDashboard {
+      flex-direction: column; /* Pone los cards en columna en pantallas pequeñas */
+      align-items: center; /* Centra los cards */
+  }
+
+  .cardTramite {
+      width: 90%; /* Los cards ocuparán casi todo el ancho disponible */
+      max-width: 320px;
+  }
+}
+
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /*COMIENZO DE MODAL FORMULARIOS*/
@@ -176,6 +199,7 @@
     transform: scale(1);
   }
 }
+
 /* Ajuste de tablas para que abarquen todo el modal en modo PC */
 .tablaTramite-container {
   overflow-x: auto;
@@ -187,7 +211,8 @@
   table-layout: fixed;
 }
 
-.tablaTramite th, .tablaTramite td {
+.tablaTramite th,
+.tablaTramite td {
   min-width: 150px;
   padding: 10px;
   text-align: center;
@@ -205,7 +230,8 @@
     white-space: nowrap;
   }
 
-  .tablaTramite th, .tablaTramite td {
+  .tablaTramite th,
+  .tablaTramite td {
     padding: 8px;
     font-size: 14px;
   }
@@ -217,186 +243,211 @@
   margin-bottom: 10px;
 }
 
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-                   /*COMIENZO DE MODAL DE INFORMACION*/
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-      .modalInfoTramite {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-      }
-      
-      /* Contenedor del Modal */
-      .modalInfoTramite-content {
-        display: flex; /* Usar Flexbox para organizar los elementos */
-        flex-wrap: wrap; /* Permitir que los elementos dentro se acomoden en filas */
-        gap: 16px; /* Espaciado entre los elementos */
-        justify-content: center; /* Centrar horizontalmente los cards */
-        align-items: flex-start; /* Alinear los elementos verticalmente */
-        padding: 20px;
-        max-height: 80vh;
-        width: 90%;
-        overflow-y: auto; /* Habilitar scroll vertical si es necesario */
-        overflow-x: hidden;
-        background-color: white;
-        border-radius: 10px;
-        box-sizing: border-box;
-        position: relative; /* Asegurar que los elementos absolutos estén contenidos */
-        
-      }
-      
-      .modalInfoTramite-content h2{
-        border-bottom: 2px solid #faa21b;
-      }
-      
-      /* Cards individuales */
-      .detalleTramite-card {
-        flex: 1 1 calc(33.333% - 16px); /* Configuración para 3 cards por fila */
-        max-width: calc(33.333% - 16px); /* Limitar ancho máximo de cada card */
-        min-width: 250px; /* Ancho mínimo para evitar cards demasiado pequeñas */
-        height: auto;
-        box-sizing: border-box;
-        text-align: center;
-        overflow: hidden;
-        background-color: #0b3b60; /* Fondo azul */
-        color: #fff;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      
-      .detalleTramite-card:hover {
-        transform: translateY(-5px); /* Pequeño efecto al pasar el cursor */
-      }
-      
-      /* Títulos dentro de los cards */
-      .detalleTramite-header {
-        padding: 10px;
-        font-size: 1.2rem;
-        font-weight: bold;
-      }
-      
-      /* Responsividad para pantallas medianas */
-      @media (max-width: 768px) {
-        .detalleTramite-card {
-          flex: 1 1 calc(50% - 16px); /* Configuración para 2 cards por fila */
-          max-width: calc(50% - 16px);
-        }
-      }
-      
-      /* Responsividad para pantallas pequeñas */
-      @media (max-width: 480px) {
-        .detalleTramite-card {
-          flex: 1 1 100%; /* Configuración para 1 card por fila */
-          max-width: 100%;
-        }
-      }
-      
-      .close-modalInfoTramite {
-        position: absolute; /* Posicionamiento dentro del modal */
-        top: 10px; /* Espaciado desde la parte superior */
-        right: 10px; /* Espaciado desde la parte derecha */
-        background: #f44336; /* Fondo rojo */
-        color: white; /* Color del texto */
-        border: none;
-        border-radius: 50%; /* Forma redonda */
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s ease;
-      }
-      
-      .close-modalInfoTramite:hover {
-        background: #d32f2f; /* Fondo más oscuro al pasar el cursor */
-      }
-    
-        /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-                   /*COMIENZO DE MODAL DE CONFIRMACIÓN*/
-      /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-  
-   /* Estilo del Modal */
-   .modalConfirmationTramite {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro translúcido */
-    z-index: 1000;
-      }
-  
-      .modalConfirmationTramite-content {
-        background: rgb(255, 255, 255);
-    padding: 20px;
-    padding-top: 50px;
-    border-radius: 10px;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-    max-height: 80vh;
-    text-align: center;
-    position: relative;
-    animation: fadeIn 0.3s ease; /* Animación al mostrar */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra del modal */
-      }
-  
-      .modalConfirmationTramite-content h2 {
-        margin-top: 0;
-      }
-  
-      .modalConfirmationTramite-content p {
-        color: gray;
-      }
-  
-      .close-modalConfirmationTramite {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #f44336;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-  
-  
-  
-      /*FORMULARIO*/
-      .containerTramite {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
-        padding: 20px;
-        width: auto;
-        max-width: auto;
-        max-height: 70vh;
-        /* Altura máxima del formulario */
-        overflow-y: auto;
-        /* Espaciado para evitar superposición con el scroll */
-        scrollbar-width: thin;
-        /* Estilo del scroll (para navegadores compatibles) */
-        scrollbar-color: #faa21b #e0e0e0;
-        /* Colores personalizados del scroll */
-      }
-  
-     /* stepper - versión base */
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*COMIENZO DE MODAL DE INFORMACION*/
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+.modalInfoTramite {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Contenedor del Modal */
+.modalInfoTramite-content {
+  display: flex;
+  /* Usar Flexbox para organizar los elementos */
+  flex-wrap: wrap;
+  /* Permitir que los elementos dentro se acomoden en filas */
+  gap: 16px;
+  /* Espaciado entre los elementos */
+  justify-content: center;
+  /* Centrar horizontalmente los cards */
+  align-items: flex-start;
+  /* Alinear los elementos verticalmente */
+  padding: 20px;
+  max-height: 80vh;
+  width: 90%;
+  overflow-y: auto;
+  /* Habilitar scroll vertical si es necesario */
+  overflow-x: hidden;
+  background-color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
+  position: relative;
+  /* Asegurar que los elementos absolutos estén contenidos */
+
+}
+
+.modalInfoTramite-content h2 {
+  border-bottom: 2px solid #faa21b;
+}
+
+/* Cards individuales */
+.detalleTramite-card {
+  flex: 1 1 calc(33.333% - 16px);
+  /* Configuración para 3 cards por fila */
+  max-width: calc(33.333% - 16px);
+  /* Limitar ancho máximo de cada card */
+  min-width: 250px;
+  /* Ancho mínimo para evitar cards demasiado pequeñas */
+  height: auto;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: hidden;
+  background-color: #0b3b60;
+  /* Fondo azul */
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detalleTramite-card:hover {
+  transform: translateY(-5px);
+  /* Pequeño efecto al pasar el cursor */
+}
+
+/* Títulos dentro de los cards */
+.detalleTramite-header {
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Responsividad para pantallas medianas */
+@media (max-width: 768px) {
+  .detalleTramite-card {
+    flex: 1 1 calc(50% - 16px);
+    /* Configuración para 2 cards por fila */
+    max-width: calc(50% - 16px);
+  }
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 480px) {
+  .detalleTramite-card {
+    flex: 1 1 100%;
+    /* Configuración para 1 card por fila */
+    max-width: 100%;
+  }
+}
+
+.close-modalInfoTramite {
+  position: absolute;
+  /* Posicionamiento dentro del modal */
+  top: 10px;
+  /* Espaciado desde la parte superior */
+  right: 10px;
+  /* Espaciado desde la parte derecha */
+  background: #f44336;
+  /* Fondo rojo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  border-radius: 50%;
+  /* Forma redonda */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.close-modalInfoTramite:hover {
+  background: #d32f2f;
+  /* Fondo más oscuro al pasar el cursor */
+}
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*COMIENZO DE MODAL DE CONFIRMACIÓN*/
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/* Estilo del Modal */
+.modalConfirmationTramite {
+  display: none;
+  /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo oscuro translúcido */
+  z-index: 1000;
+}
+
+.modalConfirmationTramite-content {
+  background: rgb(255, 255, 255);
+  padding: 20px;
+  padding-top: 50px;
+  border-radius: 10px;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  max-height: 80vh;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  /* Animación al mostrar */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Sombra del modal */
+}
+
+.modalConfirmationTramite-content h2 {
+  margin-top: 0;
+}
+
+.modalConfirmationTramite-content p {
+  color: gray;
+}
+
+.close-modalConfirmationTramite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+
+/*FORMULARIO*/
+.containerTramite {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 123, 0, 0.1);
+  padding: 20px;
+  width: auto;
+  max-width: auto;
+  max-height: 70vh;
+  /* Altura máxima del formulario */
+  overflow-y: auto;
+  /* Espaciado para evitar superposición con el scroll */
+  scrollbar-width: thin;
+  /* Estilo del scroll (para navegadores compatibles) */
+  scrollbar-color: #faa21b #e0e0e0;
+  /* Colores personalizados del scroll */
+}
+
+/* stepper - versión base */
 .stepper {
   display: flex;
   justify-content: space-between;
@@ -462,11 +513,13 @@
   }
 
   .step {
-    display: none; /* oculta todos los pasos */
+    display: none;
+    /* oculta todos los pasos */
   }
 
   .step.active {
-    display: flex; /* solo muestra el paso activo */
+    display: flex;
+    /* solo muestra el paso activo */
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -478,18 +531,22 @@
     height: 40px;
     font-size: 16px;
     margin-right: 10px;
-    background-color: #faa21b; /* mantiene el color del paso activo */
+    background-color: #faa21b;
+    /* mantiene el color del paso activo */
     color: white;
     font-weight: bold;
   }
 
   .line {
-    display: none; /* oculta las líneas en móvil */
+    display: none;
+    /* oculta las líneas en móvil */
   }
 }
+
 @media screen and (min-width: 601px) {
   .step {
-    flex-direction: column !important; /* 🔥 vuelve a alinear en columna en pc */
+    flex-direction: column !important;
+    /* 🔥 vuelve a alinear en columna en pc */
     align-items: center !important;
   }
 
@@ -499,119 +556,123 @@
 }
 
 
-  /*fin de el stepper*/
-      .form-group-tramite {
-        margin-bottom: 20px;
-        text-align: left;
-      }
-  
-      .form-group-tramite label {
-        margin-top: 10px;
-        font-size: 15px;
-        text-align: left; 
-        display: block; 
-        font-weight: bold; 
-        margin-bottom: 5px;
-      }
-  
-      .form-group-tramite input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        border-color: #faa21b;
-      }
+/*fin de el stepper*/
+.form-group-tramite {
+  margin-bottom: 20px;
+  text-align: left;
+}
 
-      .form-group-tramite select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        border-color: #faa21b;
-      }
-  
-      .error-message {
-        font-size: 12px;
-        color: red;
-        display: none;
-      }
-  
-      .form-navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-      }
+.form-group-tramite label {
+  margin-top: 10px;
+  font-size: 15px;
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-      .btn-containerTramite {
-        width: 100%; /* Asegura que ocupe todo el ancho */
-        text-align: center; /* Centra el botón horizontalmente */
-        margin-top: 20px; /* Espacio entre los cards y el botón */
-    }
-  
-      .btnTramite {
-        background-color: #faa21b;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
+.form-group-tramite input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-color: #faa21b;
+}
 
-      .btnTramite:hover {
-        background-color: #e69900;
-      }
+.form-group-tramite select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-color: #faa21b;
+}
 
-      .btnNextTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-      .btnConfirmarTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-      .btnCerrarConfirmarTramite{
-        background-color: #faa21b;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .btnPrevTramite {
-        background-color: #999595;
-        color: #ffffff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-    
-  
-        select {
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 16px;
-        }
 
-        .invalid {
-          border: 2px solid red;
-          background-color: #ffe6e6;
-      }
-      
+.error-message {
+  font-size: 12px;
+  color: red;
+  display: none;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-containerTramite {
+  width: 100%;
+  /* Asegura que ocupe todo el ancho */
+  text-align: center;
+  /* Centra el botón horizontalmente */
+  margin-top: 20px;
+  /* Espacio entre los cards y el botón */
+}
+
+.btnTramite {
+  background-color: #faa21b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btnTramite:hover {
+  background-color: #e69900;
+}
+
+.btnNextTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnConfirmarTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnCerrarConfirmarTramite {
+  background-color: #faa21b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnPrevTramite {
+  background-color: #999595;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+select {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.invalid {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /*COMIENZO DE MODAL DE INFORMACION*/
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -785,8 +846,13 @@
 
 /* Estilos para pasos activos */
 .form-step {
+
   display: none;
   /* Ocultar pasos por defecto */
+}
+
+.form-step h2 {
+  color: #0b3b60;
 }
 
 .form-step.active {
@@ -905,3 +971,111 @@ select {
   padding: 10px;
   font-size: 16px;
 }
+
+
+/********************ESTILOS DE LOS CARDS DE LAS SECRETARIAS***********************************/
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contenedorCardsSecretarias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+
+}
+
+.cardSecretaria {
+  cursor: pointer;
+  width: 350px;
+  height: 250px;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #0b3b60;
+}
+
+.cardImageSecretaria {
+  width: 100%;
+  height: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cardImageSecretaria img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+  background-color: #f8f8f8;
+}
+
+.cardContentSecretaria {
+  width: 100%;
+  height: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  padding: 10px;
+  text-align: center;
+  transition: background 0.3s ease-in-out;
+  position: relative;
+}
+
+.cardTitleSecretaria {
+  font-size: 1.3em;
+  color: #333;
+  transition: opacity 0.3s ease-in-out;
+  border-bottom: 3px solid #007BFF;
+  padding-bottom: 5px;
+}
+
+.cardDescriptionSecretaria {
+  font-size: 0.9em;
+  color: #333;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.cardSecretaria:hover .cardTitleSecretaria {
+  opacity: 0;
+}
+
+.cardSecretaria:hover .cardDescriptionSecretaria {
+  opacity: 1;
+}
+
+.cardSecretaria:hover .cardImageSecretaria img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .ContenedorCardsSecretarias {
+    justify-content: center;
+  }
+
+  .cardSecretaria { 
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+

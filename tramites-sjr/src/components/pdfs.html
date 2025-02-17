@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Documento</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.0.2/tesseract.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+
+    <h2>Sube tu acta de nacimiento</h2>
+    <input type="file" id="fileInput" accept="application/pdf">
+    <button onclick="procesarPDF()">Verificar Documento</button>
+    <p id="resultado"></p>
+
+    <script>
+        function procesarPDF() {
+            const input = document.getElementById("fileInput");
+            const archivo = input.files[0];
+
+            if (!archivo) {
+                alert("Por favor, selecciona un archivo.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const pdfData = new Uint8Array(event.target.result);
+                pdfjsLib.getDocument({ data: pdfData }).promise.then(pdf => {
+                    let textoCompleto = "";
+
+                    let promises = [];
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        promises.push(
+                            pdf.getPage(i).then(page => {
+                                return page.getTextContent().then(textContent => {
+                                    let textoPagina = textContent.items.map(item => item.str).join(" ");
+                                    textoCompleto += textoPagina + " ";
+                                });
+                            })
+                        );
+                    }
+
+                    // Una vez obtenemos todo el texto, verificamos si hay más imágenes para OCR.
+                    Promise.all(promises).then(() => {
+                        if (textoCompleto.trim() === "") {
+                            // Si no se encuentra texto, proceder con OCR (Tesseract.js).
+                            extraerTextoDeImagenes(pdf);
+                        } else {
+                            verificarTexto(textoCompleto);
+                        }
+                    });
+                });
+            };
+            reader.readAsArrayBuffer(archivo);
+        }
+
+        function extraerTextoDeImagenes(pdf) {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            // Procesar la primera página como imagen
+            pdf.getPage(1).then(page => {
+                const viewport = page.getViewport({ scale: 2 }); // Mantener una escala moderada para mejor calidad
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                    const imageData = canvas.toDataURL("image/png");
+
+                    // Procesar la imagen con Tesseract.js
+                    Tesseract.recognize(
+                        imageData,
+                        'spa', 
+                        {
+                            logger: (m) => console.log(m)
+                        }
+                    ).then(({ data: { text } }) => {
+                        console.log("Texto extraído de imagen:", text);
+                        verificarTexto(text);
+                    });
+                });
+            });
+        }
+
+        function verificarTexto(texto) {
+            console.log("Texto extraído:", texto);
+
+            const nombreUsuario = "EDUARDO GOMEZ luna zavala"; // Este es el nombre que buscas, puedes cambiarlo por el nombre dinámico
+            let textoNormalizado = normalizarTexto(texto);
+            const nombreNormalizado = normalizarTexto(nombreUsuario);
+
+            // Separar el nombre del usuario en partes (fragmentos)
+            const nombreFragmentos = nombreUsuario.split(" ").map(fragment => normalizarTexto(fragment));
+
+            // Verificar si al menos uno de los fragmentos del nombre aparece en el texto
+            let nombreValido = nombreFragmentos.some(fragmento => textoNormalizado.includes(fragmento));
+
+            if (nombreValido) {
+                document.getElementById("resultado").innerText = "✅ Nombre verificado correctamente.";
+            } else {
+                document.getElementById("resultado").innerText = "❌ El nombre no coincide con el acta.";
+            }
+        }
+
+        function normalizarTexto(texto) {
+            if (!texto || typeof texto !== "string") return "";
+
+            return texto
+                .toLowerCase() // Hace todo minúsculas
+                .normalize("NFD") // Normaliza caracteres acentuados
+                .replace(/[\u0300-\u036f]/g, "") // Elimina acentos
+                .replace(/\s+/g, " ") // Elimina espacios extras
+                .trim(); // Quita espacios al principio y al final
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Mejorado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif; /* Fuente mejorada */
+        }
+
+        #cardSecretaria {
+            width: 340px;
+            height: 290px;
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: #fff;
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #0b3b60;
+        }
+
+        #cardImageSecretaria {
+            width: 100%;
+            height: 60%;
+            overflow: hidden;
+        }
+
+        #cardImageSecretaria img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #cardContentSecretaria {
+            width: 100%;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            padding: 5px;
+            text-align: center;
+            transition: background 0.3s ease-in-out;
+            position: relative;
+        }
+
+        #cardTitleSecretaria {
+            font-size: 1.5em;
+            color: #333;
+            transition: opacity 0.3s ease-in-out;
+            border-bottom: 3px solid #007BFF;
+            padding-bottom: 5px;
+        }
+
+        #cardDescriptionSecretaria {
+            font-size: 1em;
+            color: #333;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #cardSecretaria:hover #cardTitleSecretaria {
+            opacity: 0;
+        }
+
+        #cardSecretaria:hover #cardDescriptionSecretaria {
+            opacity: 1;
+        }
+
+        #cardSecretaria:hover #cardImageSecretaria img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cardSecretaria">
+        <div id="cardImageSecretaria">
+            <img src="./images/Desarrollo Social.jpg" alt="Desarrollo Social">
+        </div>
+        <div id="cardContentSecretaria">
+            <h3 id="cardTitleSecretaria">Acerca de...</h3>
+            <p id="cardDescriptionSecretaria">
+                Este programa está enfocado en el bienestar de la comunidad.  
+                Busca mejorar la calidad de vida mediante proyectos de inclusión y desarrollo.
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
