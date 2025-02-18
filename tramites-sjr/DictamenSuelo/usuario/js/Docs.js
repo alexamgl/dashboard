@@ -10,22 +10,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const documentosCondicionales = [
         { nombre: "Dictamen de Uso de Suelo", descripcion: "Copia en caso de ratificación, modificación o revisión." },
-        { nombre: "Acta Constitutiva", descripcion: "(Solo en caso de ser persona Moral) Documento que acredite al representante legal o apoderado." },
+        { nombre: "Acta Constitutiva", descripcion: "Documento que acredite al representante legal o apoderado." },
         { nombre: "Visto Bueno de la Asociación de Condóminos", descripcion: "Solo en caso de predios bajo régimen de condominio." }
     ];
 
     const documentosEspecificos = [
-        { nombre: "Formulario de Inducción", descripcion: "(Para usos industriales)Formulario de la Secretaría de Desarrollo Sustentable." },
+        { nombre: "Formulario de Inducción", descripcion: "Formulario de la Secretaría de Desarrollo Sustentable." },
         { nombre: "Autorización ASEA o CRE", descripcion: "Autorización en materia ambiental y social." }
     ];
 
-    // Lista de documentos requeridos
-    const documentosRequeridos = [
+    // Lista de documentos obligatorios (definidos manualmente)
+    const documentosRequeridos = new Set([
         "Identificación Oficial",
         "Escritura o Título de Propiedad",
         "Recibo de Pago del Impuesto Predial",
-        "Pago de Ingreso del Trámite"
-    ];
+        "Pago de Ingreso del Trámite",
+        "Dictamen de Uso de Suelo"
+    ]);
 
     function cargarDocumentos(tablaId, documentos) {
         const tabla = document.getElementById(tablaId).querySelector("tbody");
@@ -34,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
         documentos.forEach((doc) => {
             const row = document.createElement("tr");
 
-            // Si el documento está en la lista de requeridos, agregar la clase 'required-file'
-            if (documentosRequeridos.includes(doc.nombre)) {
+            // Solo marcar como 'required-file' si el documento está en la lista de requeridos
+            if (documentosRequeridos.has(doc.nombre)) {
                 row.classList.add("required-file");
             }
 
@@ -55,11 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Cargar documentos
+    // Cargar documentos en las tablas
     cargarDocumentos("tablaDocsGenerales", documentosGenerales);
     cargarDocumentos("tablaDocsCondicionales", documentosCondicionales);
     cargarDocumentos("tablaDocsEspecificos", documentosEspecificos);
 });
+
 
 // Seleccionar archivo
 function seleccionarArchivo(event, button) {

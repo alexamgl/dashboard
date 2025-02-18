@@ -1,32 +1,29 @@
 function validarCamposPasoActual(formStep) {
-    const inputs = formStep.querySelectorAll("input, select, input[type='file']"); // Incluir archivos en la validación
+    const inputs = formStep.querySelectorAll("input, select, input[type='file']");
     let todosValidos = true;
 
-    // Almacenar los grupos de radios ya validados para evitar múltiples validaciones
     let radiosValidados = new Set();
 
     inputs.forEach((input) => {
         const id = input.id;
         const name = input.name;
-        let esValido = true; // Suponer que el campo es válido inicialmente
+        let esValido = true;
 
         if (input.type === "radio") {
-            // Validar radio solo si su grupo aún no ha sido validado
             if (!radiosValidados.has(name)) {
                 esValido = validarRadioGrupo(name, input.closest("div").id);
                 radiosValidados.add(name);
             }
         } else if (input.type === "file") {
-            // Validar archivos solo si la fila tiene la clase 'required-file'
             const fila = input.closest("tr"); 
             const esRequerido = fila && fila.classList.contains("required-file");
 
+            // Si el archivo es requerido y no se ha subido, marcarlo como inválido
             if (esRequerido && !input.files.length) {
                 esValido = false;
             }
         } else {
             if (id) {
-                // Validar con 'oninput' si está presente
                 if (input.hasAttribute("oninput")) {
                     const funcionValidar = input.getAttribute("oninput").match(/([a-zA-Z]+)\(/);
                     if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
@@ -34,7 +31,6 @@ function validarCamposPasoActual(formStep) {
                     }
                 }
 
-                // Validar con 'onchange' si está presente
                 if (input.hasAttribute("onchange")) {
                     const funcionValidar = input.getAttribute("onchange").match(/([a-zA-Z]+)\(/);
                     if (funcionValidar && typeof window[funcionValidar[1]] === "function") {
@@ -42,14 +38,12 @@ function validarCamposPasoActual(formStep) {
                     }
                 }
 
-                // Validar campos requeridos
                 if (input.hasAttribute("required") && input.value.trim() === "") {
                     esValido = false;
                 }
             }
         }
 
-        // Aplicar clases de validación
         if (!esValido) {
             input.classList.add("invalid");
             todosValidos = false;

@@ -10,33 +10,7 @@ function showModalInfodicSuelo(id) {
     document.getElementById(id)?.classList.remove('show');
   }
   
-  /********************************************************************************************* */
-  /**********FUNCIONES PARA MOSTRAR Y OCULTAR CONTENEDORES DE INFO Y FORMULARIO***************** */
-  /********************************************************************************************* */
-  
-  
-  document.getElementById('toggleTramitedicSuelo')?.addEventListener('click', () => {
-    document.querySelector('.ContenedorCardsDashboard')?.classList.toggle('hiddendicSuelo');
-    document.querySelector('.modalInfoTramitedicSuelo')?.classList.toggle('hiddendicSuelo');
-  });
-  
-  // Volver al menú principal
-  document.getElementById('btnVolverdicSuelo')?.addEventListener('click', () => {
-    document.querySelector('.ContenedorCardsDashboard')?.classList.toggle('hiddendicSuelo');
-    document.querySelector('.modalInfoTramitedicSuelo')?.classList.toggle('hiddendicSuelo');
-  });
-  
-  // Mostrar el formulario de trámite y ocultar la información
-  document.getElementById('toggleTramiteFormdicSuelo')?.addEventListener('click', () => {
-    //console.log("Mostrando formulario del trámite...");
-    document.querySelector('.modalInfoTramitedicSuelo')?.classList.add('hiddendicSuelo');
-    document.querySelector('.containerFormTramitedicSuelo')?.classList.remove('hiddendicSuelo');
-  
-    // Inicializar el stepper cuando se muestra el formulario
-    initStepperdicSuelo();
-  });
-  
-  
+
   
   //************************************************************************************************** */
   //****************FUNCIONAMIENTO DE LOS PASOS Y BOTONES DE EL FORMULARIO**************************** */
@@ -102,7 +76,6 @@ function showModalInfodicSuelo(id) {
   //*****************FUNCION QUE ACTUALIZA LA VISIBILIDAD DE EL FORMULARIO********************* */
   //******************************************************************************************* */
   
-  
   // Función para actualizar la visibilidad de los pasos
   function updateStepVisibilitydicSuelo(form) {
     const steps = form.querySelectorAll(".form-step");
@@ -156,14 +129,30 @@ function showModalInfodicSuelo(id) {
     window.addEventListener("resize", adjustStepperView);
   }
   
-  // Llamar a la función cuando la página se carga
-  document.addEventListener("DOMContentLoaded", () => {
+
+
+  /* Llamar a la función est funcion nos sirve para que si el usuario ya tiene un  registro en la base de datos 
+     se mande al usuario directamente a el paso de pagos en caso de no haber pagado*/
+  document.addEventListener("DOMContentLoaded", async function () {
     const form = document.querySelector(".containerFormTramitedicSuelo");
+
     if (form) {
+        // Obtener los datos del usuario antes de iniciar el formulario
+        const id_usuario = 1; // Ajusta el ID dinámicamente si es necesario
+        const datosSuelo = await obtenerDatosSuelo(id_usuario);
+
+        if (datosSuelo) {
+            // Si el usuario ya tiene datos en la base, lo lleva directamente al paso 4
+            currentStepdicSuelo = 4; // Paso 4 (los índices empiezan desde 0)
+        } else {
+            // Si no tiene datos, comienza desde el paso 1
+            currentStepdicSuelo = 0;
+        }
+
+        // Inicializar la visibilidad del stepper y los pasos correctamente
         updateStepVisibilitydicSuelo(form);
     }
-  });
-  
+});
   
   //************************************************************************************************* */
   //*****************FUNCIONAMIENTO DE LOS BOTONES SIGUIENTE Y VOLVER******************************** */
@@ -181,53 +170,70 @@ async function handleNextStepdicSuelo(form) {
   }
 
   // Verificar que todos los campos del paso actual sean válidos
-  if (!validarCamposPasoActual(steps[currentStepdicSuelo])) {
+  /*if (!validarCamposPasoActual(steps[currentStepdicSuelo])) {
       mostrarModalValidarCampos(); // Mostrar el modal para notificar al usuario que los campos no están completos
       return; // Si la validación falla, no avanzamos al siguiente paso
-  }
+  }*/
 
-  // Si estamos en el paso donde se necesita enviar a la API, mostrar el modal de confirmación
-  if (steps[currentStepdicSuelo].querySelector('[data-btn="insertDataSuelo"]')) {
+  // Verificar si el paso actual tiene el botón de insertar datos y subir documentos
+  if (steps[currentStepdicSuelo].querySelector('[data-btn="insertAndUploadSuelo"]')) {
       mostrarModalConfirmacion(async () => {
-          // Llamar a la API y esperar el resultado
-          const registroExitoso = await RegistroFormDicSueloAPI();
+          mostrarModalCargaSuelo("Guardando datos y subiendo documentos...");
 
-          if (registroExitoso) {
-              mostrarModalResultado("Los datos han sido registrados correctamente.", true);
+          try {
+              // 1️⃣ Insertar los datos primero
+              const registroExitoso = await RegistroFormDicSueloAPI();
+              if (!registroExitoso) {
+                  cerrarModalCargaSuelo();
+                  mostrarModalResultado("Hubo un error al registrar los datos. Verifica la información e intenta nuevamente.", false);
+                  return; // Detener el avance si la inserción falla
+              }
 
-              // Si la inserción es exitosa, avanzamos al siguiente paso
+              // 2️⃣ Subir los documentos después de insertar los datos
+              const id_usuario = 1; // Ajusta según cómo obtengas el ID del usuario
+              const subidaExitosa = await subirDocumentosSuelo(id_usuario);
+
+              if (!subidaExitosa) {
+                  cerrarModalCargaSuelo();
+                  mostrarModalResultado("Error al subir los documentos. Asegúrate de haber subido todos los documentos requeridos.", false);
+                  return; // Detener el avance si la subida falla
+              }
+
+              // 3️⃣ Si todo es exitoso, avanzar al siguiente paso
+              cerrarModalCargaSuelo();
+              mostrarModalResultado("Los datos y documentos fueron guardados correctamente.", true);
+
               if (currentStepdicSuelo < steps.length - 1) {
                   steps[currentStepdicSuelo].classList.remove("active");
                   currentStepdicSuelo++;
                   steps[currentStepdicSuelo].classList.add("active");
 
-                  // Actualizar visibilidad de los pasos (para asegurarnos de que solo se muestra el paso actual)
+                  // Actualizar visibilidad de los pasos
                   updateStepVisibilitydicSuelo(form);
               }
-          } else {
-              mostrarModalResultado("Hubo un error al registrar los datos. Por favor, verifica que estén correctos e intenta de nuevo.", false);
-              // Si hay error, el usuario se queda en el mismo paso
+          } catch (error) {
+              cerrarModalCargaSuelo();
+              mostrarModalResultado("Ocurrió un error inesperado. Intenta nuevamente.", false);
           }
       });
 
       return; // Detener el flujo hasta que el usuario confirme
   }
 
-  // Si la validación es exitosa y/o el registro es exitoso, avanzamos al siguiente paso
+  // Si la validación es exitosa y no es un paso de inserción/subida, avanzar normalmente
   if (currentStepdicSuelo < steps.length - 1) {
-      // Quitar la clase 'active' del paso actual
       steps[currentStepdicSuelo].classList.remove("active");
 
       // Incrementar el paso actual
       currentStepdicSuelo++;
 
-      // Mostrar el siguiente paso
       steps[currentStepdicSuelo].classList.add("active");
 
       // Actualizar visibilidad de los pasos (para asegurarnos de que solo se muestra el paso actual)
       updateStepVisibilitydicSuelo(form);
   }
 }
+
 
 
 // Función para retroceder al paso anterior
@@ -263,8 +269,8 @@ function mostrarModalConfirmacion(callback) {
           <div class="modal-content">
               <h3>Confirmación</h3>
               <img src="./images/advertencia.png" alt="Advertencia" class="icono-advertencia-validar">
-              <p>¿Estás seguro de que los datos ingresados son correctos?,
-              No podrás correjirlos una vez aceptes</p>
+              <p>¿Estás seguro que los datos y documentos ingresados son correctos?,
+              No se podrán corregir una vez continues</p>
               <div class="modal-buttons">
                   <button id="btnCancelarConfirmacion" class="btn-cancel">Cancelar</button>
                   <button id="btnAceptarConfirmacion" class="btn-confirm">Aceptar</button>
@@ -302,4 +308,49 @@ function mostrarModalResultado(mensaje, exito = true) {
   document.getElementById("btnCerrarResultado").addEventListener("click", function () {
       document.getElementById("modalResultadodicSuelo").remove();
   });
+}
+
+
+//MODAL DE CARGA 
+function mostrarModalCargaSuelo(mensaje) {
+  const modal = document.createElement("div");
+  modal.classList.add("modal-global");
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100%";
+  modal.style.height = "100%";
+  modal.style.display = "flex";
+  modal.style.justifyContent = "center";
+  modal.style.alignItems = "center";
+  modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  modal.style.zIndex = "10000";
+
+  const modalContent = `
+      <div style="
+          background: white; 
+          padding: 20px; 
+          border-radius: 12px; 
+          max-width: 400px; 
+          text-align: center;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      ">
+          <h2 style="color: #333; font-size: 18px; margin-bottom: 10px;">${mensaje}</h2>
+          <img src="./images/Spinner2.gif" alt="Cargando..." style="width: 80px; height: 80px;">
+          <p style="font-size: 14px; color: #666;">Por favor, sea paciente...</p>
+      </div>
+  `;
+  modal.innerHTML = modalContent;
+  document.body.appendChild(modal);
+}
+
+// Función para cerrar el modal de carga
+function cerrarModalCargaSuelo() {
+  const modal = document.querySelector(".modal-global");
+  if (modal) {
+      modal.remove();
+  }
 }

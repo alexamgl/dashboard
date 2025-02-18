@@ -843,6 +843,15 @@ select.invalid {
   cursor: pointer;
   transition: background 0.2s ease-in-out;
 }
+.btnVolverInicio{
+  background: rgb(22, 19, 194);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
 
 .btn-confirm:hover {
   background: darkgreen;
@@ -850,6 +859,11 @@ select.invalid {
 
 .btn-cancel:hover {
   background: darkred;
+}
+
+
+.btnVolverInicio:hover {
+  background: rgb(52, 32, 145);
 }
 
 /* Estilos específicos para éxito y error */

@@ -153,11 +153,8 @@ function buscarUbicacion() {
             // Mostrar el botón "Guardar ubicación"
             const guardarUbicacionContainer = document.getElementById("guardar-ubicacion-container");
             guardarUbicacionContainer.style.display = "block";
-            console.log("Ubicación encontrada. Mostrando el botón 'Guardar ubicación'.");
-
             document.getElementById("latitud").value = lat;
             document.getElementById("longitud").value = lng;
-            document.getElementById("coordinates").textContent = `Lat: ${lat}, Lng: ${lng}`;
         } else {
             alert("No se pudo encontrar la ubicación: " + status);
         }

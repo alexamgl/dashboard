@@ -51,7 +51,7 @@ $authHeader = $headers['Authorization'] ?? '';
 // Definir las rutas públicas
 $publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 
 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data',
-'get_datos_becas','insert_full_suelo_data','upload_documents_suelo_data'];
+'get_datos_becas','insert_full_suelo_data','upload_documents_suelo_data','get_datos_suelo'];
 
 
 // Verificar el token solo si la ruta no es pública
@@ -154,6 +154,13 @@ if ($entity === 'usuarios') {
 }elseif ($entity === 'get_datos_becas' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../controllers/GetDatosBecaController.php';
     $controller = new GetDatosBecaController();
+    $data = json_decode(file_get_contents("php://input"));
+    $controller->read($data);
+    exit();
+
+}elseif ($entity === 'get_datos_suelo' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once '../controllers/GetDatosSueloController.php';
+    $controller = new GetDatosSueloController();
     $data = json_decode(file_get_contents("php://input"));
     $controller->read($data);
     exit();

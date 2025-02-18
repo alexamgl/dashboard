@@ -55,65 +55,82 @@ async function RegistroFormDicSueloAPI() {
 }
 
 
-async function guardarDocumentosSuelo() {
-    const tableBody = document.querySelector("#documentsTable tbody");
-    const rows = tableBody.querySelectorAll("tr");
+async function subirDocumentosSuelo(id_usuario) {
+    const tablas = ["tablaDocsGenerales", "tablaDocsCondicionales", "tablaDocsEspecificos"];
     const documentos = [];
-    const id_usuario = 1; // ⚠️ Cambiar dinámicamente con sesión cuando esté disponible
-  
-    for (let i = 0; i < rows.length; i++) {
-        const fileInput = document.getElementById(`file-${i}`);
-        const file = fileInput.files[0];
-  
-        if (file) {
-            documentos.push({
-                file: file,
-                nombre: rows[i].querySelector("td:nth-child(2)").textContent.trim()
-            });
-        }
+
+    // Recorrer todas las tablas para recolectar los documentos a subir
+    tablas.forEach(tablaId => {
+        const filas = document.querySelectorAll(`#${tablaId} tbody tr`);
+
+        filas.forEach(fila => {
+            const inputFile = fila.querySelector("input[type='file']");
+            const nombreDocumento = fila.querySelector("td:nth-child(2)").textContent.trim();
+            const esRequerido = fila.classList.contains("required-file"); // Verifica si el documento es obligatorio
+
+            if (inputFile && inputFile.files.length > 0) {
+                documentos.push({
+                    file: inputFile.files[0],
+                    nombre: nombreDocumento
+                });
+            } else if (esRequerido) {
+                return false; // Detiene la subida si falta un documento requerido
+            }
+        });
+    });
+
+    if (documentos.length === 0) {
+        return false;
     }
-  
-  
-    mostrarModalCarga("Espere, se están guardando los documentos...");
-  
-  
+
     const resultados = [];
+
     for (const documento of documentos) {
         const formData = new FormData();
         formData.append("file", documento.file);
         formData.append("nombre", documento.nombre);
         formData.append("id_usuario", id_usuario);
-  
+
         try {
             const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/upload_documents_suelo_data", {
                 method: "POST",
                 body: formData,
             });
-  
+
             const result = await response.json();
             if (result.success) {
                 resultados.push(result.url);
-               // console.log(`Documento ${documento.nombre} subido con éxito. URL: ${result.url}`);
             } else {
-                cerrarModalCarga();
-                mostrarModalGlobal(`Error al subir el documento ${documento.nombre}: ${result.message}`, "error");
                 return false;
             }
         } catch (error) {
-            cerrarModalCarga();
-            //console.error(`Error al subir el documento ${documento.nombre}:`, error);
-            mostrarModalGlobal(`Error al subir el documento ${documento.nombre}.`, "error");
             return false;
         }
     }
-  
-    cerrarModalCarga();
-  
-    if (resultados.length === documentos.length) {
-        mostrarModalGlobal("Los documentos fueron guardados correctamente.", "success");
-        return true;
+
+    return resultados.length === documentos.length;
+}
+
+async function obtenerDatosSuelo(id_usuario = 1) {
+    try {
+        const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/get_datos_suelo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_usuario }) // enviar el id en el body
+        });
+
+        const result = await response.json();
+        
+        if (result.success && result.dictamen) { // Cambio de "suelo" a "dictamen"
+            console.log("Datos del dictamen obtenidos:", result.dictamen);
+            return result.dictamen; // Devuelve los datos del dictamen
+        }
+
+        return null; // Si no hay datos, devuelve null
+    } catch (error) {
+        console.error("Error al obtener los datos del dictamen:", error);
+        return null;
     }
-  
-    return false;
-  }
-  
+}
+
+
