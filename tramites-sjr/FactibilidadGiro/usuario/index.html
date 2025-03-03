@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factibilidad de Giro</title>
+
+    <link rel="stylesheet" href="css/factibilidadGiro.css">
+    <link rel="stylesheet" href="css/ubiGiro.css">
+    <link rel="stylesheet" href="css/docsGiro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<img src="images/images/slide OBRAS PÚBLICAS Y DESARROLLO URBANO.png" alt="desarrollo social" class="header-image">
+
+<div class="titulo-tramite">
+    <h1>Trámite de Factibilidad de Giro</h1>
+</div>
+
+<body>
+           <!--*********************************************************************************-->
+           <!--***************************FORMULARIO DE FACTIBILIDAD**************************************-->
+           <!--*********************************************************************************-->
+    
+          <div class="containerFormTramiteFactGiro">
+              <!-- FORMULARIO -->
+      <div class="contTramiteFactGiro">
+        <div class="stepperFactGiro">
+          <div class="stepFactGiro" data-step="1">
+            <div class="circle">1</div>
+            <span>Datos de identificación</span>
+          </div>
+          <div class="lineFactGiro"></div>
+          <div class="stepFactGiro" data-step="2">
+            <div class="circle">2</div>
+            <span>Ubicación del predio</span>
+          </div>
+          <div class="lineFactGiro"></div>
+          <div class="stepFactGiro" data-step="3">
+            <div class="circle">3</div>
+            <span>Factibilidad de giro</span>
+          </div>
+          <div class="lineFactGiro"></div>
+          <div class="stepFactGiro" data-step="4">
+            <div class="circle">4</div>
+            <span>Documentación</span>
+          </div>
+          <div class="lineFactGiro"></div>
+          <div class="stepFactGiro" data-step="5">
+            <div class="circle">5</div>
+            <span>Payment</span>
+          </div>
+        </div>
+    
+        <!-- Formulario FactGiro -->
+        <form id="stepFormFactGiro">
+          <!-- Paso 1 -->
+          <div class="form-step activeFactGiro" data-step="1">
+            <h2>Datos del propiertario(s)</h2>
+            <p>
+              Favor de completar todos los campos con la información correspondiente a cada campo del formulario,
+              los campos con el identificador (<span style="color: red">*</span>) quiere decir que son obligatorios para seguir avanzando
+              con el trámite
+            </p>
+            <div class="form-group-tramite">
+            <div id="formularioPrincipal">
+              
+              <div class="formGroup">
+                  <label for="superficie">Superficie de terreno en m² (<span style="color: red">*</span>)</label>
+                  <input type="text" id="superficie" name="superficie" required  oninput="validarSoloNumeros('superficie')"/>
+              </div>
+          
+              <div class="formGroup">
+                  <label for="claveCatastral">Clave Catastral (<span style="color: red">*</span>)</label>
+                  <input type="text" id="claveCatastral" name="claveCatastral" required oninput="validarClaveCatastral('claveCatastral')"/>
+              </div>
+          
+              <div class="formGroup">
+                  <label for="razonSocial">Razón Social (<span style="color: red">*</span>)</label>
+                  <input type="text" id="razonSocial" name="razonSocial"required oninput="validarRazonSocial('razonSocial')" />
+              </div>
+          
+              <div class="formGroup">
+                  <label for="apellidoPaterno">Apellido Paterno (<span style="color: red">*</span>)</label>
+                  <input type="text" id="apellidoPaterno" name="apellidoPaterno" required oninput="validarNombreApellido('apellidoPaterno')"/>
+              </div>
+          
+              <div class="formGroup">
+                  <label for="apellidoMaterno">Apellido Materno (<span style="color: red">*</span>)</label>
+                  <input type="text" id="apellidoMaterno" name="apellidoMaterno" required oninput="validarNombreApellido('apellidoMaterno')"/>
+              </div>
+          
+              <div class="formGroup">
+                  <label for="nombre">Nombre(s) (<span style="color: red">*</span>)</label>
+                  <input type="text" id="nombre" name="nombre"required oninput="validarNombreApellido('nombre')" />
+              </div>
+          
+              <div class="formGroup">
+                  <label for="telefono">Teléfono (<span style="color: red">*</span>)</label>
+                  <input type="tel" id="telefono" name="telefono"required oninput="validarTelefono('telefono')" />
+              </div>
+          
+              <div class="formGroup">
+                  <label for="correo">Correo electrónico (<span style="color: red">*</span>)</label>
+                  <input type="text" id="correo" name="correo" required oninput="validarCorreo('correo')"/>
+              </div>
+          
+              <div class="formGroup">
+                  <label for="personaAutorizada">Persona autorizada para recibir notificaciones o resoluciones (<span style="color: red">*</span>)</label>
+                  <input type="text" id="personaAutorizada" name="personaAutorizada" oninput="validarNombreApellido('personaAutorizada')"/>
+              </div>
+          </div>
+            </div>
+
+            <div class="form-navigation">
+                <div></div>
+              <button type="button" class="btnNextFactGiro">siguiente</button>
+            </div>
+          </div>
+    
+          <!-- Paso 2 -->
+          <div class="form-step" data-step="2">
+            <h2>Ubicación del predio</h2>
+            <div class="form-group-tramite">
+              <div id="contenedor-mapa">
+                <p>
+                  Para saber la ubicación del predio, favor de llenar
+                  los campos en orden numérico con los datos requeridos con el
+                  simbolo (<span style="color: red">*</span>), una vez
+                  completada la información, darás clic en el botón (Buscar
+                  ubicación) y el mapa mostrará la ubicación con respecto a la
+                  información brindada, deberá verificar que la ubicación este
+                  correctamente establecida con un marcador color rojo, en caso
+                  de que el cursor rojo se encuentre en otra posición, puede
+                  hacer zoom al mapa y dar clic en la posición correcta y el
+                  cursor se moverá a la ubicación correcta.
+                </p>
+                <div id="contenidoUbi">
+                  <div class="input-columns">
+                    <label>
+                      1. Código postal (<span style="color: red">*</span>):
+                      <input
+                        id="codigoPostal"
+                        type="text"
+                        name="codigoPostal"
+                        placeholder="Código postal"
+                        onblur="buscarColonias()"
+                        oninput="validarCodigoPostal('codigoPostal')"
+                        class="sin-tildes solo-numeros" required
+                      />
+                    </label>
+                    <label style="position: relative">
+                      2. Nombre de la colonia/comunidad (<span
+                        style="color: red"
+                        >*</span
+                      >):
+                      <input
+                        id="colonia"
+                        type="text"
+                        name="colonia"
+                        placeholder="Escribe o selecciona una Colonia/Fraccionamiento"
+                        onclick="mostrarAutocomplete()"
+                        oninput="validarColonia('colonia')"
+                        class="sin-tildes solo-letras-numeros"
+                        style="padding-right: 30px" required
+                      />
+                      <div
+                        id="autocomplete-list"
+                        class="autocomplete-items hidden"
+                      ></div>
+                    </label>
+                  </div>
+
+                  <div class="input-columns">
+                    <label>
+                      3. Calle (<span style="color: red">*</span>):
+                      <input
+                        id="calle"
+                        type="text"
+                        name="calle"
+                        placeholder="Calle"
+                        oninput="validarCalle('calle')"
+                        class="sin-tildes solo-letras-numeros" required
+                      />
+                    </label>
+                    <label>
+                      4. Número exterior (<span style="color: red">*</span>):
+                      <input
+                        id="numeroExterior"
+                        type="text"
+                        name="numeroExterior"
+                        placeholder="Número exterior"
+                        oninput="validarNumeroExterior('numeroExterior')"
+                        class="sin-tildes solo-letras-numeros" required
+                      />  
+                    </label>
+                  </div>
+
+                  <div class="input-columns">
+                    <label>
+                      5. Número interior:
+                      <input
+                        id="numeroInterior"
+                        type="text"
+                        name="numeroInterior"
+                        placeholder="NúmeroInterior"
+                        oninput="validarNumeroInterior('numeroInterior')"
+                        class="sin-tildes solo-letras-numeros" 
+                      />
+                    </label>
+                  </div>
+                  <br>
+
+                  <button
+                    type="button"
+                    id="btn-buscarUbi"
+                    onclick="buscarUbicacion()"
+                  >
+                    <i class="fas fa-search-location"></i> Buscar ubicación
+                  </button>
+                  <small
+                    id="mensaje-error"
+                    style="color: red; display: none; margin-top: 10px"
+                  ></small>
+
+                  <div id="map"></div>
+                  <div
+                    id="guardar-ubicacion-container"
+                    style="display: none; margin-top: 20px">
+                  </div>
+
+                  <div class="latlong-columns">
+                    <label
+                      >Latitud:
+                      <input
+                        id="latitud"
+                        type="text"
+                        name="latitud"
+                        placeholder="Latitud"
+                        readonly 
+                        required
+                      />
+                    </label>
+                    <label
+                      >Longitud:
+                      <input
+                        id="longitud"
+                        type="text"
+                        name="longitud"
+                        placeholder="Longitud"
+                        readonly 
+                        required
+                      />
+                    </label>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="form-navigation">
+              <button type="button" class="btnPrevFactGiro">Volver</button>
+              <button type="button" class="btnNextFactGiro">Siguiente</button>
+            </div>
+          </div>
+    
+          <!-- Paso 3 -->
+          <div class="form-step" data-step="3">
+            <h2>Address</h2>
+            <div class="form-group-tramite">
+                
+              <label for="arrendatario">1.- Nombre o razón social del interesado(arrendatario) (<span style="color: red">*</span>)</label>
+              <input type="text" id="arrendatario" name="arrendatario" oninput="validarDescripcion('arrendatario')"/>
+
+              <label for="superficieLocal">2.- Superficie del local en m²(<span style="color: red">*</span>)</label>
+              <input type="text" id="superficieLocal" name="superficieLocal"  oninput="validarSoloNumeros('superficieLocal')"/>
+    
+              <label for="descAct">3.- Descripción de la actividad (<span style="color: red">*</span>)</label>
+                <input type="text" id="descAct" name="descAct" oninput="validarDescripcion('descAct')"/>
+            </div>
+            <div id="containerTipoSolicitud">
+              <label id="labelTipoSolicitud">2.- Tipo de Solicitud (<span style="color: red">*</span>)</label>
+              <div id="radioGroupTipoSolicitud">
+                  <label class="radioLabelTipoSolicitud">
+                      <input type="radio" name="tipoSolicitud" value="NUEVO" onchange="validarRadioGrupo('tipoSolicitud', 'containerTipoSolicitud')">
+                      <span>Nuevo</span>
+                  </label>
+                  <label class="radioLabelTipoSolicitud">
+                    <input type="radio" name="tipoSolicitud"  value="MODIFICACION" onchange="validarRadioGrupo('tipoSolicitud', 'containerTipoSolicitud')">
+                    <span>Modificación</span>
+                </label>
+                  <label class="radioLabelTipoSolicitud">
+                      <input type="radio" name="tipoSolicitud" value="RATIFICACION" onchange="validarRadioGrupo('tipoSolicitud', 'containerTipoSolicitud')">
+                      <span>Ratificación</span>
+                  </label>
+              </div>
+          </div>
+          
+            <br>
+            <div id="containerTipoFactibilidad">
+              <label id="labelTipoFactibilidad"> 3.- Uso Solicitud (<span style="color: red">*</span>)</label>
+              <div id="radioGroupTipoFactibilidad">
+                  <label class="radioLabelTipoFactibilidad">
+                      <input type="radio" name="tipoFactibilidad" value="HABITACIONAL" onchange="validarRadioGrupo('tipoFactibilidad', 'containerTipoFactibilidad')">
+                      <span>Habitacional</span>
+                  </label>
+                  <label class="radioLabelTipoFactibilidad">
+                      <input type="radio" name="tipoFactibilidad" value="COMERCIAL" onchange="validarRadioGrupo('tipoFactibilidad', 'containerTipoFactibilidad')">
+                      <span>Comercial</span>
+                  </label>  
+                  <label class="radioLabelTipoFactibilidad"> 
+                      <input type="radio" name="tipoFactibilidad" value="SERVICIOS" onchange="validarRadioGrupo('tipoFactibilidad', 'containerTipoFactibilidad')">
+                      <span>Servicios</span>
+                  </label>
+                  <label class="radioLabelTipoFactibilidad">
+                      <input type="radio" name="tipoFactibilidad" value="INDUSTRIAL" onchange="validarRadioGrupo('tipoFactibilidad', 'containerTipoFactibilidad')">
+                      <span>Industrial</span>
+                  </label>
+              </div>
+          </div>
+          <br>
+            <div class="form-navigation">
+              <button type="button" class="btnPrevFactGiro">Volver</button>
+              <button type="button" class="btnNextFactGiro">Siguiente</button>
+            </div>
+          </div>
+    
+          <!-- Paso 4 -->
+          <div class="form-step" data-step="4">
+            <h2>Documentación Factibilidad de Giro</h2>
+            
+            <!-- Tabla de Documentos Generales -->
+            <h3>Documentos Generales</h3>
+            <div class="table-container">
+                <table id="tablaDocsGenerales" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+         
+            <!-- Tabla de Documentos Condicionales -->
+            <h3>Documentos Condicionales</h3>
+            <div class="table-container">
+                <table id="tablaDocsCondicionales" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+         
+            <!-- Tabla de Documentos Específicos -->
+            <h3>Documentos Específicos</h3>
+            <div class="table-container">
+                <table id="tablaDocsEspecificos" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div> 
+             <div class="form-navigation">
+              <button type="button" class="btnPrevFactGiro">Volver</button>
+              <button type="button" data-btn="insertAndUploadGiro" class="btnNextFactGiro">Siguiente</button>
+            </div>
+          </div>
+    
+           <!-- Paso 5 -->
+           <div class="form-step" data-step="5">
+            <h2>!Pago de el trámite!</h2>
+            <p>Tus datos ya estan guardados, ahora para hacer el pago del trámite  </p>
+            <div class="form-navigation">
+              <button type="button" class="btnConfirmarFactGiro">Confirmar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de advertencia para validación de campos -->
+<div id="modalValidarCampos" class="modal-validar-campos">
+  <div class="modal-content-validar">
+      <span class="close-modal-validar">&times;</span>
+      <img src="./images/images/advertencia.png" alt="Advertencia" class="icono-advertencia-validar">
+      <p>Por favor, completa todos los campos obligatorios con la información correcta para poder avanzar.</p>
+      <button id="cerrarModalValidar">Entendido</button>
+  </div>
+</div>   
+
+</body>
+<script src="js/factibilidadGiro.js"></script>
+<script src="js/mapaUbiGiro.js"></script>
+<script src="js/docsGiro.js"></script>
+<script src="js/validacionesGiro.js"></script>
+<script src="js/APIGiro.js"></script>
+
+</html>

@@ -1,71 +1,57 @@
-/****************************************************************************************** */
-/************FUNCIONES PARA ABRIR Y CERRAR CARDS DE INFORMACIÓN**************************** */
-/****************************************************************************************** */
-
-function showModalInfodicSuelo(id) {
-    document.getElementById(id)?.classList.add('show');
-  }
-  
-  function closeModalInfodicSuelo(id) {
-    document.getElementById(id)?.classList.remove('show');
-  }
-  
-
   
   //************************************************************************************************** */
   //****************FUNCIONAMIENTO DE LOS PASOS Y BOTONES DE EL FORMULARIO**************************** */
   //************************************************************************************************** */
   
-  
   // Paso actual del formulario
-  let currentStepdicSuelo = 0;
+  let currentStepVistoBueno = 0;
   
   // Función para inicializar el stepper
-  function initStepperdicSuelo() {
-    currentStepdicSuelo = 0; // Asegurar que siempre inicie en el paso 0
-    const form = document.querySelector('.containerFormTramitedicSuelo');
-    updateStepVisibilitydicSuelo(form); // Llamar a la actualización inicial de los pasos
+  function initStepperVistoBueno() {
+    currentStepVistoBueno = 0; // Asegurar que siempre inicie en el paso 0
+    const form = document.querySelector('.containerFormTramiteVistoBueno');
+    updateStepVisibilityVistoBueno(form); // Llamar a la actualización inicial de los pasos
   }
   
   // Asegurarse de que el código se ejecute cuando el DOM esté completamente cargado
   document.addEventListener("DOMContentLoaded", () => {
-    const formContainers = document.querySelectorAll(".containerFormTramitedicSuelo");
+    const formContainers = document.querySelectorAll(".containerFormTramiteVistoBueno");
   
     formContainers.forEach((form) => {
-      const nextButton = form.querySelectorAll(".btnNextdicSuelo");
-      const prevButton = form.querySelectorAll(".btnPrevdicSuelo");
+      const nextButton = form.querySelectorAll(".btnNextVistoBueno");
+      const prevButton = form.querySelectorAll(".btnPrevVistoBueno");
       const btnVolverAInfo = form.querySelector(".btnVolverAInfo");
-      const btnConfirmardicSuelo = form.querySelector(".btnConfirmardicSuelo");
+      const btnConfirmarVistoBueno = form.querySelector(".btnConfirmarVistoBueno");
   
       // Evento para avanzar al siguiente paso
       nextButton.forEach((button) => {
-        button.addEventListener("click", () => handleNextStepdicSuelo(form));
+        button.addEventListener("click", () => handleNextStepVistoBueno(form));
       });
   
       // Evento para retroceder al paso anterior
       prevButton.forEach((button) => {
-        button.addEventListener("click", () => handlePrevStepdicSuelo(form));
+        button.addEventListener("click", () => handlePrevStepVistoBueno(form));
       });
   
       // Evento para "Volver"
       if (btnVolverAInfo) {
         btnVolverAInfo.addEventListener('click', () => {
-          document.querySelector('.modalInfoTramitedicSuelo')?.classList.remove('hiddendicSuelo');
-          document.querySelector('.containerFormTramitedicSuelo')?.classList.add('hiddendicSuelo');
+          document.querySelector('.modalInfoTramiteVistoBueno')?.classList.remove('hiddenVistoBueno');
+          document.querySelector('.containerFormTramiteVistoBueno')?.classList.add('hiddenVistoBueno');
         });
       }
   
       // Evento para "Confirmar"
-      if (btnConfirmardicSuelo) {
-        btnConfirmardicSuelo.addEventListener('click', () => {
+      if (btnConfirmarVistoBueno) {
+        btnConfirmarVistoBueno.addEventListener('click', () => {
           // Ocultar el formulario
-          document.querySelector('.containerFormTramitedicSuelo')?.classList.add('hiddendicSuelo');
+          document.querySelector('.containerFormTramiteVistoBueno')?.classList.add('hiddenVistoBuen');
           
           // Mostrar el dashboard
-          document.querySelector('.ContenedorCardsDashboard')?.classList.remove('hiddendicSuelo');
+          document.querySelector('.ContenedorCardsDashboard')?.classList.remove('hiddenVistoBuen');
           
           // **Opcional: Resetear el formulario si es necesario**
-          // document.querySelector('.containerFormTramitedicSuelo form')?.reset();
+          // document.querySelector('.containerFormTramiteVistoBuen form')?.reset();
         });
       }
     });
@@ -76,21 +62,22 @@ function showModalInfodicSuelo(id) {
   //*****************FUNCION QUE ACTUALIZA LA VISIBILIDAD DE EL FORMULARIO********************* */
   //******************************************************************************************* */
   
+  
   // Función para actualizar la visibilidad de los pasos
-  function updateStepVisibilitydicSuelo(form) {
+  function updateStepVisibilityVistoBueno(form) {
     const steps = form.querySelectorAll(".form-step");
-    const stepperItems = document.querySelectorAll(".stepperdicSuelo .stepdicSuelo");
+    const stepperItems = document.querySelectorAll(".stepperVistoBueno .stepVistoBueno");
   
     if (!steps.length || !stepperItems.length) {
        // console.warn("⚠️ No se encontraron los pasos o el stepper.");
         return;
     }
   
-    //console.log("🔄 Cambiando visibilidad al paso:", currentStepdicSuelo);
+    //console.log("🔄 Cambiando visibilidad al paso:", currentStepVistoBueno);
   
     // Ocultar todos los pasos del formulario y mostrar solo el actual
     steps.forEach((step, index) => {
-        step.style.display = index === currentStepdicSuelo ? "block" : "none";
+        step.style.display = index === currentStepVistoBueno ? "block" : "none";
     });
   
     //****************FUNCION QUE AJUSTA EL STEPPER CUANDO SE HACE RESPONSIVE******************** */
@@ -103,7 +90,7 @@ function showModalInfodicSuelo(id) {
                 stepper.classList.remove("active", "completed"); // Limpia estilos
                 stepper.style.display = "none"; // Oculta todos los pasos
   
-                if (index === currentStepdicSuelo) {
+                if (index === currentStepVistoBueno) {
                     stepper.classList.add("active"); // Solo el paso actual
                     stepper.style.display = "flex"; // Se muestra
                 }
@@ -114,9 +101,9 @@ function showModalInfodicSuelo(id) {
                 stepper.style.display = "flex"; // Asegura que todos sean visibles
                 stepper.classList.remove("active", "completed"); // Limpia clases
   
-                if (index < currentStepdicSuelo) {
+                if (index < currentStepVistoBueno) {
                     stepper.classList.add("completed"); // Pasos anteriores completados
-                } else if (index === currentStepdicSuelo) {
+                } else if (index === currentStepVistoBueno) {
                     stepper.classList.add("active"); // Paso actual resaltado
                 }
             });
@@ -129,141 +116,118 @@ function showModalInfodicSuelo(id) {
     window.addEventListener("resize", adjustStepperView);
   }
   
-  /* Llamar a la función est funcion nos sirve para que si el usuario ya tiene un  registro en la base de datos 
-     se mande al usuario directamente a el paso de pagos en caso de no haber pagado*/
-  document.addEventListener("DOMContentLoaded", async function () {
-    const form = document.querySelector(".containerFormTramitedicSuelo");
-
+  // Llamar a la función cuando la página se carga
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector(".containerFormTramiteVistoBueno");
     if (form) {
-        // Obtener los datos del usuario antes de iniciar el formulario
-        const id_usuario = 1; // Ajusta el ID dinámicamente si es necesario
-        const datosSuelo = await obtenerDatosSuelo(id_usuario);
-
-        if (datosSuelo) {
-            // Si el usuario ya tiene datos en la base, lo lleva directamente al paso 4
-            currentStepdicSuelo = 4; // Paso 4 (los índices empiezan desde 0)
-        } else {
-            // Si no tiene datos, comienza desde el paso 1
-            currentStepdicSuelo = 0;
-        }
-
-        // Inicializar la visibilidad del stepper y los pasos correctamente
-        updateStepVisibilitydicSuelo(form);
+        updateStepVisibilityVistoBueno(form);
     }
-});
+  });
+  
   
   //************************************************************************************************* */
   //*****************FUNCIONAMIENTO DE LOS BOTONES SIGUIENTE Y VOLVER******************************** */
   //************************************************************************************************* */
-
-// Función para avanzar al siguiente paso con validación e inserción en la API
-async function handleNextStepdicSuelo(form) {
-  // Seleccionamos todos los pasos
-  const steps = form.querySelectorAll(".form-step");
-
-  // Verificar si estamos en el último paso antes de enviar a la API
-  if (currentStepdicSuelo === steps.length - 1) {
+  
+  // Función para avanzar al siguiente paso
+  async function handleNextStepVistoBueno(form) {
+    // Seleccionamos todos los pasos
+    const steps = form.querySelectorAll(".form-step");
+  
+    // Verificar si estamos en el último paso antes de enviar a la API
+    if (currentStepVistoBueno === steps.length - 1) {
       alert("¡Ya estás en el último paso!");
       return;
-  }
-
- /* // Verificar que todos los campos del paso actual sean válidos
-  if (!validarCamposPasoActual(steps[currentStepdicSuelo])) {
+    }
+  
+    // Verificar que todos los campos del paso actual sean válidos
+    if (!validarCamposPasoActual(steps[currentStepVistoBueno])) {
       mostrarModalValidarCampos(); // Mostrar el modal para notificar al usuario que los campos no están completos
       return; // Si la validación falla, no avanzamos al siguiente paso
-  }*/
-
-  // Verificar si el paso actual tiene el botón de insertar datos y subir documentos
-  if (steps[currentStepdicSuelo].querySelector('[data-btn="insertAndUploadSuelo"]')) {
+    }
+  
+    // Si el paso actual incluye la inserción y subida de documentos...
+    if (steps[currentStepVistoBueno].querySelector('[data-btn="insertAndUploadVisto"]')) {
+      // VALIDACIÓN: Comprobar que se han subido todos los documentos requeridos según el nivel de riesgo
+      if (!validarDocumentosRequeridos()) {
+        alert("Faltan documentos requeridos por subir.");
+        return;
+      }
+  
       mostrarModalConfirmacion(async () => {
-          mostrarModalCargaSuelo("Guardando datos y subiendo documentos...");
-
-          try {
-              // 1️⃣ Insertar los datos primero
-              const registroExitoso = await RegistroFormDicSueloAPI();
-              if (!registroExitoso) {
-                  cerrarModalCargaSuelo();
-                  mostrarModalResultado("Hubo un error al registrar los datos. Verifica la información e intenta nuevamente.", false);
-                  return; // Detener el avance si la inserción falla
-              }
-
-              // 2️⃣ Subir los documentos después de insertar los datos
-              const id_usuario = 1; // Ajusta según cómo obtengas el ID del usuario
-              const subidaExitosa = await subirDocumentosSuelo(id_usuario);
-
-              if (!subidaExitosa) {
-                  cerrarModalCargaSuelo();
-                  mostrarModalResultado("Error al subir los documentos. Asegúrate de haber subido todos los documentos requeridos.", false);
-                  return; // Detener el avance si la subida falla
-              }
-
-              // 3️⃣ Si todo es exitoso, avanzar al siguiente paso
-              cerrarModalCargaSuelo();
-              mostrarModalResultado("Los datos y documentos fueron guardados correctamente.", true);
-
-              if (currentStepdicSuelo < steps.length - 1) {
-                  steps[currentStepdicSuelo].classList.remove("active");
-                  currentStepdicSuelo++;
-                  steps[currentStepdicSuelo].classList.add("active");
-
-                  // Actualizar visibilidad de los pasos
-                  updateStepVisibilitydicSuelo(form);
-              }
-          } catch (error) {
-              cerrarModalCargaSuelo();
-              mostrarModalResultado("Ocurrió un error inesperado. Intenta nuevamente.", false);
+        mostrarModalCargaVisto("Guardando datos y subiendo documentos...");
+        try {
+          // 1️⃣ Insertar los datos primero
+          const registroExitoso = await RegistroFormVistoAPI();
+          if (!registroExitoso) {
+            cerrarModalCargaVisto();
+            mostrarModalResultado("Hubo un error al registrar los datos. Verifica la información e intenta nuevamente.", false);
+            return; // Detener el avance si la inserción falla
           }
+  
+          // 2️⃣ Subir los documentos después de insertar los datos
+          const id_usuario = 1; // Ajusta según cómo obtengas el ID del usuario
+          const subidaExitosa = await subirDocumentosVistoBueno(id_usuario);
+  
+          if (!subidaExitosa) {
+            cerrarModalCargaGiro();
+            mostrarModalResultado("Error al subir los documentos. Asegúrate de haber subido todos los documentos requeridos.", false);
+            return; // Detener el avance si la subida falla
+          }
+  
+          // 3️⃣ Si todo es exitoso, avanzar al siguiente paso
+          cerrarModalCargaVisto();
+          mostrarModalResultado("Los datos y documentos fueron guardados correctamente.", true);
+  
+          if (currentStepVistoBueno < steps.length - 1) {
+            steps[currentStepVistoBueno].classList.remove("active");
+            currentStepVistoBueno++;
+            steps[currentStepVistoBueno].classList.add("active");
+  
+            // Actualizar visibilidad de los pasos
+            updateStepVisibilityVistoBueno(form);
+          }
+        } catch (error) {
+          cerrarModalCargaVisto();
+          mostrarModalResultado("Ocurrió un error inesperado. Intenta nuevamente.", false);
+        }
       });
-
+  
       return; // Detener el flujo hasta que el usuario confirme
-  }
-
-  // Si la validación es exitosa y no es un paso de inserción/subida, avanzar normalmente
-  if (currentStepdicSuelo < steps.length - 1) {
-      steps[currentStepdicSuelo].classList.remove("active");
-
+    }
+  
+    // Si la validación es exitosa y no es un paso de inserción/subida, avanzar normalmente
+    if (currentStepVistoBueno < steps.length - 1) {
+      steps[currentStepVistoBueno].classList.remove("active");
+  
       // Incrementar el paso actual
-      currentStepdicSuelo++;
-
-      steps[currentStepdicSuelo].classList.add("active");
-
+      currentStepVistoBueno++;
+  
+      steps[currentStepVistoBueno].classList.add("active");
+  
       // Actualizar visibilidad de los pasos (para asegurarnos de que solo se muestra el paso actual)
-      updateStepVisibilitydicSuelo(form);
+      updateStepVisibilityVistoBueno(form);
+    }
   }
-}
-
-
-
-// Función para retroceder al paso anterior
-function handlePrevStepdicSuelo(form) {
-  if (currentStepdicSuelo > 0) {
-    currentStepdicSuelo--; // Retroceder el paso actual
-
-    // Actualizar la visibilidad de los pasos
-    updateStepVisibilitydicSuelo(form);
-  } else {
-    console.log("Ya estás en el primer paso.");
-  }
-}
-
+  
+  
   // Función para retroceder al paso anterior
-  function handlePrevStepdicSuelo(form) {
-    if (currentStepdicSuelo > 0) {
-      currentStepdicSuelo--; // Retroceder el paso actual
-      //console.log("Retrocediendo al paso:", currentStepdicSuelo);
-      updateStepVisibilitydicSuelo(form); // Actualizar la visibilidad de los pasos
+  function handlePrevStepVistoBueno(form) {
+    if (currentStepVistoBueno > 0) {
+      currentStepVistoBueno--; // Retroceder el paso actual
+      //console.log("Retrocediendo al paso:", currentStepVistoBueno);
+      updateStepVisibilityVistoBueno(form); // Actualizar la visibilidad de los pasos
     } else {
       //console.log("Ya estás en el primer paso.");
     }
   }
   
 
-//#############MODALES DE CONFIRMACION Y RESPUESTA###############
-
+  
 // Función para mostrar el modal de confirmación
 function mostrarModalConfirmacion(callback) {
   const modalHTML = `
-      <div id="modalConfirmaciondicSuelo" class="modal-overlay">
+      <div id="modalConfirmacionFactGiro" class="modal-overlay">
           <div class="modal-content">
               <h3>Confirmación</h3>
               <img src="./images/advertencia.png" alt="Advertencia" class="icono-advertencia-validar">
@@ -280,19 +244,19 @@ function mostrarModalConfirmacion(callback) {
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
   document.getElementById("btnAceptarConfirmacion").addEventListener("click", async function () {
-      document.getElementById("modalConfirmaciondicSuelo").remove();
+      document.getElementById("modalConfirmacionFactGiro").remove();
       await callback(); // Llamar a la función para insertar los datos
   });
 
   document.getElementById("btnCancelarConfirmacion").addEventListener("click", function () {
-      document.getElementById("modalConfirmaciondicSuelo").remove();
+      document.getElementById("modalConfirmacionFactGiro").remove();
   });
 }
 
 // Función para mostrar el modal de éxito o error
 function mostrarModalResultado(mensaje, exito = true) {
   const modalHTML = `
-      <div id="modalResultadodicSuelo" class="modal-overlay">
+      <div id="modalResultadoFactGiro" class="modal-overlay">
           <div class="modal-content ${exito ? 'success' : 'error'}">
               <h3>${exito ? "Éxito" : "Error"}</h3>
               <p>${mensaje}</p>
@@ -304,12 +268,12 @@ function mostrarModalResultado(mensaje, exito = true) {
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   
   document.getElementById("btnCerrarResultado").addEventListener("click", function () {
-      document.getElementById("modalResultadodicSuelo").remove();
+      document.getElementById("modalResultadoFactGiro").remove();
   });
 }
 
 //MODAL DE CARGA 
-function mostrarModalCargaSuelo(mensaje) {
+function mostrarModalCargaVisto(mensaje) {
   const modal = document.createElement("div");
   modal.classList.add("modal-global");
   modal.style.position = "fixed";
@@ -345,7 +309,7 @@ function mostrarModalCargaSuelo(mensaje) {
 }
 
 // Función para cerrar el modal de carga
-function cerrarModalCargaSuelo() {
+function cerrarModalCargaVisto() {
   const modal = document.querySelector(".modal-global");
   if (modal) {
       modal.remove();

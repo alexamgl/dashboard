@@ -1,5 +1,6 @@
 *{
     font-family: 'Poppins', sans-serif;
+
 }
 
 /* cuerpo general */
@@ -13,15 +14,15 @@ body {
     height: 100vh;
 }
 
-.hiddendicSuelo{
+.hiddenFactGiro{
     display: none;
 }
 
-.activedicSuelo{
+.activeFactGiro{
 display: none;
 };
 
-.containerTramitedicSuelo{
+.containerTramiteFactGiro{
     display: block;
     flex-direction: column;
     align-items: center;
@@ -29,6 +30,28 @@ display: none;
     padding: 20px;
 }
 
+
+
+#formularioPrincipal {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px; /* Espaciado entre elementos */
+  width: 100%; /* Ocupar todo el ancho disponible */
+  padding: 20px;
+  box-sizing: border-box; /* Evita que el padding cause desplazamiento */
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsividad: En pantallas pequeñas, los inputs se apilan en una sola columna */
+@media (max-width: 800px) {
+  #formularioPrincipal {
+      grid-template-columns: 1fr;
+  }
+}
 
 /*fin de el stepper*/
 .form-group-tramite {
@@ -66,7 +89,7 @@ display: none;
             /*COMIENZO DE MODAL DE INFORMACION*/
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-.modalInfoTramitedicSuelo{
+.modalInfoTramiteFactGiro{
   text-align: center;
   padding: 10px;
   border: 3px solid #faa21b;
@@ -75,7 +98,7 @@ display: none;
 }
 
 /* Estilo del Modal */
-.detalleTramitedicSuelo-container {
+.detalleTramiteFactGiro-container {
   display: flex;
   flex-wrap: wrap; /* permite que los elementos pasen a la siguiente línea si no caben */
   justify-content: center; /* centra los cards horizontalmente */
@@ -84,7 +107,7 @@ display: none;
 }
 
 /* estilos de los cards */
-.detalleTramitedicSuelo-card {
+.detalleTramiteFactGiro-card {
   flex: 1 1 calc(25% - 16px); /* 4 cards por fila en pantallas grandes */
   max-width: calc(25% - 16px);
   min-width: 200px; /* ancho mínimo para evitar que sean demasiado pequeños */
@@ -99,20 +122,20 @@ display: none;
 }
 
   
-  .modalInfoTramitedicSuelo-content h2{
+  .modalInfoTramiteFactGiro-content h2{
     margin-bottom: 15px;
     border-radius: 5px;
     color: #0b3b60;
     border-bottom: 2px solid #faa21b;
   }
   
-  .modalInfoTramitedicSuelo-content p {
+  .modalInfoTramiteFactGiro-content p {
     color: gray;
   }
   
   
   /* Cards individuales */
-  .detalleTramitedicSuelo-card {
+  .detalleTramiteFactGiro-card {
     flex: 1 1 calc(33.333% - 16px); /* Tres cards por fila en pantallas grandes */
     max-width: calc(33.333% - 16px); /* Limitar ancho máximo */
     min-width: 250px; /* Ancho mínimo para evitar que sean demasiado pequeñas */
@@ -128,35 +151,35 @@ display: none;
   
 /* media queries para adaptar el número de columnas */
 @media (max-width: 1024px) {
-  .detalleTramitedicSuelo-card {
+  .detalleTramiteFactGiro-card {
       flex: 1 1 calc(33.333% - 16px); /* 3 cards por fila en pantallas medianas */
       max-width: calc(33.333% - 16px);
   }
 }
 
 @media (max-width: 768px) {
-  .detalleTramitedicSuelo-card {
+  .detalleTramiteFactGiro-card {
       flex: 1 1 calc(50% - 16px); /* 2 cards por fila en pantallas pequeñas */
       max-width: calc(50% - 16px);
   }
 }
 
 @media (max-width: 480px) {
-  .detalleTramitedicSuelo-card {
+  .detalleTramiteFactGiro-card {
       flex: 1 1 100%; /* 1 card por fila en pantallas muy pequeñas */
       max-width: 100%;
   }
 }
   
   
-  .detalleTramitedicSuelo-card:hover {
+  .detalleTramiteFactGiro-card:hover {
     background: linear-gradient(360deg, #edededc5 60%, #0b3b60 70%);
     
   }
 
 
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-header {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-header {
     cursor: pointer;
 
     padding: 20px;
@@ -169,7 +192,7 @@ display: none;
     color: #fff;
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-header .detalleTramitedicSuelo-title {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-header .detalleTramiteFactGiro-title {
     font-size: 0.8em;
     letter-spacing: 0.1em;
     font-weight: 900;
@@ -178,39 +201,39 @@ display: none;
     transition: all 0.5s;
 }
 
-.detalleTramitedicSuelo-card:hover .detalleTramitedicSuelo-header {
+.detalleTramiteFactGiro-card:hover .detalleTramiteFactGiro-header {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%);
 }
 
-.detalleTramitedicSuelo-card:hover .detalleTramitedicSuelo-header .detalleTramitedicSuelo-title {
+.detalleTramiteFactGiro-card:hover .detalleTramiteFactGiro-header .detalleTramiteFactGiro-title {
     padding: 0;
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-header .detalleTramitedicSuelo-icon {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-header .detalleTramiteFactGiro-icon {
     font-size: 48px;
     color: #faa21b;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.detalleTramitedicSuelo-card:hover .detalleTramitedicSuelo-header .detalleTramitedicSuelo-icon {
+.detalleTramiteFactGiro-card:hover .detalleTramiteFactGiro-header .detalleTramiteFactGiro-icon {
     color: #edededea;
     transform: scale(1.1);
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-content {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-content {
     display: block;
     text-align: left;
     color: #212121;
     margin: 0 18px;
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-content p {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-content p {
     transition: all 0.5s;
     font-size: 0.8em;
     margin-bottom: 8px;
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-content a {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-content a {
     color: #0b3b60;
     cursor: pointer;
     transition: all 0.5s;
@@ -219,12 +242,12 @@ display: none;
     text-transform: uppercase;
 }
 
-.detalleTramitedicSuelo-card .detalleTramitedicSuelo-content .detalleTramitedicSuelo-btn-link:hover {
+.detalleTramiteFactGiro-card .detalleTramiteFactGiro-content .detalleTramiteFactGiro-btn-link:hover {
     border-bottom: 1px solid #0b3b60;
 }
 
 /* Modal styling */
-.detalleTramitedicSuelo-modalInfos {
+.detalleTramiteFactGiro-modalInfos {
     display: none;
     position: fixed;
     top: 0;
@@ -237,11 +260,11 @@ display: none;
     z-index: 1000;
 }
 
-.detalleTramitedicSuelo-modalInfos.show {
+.detalleTramiteFactGiro-modalInfos.show {
     display: flex;
 }
 
-.detalleTramitedicSuelo-modalInfos-content {
+.detalleTramiteFactGiro-modalInfos-content {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -254,23 +277,23 @@ display: none;
     position: relative;
 }
 
-.detalleTramitedicSuelo-modalInfos2-content {
+.detalleTramiteFactGiro-modalInfos2-content {
     text-align: left;
 }
 
-.detalleTramitedicSuelo-modalInfos-content h2 {
+.detalleTramiteFactGiro-modalInfos-content h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
     color: #0b3b60;
 }
 
-.detalleTramitedicSuelo-modalInfos-content p {
+.detalleTramiteFactGiro-modalInfos-content p {
     font-size: 1em;
     color: #333;
     line-height: 1.5;
 }
 
-.detalleTramitedicSuelo-modalInfos-content .detalleTramitedicSuelo-close-btn {
+.detalleTramiteFactGiro-modalInfos-content .detalleTramiteFactGiro-close-btn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -285,12 +308,12 @@ display: none;
     transition: background 0.3s ease;
 }
 
-.detalleTramitedicSuelo-modalInfos-content .detalleTramitedicSuelo-close-btn:hover {
+.detalleTramiteFactGiro-modalInfos-content .detalleTramiteFactGiro-close-btn:hover {
     background: #e69900;
 }
 
 /* Estilos de los botones */
-.btnVolverdicSuelo {
+.btnVolverFactGiro {
   background-color: #999595;
   color: #ffffff;
   padding: 10px 20px;
@@ -310,7 +333,7 @@ display: none;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btnNextdicSuelo {
+.btnNextFactGiro {
   background-color: #0b3b60;
   color: #ffffff;
   padding: 10px 20px;
@@ -320,7 +343,7 @@ display: none;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btnConfirmardicSuelo {
+.btnConfirmarFactGiro {
   background-color: #0b3b60;
   color: #ffffff;
   padding: 10px 20px;
@@ -330,7 +353,7 @@ display: none;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btnPrevdicSuelo {
+.btnPrevFactGiro {
   background-color: #999595;
   color: #ffffff;
   padding: 10px 20px;
@@ -341,19 +364,19 @@ display: none;
 }
 
 /* Efecto Hover */
-.btnVolverdicSuelo:hover,
+.btnVolverFactGiro:hover,
 .btnVolverAInfo:hover,
-.btnNextdicSuelo:hover,
-.btnPrevdicSuelo:hover {
+.btnNextFactGiro:hover,
+.btnPrevFactGiro:hover {
   background-color: #007bff;
   transform: scale(1.05);
 }
 
 /* Efecto de foco (cuando el botón está activo o seleccionado) */
-.btnVolverdicSuelo:focus,
+.btnVolverFactGiro:focus,
 .btnVolverAInfo:focus,
-.btnNextdicSuelo:focus,
-.btnPrevdicSuelo:focus {
+.btnNextFactGiro:focus,
+.btnPrevFactGiro:focus {
   outline: none; 
   box-shadow: 0 0 5px rgba(255, 165, 26, 0.6); 
 }
@@ -361,42 +384,42 @@ display: none;
 
 /* Responsiveness */
 @media (max-width: 768px) {
-    .detalleTramitedicSuelo-card {
+    .detalleTramiteFactGiro-card {
         width: 100%;
         height: auto;
         margin-bottom: 16px;
     }
 
-    .detalleTramitedicSuelo-card:hover {
+    .detalleTramiteFactGiro-card:hover {
         height: auto;
     }
 
-    .detalleTramitedicSuelo-card .detalleTramitedicSuelo-header {
+    .detalleTramiteFactGiro-card .detalleTramiteFactGiro-header {
         padding: 16px;
     }
 
-    .detalleTramitedicSuelo-card .detalleTramitedicSuelo-header .detalleTramitedicSuelo-icon {
+    .detalleTramiteFactGiro-card .detalleTramiteFactGiro-header .detalleTramiteFactGiro-icon {
         font-size: 36px;
     }
 
-    .detalleTramitedicSuelo-modalInfos-content {
+    .detalleTramiteFactGiro-modalInfos-content {
         width: 90%;
         max-height: 90%;
         padding: 16px;
     }
 
-    .detalleTramitedicSuelo-modalInfos-content h2 {
+    .detalleTramiteFactGiro-modalInfos-content h2 {
         font-size: 1.2em;
     }
 }
 
 @media (max-width: 480px) {
-    .detalleTramitedicSuelo-card {
+    .detalleTramiteFactGiro-card {
         width: 100%;
         margin: 8px 0;
     }
 
-    .detalleTramitedicSuelo-modalInfos-content {
+    .detalleTramiteFactGiro-modalInfos-content {
         width: 95%;
         max-height: 90%;
     }
@@ -406,7 +429,7 @@ display: none;
 /*********************************************************************************/
 
 /* Mantiene el diseño original para pantallas grandes */
-.stepperdicSuelo {
+.stepperFactGiro {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -418,7 +441,7 @@ display: none;
 }
 
 /* Mantiene el estilo de los pasos en escritorio */
-.stepdicSuelo {
+.stepFactGiro {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -428,7 +451,7 @@ display: none;
 }
 
 /* Círculo con número */
-.stepdicSuelo .circle {
+.stepFactGiro .circle {
   background-color: #e0e0e0;  /* Color de fondo por defecto */
   color: #fff;
   border-radius: 50%;
@@ -443,7 +466,7 @@ display: none;
 }
 
 /* Línea entre los pasos */
-.linedicSuelo {
+.lineFactGiro {
   display: block;
   width: 45px;
   height: 2px;
@@ -453,38 +476,38 @@ display: none;
 }
 
 /* 🔵 En PC: Mantener todos los círculos visibles y pintar los pasos completados */
-.stepdicSuelo.completed .circle {
+.stepFactGiro.completed .circle {
   background-color: #0b3b60; /* Color para pasos completados */
   color: #fff;
 }
 
 /* 🔵 En PC: Destacar el paso actual */
-.stepdicSuelo.active .circle {
+.stepFactGiro.active .circle {
   background-color: #0b3b60; /* Color especial para el paso activo */
   color: #fff;
 }
 
 /* 🔽 VISTA MÓVIL: Mostrar solo el paso actual */
 @media (max-width: 768px) {
-  .stepperdicSuelo {
+  .stepperFactGiro {
       display: flex; /* Asegura que los elementos se alineen correctamente */
       justify-content: center; /* Centra el único paso visible */
       align-items: center;
       width: 100%;
   }
 
-  .stepdicSuelo {
+  .stepFactGiro {
       display: none; /* Oculta todos los pasos en móviles */
   }
 
-  .stepdicSuelo.active {
+  .stepFactGiro.active {
       display: flex; /* Solo se muestra el paso activo */
       flex-direction: column;
       align-items: center;
       text-align: center;
   }
 
-  .linedicSuelo {
+  .lineFactGiro {
       display: none; /* Oculta las líneas en vista móvil */
   }
 }
@@ -496,7 +519,7 @@ display: none;
   /* Estilo del form */
 
   
-  .containerFormTramitedicSuelo {
+  .containerFormTramiteFactGiro {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -506,16 +529,16 @@ display: none;
     margin-top: 20px;
   }
   
-  .containerFormTramitedicSuelo h2 {
+  .containerFormTramiteFactGiro h2 {
     margin-top: 0;
   }
   
-  .containerFormTramitedicSuelo p {
+  .containerFormTramiteFactGiro p {
     color: gray;
     margin-bottom: 10px;
   }
   
-  .close-containerFormTramitedicSuelo {
+  .close-containerFormTramiteFactGiro {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -573,6 +596,8 @@ display: none;
     width: 100%;
 }
 
+
+/*ESTILOS DE LOS RADIO BUTTONS */
 /*RADIO BUTONS TIPO DE TRAMITE*/
 #containerTipoSolicitud {
   margin: 20px;
@@ -615,38 +640,77 @@ display: none;
 
 @media (max-width: 800px) {
   #radioGroupTipoSolicitud {
+      flex-direction: column; /* Establecer flex-direction a columna */
+      align-items: center; /* Asegurarse de que los radios estén centrados */
+      justify-content: center; /* Asegurar el centrado vertical en el contenedor */
+  }
+
+  .radioLabelTipoSolicitud {
+      flex: none;
+      width: 100%; /* Hacer que cada radio ocupe el 100% del ancho del contenedor */
+      text-align: center; /* Centrar el texto dentro de cada radio */
+  }
+}
+
+/*RADIO BUTONS TIPO DE TRAMITE*/
+#containerTipoFactibilidad {
+  margin: 20px;
+  width: 100%;
+  max-width: 100%;
+}
+
+#labelTipoFactibilidad {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+  text-align: left;
+  padding-bottom: 10px;
+}
+
+#radioGroupTipoFactibilidad {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.radioLabelTipoFactibilidad {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  min-width: 150px;
+  text-align: left;
+}
+
+/* Identificadores para cada input */
+#radioHabitacional,
+#radioComercial,
+#radioServicios,
+#radioIndistrial {
+  accent-color: #007bff;
+}
+
+@media (max-width: 800px) {
+  #radioGroupTipoFactibilidad {
       flex-direction: column;
       align-items: center;
   }
 
-  .radioLabelTipoSolicitud {
+  .radioLabelUsoTipoFactibilidad {
       flex: none;
       width: 100%;
   }
 }
 
 
-/*CONTENEDOR DE IMPUTS EN COLUMNAS DE EL PRIMER PASO*/
-
-#formularioPrincipal {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px; /* Espaciado entre elementos */
-  width: 100%; /* Ocupar todo el ancho disponible */
-  padding: 20px;
-  box-sizing: border-box; /* Evita que el padding cause desplazamiento */
+input.invalid {
+  border: 2px solid red; /* Marca el borde en rojo */
 }
 
-.formGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Responsividad: En pantallas pequeñas, los inputs se apilan en una sola columna */
-@media (max-width: 800px) {
-  #formularioPrincipal {
-      grid-template-columns: 1fr;
-  }
+select.invalid {
+  border: 2px solid red; /* Marca el borde en rojo para select */
 }
 
 /*MODAL DE ADVERTENCIA DE LLENADO DE CAMPOS*/
@@ -700,69 +764,6 @@ display: none;
 
 #cerrarModalValidar:hover {
   background-color: darkred;
-}
-
-
-
-/*RADIO BUTONS TIPO DE TRAMITE*/
-#containerUsoSolicitado {
-  margin: 20px;
-  width: 100%;
-  max-width: 100%;
-}
-
-#labelUsoSolicitado {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: block;
-  text-align: left;
-  padding-bottom: 10px;
-}
-
-#radioGroupUsoSolicitado {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.radioLabelUsoSolicitado {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  min-width: 150px;
-  text-align: left;
-}
-
-/* Identificadores para cada input */
-#radioHabitacional,
-#radioComercial,
-#radioServicios,
-#radioIndistrial {
-  accent-color: #007bff;
-}
-
-@media (max-width: 800px) {
-  #radioGroupUsoSolicitado {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .radioLabelUsoSolicitado {
-      flex: none;
-      width: 100%;
-  }
-}
-
-
-input.invalid {
-  border: 2px solid red; /* Marca el borde en rojo */
-}
-
-select.invalid {
-  border: 2px solid red; /* Marca el borde en rojo para select */
 }
 
 
