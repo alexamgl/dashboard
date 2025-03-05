@@ -27,10 +27,9 @@ async function RegistroFormDicSueloAPI() {
             tipoSolicitud: document.querySelector('input[name="tipoSolicitud"]:checked')?.value || "",
             usoSolicitado: document.querySelector('input[name="UsoSolicitado"]:checked')?.value || "",
             cantidad: document.getElementById("cantidad").value,
-            descUso: document.getElementById("descUso").value,
+            descUso: document.getElementById("descUso").value
         };
 
-        console.log(data);
 
         // Enviar datos a la API
         const response = await fetch(apiUrl, {
@@ -42,20 +41,19 @@ async function RegistroFormDicSueloAPI() {
         const result = await response.json();
 
         if (result && result.mensaje) {
-            console.log("Registro exitoso:", result);
+           // console.log("Registro exitoso:", result);
             return true; // Éxito
         } else {
-            console.error("Error en el registro:", result);
+           // console.error("Error en el registro:", result);
             return false; // Fallo
         }
     } catch (error) {
-        console.error("Error durante la llamada a la API:", error);
+       // console.error("Error durante la llamada a la API:", error);
         return false; // Error
     }
 }
 
-
-async function subirDocumentosSuelo(id_usuario) {
+/*async function subirDocumentosSuelo(id_usuario) {
     const tablas = ["tablaDocsGenerales", "tablaDocsCondicionales", "tablaDocsEspecificos"];
     const documentos = [];
 
@@ -109,7 +107,66 @@ async function subirDocumentosSuelo(id_usuario) {
     }
 
     return resultados.length === documentos.length;
+}*/
+
+
+async function subirDocumentosSuelo(id_usuario) {
+    const tablas = ["tablaDocsGenerales", "tablaDocsCondicionales", "tablaDocsEspecificos"];
+    const documentos = [];
+
+    // Recolectar documentos
+    tablas.forEach(tablaId => {
+        const filas = document.querySelectorAll(`#${tablaId} tbody tr`);
+        filas.forEach(fila => {
+            const inputFile = fila.querySelector("input[type='file']");
+            const nombreDocumento = fila.querySelector("td:nth-child(2)").textContent.trim();
+            const esRequerido = fila.classList.contains("required-file");
+            if (inputFile && inputFile.files.length > 0) {
+                documentos.push({
+                    file: inputFile.files[0],
+                    nombre: nombreDocumento
+                });
+            } else if (esRequerido) {
+                // Nota: "return false" aquí solo finaliza la iteración actual,
+                // si necesitas detener todo, utiliza otro mecanismo.
+                return false;
+            }
+        });
+    });
+
+    if (documentos.length === 0) {
+        return false;
+    }
+
+    const formData = new FormData();
+    formData.append("id_usuario", id_usuario);
+    // Agregar todos los documentos en arrays
+    documentos.forEach(doc => {
+        formData.append("files[]", doc.file);
+        formData.append("nombres[]", doc.nombre);
+    });
+
+    //console.log("Documentos recolectados:", documentos);
+
+    try {
+        const response = await fetch("http://localhost/tramites/dashboard/tramites-sjr/Api/principal/insert_full_suelo_docs", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+        //console.log("Respuesta del servidor:", result);
+        if (result.success) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        //console.error("Error en la subida:", error);
+        return false;
+    }
 }
+
 
 async function obtenerDatosSuelo(id_usuario = 1) {
     try {
@@ -122,13 +179,13 @@ async function obtenerDatosSuelo(id_usuario = 1) {
         const result = await response.json();
         
         if (result.success && result.dictamen) { // Cambio de "suelo" a "dictamen"
-            console.log("Datos del dictamen obtenidos:", result.dictamen);
+            //console.log("Datos del dictamen obtenidos:", result.dictamen);
             return result.dictamen; // Devuelve los datos del dictamen
         }
 
         return null; // Si no hay datos, devuelve null
     } catch (error) {
-        console.error("Error al obtener los datos del dictamen:", error);
+       // console.error("Error al obtener los datos del dictamen:", error);
         return null;
     }
 }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago Genérico</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 0;
+        /*background-color: greenyellow;*/
+      }
+      iframe {
+        width: 100vh;
+        height: 90vh;
+        border: none;
+        border-radius: 10px;
+      }
+      h1 {
+        color: #333;
+      }
+      #error-message {
+        color: red;
+        font-size: 16px;
+        text-align: center;
+      }
+      #success-message {
+        color: green;
+        font-size: 16px;
+        text-align: center;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!--<h1>Realiza el pago de tu trámite</h1>-->
+
+    <!-- Mensaje de error en caso de que no se proporcione una URL -->
+    <div id="error-message" style="display: none">
+      No se proporcionó una URL válida o no es accesible.
+    </div>
+
+    <!-- Mensaje de éxito después del pago -->
+    <div id="success-message">
+      ¡Pago exitoso! Serás redirigido a tu panel en 5 segundos...
+    </div>
+
+    <!-- Contenedor para el iframe -->
+    <div class="iframe-container">
+      <iframe id="payment-iframe" style="display: none"></iframe>
+    </div>
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const paymentUrl = params.get("url");
+        const encryptedData = params.get("data");
+      
+        const iframe = document.getElementById("payment-iframe");
+        const errorMessage = document.getElementById("error-message");
+        const successMessage = document.getElementById("success-message");
+      
+        if (paymentUrl && isValidUrl(paymentUrl)) {
+          iframe.src = decodeURIComponent(paymentUrl);
+          iframe.style.display = "block";
+      
+          // Escuchar mensajes del iframe
+          window.addEventListener("message", function (event) {
+            if (!isValidOrigin(event.origin)) {
+              console.warn("Origen no válido:", event.origin);
+              return;
+            }
+            const data = event.data;
+      
+            if (data === "payment_success") {
+              successMessage.style.display = "block";
+              console.log("Encrypted data:", encryptedData);
+      
+              // (1) Notificas a tu webhook (lo que ya tenías)
+              notifyWebhook(encryptedData);
+      
+              // (2) ***REGISTRAR PAGO y GENERAR RECIBO*** (nuevo)
+              registrarPagoYGenerarRecibo();
+      
+              // Redirigir tras 5 segundos
+              setTimeout(() => {
+                // Envía al padre un postMessage si quieres
+                window.parent.postMessage("payment_success", "*");
+              }, 5000);
+      
+            } else if (data === "payment_failed") {
+              alert("El pago no se pudo completar. Por favor, inténtalo nuevamente.");
+            } else {
+              console.warn("Mensaje desconocido recibido:", data);
+            }
+          });
+        } else {
+          errorMessage.style.display = "block";
+        }
+      
+        function isValidUrl(url) {
+          try {
+            new URL(url);
+            return true;
+          } catch (_) {
+            return false;
+          }
+        }
+      
+        function isValidOrigin(origin) {
+          const allowedOrigins = ["https://sandboxpol.mit.com.mx"];
+          return allowedOrigins.includes(origin);
+        }
+      
+        function notifyWebhook(responseData) {
+    
+    // Combina el string cifrado y los datos extras en un solo objeto
+    const dataToSend = Object.assign({ strResponse: responseData });
+
+    fetch("https://www.sanjuandelrio.gob.mx/PagosMotor/webhook.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend),
+    })
+      .then(response => response.json())
+      .then(data => console.log("Webhook Response:", data))
+      .catch(error => console.error("Error en el Webhook:", error));
+  }
+      
+        // (3) *** Función que llama a tu endpoint local en PHP para guardar pago y generar PDF ***
+        async function registrarPagoYGenerarRecibo() {
+          // Lee del localStorage la info
+          const id_ciudadano   = localStorage.getItem("id_ciudadano")   || 0;
+          const nombre_cliente = localStorage.getItem("nombre_cliente") || "Sin nombre";
+          const tipo_tramite   = localStorage.getItem("acuatica_seleccionada") || "acuatica";
+          
+          // Montos, fecha/hora, etc.
+          const monto = 500.00;  // Ajustar al real
+          const now = new Date();
+          const fecha_pago = now.toISOString().split("T")[0]; // yyyy-mm-dd
+          const hr_pago = now.toTimeString().split(" ")[0];   // hh:mm:ss
+          const referencia_pago = "FACT" + Date.now();         // Ejemplo
+      
+          const data = {
+            id_ciudadano,
+            nombre_cliente,
+            tipo_tramite,
+            referencia_pago,
+            fecha_pago,
+            hr_pago,
+            monto
+          };
+      
+          // Llama a tu "CreateReciboAcuatica.php" (ajusta la ruta)
+          try {
+            const resp = await fetch("http://localhost/Panel_ciudadano/Api/controllers/CreateReciboAcuatica.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+            console.log("Respuesta registrarPagoYGenerarRecibo:", result);
+      
+            if (result.success) {
+              // Abre el PDF (si quieres) en nueva pestaña
+              window.open(result.pdfUrl, "_blank");
+            } else {
+              console.error("Error al generar recibo:", result.message);
+            }
+          } catch (error) {
+            console.error("Error fetch registrarPagoYGenerarRecibo:", error);
+          }
+        }
+      })();
+      </script>
+      
+
+  </body>
+</html>

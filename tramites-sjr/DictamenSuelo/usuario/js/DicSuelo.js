@@ -129,8 +129,6 @@ function showModalInfodicSuelo(id) {
     window.addEventListener("resize", adjustStepperView);
   }
   
-
-
   /* Llamar a la función est funcion nos sirve para que si el usuario ya tiene un  registro en la base de datos 
      se mande al usuario directamente a el paso de pagos en caso de no haber pagado*/
   document.addEventListener("DOMContentLoaded", async function () {
@@ -169,11 +167,11 @@ async function handleNextStepdicSuelo(form) {
       return;
   }
 
-  // Verificar que todos los campos del paso actual sean válidos
-  /*if (!validarCamposPasoActual(steps[currentStepdicSuelo])) {
+ // Verificar que todos los campos del paso actual sean válidos
+  if (!validarCamposPasoActual(steps[currentStepdicSuelo])) {
       mostrarModalValidarCampos(); // Mostrar el modal para notificar al usuario que los campos no están completos
       return; // Si la validación falla, no avanzamos al siguiente paso
-  }*/
+  }
 
   // Verificar si el paso actual tiene el botón de insertar datos y subir documentos
   if (steps[currentStepdicSuelo].querySelector('[data-btn="insertAndUploadSuelo"]')) {
@@ -309,7 +307,6 @@ function mostrarModalResultado(mensaje, exito = true) {
       document.getElementById("modalResultadodicSuelo").remove();
   });
 }
-
 
 //MODAL DE CARGA 
 function mostrarModalCargaSuelo(mensaje) {

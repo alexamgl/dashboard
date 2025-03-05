@@ -51,8 +51,9 @@ $authHeader = $headers['Authorization'] ?? '';
 // Definir las rutas públicas
 $publicRoutes = ['usuario_exp','upload_document','grafica_dependencias','insert_organizacion' ,'update_trabajador_data','insert_full_data', 'insert_full_trabajador_data', 'validar_curp', 'send_otp', 'validate_otp', 
 'trabajadores', 'ciudadanos', 'usuario_datos','insert_full_beca_data','upload_documents_beca_data',
-'get_datos_becas','insert_full_suelo_data','upload_documents_suelo_data','get_datos_suelo'];
-
+'get_datos_becas','insert_full_suelo_data','upload_documents_suelo_data','get_datos_suelo','insert_full_giro_data'
+,'get_datos_giro','upload_documents_giro_data','insert_full_visto_data','insert_full_visto_docs',
+'insert_full_suelo_docs','insert_full_giro_docs'];
 
 // Verificar el token solo si la ruta no es pública
 if (!in_array($entity, $publicRoutes)) {
@@ -142,14 +143,38 @@ if ($entity === 'usuarios') {
 }elseif ($entity === 'insert_full_suelo_data') {
     require_once '../controllers/InsertFullDataSueloController.php';
     $controller = new InsertFullDataSueloController();
-    
+
+}elseif ($entity === 'insert_full_giro_data') {
+    require_once '../controllers/InsertFullDataGiroController.php';
+    $controller = new InsertFullDataGiroController();
+
+}elseif ($entity === 'insert_full_visto_data') {
+    require_once '../controllers/InsertFullDataVistoBuenoController.php';
+    $controller = new InsertFullDataVistoBuenoController();
+   
+}elseif ($entity === 'insert_full_visto_docs') {
+    require_once '../controllers/InsertFullDocsVistoBuenoController.php';
+    $controller = new InsertFullDocsVistoBuenoController();
+
+}elseif ($entity === 'insert_full_giro_docs') {
+    require_once '../controllers/InsertFullDocsGiroController.php';
+    $controller = new InsertFullDocsGiroController();
+
+}elseif ($entity === 'insert_full_suelo_docs') {
+    require_once '../controllers/InsertFullDocsSueloController.php';
+    $controller = new InsertFullDocsSueloController();
+
 }elseif ($entity === 'upload_documents_suelo_data') {
     require_once '../controllers/UploadDocumentsSueloController.php';
     $controller = new UploadDocumentsSueloController();
     $controller -> uploadDocumentsSuelo($_POST);
     exit();
 
-
+}elseif ($entity === 'upload_documents_giro_data') {
+    require_once '../controllers/UploadDocumentsGiroController.php';
+    $controller = new UploadDocumentsGiroController();
+    $controller -> uploadDocumentsGiro($_POST);
+    exit();
 
 }elseif ($entity === 'get_datos_becas' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../controllers/GetDatosBecaController.php';
@@ -165,7 +190,15 @@ if ($entity === 'usuarios') {
     $controller->read($data);
     exit();
     
+}elseif ($entity === 'get_datos_giro' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once '../controllers/GetDatosGiroController.php';
+    $controller = new GetDatosGiroController();
+    $data = json_decode(file_get_contents("php://input"));
+    $controller->read($data);
+    exit();
 
+    
+    
    /* $data = json_decode(file_get_contents("php://input"));
 
     // Llama al método adecuado, en este caso 'create'

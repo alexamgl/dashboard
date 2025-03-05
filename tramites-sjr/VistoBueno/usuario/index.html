@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciudadano</title>
+
+    <link rel="stylesheet" href="css/vistoBueno.css">
+    <link rel="stylesheet" href="css/docsVistoBueno.css">
+    <link rel="stylesheet" href="css/ubiVistoBueno.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<img src="./images/slide OBRAS PÚBLICAS Y DESARROLLO URBANO.png" alt="desarrollo social" class="header-image">
+
+<div class="titulo-tramite">
+    <h1>TRAMITE DE VISTO BUENO - RIESGO BAJO</h1>
+</div>
+
+
+<body>
+           <!--*********************************************************************************-->
+           <!--***************************FORMULARIO DE VistoBueno******************************-->
+           <!--*********************************************************************************-->
+    
+          <div class="containerFormTramiteVistoBueno">
+      <!-- FORMULARIO -->
+      <div class="contTramiteVistoBueno">
+        <div class="stepperVistoBueno">
+          <div class="stepVistoBueno" data-step="1">
+            <div class="circle">1</div>
+            <span>Información</span>
+          </div>
+          <div class="lineVistoBueno"></div>
+          <div class="stepVistoBueno" data-step="2">
+            <div class="circle">2</div>
+            <span>Datos establecimiento</span>
+          </div>
+          <div class="lineVistoBueno"></div>
+          <div class="stepVistoBueno" data-step="3">
+            <div class="circle">3</div>
+            <span>Ubicación</span>
+          </div>
+          <div class="lineVistoBueno"></div>
+          <div class="stepVistoBueno" data-step="4">
+            <div class="circle">4</div>
+            <span>Evaluación</span>
+          </div>
+          <div class="lineVistoBueno"></div>
+          <div class="stepVistoBueno" data-step="5">
+            <div class="circle">5</div>
+            <span>Documentación</span>
+          </div>
+          <div class="lineVistoBueno"></div>
+          <div class="stepVistoBueno" data-step="6">
+            <div class="circle">6</div>
+            <span>Payment</span>
+          </div>
+        </div>
+    
+        <!-- Formulario VistoBueno -->
+        <form id="stepFormVistoBueno">
+          <!-- Paso 1 -->
+          <div class="form-step activeVistoBueno" data-step="1">
+            <h2>Procedimiento para Obtener el Visto Bueno de Protección Civil</h2>
+
+            <div class="form-group-tramite">
+              <p>
+                1. Llene esta solicitud de acuerdo a las instrucciones. Se determinará el grado de riesgo de su establecimiento mediante el Formulario de Autoevaluación. Si tiene alguna duda, con gusto lo asesoraremos.
+              </p>
+              <p>
+                2. Una vez determinado el grado de riesgo de su establecimiento, consulte la tabla de requisitos con los que debe contar. Es <strong class="important">INDISPENSABLE</strong> el cumplimiento del <strong class="important">TOTAL</strong> de los requisitos al ingresar la solicitud para evitar que esta sea rechazada.
+              </p>
+              <p>
+                3. Cuando se haya corroborado mediante las evidencias proporcionadas el cumplimiento de los requisitos, se le asignará un número de folio. Este número le servirá para verificar en cualquier momento la situación de su trámite y para su continuidad.
+              </p>
+              <p>
+                4. Se le informará la fecha en que un inspector de esta Coordinación se presentará en su establecimiento para realizar una inspección de las medidas de seguridad existentes, que deberá corresponder con la evidencia presentada.
+              </p>
+              <p>
+                5. El inspector le indicará por escrito las observaciones que deberá cumplir para darle continuidad a su trámite.
+              </p>
+              <p>
+                6. Cuando haya solventado las observaciones, remita la evidencia a nuestras oficinas en formato PDF y/o impreso, según sea el caso, y una vez evaluadas se le informará la fecha en la que podrá recoger el Visto Bueno de Protección Civil, previo pago de los derechos.
+              </p>
+          </div>
+            <div class="form-navigation">
+                <div></div>
+              <button type="button" class="btnNextVistoBueno">siguiente</button>
+            </div>
+          </div>
+    
+          <!-- Paso 2 -->
+          <div class="form-step" data-step="2">
+            <h2>Datos acerca del establecimiento</h2>
+            <div class="form-group-tramite">
+              <!-- Contenedor de columnas para los inputs -->
+              <div class="form-columns">
+                <div class="form-group">
+                  <label for="denomComer">
+                    <span>Denominación Comercial (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="text" id="denomComer" name="field1" placeholder="Denominación Comercial" oninput="validarDenominacionComercial('denomComer')" required>
+                </div>
+                <div class="form-group">
+                  <label for="giro">
+                    <span>Giro (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="text" id="giro" name="field2" placeholder="Giro" oninput="validarGiro('giro')" required>
+                </div>
+                <div class="form-group">
+                  <label for="apertura">
+                    <span>Horario de apertura (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="time" id="apertura" name="field3" placeholder="Ejemplo: De 6:00 AM a 5:00 PM" oninput="validarHorario('apertura')" required>
+                </div>
+                <div class="form-group">
+                  <label for="cierre">
+                    <span>Horario de cierre (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="time" id="cierre" name="field3" placeholder="Ejemplo: De 6:00 AM a 5:00 PM" oninput="validarHorario('cierre')" required>
+                </div>
+                <div class="form-group">
+                  <label for="domicilio">
+                    <span>Domicilio (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="text" id="domicilio" name="field4" placeholder="Domicilio" oninput="validarDomicilio('domicilio')" required>
+                </div>
+                <div class="form-group">
+                  <label for="telefono">
+                    <span>Teléfono (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="text" id="telefono" name="field5" placeholder="Teléfono" pattern="\d{10}" oninput="validarTelefono('telefono')" required>
+                </div>
+                <div class="form-group">
+                  <label for="correo">
+                    <span>Correo electrónico (<span style="color: red">*</span>)</span>
+                  </label>
+                  <input type="text" id="correo" name="field6" placeholder="Correo" oninput="validarCorreo('correo')" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-navigation">
+              <button type="button" class="btnPrevVistoBueno">Volver</button>
+              <button type="button" class="btnNextVistoBueno">Siguiente</button>
+            </div>
+          </div>
+    
+              <!-- Paso 3 -->
+              <div class="form-step" data-step="3">
+                <h2>Ubicación del establecimiento</h2>
+                <div class="form-group-tramite">
+                  <div id="contenedor-mapa">
+                    <p>
+                      Para saber la ubicación del predio, favor de llenar
+                      los campos en orden numérico con los datos requeridos con el
+                      simbolo (<span style="color: red">*</span>), una vez
+                      completada la información, darás clic en el botón (Buscar
+                      ubicación) y el mapa mostrará la ubicación con respecto a la
+                      información brindada, deberá verificar que la ubicación este
+                      correctamente establecida con un marcador color rojo, en caso
+                      de que el cursor rojo se encuentre en otra posición, puede
+                      hacer zoom al mapa y dar clic en la posición correcta y el
+                      cursor se moverá a la ubicación correcta.
+                    </p>
+                    <div id="contenidoUbi">
+                      <div class="input-columns">
+                        <label>
+                          1. Código postal (<span style="color: red">*</span>):
+                          <input
+                            id="codigoPostal"
+                            type="text"
+                            name="codigoPostal"
+                            placeholder="Código postal"
+                            onblur="buscarColonias()"
+                            oninput="validarCodigoPostal('codigoPostal')"
+                            class="sin-tildes solo-numeros" required
+                          />
+                        </label>
+                        <label style="position: relative">
+                          2. Nombre de la colonia/comunidad (<span
+                            style="color: red"
+                            >*</span
+                          >):
+                          <input
+                            id="colonia"
+                            type="text"
+                            name="colonia"
+                            placeholder="Escribe o selecciona una Colonia/Fraccionamiento"
+                            onclick="mostrarAutocomplete()"
+                            oninput="validarColonia('colonia')"
+                            class="sin-tildes solo-letras-numeros"
+                            style="padding-right: 30px" required
+                          />
+                          <div
+                            id="autocomplete-list"
+                            class="autocomplete-items hidden"
+                          ></div>
+                        </label>
+                      </div>
+    
+                      <div class="input-columns">
+                        <label>
+                          3. Calle (<span style="color: red">*</span>):
+                          <input
+                            id="calle"
+                            type="text"
+                            name="calle"
+                            placeholder="Calle"
+                            oninput="validarCalle('calle')"
+                            class="sin-tildes solo-letras-numeros" required
+                          />
+                        </label>
+                        <label>
+                          4. Número exterior (<span style="color: red">*</span>):
+                          <input
+                            id="numeroExterior"
+                            type="text"
+                            name="numeroExterior"
+                            placeholder="Número exterior"
+                            oninput="validarNumeroExterior('numeroExterior')"
+                            class="sin-tildes solo-letras-numeros" required
+                          />  
+                        </label>
+                      </div>
+    
+                      <div class="input-columns">
+                        <label>
+                          5. Número interior:
+                          <input
+                            id="numeroInterior"
+                            type="text"
+                            name="numeroInterior"
+                            placeholder="NúmeroInterior"
+                            oninput="validarNumeroInterior('numeroInterior')"
+                            class="sin-tildes solo-letras-numeros" 
+                          />
+                        </label>
+                      </div>
+                      <br>
+    
+                      <button
+                        type="button"
+                        id="btn-buscarUbi"
+                        onclick="buscarUbicacion()"
+                      >
+                        <i class="fas fa-search-location"></i> Buscar ubicación
+                      </button>
+                      <small
+                        id="mensaje-error"
+                        style="color: red; display: none; margin-top: 10px"
+                      ></small>
+    
+                      <div id="map"></div>
+                      <div
+                        id="guardar-ubicacion-container"
+                        style="display: none; margin-top: 20px">
+                      </div>
+    
+                      <div class="latlong-columns">
+                        <label
+                          >Latitud:
+                          <input
+                            id="latitud"
+                            type="text"
+                            name="latitud"
+                            placeholder="Latitud"
+                            readonly 
+                            required
+                          />
+                        </label>
+                        <label
+                          >Longitud:
+                          <input
+                            id="longitud"
+                            type="text"
+                            name="longitud"
+                            placeholder="Longitud"
+                            readonly 
+                            required
+                          />
+                        </label>
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+                <div class="form-navigation">
+                  <button type="button" class="btnPrevVistoBueno">Volver</button>
+                  <button type="button" class="btnNextVistoBueno">Siguiente</button>
+                </div>
+              </div>
+        
+
+          <!-- Paso 4 -->
+          <div class="form-step" data-step="4">
+							<h2>FORMULARIO DE AUTOEVALUACIÓN DE RIESGO DE SU ESTABLECIMIENTO</h2>
+							<p>Lea cuidadosamente cada una de las preguntas y responda en la letra que corresponda
+								a la respuesta correcta (no omita ninguna pregunta y marque una sola opción). Si alguno
+								de los puntos no aplica deberá marcar en el apartado "A". De tener alguna duda,
+								comuníquese ala Coordinación Municipal de Protección Civil.</p>
+                <form id="formVistoBueno">
+                  <div class="pregunta-visto">
+                      <label for="altura">1. ¿Cuál es la altura de la edificación en metros?<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="altura_menor_25" name="altura" value="A" required>
+                          <label for="altura_menor_25">A) Menor a 25 metros</label>
+                          <input type="radio" id="altura_mayor_25" name="altura" value="C">
+                          <label for="altura_mayor_25">C) Mayor de 25 metros</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="superficie">2. ¿Cuál es la superficie ocupada por el negocio en metros cuadrados?<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="superficie_menor_25" name="superficie" value="A" required>
+                          <label for="superficie_menor_25">A) Menor a 25 m²</label>
+                          <input type="radio" id="superficie_mayor_25" name="superficie" value="B">
+                          <label for="superficie_mayor_25">B) Mayor de 25 m²</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="liqInf">3. ¿Almacena líquidos inflamables? (Total en litros)<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="liqInf_menor_250" name="liqInf" value="A" required>
+                          <label for="liqInf_menor_250">A) Menor a 250 lts.</label>
+                          <input type="radio" id="liqInf_250_1000" name="liqInf" value="B">
+                          <label for="liqInf_250_1000">B) Entre 250 lts. y 1000 lts.</label>
+                          <input type="radio" id="liqInf_mas_1000" name="liqInf" value="C">
+                          <label for="liqInf_mas_1000">C) Más de 1000 lts.</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="explosivos">4. ¿Almacena o maneja materiales explosivos?<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="explosivos_no" name="explosivos" value="A" required>
+                          <label for="explosivos_no">A) No</label>
+                          <input type="radio" id="explosivos_si" name="explosivos" value="C">
+                          <label for="explosivos_si">C) Sí</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="susQui">5. ¿Almacena sustancias químicas corrosivas, irritantes o tóxicas? (Total en kg)<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="susQui_menor_50" name="susQui" value="A" required>
+                          <label for="susQui_menor_50">A) Menos de 50 kg</label>
+                          <input type="radio" id="susQui_50_100" name="susQui" value="B">
+                          <label for="susQui_50_100">B) Entre 50 kg y 100 kg</label>
+                          <input type="radio" id="susQui_mas_100" name="susQui" value="C">
+                          <label for="susQui_mas_100">C) Más de 100 kg</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="gas">6. ¿Qué tipo de gas natural tiene instalado?<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="gas_no_aplica" name="gas" value="A" required>
+                          <label for="gas_no_aplica">A) No aplica</label>
+                          <input type="radio" id="gas_uso_industrial" name="gas" value="C">
+                          <label for="gas_uso_industrial">C) Uso industrial</label>
+                      </div>
+                  </div>
+              
+                  <div class="pregunta-visto">
+                      <label for="personas">7. Número de personas que ocupa el local (incluidos empleados, visitantes y clientes)<span class="requerido">*</span></label>
+                      <div class="opciones-visto">
+                          <input type="radio" id="personas_hasta_14" name="personas" value="A" required>
+                          <label for="personas_hasta_14">A) Hasta 14 personas</label>
+                          <input type="radio" id="personas_15_250" name="personas" value="B">
+                          <label for="personas_15_250">B) Entre 15 y 250 personas</label>
+                          <input type="radio" id="personas_mas_250" name="personas" value="C">
+                          <label for="personas_mas_250">C) Más de 250 personas</label>
+                      </div>
+                  </div>
+
+                  <div class="pregunta-visto">
+                    <label for="gasInf">8. ¿Almacena gases inflamables? (Total en litros, fase líquida)<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="gasInf_menor_500" name="gasInf" value="A" required>
+                        <label for="gasInf_menor_500">A) Menor a 500 lts</label>
+                        <input type="radio" id="gasInf_500_3000" name="gasInf" value="B">
+                        <label for="gasInf_500_3000">B) Entre 500 lts y 3000 lts</label>
+                        <input type="radio" id="gasInf_mas_3000" name="gasInf" value="C">
+                        <label for="gasInf_mas_3000">C) Más de 3000 lts</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="altaCom">9. ¿Almacena material sólido de alta combustión? (papel, cartón, madera, plástico, etc)<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="altaCom_menor_1000" name="altaCom" value="A" required>
+                        <label for="altaCom_menor_1000">A) Menos de 1000 kg</label>
+                        <input type="radio" id="altaCom_1000_5000" name="altaCom" value="B">
+                        <label for="altaCom_1000_5000">B) Entre 1000 kg y 5000 kg</label>
+                        <input type="radio" id="altaCom_mas_5000" name="altaCom" value="C">
+                        <label for="altaCom_mas_5000">C) Más de 5000 kg</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="bioInf">10. ¿Maneja material biológico-infeccioso?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="bioInf_no" name="bioInf" value="A" required>
+                        <label for="bioInf_no">A) No</label>
+                        <input type="radio" id="bioInf_si" name="bioInf" value="C">
+                        <label for="bioInf_si">C) Sí</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="voltaje">11. ¿Cuál es el máximo voltaje eléctrico utilizado en el establecimiento?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="voltaje_110" name="voltaje" value="A" required>
+                        <label for="voltaje_110">A) 110 voltios</label>
+                        <input type="radio" id="voltaje_200" name="voltaje" value="B">
+                        <label for="voltaje_200">B) 200 voltios</label>
+                        <input type="radio" id="voltaje_transformador" name="voltaje" value="C">
+                        <label for="voltaje_transformador">C) Subestación o transformador</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="alcohol">12. ¿Cuenta con licencia de alcoholes? (Venta y/o consumo)<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="alcohol_no" name="alcohol" value="A" required>
+                        <label for="alcohol_no">A) No</label>
+                        <input type="radio" id="alcohol_envase_cerrado" name="alcohol" value="B">
+                        <label for="alcohol_envase_cerrado">B) Sí (envase cerrado)</label>
+                        <input type="radio" id="alcohol_envase_abierto" name="alcohol" value="C">
+                        <label for="alcohol_envase_abierto">C) Sí (envase abierto/copeo)</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="tipoGiro">13. ¿Su giro pertenece a guarderías, instituciones educativas, plazas comerciales, hospitales, etc?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="tipoGiro_no" name="tipoGiro" value="A" required>
+                        <label for="tipoGiro_no">A) No</label>
+                        <input type="radio" id="tipoGiro_si" name="tipoGiro" value="C">
+                        <label for="tipoGiro_si">C) Sí</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="residuosPeligrosos">14. ¿Genera residuos peligrosos?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="residuosPeligrosos_no" name="residuosPeligrosos" value="A" required>
+                        <label for="residuosPeligrosos_no">A) No</label>
+                        <input type="radio" id="residuosPeligrosos_si" name="residuosPeligrosos" value="C">
+                        <label for="residuosPeligrosos_si">C) Sí</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="aguaIndustrial">15. ¿Utiliza agua con fines industriales?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="aguaIndustrial_no" name="aguaIndustrial" value="A" required>
+                        <label for="aguaIndustrial_no">A) No</label>
+                        <input type="radio" id="aguaIndustrial_si" name="aguaIndustrial" value="C">
+                        <label for="aguaIndustrial_si">C) Sí</label>
+                    </div>
+                </div>
+                
+                <div class="pregunta-visto">
+                    <label for="sistemaContraIncendio">16. ¿Cuenta con un sistema de prevención y combate de incendios?<span class="requerido">*</span></label>
+                    <div class="opciones-visto">
+                        <input type="radio" id="sistemaContraIncendio_no" name="sistemaContraIncendio" value="A" required>
+                        <label for="sistemaContraIncendio_no">A) No</label>
+                        <input type="radio" id="sistemaContraIncendio_si" name="sistemaContraIncendio" value="C">
+                        <label for="sistemaContraIncendio_si">C) Sí</label>
+                    </div>
+                </div>
+
+              </form>
+              <div class="form-navigation">
+                <button type="button" class="btnPrevVistoBueno">Volver</button>
+                <button type="button"  class="btnNextVistoBueno" onclick="mostrarTablaCorrespondiente()">Continuar</button>
+              </div>
+          </div>
+    
+
+           <!-- Paso 5 -->
+           <div class="form-step" data-step="5">
+            <h2>Documentación</h2>
+            <!-- Tabla de Documentos Generales -->
+           
+            <div class="table-container" id="tablariesgoBajo">
+              <h3>Documentación Riesgo Bajo</h3>
+                <table id="" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="table-container" id="tablariesgoMedio">
+              <h3>Documentación Riesgo Medio</h3>
+                <table id="" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="table-container" id="tablariesgoAlto">
+              <h3>Documentación Riesgo Alto</h3>
+                <table id="" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>📄 Ver Archivo</th>
+                            <th>📜 Nombre Documento</th>
+                            <th>📝 Descripción</th>
+                            <th>📏 Tamaño</th>
+                            <th>⚙ Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+              <button type="button" class="btnPrevVistoBueno">Volver</button>
+              <button type="button" data-btn="insertAndUploadVisto" class="btnNextVistoBueno">Confirmar</button>
+            </div>
+
+             <!-- Paso 6 -->
+           <div class="form-step" data-step="6">
+            <h2>!Pago de el trámite!</h2>
+            <p>Aqui puedes hacer el pago de tu trámite </p>
+            <div class="form-navigation">
+              <button type="button" class="btnPrevVistoBueno">Volver</button>
+              <button type="button" class="btnConfirmarVistoBueno">Confirmar</button>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    
+     <!-- Modal de advertencia para validación de campos -->
+<div id="modalValidarCampos" class="modal-validar-campos">
+  <div class="modal-content-validar">
+      <span class="close-modal-validar">&times;</span>
+      <img src="./images/advertencia.png" alt="Advertencia" class="icono-advertencia-validar">
+      <p>Por favor, completa todos los campos obligatorios con la información correcta para poder avanzar.</p>
+      <button id="cerrarModalValidar">Entendido</button>
+  </div>
+</div> 
+    
+        
+    
+      
+
+</body>
+<script src="js/vistoBueno.js"></script>
+<script src="js/docsVistoBueno.js"></script>
+<script src="js/mapaVistoBueno.js"></script>
+<script src="js/validacionesVistoBueno.js"></script>
+<script src="js/apiVistoBueno.js"></script>
+
+</html>

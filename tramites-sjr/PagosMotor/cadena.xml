@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <bs_idCompany>000N</bs_idCompany>
+      <bs_idBranch>0049</bs_idBranch>
+      <bs_user>000NIGUS2</bs_user>
+      <bs_country>MEX</bs_country>
+      <bs_pwd>UXKMG3T5PN</bs_pwd>
+    </business>
+    <url>
+      <reference>FACT17380773486969124ed8ed5a417de</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+<!-- EN CUÁL CUENTA SE VA A DEPOSITAR EL DINERO??? -->
+
+<!--
+
+<?xml version="1.0" encoding="UTF-8"?>
+<P>
+    <business>
+      <id_company>000N</id_company>
+      <id_branch>0049</id_branch>
+      <user>000NIGUS2</user>
+      <bs_country>MEX</bs_country>
+      <pwd>UXKMG3T5PN</pwd>
+    </business>
+    <url>
+      <reference>FACT17380773486969124ed8ed5a417de</reference>
+      <amount>375.22</amount>
+      <moneda>MXN</moneda>
+      <canal>W</canal>
+      <version>IntegraWPP</version>
+    </url>
+  </P>
+
+
+-->
